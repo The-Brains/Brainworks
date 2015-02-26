@@ -1,20 +1,21 @@
 body {
 	font-family: Arial;
 	font-size: 15pt;
-	color: black;
+	color: #000000;
 }
 #header {
 	padding: 10px;
 	border: 1px solid black;
 }
 #header table {
+	width: 100%;
 	border: 0px solid transparent;
 	border-collapse: collapse;
 	border-spacing: 0px;
 }
 #header table tr td {
 	vertical-align: middle;
-}	
+}
 img#logo {
 	width: 100px;
 	height: 100px;
@@ -24,11 +25,17 @@ img#logo {
 }
 h2#title {
 	font-size: 25pt;
+	
 }
-div#navbar {
-
+td div#navbar {
+	float: right;
 }
 div#navbar div.nav {
+	width: 100px;
 	padding: 5px;
-	
+	border: 1px solid #000000;
+	text-align: center;
+	display: block;
+	float: right;
+	margin-left: 10px;
 }
