@@ -1,8 +1,27 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-family: Arial;
+	font-size: 15pt;
+	color: black;
 }
-
-a {
-  color: #00B7FF;
+#header {
+	padding: 10px;
+	border: 1px solid black;
 }
+#header table {
+	border: 0px solid transparent;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+#header table tr td {
+	vertical-align: middle;
+}	
+img#logo {
+	width: 100px;
+	height: 100px;
+	margin-right: 30px;
+	display: block;
+	float: left;
+}
+h2#title {
+	font-size: 25pt;
+}	
