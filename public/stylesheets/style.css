@@ -24,4 +24,11 @@ img#logo {
 }
 h2#title {
 	font-size: 25pt;
-}	
+}
+div#navbar {
+
+}
+div#navbar div.nav {
+	padding: 5px;
+	
+}
