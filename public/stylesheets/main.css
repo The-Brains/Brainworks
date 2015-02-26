@@ -30,12 +30,16 @@ h2#title {
 td div#navbar {
 	float: right;
 }
-div#navbar div.nav {
+div#navbar a.nav {
+	float: right;
+	display: block;
 	width: 100px;
 	padding: 5px;
+	margin-left: 10px;
 	border: 1px solid #000000;
 	text-align: center;
-	display: block;
-	float: right;
-	margin-left: 10px;
+	text-decoraion: none;
 }
+div#navbar a.nav:hover {
+	background-color: #DDDDDD;
+}	
