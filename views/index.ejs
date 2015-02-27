@@ -3,14 +3,15 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.css">
   </head>
   <body ng-app="brainworks">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.js"></script>
+    <ui-view></ui-view>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
     <script src="/javascript/main.js"></script>
   </body>
 </html>

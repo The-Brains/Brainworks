@@ -1,4 +1,17 @@
 /**
- * New node file
+ * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren.
+ * 
+ * @author Dennis Stumm
  */
-angular.module('brainworks', ['ngMaterial']);
+var brainworks = angular.module('brainworks', [
+  'ngMaterial', 'ui.router'
+]);
+
+brainworks.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('home', {
+    url: '/home',
+    templateUrl: '/home'
+  });
+  
+  $urlRouterProvider.otherwise('home');
+});
