@@ -7,6 +7,6 @@ brainworks.config(function($routeProvider) {
   $routeProvider
   .when('/', { templateUrl: 'html/home.html' })
   .when('/signin', { template: 'Login-Frame' })
-  .when('/about', { template: 'About-Frame' })
+  .when('/about', { templateUrl: 'html/about.html' })
   .otherwise({ redirectTo: '/' });
 });
