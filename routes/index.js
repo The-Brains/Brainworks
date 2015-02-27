@@ -13,4 +13,16 @@ router.get('/home', function(req, res, next) {
   });
 });
 
+router.get('/sign_in', function(req, res, next) {
+  res.render('sign_in', {
+    title: 'Sign in'
+  });
+});
+
+router.get('/about', function(req, res, next) {
+  res.render('about', {
+    title: 'About'
+  });
+});
+
 module.exports = router;
