@@ -1,10 +1,25 @@
 .logo {
+  max-height: 100px;
+  height: 100px;
+  padding: 0;
+  font-size: 1.75em;
+}
+
+.logo img {
   width: 100px;
   height: 100px;
 }
 
-.logotitle {
+.logo div {
   line-height: 100px;
   text-indent: 15px;
   text-align: center;
+}
+
+.logo a:hover, a:focus {
+  text-decoration: underline;
+}
+
+.page-button {
+  text-transform: none;
 }

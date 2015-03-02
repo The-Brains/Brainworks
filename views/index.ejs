@@ -2,21 +2,21 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body ng-app="brainworks">
-    <md-toolbar class="md-default-theme">
-      <h1 class="md-toolbar-tools" flex="25" layout="row">
-        <a layout="row" ng-href="/" href="/">
-          <img class="logo" src="/images/brainworks.png" alt="Logo">
-          <div class="logotitle">Brainworks</div>
+    <md-toolbar class="md-default-theme" layout="row">
+      <h1 class="md-toolbar-tools logo" flex="25">
+        <a layout="row" href="#/">
+          <img src="/images/brainworks.png" alt="Logo">
+          <div>Brainworks</div>
         </a>
       </h1>
-      <div layout="row" layout-align="end center">
-        <md-button>Startseite</md-button>
-        <md-button>Einloggen</md-button>
-        <md-button>Über</md-button>
+      <div layout="row" layout-align="end center" flex>
+        <md-button class="page-button" ng-href="#/home">Startseite</md-button>
+        <md-button class="page-button" ng-href="#/sign_in">Einloggen</md-button>
+        <md-button class="page-button" ng-href="#/about">Über</md-button>
       </div>
     </md-toolbar>
     <ui-view></ui-view>

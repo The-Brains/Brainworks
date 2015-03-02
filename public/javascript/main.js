@@ -24,6 +24,6 @@ brainworks.config(function($stateProvider, $urlRouterProvider, $mdThemingProvide
   $urlRouterProvider.otherwise('home');
   
   $mdThemingProvider.theme('default')
-    .primaryPalette('teal')
+    .primaryPalette('blue')
     .accentPalette('orange');
 });
