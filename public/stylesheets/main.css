@@ -28,6 +28,7 @@ h2#title {
 }
 td div#navbar {
 	float: right;
+	width: 400px;
 }
 div#navbar a.nav {
 	float: right;
@@ -43,7 +44,7 @@ div#navbar a.nav:hover, div#navbar a.active {
 	background-color: #DDDDDD;
 	text-decoration: none;
 }
-div article {
+div#view article {
     width: 600px;
 	border: 1px solid #000000;
 	margin-top: 40px;
@@ -54,7 +55,7 @@ div article {
     text-justify: inter-word;
     word-break: break-all;
 }
-div table {
+div#view table {
 	width: 600px;
 	margin-top: 40px;
 	margin-left: auto;
@@ -63,36 +64,36 @@ div table {
 	border-collapse: collapse;
 	border: 1px solid #000000;
 }
-div table thead tr td {
+div#view table thead tr td {
 	padding: 5px;
 	text-align: center;
 	font-size: 15pt;
 }
-div table thead tr td {
+div#view table thead tr td {
 	border-bottom: 1px solid #000000;
 }
-div table thead tr td:nth-child(1), div table thead tr td:nth-child(3) {
+div#view table thead tr td:nth-child(1), div table thead tr td:nth-child(3) {
 	width: 270px;
 }
-div table tbody tr td:nth-child(1), div table tbody tr td:nth-child(2) {
+div#view table tbody tr td:nth-child(1), div table tbody tr td:nth-child(2) {
 	padding: 5px;
 	border: 0px solid transparent;
 	vertical-align: top;
 	width: 300px;
 }
-div table tbody tr td.border {
+div#view table tbody tr td.border {
 	border-right: 1px solid #000000;
 }
-div table tbody tr td table {
+div#view table tbody tr td table {
 	width: 100%;
 	margin-top: 0px;
 	border: 0px solid transparent;
 }
-div table tbody tr td table tr td {
+div#view table tbody tr td table tr td {
 	border: 0px solid transparent;
 	border-right: 0px solid transparent;
 }
-div table tbody tr td table tr td button {
+div#view table tbody tr td table tr td button {
 	float: right;
 	background-color: #DDDDDD;
 	margin-top: 10px;
