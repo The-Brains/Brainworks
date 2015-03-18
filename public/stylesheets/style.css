@@ -8,6 +8,7 @@
 .logo img {
   width: 100px;
   height: 100px;
+  min-width: 100px;
 }
 
 .logo div {
@@ -22,4 +23,14 @@
 
 .page-button {
   text-transform: none;
+}
+
+.signin-main-container {
+  position: relative;
+  left: 25%;
+  max-width: 50%;
+}
+
+.signin-main-container md-content {
+  height: 50px;
 }
