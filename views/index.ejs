@@ -13,10 +13,10 @@
             <h2 id="title"><%= title %></h2>
           </td>
           <td>
-            <div id="navbar">
-            	<a class="nav" href="#/about"><%= button_about %></a>
-            	<a class="nav" href="#/signin"><%= button_signin %></a>
-            	<a class="nav" href="#/"><%= button_home %></a>
+            <div id="navbar" >
+            	<a ng-class="about" class="nav" href="#/about"><%= button_about %></a>
+            	<a ng-class="signin" class="nav" href="#/signin"><%= button_signin %></a>
+            	<a ng-class="home" class="nav" href="#/"><%= button_home %></a>
             </div>
           </td>
         </tr>          

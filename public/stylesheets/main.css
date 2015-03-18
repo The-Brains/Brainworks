@@ -39,7 +39,7 @@ div#navbar a.nav {
 	text-align: center;
 	text-decoration: none;
 }
-div#navbar a.nav:hover {
+div#navbar a.nav:hover, div#navbar a.active {
 	background-color: #DDDDDD;
 	text-decoration: none;
 }
