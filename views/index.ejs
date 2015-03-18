@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <!-- <title><%= title %></title> -->
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
@@ -15,7 +15,8 @@
       </h1>
       <div layout="row" layout-align="end center" flex>
         <md-button class="page-button" ng-href="#/home">Startseite</md-button>
-        <md-button class="page-button" ng-href="#/sign_in">Einloggen</md-button>
+        <md-button ng-show="true" class="page-button" ng-href="#/sign_in">Einloggen</md-button>
+        <md-button ng-show="false" class="page-button" ng-href="#/">Profile</md-button>
         <md-button class="page-button" ng-href="#/about">Über</md-button>
       </div>
     </md-toolbar>
