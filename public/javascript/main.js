@@ -6,7 +6,7 @@ var brainworks = angular.module('brainworks', ['ngAnimate', 'ngRoute']);
 brainworks.config(function($routeProvider) {
   $routeProvider
   .when('/', { templateUrl: 'html/home.html' })
-  .when('/signin', { template: 'Login-Frame' })
+  .when('/signin', { templateUrl: 'html/signin.html' })
   .when('/about', { templateUrl: 'html/about.html' })
   .otherwise({ redirectTo: '/' });
 });

@@ -53,4 +53,47 @@ div article {
 	text-align: justify;
     text-justify: inter-word;
     word-break: break-all;
+}
+div table {
+	width: 600px;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+div table thead tr td {
+	padding: 5px;
+	text-align: center;
+	font-size: 15pt;
+}
+div table thead tr td {
+	border-bottom: 1px solid #000000;
+}
+div table thead tr td:nth-child(1), div table thead tr td:nth-child(3) {
+	width: 270px;
+}
+div table tbody tr td:nth-child(1), div table tbody tr td:nth-child(2) {
+	padding: 5px;
+	border: 0px solid transparent;
+	vertical-align: top;
+	width: 300px;
+}
+div table tbody tr td.border {
+	border-right: 1px solid #000000;
+}
+div table tbody tr td table {
+	width: 100%;
+	margin-top: 0px;
+	border: 0px solid transparent;
+}
+div table tbody tr td table tr td {
+	border: 0px solid transparent;
+	border-right: 0px solid transparent;
+}
+div table tbody tr td table tr td button {
+	float: right;
+	background-color: #DDDDDD;
+	margin-top: 10px;
 }	
