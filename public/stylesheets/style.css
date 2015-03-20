@@ -5,10 +5,18 @@
   font-size: 1.75em;
 }
 
+.logo div, .logo img {
+  display: inline-block;
+}
+
 .logo img {
   width: 75px;
   height: 75px;
   min-width: 75px;
+}
+
+.brainworks-navigation {
+  margin-right: 0.5%;
 }
 
 .brainworks-navigation > li > a {
