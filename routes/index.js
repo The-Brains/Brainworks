@@ -7,7 +7,9 @@ router.get('/', function(req, res, next) {
     home: 'Startseite',
     sign_in: 'Einloggen',
     profile: 'Profil',
-    about: 'Über'
+    about: 'Über',
+    diagrams: 'Diagramme',
+    logout: 'Ausloggen'
   });
 });
 

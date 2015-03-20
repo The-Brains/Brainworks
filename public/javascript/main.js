@@ -3,11 +3,9 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', [
-  'ngMaterial', 'ui.router'
-]);
+var brainworks = angular.module('brainworks', ['ui.router']);
 
-brainworks.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+brainworks.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
@@ -22,8 +20,4 @@ brainworks.config(function($stateProvider, $urlRouterProvider, $mdThemingProvide
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-  
-  $mdThemingProvider.theme('default')
-    .primaryPalette('blue')
-    .accentPalette('orange');
 });
