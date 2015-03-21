@@ -23,23 +23,19 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
-          <nav-item serf="home" link-url="#/home" title="<%= home %>"></nav-item>
-          <nav-item ng-hide="signed_in" serf="sign_in" link-url="#/sign_in" title="<%= sign_in %>"></nav-item>
-          <!-- TODO
-            - Loesung fuer die automatische aktiv-Markierung bei auswahl eines unterpunktes.
-            - Direktive fuer Dropdown kompatibel machen
-          -->
+          <nav-item page="home" title="<%= home %>"></nav-item>
+          <nav-item ng-hide="signed_in" page="sign_in" title="<%= sign_in %>"></nav-item>
           <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
-            <a ui-sref="diagrams | profile | logout" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <a ui-sref="profile" class="dropdown-toggle">
               <%= profile %> <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu">
-              <nav-item serf="diagrams" link-url="#/diagrams" title="<%= diagrams %>"></nav-item>
-              <nav-item serf="profile" link-url="#/profile" title="<%= profile %>"></nav-item>
-              <nav-item link-url="#/logout" title="<%= logout %>"></nav-item>
+            <ul class="dropdown-menu">
+              <nav-item page="profile.diagrams" title="<%= diagrams %>"></nav-item>
+              <nav-item page="profile.settings" title="<%= settings %>"></nav-item>
+              <nav-item page="profile.logout" title="<%= logout %>"></nav-item>
             </ul>
           </li>
-          <nav-item serf="about" link-url="#/about" title="<%= about %>"></nav-item>
+          <nav-item page="about" title="<%= about %>"></nav-item>
         </ul>
       </div>
     </div>

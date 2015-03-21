@@ -15,13 +15,22 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
       url: '/sign_in',
       templateUrl: '/sign_in'
     })
-    .state('diagrams', {
-      url: '/diagrams',
-      templateUrl: '/diagrams'
-    })
     .state('profile', {
       url: '/profile',
       templateUrl: '/profile'
+    })
+    .state('profile.diagrams', {
+      url: '/diagrams',
+      templateUrl: '/diagrams'
+    })
+    .state('profile.settings', {
+      url: '/settings',
+      templateUrl: '/settings'
+    })
+    // TODO hier und beim einloggen muss ein redirect durchgefuehrt werden
+    .state('profile.logout', {
+      url: '/logout',
+      templateUrl: '/home'
     })
     .state('about', {
       url: '/about',
@@ -38,10 +47,9 @@ brainworks.directive('navItem', function($location) {
     replace: true,
     transclude: true,
     scope: {
-      linkUrl: '@linkUrl',
-      title: '@title',
-      serf: '@serf'
+      page: '@page',
+      title: '@title'
     },
-    template: '<li ui-sref-active="active"><a ui-sref="{{serf}}" ng-href="{{linkUrl}}">{{title}}</a></li>'
+    template: '<li ui-sref-active="active"><a ui-sref="{{page}}" ng-href="#/{{page}}">{{title}}</a></li>'
   };
 });

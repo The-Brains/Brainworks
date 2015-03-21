@@ -24,3 +24,7 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+
+ul.nav li.dropdown:hover ul.dropdown-menu {
+  display: block;
+}

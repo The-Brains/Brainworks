@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
     profile: 'Profil',
     about: 'Über',
     diagrams: 'Diagramme',
-    logout: 'Ausloggen'
+    logout: 'Ausloggen',
+    settings: 'Einstellungen'
   });
 });
 
@@ -23,13 +24,18 @@ router.get('/sign_in', function(req, res, next) {
   });
 });
 
+router.get('/profile', function(req, res, next) {
+  res.render('profile', {
+  });
+});
+
 router.get('/diagrams', function(req, res, next) {
   res.render('diagrams', {
   });
 });
 
-router.get('/profile', function(req, res, next) {
-  res.render('profile', {
+router.get('/settings', function(req, res, next) {
+  res.render('settings', {
   });
 });
 
