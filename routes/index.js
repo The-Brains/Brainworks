@@ -23,6 +23,16 @@ router.get('/sign_in', function(req, res, next) {
   });
 });
 
+router.get('/diagrams', function(req, res, next) {
+  res.render('diagrams', {
+  });
+});
+
+router.get('/profile', function(req, res, next) {
+  res.render('profile', {
+  });
+});
+
 router.get('/about', function(req, res, next) {
   res.render('about', {
   });

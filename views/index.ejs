@@ -3,9 +3,10 @@
 <head>
   <title><%= title %></title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/styles.css' />
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
-<body ng-app="brainworks">
+<body ng-app="brainworks" ng-controller="brainworksCtrl">
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -22,19 +23,23 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
-          <li class="active"><a href="#/home"><%= home %></a></li>
-          <li ng-hide="true"><a href="#/sign_in"><%= sign_in %></a></li>
-          <li ng-show="true" class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          <nav-item serf="home" link-url="#/home" title="<%= home %>"></nav-item>
+          <nav-item ng-hide="signed_in" serf="sign_in" link-url="#/sign_in" title="<%= sign_in %>"></nav-item>
+          <!-- TODO
+            - Loesung fuer die automatische aktiv-Markierung bei auswahl eines unterpunktes.
+            - Direktive fuer Dropdown kompatibel machen
+          -->
+          <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
+            <a ui-sref="diagrams | profile | logout" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%= profile %> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#/diagrams"><%= diagrams %></a></li>
-              <li><a href="#/profile"><%= profile %></a></li>
-              <li><a href="#/logout"><%= logout %></a></li>
+              <nav-item serf="diagrams" link-url="#/diagrams" title="<%= diagrams %>"></nav-item>
+              <nav-item serf="profile" link-url="#/profile" title="<%= profile %>"></nav-item>
+              <nav-item link-url="#/logout" title="<%= logout %>"></nav-item>
             </ul>
           </li>
-          <li><a href="#/about"><%= about %></a></li>
+          <nav-item serf="about" link-url="#/about" title="<%= about %>"></nav-item>
         </ul>
       </div>
     </div>
