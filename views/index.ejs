@@ -26,10 +26,10 @@
           <nav-item page="home" title="<%= home %>"></nav-item>
           <nav-item ng-hide="signed_in" page="sign_in" title="<%= sign_in %>"></nav-item>
           <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
-            <a ui-sref="profile" class="dropdown-toggle">
+            <a ui-sref="profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%= profile %> <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" role="menu">
               <nav-item page="profile.diagrams" title="<%= diagrams %>"></nav-item>
               <nav-item page="profile.settings" title="<%= settings %>"></nav-item>
               <nav-item page="profile.logout" title="<%= logout %>"></nav-item>

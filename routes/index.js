@@ -24,11 +24,6 @@ router.get('/sign_in', function(req, res, next) {
   });
 });
 
-router.get('/profile', function(req, res, next) {
-  res.render('profile', {
-  });
-});
-
 router.get('/diagrams', function(req, res, next) {
   res.render('diagrams', {
   });

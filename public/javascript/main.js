@@ -16,8 +16,7 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: '/sign_in'
     })
     .state('profile', {
-      url: '/profile',
-      templateUrl: '/profile'
+      abstract: true
     })
     .state('profile.diagrams', {
       url: '/diagrams',
@@ -50,6 +49,6 @@ brainworks.directive('navItem', function($location) {
       page: '@page',
       title: '@title'
     },
-    template: '<li ui-sref-active="active"><a ui-sref="{{page}}" ng-href="#/{{page}}">{{title}}</a></li>'
+    template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
 });
