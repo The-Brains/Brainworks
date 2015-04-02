@@ -1,5 +1,5 @@
 /**
- * 
+ * @author Dennis Stumm
  */
 var mongoose = require('mongoose');
 
