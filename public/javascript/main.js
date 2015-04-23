@@ -16,7 +16,8 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: '/sign_in'
     })
     .state('profile', {
-      abstract: true
+      abstract: true,
+      template: '<ui-view/>'
     })
     .state('profile.diagrams', {
       url: '/diagrams',

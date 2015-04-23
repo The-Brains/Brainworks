@@ -15,28 +15,23 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/home', function(req, res, next) {
-  res.render('home', {
-  });
+  res.render('home', {});
 });
 
 router.get('/sign_in', function(req, res, next) {
-  res.render('sign_in', {
-  });
+  res.render('sign_in', {});
 });
 
 router.get('/diagrams', function(req, res, next) {
-  res.render('diagrams', {
-  });
+  res.render('diagrams', {});
 });
 
 router.get('/settings', function(req, res, next) {
-  res.render('settings', {
-  });
+  res.render('settings', {});
 });
 
 router.get('/about', function(req, res, next) {
-  res.render('about', {
-  });
+  res.render('about', {});
 });
 
 module.exports = router;
