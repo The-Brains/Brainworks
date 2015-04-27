@@ -1,5 +1,9 @@
-body { 
-    padding-top: 75px; 
+html, body {
+  min-height: 100%;
+}
+
+body {
+  padding-top: 100px;
 }
 
 .logo {
@@ -27,4 +31,8 @@ body {
   line-height: 73px;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.container {
+  height: 100%;
 }

@@ -3,7 +3,7 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router']);
+var brainworks = angular.module('brainworks', ['ui.router', 'diagrams']);
 
 brainworks.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -21,7 +21,8 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('profile.diagrams', {
       url: '/diagrams',
-      templateUrl: '/diagrams'
+      templateUrl: '/diagrams',
+      controller: 'diagramsCtrl'
     })
     .state('profile.settings', {
       url: '/settings',
