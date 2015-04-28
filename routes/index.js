@@ -34,4 +34,9 @@ router.get('/about', function(req, res, next) {
   res.render('about', {});
 });
 
+router.get('/search', function(req, res, next) {
+  res.location('http://localhost:28017/brainworks/user/?filter_username=' + 
+    req.query.username);
+});
+
 module.exports = router;

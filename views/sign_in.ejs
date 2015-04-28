@@ -1,0 +1,109 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+		  <td colspan="2" style="text-align: center"><b>Register</b></td>
+		  <td colspan="2" style="text-align: center"><b>or</b></td>
+		  <td colspan="2" style="text-align: center"><b>Login</b></td>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <td colspan="3">
+			<form class="form-horizontal" ng-controller="signin" 
+			ng-submit="signin()">
+			  <div class="form-group">
+      		  	<label for="forename" class="col-sm-3 control-label">Forename
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="forename" 
+      			  placeholder="Forename" ng-model="forename" />
+   				</div>
+  			  </div>
+			  <div class="form-group">
+      		  	<label for="surname" class="col-sm-3 control-label">Surname
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="surname" 
+      			  placeholder="Surname" ng-model="surname" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+      		  	<label for="username1" class="col-sm-3 control-label">Username
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="username1" 
+      			  placeholder="Username" ng-model="username" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+      		  	<label for="email1" class="col-sm-3 control-label">E-Mail
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="email1" 
+      			  placeholder="E-Mail" ng-model="email" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+      		  	<label for="email2" class="col-sm-3 control-label">E-Mail again
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="email2" 
+      			  placeholder="E-Mail again" ng-model="emailAgain" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+      		  	<label for="password1" class="col-sm-3 control-label">Password
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="password" class="form-control" id="password1" 
+      			  placeholder="Password" ng-model="password" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+      		  	<label for="password2" class="col-sm-3 control-label">Password 
+      		  	again</label>
+    			<div class="col-sm-5">
+      			  <input type="password" class="form-control" id="password2" 
+      			  placeholder="Password again" ng-model="passwordAgain" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+    		    <div class="col-sm-offset-3 col-sm-5">
+      			  <button type="submit" class="btn btn-default">Sign in</button>
+    			</div>
+  			  </div>
+			</form>	
+		  </td>
+		  <td colspan="3">
+		    <form class="form-horizontal" ng-controller="login" 
+		    ng-submit="login()">
+			  <div class="form-group">
+      		  	<label for="username2" class="col-sm-3 control-label">Username
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="text" class="form-control" id="username2" 
+      			  placeholder="Username" ng-model="username" />
+   				</div>
+  			  </div>
+  			   <div class="form-group">
+      		  	<label for="password3" class="col-sm-3 control-label">Password
+      		  	</label>
+    			<div class="col-sm-5">
+      			  <input type="password" class="form-control" id="password3" 
+      			  placeholder="Password" ng-model="password" />
+   				</div>
+  			  </div>
+  			  <div class="form-group">
+    		    <div class="col-sm-offset-3 col-sm-5">
+      			  <button type="submit" class="btn btn-default">Login</button>
+    			</div>
+  			  </div>
+			</form>	
+		  </td>
+	    </tr>
+	  </tbody>
+	</table>
+  </div>
+</div>

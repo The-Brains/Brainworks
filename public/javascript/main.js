@@ -3,7 +3,7 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router', 'diagrams']);
+var brainworks = angular.module('brainworks', ['ui.router', 'diagrams', 'signin']);
 
 brainworks.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -39,9 +39,11 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
     });
   $urlRouterProvider.otherwise('home');
 });
+
 brainworks.controller('brainworksCtrl', function($scope) {
-  $scope.signed_in = true;
+  $scope.signed_in = false;
 });
+
 brainworks.directive('navItem', function($location) {
   return {
     restrict: 'E',
