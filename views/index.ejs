@@ -1,33 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/main.css' />
-  </head>
-  <body ng-app="brainworks">
-    <div id="header">
-      <table>
-        <tr>
-          <td>
-            <img alt="Logo" src="/images/brainworks.png" id="logo">
-            <h2 id="title"><%= title %></h2>
-          </td>
-          <td>
-            <div id="navbar">
-            	<a ng-class="about" class="nav" href="#/about"><%= button_about %></a>
-            	<a ng-class="signin" class="nav" href="#/signin"><%= button_signin %></a>
-            	<a ng-class="home" class="nav" href="#/"><%= button_home %></a>
-            </div>
-          </td>
-        </tr>          
-      </table>
+<head>
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+  <link rel="stylesheet" href="/stylesheets/theme.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+<body ng-app="brainworks" ng-controller="brainworksCtrl">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand logo" href="#/home">
+          <img src="/images/brainworks.png" alt="Logo">
+          <div><%= title %></div>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right brainworks-navigation">
+          <nav-item page="home" title="<%= home %>"></nav-item>
+          <nav-item ng-hide="signed_in" page="sign_in" title="<%= sign_in %>"></nav-item>
+          <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
+            <a ui-sref="profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <%= profile %> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <nav-item page="profile.diagrams" title="<%= diagrams %>"></nav-item>
+              <nav-item page="profile.settings" title="<%= settings %>"></nav-item>
+              <nav-item page="profile.logout" title="<%= logout %>"></nav-item>
+            </ul>
+          </li>
+          <nav-item page="about" title="<%= about %>"></nav-item>
+        </ul>
+      </div>
     </div>
-    <div ng-view id="view"></div>
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"></script> -->
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.js"></script> -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.js"></script>
-    <script src="/javascript/main.js"></script>
-  </body>
+  </nav>
+  <div class="container">
+    <ui-view></ui-view>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="/javascript/diagrams.js"></script>
+  <script src="/javascript/main.js"></script>
+</body>
 </html>
