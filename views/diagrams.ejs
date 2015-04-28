@@ -1,0 +1,14 @@
+<div style="min-height: 100%; height: 100%; background-color: white;">
+  <div class="row" ng-repeat-start="diagram in diagrams">
+    <div class="col-md-7">
+      <a href="#">
+        <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.title}}">
+      </a>
+    </div>
+    <div class="col-md-5">
+      <h3>{{diagram.title}}</h3>
+    </div>
+  </div>
+  <hr ng-repeat-end>
+  <pagination total-items="500" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+</div>

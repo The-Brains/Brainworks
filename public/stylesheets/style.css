@@ -1,0 +1,38 @@
+html, body {
+  min-height: 100%;
+}
+
+body {
+  padding-top: 100px;
+}
+
+.logo {
+  max-height: 75px;
+  height: 75px;
+  padding: 0;
+  font-size: 1.75em;
+}
+
+.logo div, .logo img {
+  display: inline-block;
+}
+
+.logo img {
+  width: 75px;
+  height: 75px;
+  min-width: 75px;
+}
+
+.brainworks-navigation {
+  margin-right: 0.5%;
+}
+
+.brainworks-navigation > li > a {
+  line-height: 73px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.container {
+  height: 100%;
+}
