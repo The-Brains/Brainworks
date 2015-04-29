@@ -3,9 +3,9 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router', 'diagrams']);
+var brainworks = angular.module('brainworks', ['ui.router', 'diagram']);
 
-brainworks.config(function($stateProvider, $urlRouterProvider) {
+brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
@@ -22,7 +22,11 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
     .state('profile.diagrams', {
       url: '/diagrams',
       templateUrl: '/diagrams',
-      controller: 'diagramsCtrl'
+      controller: 'diagramCtrl'
+    })
+    .state('diagram', {
+      url: '/diagram/{id}',
+      templateUrl: '/designer'
     })
     .state('profile.settings', {
       url: '/settings',
@@ -38,11 +42,11 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-});
-brainworks.controller('brainworksCtrl', function($scope) {
+}]);
+brainworks.controller('brainworksCtrl', ['$scope', function($scope) {
   $scope.signed_in = true;
-});
-brainworks.directive('navItem', function($location) {
+}]);
+brainworks.directive('navItem', ['$location', function($location) {
   return {
     restrict: 'E',
     replace: true,
@@ -53,4 +57,4 @@ brainworks.directive('navItem', function($location) {
     },
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
-});
+}]);
