@@ -18,22 +18,6 @@ router.get('/home', function(req, res, next) {
   res.render('home', {});
 });
 
-router.get('/sign_in', function(req, res, next) {
-  res.render('sign_in', {});
-});
-
-router.get('/diagrams', function(req, res, next) {
-  res.render('diagrams', {});
-});
-
-router.get('/designer', function(req, res, next) {
-  res.render('designer', {});
-});
-
-router.get('/settings', function(req, res, next) {
-  res.render('settings', {});
-});
-
 router.get('/about', function(req, res, next) {
   res.render('about', {});
 });
