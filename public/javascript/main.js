@@ -3,7 +3,7 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router', 'brainworks.diagram']);
+var brainworks = angular.module('brainworks', ['ui.router', 'brainworks.diagram', 'brainworks.user']);
 
 brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -18,24 +18,6 @@ brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
     .state('profile', {
       abstract: true,
       template: '<ui-view/>'
-    })
-    .state('profile.diagrams', {
-      url: '/diagrams',
-      templateUrl: '/diagram/diagrams',
-      controller: 'diagramCtrl'
-    })
-    .state('diagram', {
-      url: '/diagram/{id}',
-      templateUrl: '/diagram/designer'
-    })
-    .state('profile.settings', {
-      url: '/settings',
-      templateUrl: '/user/settings'
-    })
-    // TODO hier und beim einloggen muss ein redirect durchgefuehrt werden
-    .state('profile.logout', {
-      url: '/logout',
-      templateUrl: '/home'
     })
     .state('about', {
       url: '/about',
