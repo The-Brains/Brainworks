@@ -11,9 +11,9 @@ brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
       url: '/home',
       templateUrl: '/home'
     })
-    .state('sign_in', {
-      url: '/sign_in',
-      templateUrl: '/user/sign_in'
+    .state('signIn', {
+      url: '/signIn',
+      templateUrl: '/user/signIn'
     })
     .state('profile', {
       abstract: true,
@@ -26,7 +26,7 @@ brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
   $urlRouterProvider.otherwise('home');
 }]);
 brainworks.controller('brainworksCtrl', ['$scope', function($scope) {
-  $scope.signed_in = true;
+  $scope.signedIn = true;
 }]);
 brainworks.directive('navItem', ['$location', function($location) {
   return {

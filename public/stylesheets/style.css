@@ -37,3 +37,8 @@ body {
 .container {
   height: 100%;
 }
+
+.signin-header {
+  text-align: center;
+  font-weight: bold;
+}

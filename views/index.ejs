@@ -26,8 +26,8 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
           <nav-item page="home" title="<%= home %>"></nav-item>
-          <nav-item ng-hide="signed_in" page="sign_in" title="<%= sign_in %>"></nav-item>
-          <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
+          <nav-item ng-hide="signedIn" page="signIn" title="<%= signIn %>"></nav-item>
+          <li ui-sref-active="active" ng-show="signedIn" class="dropdown">
             <a ui-sref="profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%= profile %> <span class="caret"></span>
             </a>

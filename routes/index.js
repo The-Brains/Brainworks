@@ -5,7 +5,7 @@ router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Brainworks',
     home: 'Startseite',
-    sign_in: 'Einloggen',
+    signIn: 'Einloggen',
     profile: 'Profil',
     about: 'Über',
     diagrams: 'Diagramme',
