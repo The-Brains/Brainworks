@@ -3,7 +3,7 @@
  */
 var user = angular.module('brainworks.user', []);
 
-diagram.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+user.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
