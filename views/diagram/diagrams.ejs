@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <div class="row" ng-repeat-start="diagram in diagrams">
+    <div class="row" ng-repeat-start="diagram in filteredDiagrams">
       <div class="col-md-7">
         <a href="#/diagram/{{diagram._id}}">
           <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.title}}">
@@ -11,5 +11,8 @@
       </div>
     </div>
     <hr ng-repeat-end>
+    <div class="text-center">
+      <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" boundary-links="true" ng-change="filterData()"></pagination>
+    </div>
   </div>
 </div>
