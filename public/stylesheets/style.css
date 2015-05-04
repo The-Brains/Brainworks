@@ -40,3 +40,8 @@ body {
 td > form {
   padding-top: 10px;
 }
+
+tr.thmiddle > td {
+	font-weight: bold;
+	text-align: center;
+}	
