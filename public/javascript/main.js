@@ -26,7 +26,7 @@ brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
   $urlRouterProvider.otherwise('home');
 }]);
 brainworks.controller('brainworksCtrl', ['$scope', function($scope) {
-  $scope.signedIn = true;
+  $scope.signedIn = false;
 }]);
 brainworks.directive('navItem', ['$location', function($location) {
   return {

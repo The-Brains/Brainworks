@@ -66,7 +66,7 @@
               <div class="form-group">
                 <label for="singinUsername" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-5">
-                  <input name="username" id="singinUsername" type="text" class="form-control" placeholder="Username" ng-model="user.username" />
+                  <input name="username" id="singinUsername" type="text" class="form-control" placeholder="Username" ng-model="user.username" required/>
                   <span style="color:red" ng-show="signIn.username.$dirty && signIn.username.$invalid">
                     <span ng-show="signIn.username.$error.required">Username is required.</span>
                   </span>
@@ -75,7 +75,7 @@
               <div class="form-group">
                 <label for="signinPassword" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-5">
-                  <input name="password" id="signinPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password" />
+                  <input name="password" id="signinPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password" required/>
                   <span style="color:red" ng-show="signIn.password.$dirty && signIn.password.$invalid">
                     <span ng-show="signIn.password.$error.required">Password is required.</span>
                   </span>
