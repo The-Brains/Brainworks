@@ -38,7 +38,11 @@ body {
   height: 100%;
 }
 
+.signin-header-center,
+.signin-header {
+  font-weight: bold;
+}
+
 .signin-header {
   text-align: center;
-  font-weight: bold;
 }

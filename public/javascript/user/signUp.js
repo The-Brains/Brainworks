@@ -1,7 +1,7 @@
 /**
- *
+ * 
  */
 angular.module('brainworks.user')
-.controller('signInCtrl', ['$scope', function($scope) {
+.controller('signUpCtrl', ['$scope', function($scope) {
   $scope.user = {};
 }]);

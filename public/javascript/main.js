@@ -3,9 +3,8 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router', 'brainworks.diagram', 'brainworks.user']);
-
-brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+angular.module('brainworks', ['ui.router', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
@@ -24,19 +23,7 @@ brainworks.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-}]);
-brainworks.controller('brainworksCtrl', ['$scope', function($scope) {
+}])
+.controller('brainworksCtrl', ['$scope', function($scope) {
   $scope.signedIn = false;
-}]);
-brainworks.directive('navItem', ['$location', function($location) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    scope: {
-      page: '@page',
-      title: '@title'
-    },
-    template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
-  };
 }]);

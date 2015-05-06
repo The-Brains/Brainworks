@@ -1,9 +1,8 @@
 /**
  * New node file
  */
-var user = angular.module('brainworks.user', []);
-
-user.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+angular.module('brainworks.user', [])
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
