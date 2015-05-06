@@ -56,3 +56,35 @@ brainworks.directive('navItem', function($location) {
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
 });
+
+// Login path to the database
+brainworks.factory('login', function($http) {
+  var modelService = {};
+  var userAPI = '/login';
+  
+  modelService.getSingle = function(User) {
+    $http.post(userAPI, User).success(function(response) {
+      alert("Success:\t" + response.success);
+    }).error(function(response) {
+      alert("Failure:\t" + response.failure);
+    });
+  };
+    
+  return modelService;
+});
+
+// Signup path to the database
+brainworks.factory('signup', function($http) {
+  var modelService = {};
+  var userAPI = '/signup';
+  
+  modelService.save = function(User) {
+    $http.post(userAPI, User).success(function(response) {
+      alert( "Success:\t" + response.success);
+    }).error(function(response) {
+      alert("Failure:\t" + response.failure);
+    }); 
+  };
+  
+  return modelService;
+});

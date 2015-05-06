@@ -5,7 +5,7 @@
 var signin = angular.module('signin', []);
 
 // Sign in - Controller
-signin.controller("signup", function($scope, $http) {
+signin.controller("signup", function($scope, signup) {
   $scope.signup = function() {
     var hashedPass1, hashedPass2;
     
@@ -14,11 +14,11 @@ signin.controller("signup", function($scope, $http) {
     if ($scope.username === undefined) alert("Der Benutzername fehlt!");
         
     if ($scope.password !== undefined) {
-      hashedPass1 = CryptoJS.SHA3($scope.password).toString().toUpperCase();;
+      hashedPass1 = CryptoJS.SHA3($scope.password).toString().toUpperCase();
     } else alert("Das Passwort fehlt");
     
     if ($scope.passwordAgain !== undefined) {
-      hashedPass2 = CryptoJS.SHA3($scope.passwordAgain).toString().toUpperCase();;
+      hashedPass2 = CryptoJS.SHA3($scope.passwordAgain).toString().toUpperCase();
     } else alert("Das Wiederholungspasswort fehlt!");
            
     if ($scope.email === undefined) alert("Die E-Mail fehlt!"); 
@@ -41,34 +41,23 @@ signin.controller("signup", function($scope, $http) {
       
       if (($scope.email === $scope.emailAgain) && (hashedPass1 === hashedPass2)) {
         // Settings for the database
-        var database = {
-          method: "POST",
-          url: "/signUp",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          data: {
-            forename: $scope.forename,
-            surname: $scope.surname,
-            username: $scope.username,
-            email: $scope.email,
-            password: hashedPass1
-          }
+        var data = {
+          forename: $scope.forename,
+          surname: $scope.surname,
+          username: $scope.username,
+          email: $scope.email,
+          password: hashedPass1
         };
-                          
-        $http(database).success( function(response) { 
-          alert("Success:\t" + response.success);
-        }).error( function(response) {
-          alert("Failure:\t" + response.failure);
-        });
+                                  
+        signup.save(data);
       }
     }
   };
 });
 
 // Log in - Controller
-signin.controller("login", function($scope, $http) {
-  $scope.login = function() {
+signin.controller("signin", function($scope, login) {
+  $scope.signin = function() {
     var hashedPassword;
     
     // Alert message when the username-field is empty
@@ -95,7 +84,7 @@ signin.controller("login", function($scope, $http) {
       
       // alert("Username:\t" + $scope.username + "\nPassword:\t" + $scope.password);
       
-      // Settings for the database
+      /* // Settings for the database
       var database = {
         method: "POST",
         url: "/checkLogin",
@@ -110,9 +99,19 @@ signin.controller("login", function($scope, $http) {
                         
       $http(database).success( function(response) { 
         console.log("Success:\t" + response.success);
+        
+        brainworks.controller('brainworksCtrl', function($scope) {
+          $scope.signed_in = true;
+        });
       }).error( function(response) {
         alert("Failure:\t" + response.failure);
-      });
+      }); */
+      var data = {
+        username: $scope.username,
+        password: hashedPassword 
+      };
+      
+      login.getSingle(data);            
     } 
     
     // Otherwise print a error message

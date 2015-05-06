@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var user = mongoose.model('User');
+mongoose.connect('mongodb://localhost/brainworks/user/');
+
+require('../routes/userRoutes')(router); // Routing of User
 
 router.get('/', function(req, res, next) {
   res.render('index', {
@@ -36,17 +38,14 @@ router.get('/about', function(req, res, next) {
   res.render('about', {});
 });
 
-router.post('/checkLogin', function(req, res, next) {
-  var username = req.body.username;
-  var password= req.body.password;
+/* router.post('/checkLogin', function(req, res, next) {
+  var contents = req.body;
   
-  var query = user.findOne({username: username, password: password});
+  var query = user.findOne({username: contents.username, password: contents.password});
   query.exec(function (error, user) {
     if (error) res.status(500).json({failure: "The query couldn't find the data:\n" + error});
     if (!user) res.status(500).json({failure: "You weren't connected! Wrong username or password."});
-    else {
-      res.status(200).json({success: "You were logged in!"});
-    }
+    else res.status(200).json({success: "You were logged in!"});
   });
 });
 
@@ -58,24 +57,22 @@ router.post('/signUp', function(req, res, next) {
     if (error) res.status(500).json({failure: "An error has occured:\t" + error});
     if (user) res.status(500).json({failure: "Username is already forgiven!\nPlease choose another username."});
     else {
-      var query = user.create({
-        forename: forename, 
-        surname: surname, 
-        username: username,
-        email: email,
-        password: password
-      });
-  
-      query.exec(function (error, user) {
-        if (error) res.status(500).json({failure: "The query couldn't find the data:\n" + error});
-        if (!user) res.status(500).json({failure: "Your data couldn't inserted to the database!"});
-        else {
-          res.status(200).json({success: "You were signed up!"});
-          
-        }
-      });
+//      var newUser = user({
+//        forename: contents.forename, 
+//        surname: contents.surname, 
+//        username: contents.username,
+//        email: contents.email,
+//        password: contents.password
+//      });
+//  
+//      newUser.save(function (error) {
+//        if (error) res.status(500).json({failure: "Your data couldn't inserted into the database:\n" + error});
+//        else res.status(200).json({success: "You were signed up!"});
+//      });
+      
+      res.status(200).json({success: "You were signed up!"});
     }
   });
-});
+}); */
 
 module.exports = router;
