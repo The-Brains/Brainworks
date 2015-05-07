@@ -16,7 +16,7 @@
                 <label for="forename" class="col-sm-3 control-label">Forename</label>
                 <div class="col-sm-5">
                   <input name="forename" id="forename" type="text" class="form-control" placeholder="Forename" ng-model="user.forename" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.forename.$touched">
+                  <span ng-show="signUp.$submitted || signUp.forename.$touched">
                     <span ng-show="signUp.forename.$error.required">This field is required.</span>
                   </span>
                 </div>
@@ -25,16 +25,16 @@
                 <label for="surname" class="col-sm-3 control-label">Surname</label>
                 <div class="col-sm-5">
                   <input name="surname" id="surname" type="text" class="form-control" placeholder="Surname" ng-model="user.surname" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.surname.$touched">
+                  <span ng-show="signUp.$submitted || signUp.surname.$touched">
                     <span ng-show="signUp.surname.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.surname.$touched) && signUp.surname.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.username.$touched) && signUp.username.$error}">
                 <label for="username" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="username" type="text" class="form-control" placeholder="Username" ng-model="user.username" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.username.$touched">
+                  <span ng-show="signUp.$submitted || signUp.username.$touched">
                     <span ng-show="signUp.username.$error.required">This field is required.</span>
                   </span>
                 </div>
@@ -43,7 +43,7 @@
                 <label for="email" class="col-sm-3 control-label">E-Mail</label>
                 <div class="col-sm-5">
                   <input name="email" id="email" type="text" class="form-control" placeholder="E-Mail" ng-model="user.email" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.email.$touched">
+                  <span ng-show="signUp.$submitted || signUp.email.$touched">
                     <span ng-show="signUp.email.$error.required">This field is required.</span>
                   </span>
                 </div>
@@ -52,7 +52,7 @@
                 <label for="emailConfirmation" class="col-sm-3 control-label">Confirm your E-Mail</label>
                 <div class="col-sm-5">
                   <input name="emailConfirmation" id="emailConfirmation" type="text" class="form-control" placeholder="Confirm your E-Mail" ng-model="user.emailConfirmation" match="user.email" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.emailConfirmation.$touched">
+                  <span ng-show="signUp.$submitted || signUp.emailConfirmation.$touched">
                     <span ng-show="signUp.emailConfirmation.$error.required">This field is required.</span>
                     <span ng-show="signUp.emailConfirmation.$invalid.match && !signUp.emailConfirmation.$error.match">These E-Mails don't match. Try again?</span>
                   </span>
@@ -62,7 +62,7 @@
                 <label for="password" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="password" type="password" class="form-control" placeholder="Password" ng-model="user.password" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.password.$touched">
+                  <span ng-show="signUp.$submitted || signUp.password.$touched">
                     <span ng-show="signUp.password.$error.required">This field is required.</span>
                   </span>
                 </div>
@@ -71,7 +71,7 @@
                 <label for="passwordConfirmation" class="col-sm-3 control-label">Confirm your Password</label>
                 <div class="col-sm-5">
                   <input name="passwordConfirmation" id="passwordConfirmation" type="password" class="form-control" placeholder="Confirm your Password" ng-model="user.passwordConfirmation" match="user.password" required />
-                  <span style="color:red" ng-show="signUp.$submitted || signUp.passwordConfirmation.$touched">
+                  <span ng-show="signUp.$submitted || signUp.passwordConfirmation.$touched">
                     <span ng-show="signUp.passwordConfirmation.$error.required && !signUp.passwordConfirmation.$error.match">This field is required.</span>
                     <span ng-show="signUp.passwordConfirmation.$error.match">These passwords don't match. Try again?</span>
                   </span>
@@ -90,7 +90,7 @@
                 <label for="singinUsername" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="singinUsername" type="text" class="form-control" placeholder="Username" ng-model="user.username" required/>
-                  <span style="color:red" ng-show="signIn.$submitted || signIn.username.$touched">
+                  <span ng-show="signIn.$submitted || signIn.username.$touched">
                     <span ng-show="signIn.username.$error.required">This field is required.</span>
                   </span>
                 </div>
@@ -99,7 +99,7 @@
                 <label for="signinPassword" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="signinPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password" required/>
-                  <span style="color:red" ng-show="signIn.$submitted || signIn.username.$touched">
+                  <span ng-show="signIn.$submitted || signIn.password.$touched">
                     <span ng-show="signIn.password.$error.required">This field is required.</span>
                   </span>
                 </div>

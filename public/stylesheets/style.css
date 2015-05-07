@@ -46,3 +46,7 @@ body {
 .signin-header {
   text-align: center;
 }
+
+.has-error > div > span {
+  color: #A94442;
+}
