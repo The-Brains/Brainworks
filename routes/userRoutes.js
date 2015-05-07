@@ -2,12 +2,21 @@
  * New node file
  */
 
-var User = require('../models/User');
-var modelLogin = '/login';
-var modelSignup = '/signup';
-
 module.exports = function(router) {
 
+  var User = require('../models/User');
+  var modelLogin = '/login';
+  var modelSignup = '/signup';
+  
+//var data = {
+//forename: "Max",
+//surname: "Muster",
+//username: "maxmus",
+//email: "max.muster@muster.de",
+//password: "Geheim"
+//};
+//console.log("var user = new User(data)\n\n" + new User(data));
+  
   // Route to checkLogin
   router.route(modelLogin).post(function(req, res, next) {
     var query = User.findOne(req.body);
@@ -20,28 +29,19 @@ module.exports = function(router) {
   
   // Route to signUp
   router.route(modelSignup).post(function(req, res, next) {
+    var user = new User(req.body);
+    
     var search = User.findOne({username: req.body.username});
     search.exec(function (error, User) {
       if (error) res.status(500).json({failure: "An error has occured:\t" + error});
       if (User) res.status(500).json({failure: "Username is already forgiven!\nPlease choose another username."});
       else {
-        var user = new User();
-        fill(user, req.body, function() {
-          user.save(function(error) {
-            if (error) res.status(500).json({failure: "Your data couldn't inserted into the database:\n" + error});
-            else res.status(200).json({success: "You were signed up!"});
-          });  
-        });
+        console.log("NEW USER:\n" + user);
+        user.save(function(error) {
+          if (error) res.status(500).json({failure: "Your data couldn't inserted into the database:\n" + error});
+          else res.status(200).json({success: "You were signed up!"});
+        });  
       }
     });
-    
-    function fill(user, body, callback) {
-      user.vorname = body.vorname;
-      user.name = body.name; 
-      User.username = body.username; 
-      user.email = body.email;
-      user.password = body.password;
-      callback();
-    }
   });
 };

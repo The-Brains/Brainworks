@@ -6,6 +6,16 @@ var signin = angular.module('signin', []);
 
 // Sign in - Controller
 signin.controller("signup", function($scope, signup) {
+  $scope.reset = function() {
+    $scope.forename = "";
+    $scope.surname = "";
+    $scope.username = "";
+    $scope.email = "";
+    $scope.emailAgain = "";
+    $scope.password = "";
+    $scope.passwordAgain = "";
+  }
+  
   $scope.signup = function() {
     var hashedPass1, hashedPass2;
     
@@ -49,7 +59,11 @@ signin.controller("signup", function($scope, signup) {
           password: hashedPass1
         };
                                   
-        signup.save(data);
+        var pass = signup.save(data);
+        if (pass) $scope.reset();
+        
+        hashedPass1 = "";
+        hashedPass2 = "";
       }
     }
   };
@@ -57,6 +71,11 @@ signin.controller("signup", function($scope, signup) {
 
 // Log in - Controller
 signin.controller("signin", function($scope, login) {
+  $scope.reset = function() {
+    $scope.username = "";
+    $scope.password = "";
+  }
+  
   $scope.signin = function() {
     var hashedPassword;
     
@@ -83,35 +102,16 @@ signin.controller("signin", function($scope, login) {
        ($scope.password !== undefined || hashedPassword !== "")) {
       
       // alert("Username:\t" + $scope.username + "\nPassword:\t" + $scope.password);
-      
-      /* // Settings for the database
-      var database = {
-        method: "POST",
-        url: "/checkLogin",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: {
-          username: $scope.username,
-          password: hashedPassword
-        }
-      };
-                        
-      $http(database).success( function(response) { 
-        console.log("Success:\t" + response.success);
-        
-        brainworks.controller('brainworksCtrl', function($scope) {
-          $scope.signed_in = true;
-        });
-      }).error( function(response) {
-        alert("Failure:\t" + response.failure);
-      }); */
+            
       var data = {
         username: $scope.username,
         password: hashedPassword 
       };
       
-      login.getSingle(data);            
+      var pass = login.getSingle(data);
+      if (pass) $scope.reset();
+      
+      hashedPassword = "";
     } 
     
     // Otherwise print a error message

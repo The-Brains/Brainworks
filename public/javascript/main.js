@@ -65,8 +65,10 @@ brainworks.factory('login', function($http) {
   modelService.getSingle = function(User) {
     $http.post(userAPI, User).success(function(response) {
       alert("Success:\t" + response.success);
+      return true;
     }).error(function(response) {
       alert("Failure:\t" + response.failure);
+      return false;
     });
   };
     
@@ -81,8 +83,10 @@ brainworks.factory('signup', function($http) {
   modelService.save = function(User) {
     $http.post(userAPI, User).success(function(response) {
       alert( "Success:\t" + response.success);
+      return true;
     }).error(function(response) {
       alert("Failure:\t" + response.failure);
+      return false;
     }); 
   };
   
