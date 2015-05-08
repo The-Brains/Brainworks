@@ -31,7 +31,7 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
     // TODO hier und beim einloggen muss ein redirect durchgefuehrt werden
     .state('profile.logout', {
       url: '/logout',
-      templateUrl: '/home'
+      controller: 'logoutCtrl'
     })
     .state('about', {
       url: '/about',
@@ -39,7 +39,6 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
     });
   $urlRouterProvider.otherwise('home');
 });
-
 
 brainworks.directive('navItem', function($location) {
   return {
@@ -56,11 +55,12 @@ brainworks.directive('navItem', function($location) {
 
 // Switch for the Login-Page as a service
 brainworks.factory('signinService', function($rootScope) {
-  var options = {};
-  options.boolean = false;
+  var options = {
+    boolean: false
+  };
   
   // This will share the boolean for the Login-Page
-  options.shareBoolean = function() {
+  options.shareValues = function() {
     $rootScope.$broadcast("signedIn");
   }
   
@@ -68,15 +68,22 @@ brainworks.factory('signinService', function($rootScope) {
   options.setBoolean = function(value) {
     if (typeof value === "boolean") {
       this.boolean = value;
-      this.shareBoolean();
+      this.shareValues();
     } else this.boolean = false;
   }
-  
+    
   return options;
+});
+
+// Logout the user and shows them an login page
+brainworks.controller('logoutCtrl', function(signinService, $location) {
+  signinService.setBoolean(false);
+  $location.path("/sign_in");
 });
 
 // Switch for the Login-Page as controller
 brainworks.controller('brainworksCtrl', function($scope, signinService) {
+  
   // This will add the $rootScope to the $scope
   this.$inject = ['$scope', 'signinService'];
   
@@ -87,7 +94,7 @@ brainworks.controller('brainworksCtrl', function($scope, signinService) {
 });
 
 // Login path to the database
-brainworks.factory('login', function($http, signinService) {
+brainworks.factory('login', function($http, $location, signinService) {
   var modelService = {};
   var userAPI = '/login';
   
@@ -97,6 +104,7 @@ brainworks.factory('login', function($http, signinService) {
       // Action for successful login
       alert(response.success);
       signinService.setBoolean(true);
+       $location.path("/diagrams");
       return;      
     }).error(function(response) {
       
@@ -111,7 +119,7 @@ brainworks.factory('login', function($http, signinService) {
 });
 
 // Signup path to the database
-brainworks.factory('signup', function($http, signinService) {
+brainworks.factory('signup', function($http, $location, signinService) {
   var modelService = {};
   var userAPI = '/signup';
   
@@ -121,6 +129,7 @@ brainworks.factory('signup', function($http, signinService) {
       // Action for successful login
       alert(response.success);
       signinService.setBoolean(true);
+      $location.path("/diagrams");
       return;
     }).error(function(response) {
       

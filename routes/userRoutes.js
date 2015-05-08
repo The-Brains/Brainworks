@@ -27,7 +27,6 @@ module.exports = function(router) {
       if (error) res.status(500).json({failure: "An error has occured:\t" + error});
       if (User) res.status(500).json({failure: "Username is already forgiven!\nPlease choose another username."});
       else {
-        console.log("NEW USER:\n" + user);
         user.save(function(error) {
           if (error) res.status(500).json({failure: "Your data couldn't inserted into the database:\n" + error});
           else res.status(200).json({success: "You were signed up!"});

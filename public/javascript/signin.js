@@ -4,28 +4,11 @@
 
 var signin = angular.module('signin', []);
 
-function changeStatus(boolean) {
-  console.log("boolean:\t" + boolean + "\ntypeof boolean:\t" + typeof boolean);
-  
-  if (typeof boolean === "boolean") {
-    signin.controller('brainworksCtrl', function($scope) {
-      if (boolean) $scope.signed_in = true;
-      else $scope.signed_in = false;
-    });
-  }
-}
-
 // Sign in - Controller
-signin.controller("signup", function($scope, signup) {
-  $scope.reset = function() {
-    $scope.forename = "";
-    $scope.surname = "";
-    $scope.username = "";
-    $scope.email = "";
-    $scope.emailAgain = "";
-    $scope.password = "";
-    $scope.passwordAgain = "";
-  }
+signin.controller("signup", function($scope, signinService, signup) {
+  
+//  //This will add the $rootScope to the $scope
+//  this.$inject = ['$scope', 'signinService'];
   
   $scope.signup = function() {
     var hashedPass1, hashedPass2;
@@ -70,15 +53,23 @@ signin.controller("signup", function($scope, signup) {
           password: hashedPass1
         };
                                   
-        var pass = signup.save(data);
-        var signedIn = false; 
+        signup.save(data);
+                
+        // Change the status if the user were logged in or not
+        $scope.$on("signedIn", function() {
+          
+          // Delete the contents when the user was logged in
+          if (signinService.boolean) {
+            $scope.forename = "";
+            $scope.surname = "";
+            $scope.username = "";
+            $scope.email = "";
+            $scope.emailAgain = "";
+            $scope.password = "";
+            $scope.passwordAgain = "";
+          }
+        });
         
-        if (pass) {
-          $scope.reset();
-          signedIn = true;
-        }
-        
-        changeStatus(signedIn);
         hashedPass1 = "";
         hashedPass2 = "";
       }
@@ -87,12 +78,11 @@ signin.controller("signup", function($scope, signup) {
 });
 
 // Log in - Controller
-signin.controller("signin", function($scope, login) {
-  $scope.reset = function() {
-    $scope.username = "";
-    $scope.password = "";
-  }
+signin.controller("signin", function($scope, signinService, login) {
   
+//  //This will add the $rootScope to the $scope
+//  this.$inject = ['$scope', 'signinService'];
+    
   $scope.signin = function() {
     var hashedPassword;
     
@@ -125,8 +115,17 @@ signin.controller("signin", function($scope, login) {
         password: hashedPassword 
       };
       
-      var pass = login.getSingle(data);
-      if (pass) $scope.reset();
+      login.getSingle(data);
+      
+      // Change the status if the user were logged in or not
+      $scope.$on("signedIn", function() {
+     
+        // Delete the contents when the user was logged in
+        if (signinService.boolean) {
+          $scope.username = "";
+          $scope.password = "";
+        }
+      });
       
       hashedPassword = "";
     } 
@@ -136,6 +135,5 @@ signin.controller("signin", function($scope, login) {
   };
 });
 
-// http://localhost:28017/brainworks/user/
 // http://localhost:28017/brainworks/user/?filter_forename=Jens
 // mongod.exe --dbpath C:\MongoDB --httpinterface --rest
