@@ -4,6 +4,17 @@
 
 var signin = angular.module('signin', []);
 
+function changeStatus(boolean) {
+  console.log("boolean:\t" + boolean + "\ntypeof boolean:\t" + typeof boolean);
+  
+  if (typeof boolean === "boolean") {
+    signin.controller('brainworksCtrl', function($scope) {
+      if (boolean) $scope.signed_in = true;
+      else $scope.signed_in = false;
+    });
+  }
+}
+
 // Sign in - Controller
 signin.controller("signup", function($scope, signup) {
   $scope.reset = function() {
@@ -60,8 +71,14 @@ signin.controller("signup", function($scope, signup) {
         };
                                   
         var pass = signup.save(data);
-        if (pass) $scope.reset();
+        var signedIn = false; 
         
+        if (pass) {
+          $scope.reset();
+          signedIn = true;
+        }
+        
+        changeStatus(signedIn);
         hashedPass1 = "";
         hashedPass2 = "";
       }

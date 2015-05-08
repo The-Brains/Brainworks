@@ -40,9 +40,6 @@ brainworks.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('home');
 });
 
-brainworks.controller('brainworksCtrl', function($scope) {
-  $scope.signed_in = false;
-});
 
 brainworks.directive('navItem', function($location) {
   return {
@@ -57,18 +54,56 @@ brainworks.directive('navItem', function($location) {
   };
 });
 
+// Switch for the Login-Page as a service
+brainworks.factory('signinService', function($rootScope) {
+  var options = {};
+  options.boolean = false;
+  
+  // This will share the boolean for the Login-Page
+  options.shareBoolean = function() {
+    $rootScope.$broadcast("signedIn");
+  }
+  
+  // Sets the new boolean to the $rootScope
+  options.setBoolean = function(value) {
+    if (typeof value === "boolean") {
+      this.boolean = value;
+      this.shareBoolean();
+    } else this.boolean = false;
+  }
+  
+  return options;
+});
+
+// Switch for the Login-Page as controller
+brainworks.controller('brainworksCtrl', function($scope, signinService) {
+  // This will add the $rootScope to the $scope
+  this.$inject = ['$scope', 'signinService'];
+  
+  // Change the status if the user were logged in or not
+  $scope.$on("signedIn", function() {
+    $scope.signed_in = signinService.boolean;
+  });
+});
+
 // Login path to the database
-brainworks.factory('login', function($http) {
+brainworks.factory('login', function($http, signinService) {
   var modelService = {};
   var userAPI = '/login';
   
   modelService.getSingle = function(User) {
     $http.post(userAPI, User).success(function(response) {
-      alert("Success:\t" + response.success);
-      return true;
+      
+      // Action for successful login
+      alert(response.success);
+      signinService.setBoolean(true);
+      return;      
     }).error(function(response) {
-      alert("Failure:\t" + response.failure);
-      return false;
+      
+      // Action for failed login
+      alert(response.failure);
+      signinService.setBoolean(false);
+      return;      
     });
   };
     
@@ -76,17 +111,23 @@ brainworks.factory('login', function($http) {
 });
 
 // Signup path to the database
-brainworks.factory('signup', function($http) {
+brainworks.factory('signup', function($http, signinService) {
   var modelService = {};
   var userAPI = '/signup';
   
   modelService.save = function(User) {
     $http.post(userAPI, User).success(function(response) {
-      alert( "Success:\t" + response.success);
-      return true;
+      
+      // Action for successful login
+      alert(response.success);
+      signinService.setBoolean(true);
+      return;
     }).error(function(response) {
-      alert("Failure:\t" + response.failure);
-      return false;
+      
+      // Action for failed login
+      alert(response.failure);
+      signinService.setBoolean(false);
+      return;
     }); 
   };
   

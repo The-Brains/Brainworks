@@ -2,20 +2,11 @@
  * New node file
  */
 
-module.exports = function(router) {
+var User = require('../models/User');
+var modelLogin = '/login';
+var modelSignup = '/signup';
 
-  var User = require('../models/User');
-  var modelLogin = '/login';
-  var modelSignup = '/signup';
-  
-//var data = {
-//forename: "Max",
-//surname: "Muster",
-//username: "maxmus",
-//email: "max.muster@muster.de",
-//password: "Geheim"
-//};
-//console.log("var user = new User(data)\n\n" + new User(data));
+module.exports = function(router) {
   
   // Route to checkLogin
   router.route(modelLogin).post(function(req, res, next) {
