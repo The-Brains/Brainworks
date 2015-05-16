@@ -13,4 +13,17 @@ angular.module('brainworks.user', [])
       url: '/logout',
       templateUrl: '/home'
     });
+}])
+.factory('userFactory', ['$http', function($http) {
+  return {
+    checkUsername: function(username) {
+      return $http.post('/user/check', {username: username});
+    },
+    createUser: function(user) {
+      return $http.post('/signUp', user);
+    },
+    signIn: function(userdata) {
+      return $http.post('/signIn', userdata);
+    }
+  };
 }]);

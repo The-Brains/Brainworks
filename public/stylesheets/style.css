@@ -50,3 +50,7 @@ body {
 .has-error > div > span {
   color: #A94442;
 }
+
+.has-success > div > span {
+  color: #3c763d;
+}
