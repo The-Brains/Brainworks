@@ -3,8 +3,8 @@
  * 
  * @author Dennis Stumm
  */
-angular.module('brainworks', ['ui.router', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
+.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
@@ -23,7 +23,25 @@ angular.module('brainworks', ['ui.router', 'brainworks.commons', 'brainworks.dia
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
+  $httpProvider.interceptors.push(['$q', '$location', 'localStorageService', function($q, $location, localStorageService) {
+    return {
+      request: function (config) {
+        config.headers = config.headers || {};
+        if (localStorageService.get('token')) {
+          config.headers['x-access-token'] = localStorageService.get('token');
+        }
+        return config;
+      },
+      responseError: function(response) {
+        if(response.status === 401 || response.status === 403) {
+          $location.path('/user/signIn');
+        }
+        return $q.reject(response);
+      }
+    };
+  }]);
 }])
-.controller('brainworksCtrl', ['$scope', function($scope) {
-  $scope.signedIn = false;
+.controller('brainworksCtrl', ['$rootScope', 'userFactory', function($rootScope, userFactory) {
+  $rootScope.isAuthentificated = userFactory.isAuthentificated;
+  userFactory.checkLoggedIn();
 }]);

@@ -11,73 +11,73 @@
       <tbody>
         <tr>
           <td colspan="3">
-            <form ng-controller="signUpCtrl" class="form-horizontal" ng-submit="signUp()" name="signUp" novalidate>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.forename.$touched) && signUp.forename.$error}">
+            <form ng-controller="signUpCtrl" class="form-horizontal" ng-submit="signUp(user)" name="signUpForm" novalidate>
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.forename.$touched) && signUpForm.forename.$invalid}">
                 <label for="forename" class="col-sm-3 control-label">Forename</label>
                 <div class="col-sm-5">
                   <input name="forename" id="forename" type="text" class="form-control" placeholder="Forename" ng-model="user.forename" required />
-                  <span ng-show="signUp.$submitted || signUp.forename.$touched">
-                    <span ng-show="signUp.forename.$error.required">This field is required.</span>
+                  <span ng-show="signUpForm.$submitted || signUpForm.forename.$touched">
+                    <span ng-show="signUpForm.forename.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.surname.$touched) && signUp.surname.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.surname.$touched) && signUpForm.surname.$invalid}">
                 <label for="surname" class="col-sm-3 control-label">Surname</label>
                 <div class="col-sm-5">
                   <input name="surname" id="surname" type="text" class="form-control" placeholder="Surname" ng-model="user.surname" required />
-                  <span ng-show="signUp.$submitted || signUp.surname.$touched">
-                    <span ng-show="signUp.surname.$error.required">This field is required.</span>
+                  <span ng-show="signUpForm.$submitted || signUpForm.surname.$touched">
+                    <span ng-show="signUpForm.surname.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.username.$touched) && signUp.username.$invalid, 'has-success': (signUp.$submitted || signUp.username.$touched) && signUp.username.$valid}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.username.$touched) && signUpForm.username.$invalid, 'has-success': (signUpForm.$submitted || signUpForm.username.$touched) && signUpForm.username.$valid}">
                 <label for="username" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="username" type="text" class="form-control" placeholder="Username" ng-model="user.username" required username />
-                  <span ng-show="signUp.$submitted || signUp.username.$touched">
-                    <span ng-show="signUp.username.$error.required">This field is required.</span>
-                    <span ng-show="signUp.username.$pending.username">Checking if the username is available...</span>
-                    <span ng-show="signUp.username.$error.username">The username is already in use.</span>
-                    <span ng-show="signUp.username.$valid">The username is available.</span>
+                  <span ng-show="signUpForm.$submitted || signUpForm.username.$touched">
+                    <span ng-show="signUpForm.username.$error.required">This field is required.</span>
+                    <span ng-show="signUpForm.username.$pending.username">Checking if the username is available...</span>
+                    <span ng-show="signUpForm.username.$error.username">The username is already in use.</span>
+                    <span ng-show="signUpForm.username.$valid">The username is available.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.email.$touched) && signUp.email.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.email.$touched) && signUpForm.email.$invalid}">
                 <label for="email" class="col-sm-3 control-label">E-Mail</label>
                 <div class="col-sm-5">
                   <input name="email" id="email" type="email" class="form-control" placeholder="E-Mail" ng-model="user.email" required />
-                  <span ng-show="signUp.$submitted || signUp.email.$touched">
-                    <span ng-show="signUp.email.$error.required">This field is required.</span>
-                    <span ng-show="signUp.email.$error.email">The email is invalid.</span>
+                  <span ng-show="signUpForm.$submitted || signUpForm.email.$touched">
+                    <span ng-show="signUpForm.email.$error.required">This field is required.</span>
+                    <span ng-show="signUpForm.email.$error.email">The email is invalid.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.emailConfirmation.$touched) && signUp.emailConfirmation.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.emailConfirmation.$touched) && signUpForm.emailConfirmation.$invalid}">
                 <label for="emailConfirmation" class="col-sm-3 control-label">Confirm your E-Mail</label>
                 <div class="col-sm-5">
-                  <input name="emailConfirmation" id="emailConfirmation" type="text" class="form-control" placeholder="Confirm your E-Mail" ng-model="user.emailConfirmation" match="user.email" required />
-                  <span ng-show="signUp.$submitted || signUp.emailConfirmation.$touched">
-                    <span ng-show="signUp.emailConfirmation.$error.required">This field is required.</span>
-                    <span ng-show="signUp.emailConfirmation.$invalid.match && !signUp.emailConfirmation.$error.match">These E-Mails don't match. Try again?</span>
+                  <input name="emailConfirmation" id="emailConfirmation" type="text" class="form-control" placeholder="Confirm your E-Mail" match="user.email" ng-model="emailConfirmation" required />
+                  <span ng-show="signUpForm.$submitted || signUpForm.emailConfirmation.$touched">
+                    <span ng-show="signUpForm.emailConfirmation.$error.required && !signUpForm.emailConfirmation.$error.match">This field is required.</span>
+                    <span ng-show="signUpForm.emailConfirmation.$error.match">These E-Mails don't match. Try again?</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.password.$touched) && signUp.password.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.password.$touched) && signUpForm.password.$invalid}">
                 <label for="password" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="password" type="password" class="form-control" placeholder="Password" ng-model="user.password" required />
-                  <span ng-show="signUp.$submitted || signUp.password.$touched">
-                    <span ng-show="signUp.password.$error.required">This field is required.</span>
+                  <span ng-show="signUpForm.$submitted || signUpForm.password.$touched">
+                    <span ng-show="signUpForm.password.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signUp.$submitted || signUp.passwordConfirmation.$touched) && signUp.passwordConfirmation.$error}">
+              <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.passwordConfirmation.$touched) && signUpForm.passwordConfirmation.$invalid}">
                 <label for="passwordConfirmation" class="col-sm-3 control-label">Confirm your Password</label>
                 <div class="col-sm-5">
-                  <input name="passwordConfirmation" id="passwordConfirmation" type="password" class="form-control" placeholder="Confirm your Password" ng-model="user.passwordConfirmation" match="user.password" required />
-                  <span ng-show="signUp.$submitted || signUp.passwordConfirmation.$touched">
-                    <span ng-show="signUp.passwordConfirmation.$error.required && !signUp.passwordConfirmation.$error.match">This field is required.</span>
-                    <span ng-show="signUp.passwordConfirmation.$error.match">These passwords don't match. Try again?</span>
+                  <input name="passwordConfirmation" id="passwordConfirmation" type="password" class="form-control" placeholder="Confirm your Password" match="user.password" ng-model="passwordConfirmation" required />
+                  <span ng-show="signUpForm.$submitted || signUpForm.passwordConfirmation.$touched">
+                    <span ng-show="signUpForm.passwordConfirmation.$error.required && !signUpForm.passwordConfirmation.$error.match">This field is required.</span>
+                    <span ng-show="signUpForm.passwordConfirmation.$error.match">These passwords don't match. Try again?</span>
                   </span>
                 </div>
               </div>
@@ -89,22 +89,22 @@
             </form>
           </td>
           <td colspan="3">
-            <form ng-controller="signInCtrl" class="form-horizontal" ng-submit="signIn()" name="signIn" novalidate>
-              <div class="form-group" ng-class="{'has-error': (signIn.$submitted || signIn.username.$touched) && signIn.username.$error}">
+            <form ng-controller="signInCtrl" class="form-horizontal" ng-submit="signIn(user)" name="signInForm" novalidate>
+              <div class="form-group" ng-class="{'has-error': (signInForm.$submitted || signInForm.username.$touched) && signInForm.username.$invalid}">
                 <label for="singinUsername" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="singinUsername" type="text" class="form-control" placeholder="Username" ng-model="user.username" required/>
-                  <span ng-show="signIn.$submitted || signIn.username.$touched">
-                    <span ng-show="signIn.username.$error.required">This field is required.</span>
+                  <span ng-show="signInForm.$submitted || signInForm.username.$touched">
+                    <span ng-show="signInForm.username.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>
-              <div class="form-group" ng-class="{'has-error': (signIn.$submitted || signIn.password.$touched) && signIn.password.$error}">
+              <div class="form-group" ng-class="{'has-error': (signInForm.$submitted || signInForm.password.$touched) && signInForm.password.$invalid}">
                 <label for="signinPassword" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="signinPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password" required/>
-                  <span ng-show="signIn.$submitted || signIn.password.$touched">
-                    <span ng-show="signIn.password.$error.required">This field is required.</span>
+                  <span ng-show="signInForm.$submitted || signInForm.password.$touched">
+                    <span ng-show="signInForm.password.$error.required">This field is required.</span>
                   </span>
                 </div>
               </div>

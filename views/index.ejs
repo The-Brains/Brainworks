@@ -26,8 +26,8 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
           <nav-item page="home" title="<%= home %>"></nav-item>
-          <nav-item ng-hide="signedIn" page="signIn" title="<%= signIn %>"></nav-item>
-          <li ui-sref-active="active" ng-show="signedIn" class="dropdown">
+          <nav-item ng-hide="isAuthentificated" page="signIn" title="<%= signIn %>"></nav-item>
+          <li ui-sref-active="active" ng-show="isAuthentificated" class="dropdown">
             <a ui-sref="profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%= profile %> <span class="caret"></span>
             </a>
@@ -51,6 +51,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.0/angular-local-storage.min.js"></script>
   
   <!-- Geimeinsame Funktionen -->
   <script src="/javascript/commons/module.js"></script>

@@ -1,10 +1,19 @@
 /**
  * 
  */
-angular.module('brainworks.user').controller('signUpCtrl', ['$scope', 'userFactory', function($scope, userFactory) {
+angular.module('brainworks.user')
+.controller('signUpCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService', function($scope, $rootScope, $state, userFactory, localStorageService) {
   $scope.user = {};
+  $scope.emailConfirmation = "";
+  $scope.passwordConfirmation = "";
   $scope.signUp = function(user) {
-    userFactory.createUser(user);
+    userFactory.createUser(user).success(function(response) {
+      if(response.success) {
+        localStorageService.set('token', response.token);
+        $rootScope.isAuthentificated = true;
+        $state.go('profile.diagrams');
+      }
+    });
   };
 }])
 .directive('username', ['$q', 'userFactory', function($q, userFactory) {
@@ -17,7 +26,6 @@ angular.module('brainworks.user').controller('signUpCtrl', ['$scope', 'userFacto
         }
         var def = $q.defer();
         userFactory.checkUsername(modelValue).success(function(res) {
-          console.log(ngModel);
           if(res.available) {
             def.resolve();
           } else {

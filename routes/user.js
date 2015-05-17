@@ -6,54 +6,65 @@ require('../models/User');
 var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
-var passport = require('passport');
-var localStrategy = require('passport-local');
 var User = mongoose.model('User');
-/*
- * TODO
- * signin
- * signup
- * signout
- */
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
-
-passport.use(new localStrategy.Strategy(function(username, password, done) {
-  User.findOne({username: username, password: password}, function(err, user) {
-    if(err) { return done(err); }
-    else if(!user) { return done(null, false, { message: 'Invalid username or password!'}); }
-    else { return done(null, user); }
-  });
-}));
+var jwt = require('jsonwebtoken');
+var userCtrl = require('../controller/user');
 
 router.post('/check', function(req, res, next) {
-  User.findOne({username: req.username}, function(err, user) {
-    if(err) { next(err); }
-    else { res.json({available: !user}); }
+  User.findOne({username: req.body.username}, function(err, user) {
+    if(err) { res.sendStatus(500); }
+    else { res.json({success: true, available: !user}); }
   });
 });
 
-//router.post('/signUp', function() {});
+router.post('/signUp', function(req, res, next) {
+  var user = new User(req.body.user);
+  user.save(function(err, user){
+    if(err){ res.send(err); }
+    else {
+      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+        expiresInMinutes: 1440
+      });
+      res.json({success: true, token: token});
+    }
+  });
+});
 
-//router.post('/signIn', function() {});
-
-//router.get('/signOut', function() {});
+router.post('/signIn', function(req, res, next) {
+  User.findOne({username: req.body.username, password: req.body.password}, function(err, user) {
+    if(err){ res.send(err); }
+    else if(!user) {
+      res.json({success: false, message: 'The username or password was wrong!'});
+    } else {
+      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+        expiresInMinutes: 1440
+      });
+      res.json({success: true, token: token});
+    }
+  });
+});
 
 router.get('/signIn', function(req, res, next) {
   res.render('user/signIn', {});
 });
 
-router.get('/settings', function(req, res, next) {
+router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
   res.render('user/settings', {});
+});
+
+router.get('/loggedIn', function(req, res) {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  if (token) {
+    jwt.verify(token, 'test', function(err, decoded) {
+      if (err) {
+        res.send(err); 
+      } else {
+        res.json({success: true});
+      }
+    });
+  } else {
+    res.json({success: false, message: 'No token is specified!'});
+  }
 });
 
 module.exports = router;

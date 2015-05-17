@@ -3,12 +3,14 @@
  */
 var express = require('express');
 var router = express.Router();
+var userCtrl = require('../controller/user');
 
-router.get('/diagrams', function(req, res, next) {
+
+router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/diagrams', {});
 });
 
-router.get('/designer', function(req, res, next) {
+router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {});
 });
 
