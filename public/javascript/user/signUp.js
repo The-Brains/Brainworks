@@ -7,7 +7,10 @@ angular.module('brainworks.user')
   $scope.emailConfirmation = "";
   $scope.passwordConfirmation = "";
   $scope.signUp = function(user) {
-    userFactory.createUser(user).success(function(response) {
+    var parameters = angular.copy(user);
+    var shaObj = new jsSHA(parameters.password, "TEXT");
+    parameters.password = shaObj.getHash("SHA-512", "HEX");
+    userFactory.createUser(parameters).success(function(response) {
       if(response.success) {
         localStorageService.set('token', response.token);
         $rootScope.isAuthentificated = true;
