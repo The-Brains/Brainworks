@@ -3,29 +3,39 @@
     <div class="panel panel-primary">
       <div class="panel-heading">My user data</div>
       <div class="panel-body">
-        <form class="form-horizontal" ng-controller="user" ng-submit="changeUser()">
-          <div class="form-group">
-            <label for="forename" class="col-sm-3 control-label">Forename </label>
+        <form class="form-horizontal" ng-submit="changeUser(user)" name="changeUserForm" novalidate>
+          <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.forename.$touched) && changeUserForm.forename.$invalid}">
+            <label for="forename" class="col-sm-3 control-label">Forename</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="forename" placeholder="Forename" ng-model="forename" />
+              <input type="text" class="form-control" id="forename" placeholder="Forename" ng-model="user.forename" name="forename" required />
+              <span ng-show="changeUserForm.$submitted || changeUserForm.forename.$touched">
+                <span ng-show="changeUserForm.forename.$error.required">This field is required.</span>
+              </span>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.surname.$touched) && changeUserForm.surname.$invalid}">
             <label for="surname" class="col-sm-3 control-label">Surname</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="surname" placeholder="Surname" ng-model="surname" />
+              <input type="text" class="form-control" id="surname" placeholder="Surname" ng-model="user.surname" name="surname" required />
+              <span ng-show="changeUserForm.$submitted || changeUserForm.surname.$touched">
+                <span ng-show="changeUserForm.surname.$error.required">This field is required.</span>
+              </span>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.email.$touched) && changeUserForm.email.$invalid}">
             <label for="email" class="col-sm-3 control-label">E-Mail</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="email" placeholder="E-Mail" ng-model="email" />
+              <input type="email" class="form-control" id="email" placeholder="E-Mail" ng-model="user.email" name="email" required />
+              <span ng-show="changeUserForm.$submitted || changeUserForm.email.$touched">
+                <span ng-show="changeUserForm.email.$error.required">This field is required.</span>
+                <span ng-show="changeUserForm.email.$error.email">The email is invalid.</span>
+              </span>
             </div>
           </div>
           <div class="form-group">
-            <label for="username" class="col-sm-3 control-label">Username </label>
+            <label for="username" class="col-sm-3 control-label">Username</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="username" placeholder="Username" ng-model="username" />
+              <input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.username" required />
             </div>
           </div>
           <div class="form-group">
@@ -39,15 +49,15 @@
     <div class="panel panel-primary">
       <div class="panel-heading">My login data</div>
       <div class="panel-body">
-        <form class="form-horizontal" ng-controller="pass" ng-submit="changePass()">
+        <form class="form-horizontal" ng-submit="changePassword()">
           <div class="form-group">
             <label for="currPass" class="col-sm-3 control-label">current password</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="currPass" placeholder="current password" ng-model="currPass" />
+              <input type="text" class="form-control" id="currPass" placeholder="current password" ng-model="currPass" match="user.password" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="newPass" class="col-sm-3 control-label">new password </label>
+            <label for="newPass" class="col-sm-3 control-label">new password</label>
             <div class="col-sm-5">
               <input type="text" class="form-control" id="newPass" placeholder="new password" ng-model="newPass" />
             </div>
@@ -55,8 +65,7 @@
           <div class="form-group">
             <label for="newPassAgain" class="col-sm-3 control-label">repeat new password</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="newPassAgain" placeholder="repeat new password"
-                ng-model="newPassAgain" />
+              <input type="text" class="form-control" id="newPassAgain" placeholder="repeat new password" ng-model="newPassAgain" />
             </div>
           </div>
           <div class="form-group">
@@ -71,7 +80,7 @@
     <div class="panel panel-danger">
       <div class="panel-heading">Delete my account</div>
       <div class="panel-body">
-        <form class="form-horizontal" ng-controller="delete" ng-submit="deleteAccount()">
+        <form class="form-horizontal" ng-submit="deleteAccount(user.username)">
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-5"">
               <p class="help-block">

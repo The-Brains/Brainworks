@@ -6,7 +6,8 @@ angular.module('brainworks.user', [])
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
-      templateUrl: '/user/settings'
+      templateUrl: '/user/settings',
+      controller: 'settingsCtrl'
     })
     .state('profile.logout', {
       url: '/user/signOut',
