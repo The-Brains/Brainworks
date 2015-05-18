@@ -2,6 +2,12 @@
  * New node file
  */
 angular.module('brainworks.user')
-.controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService', function($scope, $rootScope, $state, userFactory, localStorageService) {
-  $scope.user= {surname: 'test', forename: 'test', password: 'test', email: 'test@test.de'};
+.controller('settingsCtrl', ['$scope', 'userFactory', 'localStorageService', function($scope, userFactory, localStorageService) {
+  $scope.user = {};
+  $scope.currentPw = '';
+  $scope.newPw = '';
+  $scope.newPwConfirmation = '';
+  userFactory.loadUserData(localStorageService.get('userId')).success(function(response) {
+    $scope.user = response;
+  });
 }]);

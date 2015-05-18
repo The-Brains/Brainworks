@@ -14,13 +14,13 @@ angular.module('brainworks.user', [])
       controller: ['$rootScope', '$state', 'localStorageService', function($rootScope, $state, localStorageService) {
         $rootScope.isAuthentificated = false;
         localStorageService.remove('token');
+        localStorageService.remove('userId');
         $state.go('signIn');
       }]
     });
 }])
-.factory('userFactory', ['$http', function($http) {
+.factory('userFactory', ['$http', '$rootScope', function($http, $rootScope) {
   return {
-    isAuthentificated: false,
     checkUsername: function(username) {
       return $http.post('/user/check', {username: username});
     },
@@ -31,9 +31,10 @@ angular.module('brainworks.user', [])
       return $http.post('/user/signIn', {username: username, password: password});
     },
     checkLoggedIn: function() {
-      return $http.get('/user/loggedIn').success(function(response) {
-        this.isAuthentificated = response.success;
-      });
+      return $http.get('/user/loggedIn');
+    },
+    loadUserData: function(userId) {
+      return $http.get('/user/'+userId);
     }
   };
 }]);

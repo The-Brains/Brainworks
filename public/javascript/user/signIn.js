@@ -10,6 +10,7 @@ angular.module('brainworks.user')
     userFactory.signIn(user.username, password).success(function(response) {
       if(response.success) {
         localStorageService.set('token', response.token);
+        localStorageService.set('userId', response.userId);
         $rootScope.isAuthentificated = true;
         $state.go('profile.diagrams');
       }

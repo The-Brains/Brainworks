@@ -10,6 +10,26 @@ var User = mongoose.model('User');
 var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/user');
 
+router.get('/signIn', function(req, res, next) {
+  res.render('user/signIn', {});
+});
+
+router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
+  res.render('user/settings', {});
+});
+
+router.param('user', function(req, res, next, id) {
+  var query = User.findById(id);
+
+  query.exec(function (err, user){
+    if (err) { return next(err); }
+    if (!user) { return next(new Error("can't find user")); }
+
+    req.user = user;
+    return next();
+  });
+});
+
 router.post('/check', function(req, res, next) {
   User.findOne({username: req.body.username}, function(err, user) {
     if(err) { res.sendStatus(500); }
@@ -25,7 +45,7 @@ router.post('/signUp', function(req, res, next) {
       var token = jwt.sign({username: user.username, password: user.password}, 'test', {
         expiresInMinutes: 1440
       });
-      res.json({success: true, token: token});
+      res.json({success: true, token: token, userId: user._id});
     }
   });
 });
@@ -39,17 +59,9 @@ router.post('/signIn', function(req, res, next) {
       var token = jwt.sign({username: user.username, password: user.password}, 'test', {
         expiresInMinutes: 1440
       });
-      res.json({success: true, token: token});
+      res.json({success: true, token: token, userId: user._id});
     }
   });
-});
-
-router.get('/signIn', function(req, res, next) {
-  res.render('user/signIn', {});
-});
-
-router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
-  res.render('user/settings', {});
 });
 
 router.get('/loggedIn', function(req, res) {
@@ -65,6 +77,10 @@ router.get('/loggedIn', function(req, res) {
   } else {
     res.json({success: false, message: 'No token is specified!'});
   }
+});
+
+router.get('/:user', function(req, res, next) {
+  res.json(req.user);
 });
 
 module.exports = router;
