@@ -142,6 +142,26 @@ textarea {
   height: 50px;
 }
 
+.panel .panel-primary, .panel-primary > .panel-body {
+    border-color: #337ab7;
+}
+
+.panel .panel-danger, .panel-danger > .panel-body {
+	border-color: #d43f3a;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #337ab7;
+    border-color: #337ab7;
+    color: #fff;
+}
+
+.panel-danger > .panel-heading {
+	background-color: #d43f3a;
+    border-color: #d43f3a;
+    color: #fff;
+}
+
 .list-group-item:first-child, .list-group-item:last-child {
   border-radius: 0;
 }

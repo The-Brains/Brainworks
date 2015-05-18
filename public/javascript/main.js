@@ -3,7 +3,9 @@
  * 
  * @author Dennis Stumm
  */
-var brainworks = angular.module('brainworks', ['ui.router', 'diagrams', 'signin']);
+var brainworks = angular.module('brainworks', [
+  'ui.router', 'diagrams', 'signin', 'settings'
+]);
 
 brainworks.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -56,7 +58,8 @@ brainworks.directive('navItem', function($location) {
 // Switch for the Login-Page as a service
 brainworks.factory('signinService', function($rootScope) {
   var options = {
-    boolean: false
+    boolean: false,
+    user: {}
   };
   
   // This will share the boolean for the Login-Page
@@ -71,7 +74,15 @@ brainworks.factory('signinService', function($rootScope) {
       this.shareValues();
     } else this.boolean = false;
   }
-    
+  
+  // Sets the user to the $rootScope
+  options.setUser = function(user) {
+    if (typeof user === "object") {
+      this.user = user;
+      this.shareValues();
+    } else this.user = {};
+  }
+  
   return options;
 });
 
@@ -102,15 +113,15 @@ brainworks.factory('login', function($http, $location, signinService) {
     $http.post(userAPI, User).success(function(response) {
       
       // Action for successful login
-      alert(response.success);
-      signinService.setBoolean(true);
-       $location.path("/diagrams");
+      signinService.setBoolean(response.boolean);
+      signinService.setUser(response.user);
+      $location.path(response.path);
       return;      
     }).error(function(response) {
       
       // Action for failed login
       alert(response.failure);
-      signinService.setBoolean(false);
+      signinService.setBoolean(response.boolean);
       return;      
     });
   };
@@ -127,15 +138,15 @@ brainworks.factory('signup', function($http, $location, signinService) {
     $http.post(userAPI, User).success(function(response) {
       
       // Action for successful login
-      alert(response.success);
-      signinService.setBoolean(true);
-      $location.path("/diagrams");
+      signinService.setBoolean(response.boolean);
+      signinService.setUser(response.user);
+      $location.path(response.path);
       return;
     }).error(function(response) {
       
       // Action for failed login
       alert(response.failure);
-      signinService.setBoolean(false);
+      signinService.setBoolean(response.boolean);
       return;
     }); 
   };
