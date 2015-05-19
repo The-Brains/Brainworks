@@ -5,13 +5,14 @@
 var signin = angular.module('signin', []);
 
 // Sign in - Controller
-signin.controller("signup", function($scope, signinService, signup) {
+signin.controller("signup", function($scope, signinService, signin) {
   
 //  //This will add the $rootScope to the $scope
 //  this.$inject = ['$scope', 'signinService'];
   
   $scope.signup = function() {
-    var hashedPass1, hashedPass2;
+    var hashedPass1 = "";
+    var hashedPass2 = "";
     
     if ($scope.forename === undefined) alert("Der Vorname fehlt!");
     if ($scope.surname === undefined) alert("Der Nachname fehlt!");
@@ -53,7 +54,7 @@ signin.controller("signup", function($scope, signinService, signup) {
           password: hashedPass1
         };
                                   
-        signup.save(data);
+        signin.signup(data);
                 
         // Change the status if the user were logged in or not
         $scope.$on("signedIn", function() {
@@ -78,13 +79,9 @@ signin.controller("signup", function($scope, signinService, signup) {
 });
 
 // Log in - Controller
-signin.controller("signin", function($scope, signinService, login) {
-  
-//  //This will add the $rootScope to the $scope
-//  this.$inject = ['$scope', 'signinService'];
-    
+signin.controller("signin", function($scope, signinService, signin) {
   $scope.signin = function() {
-    var hashedPassword;
+    var hashedPassword = "";
     
     // Alert message when the username-field is empty
     if ($scope.username === undefined) {
@@ -115,7 +112,7 @@ signin.controller("signin", function($scope, signinService, login) {
         password: hashedPassword 
       };
       
-      login.getSingle(data);
+      signin.login(data);
       
       // Change the status if the user were logged in or not
       $scope.$on("signedIn", function() {

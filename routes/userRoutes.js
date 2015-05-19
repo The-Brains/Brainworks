@@ -63,10 +63,14 @@ module.exports = function(router) {
     });
   });
   
-  //Route to Update user Data
+  //Route to update user data
   router.route(modelUser).post(function(req, res, next) {
     var data = req.body;
-    var user = data.user;
+    var user = {
+      newForename: 
+      newUser: data.user.newUser,
+      new
+    }
     
     User.findByIdAndUpdate(data.id, {$set: user}, function(error, User) {
       if (error) res.status(500).json({
@@ -87,20 +91,17 @@ module.exports = function(router) {
   //Route to update password
   router.route(modelPass).post(function(req, res, next) {
     var data = req.body;
-    var pass = {password: data.password};
     
-    User.findByIdAndUpdate(data.id, {$set: pass}, function(error, User) {
+    User.findByIdAndUpdate(data.id, {$set: data.newPass}, function(error, User) {
       if (error) res.status(500).json({
-        failure: "An error has occured:\t" + error,
-        boolean: false        
+        failure: "An error has occured:\t" + error
       }); 
       if (User) res.status(200).json({
         success: "The password was successfully changed in the database!",
-        boolean: true
+        user: User
       });
       else res.status(500).json({
-        failure: "The password couldn't changed in the database!",
-        boolean: false
+        failure: "The password couldn't changed in the database!"
       });   
     });
   });
@@ -110,11 +111,12 @@ module.exports = function(router) {
     User.remove({username: req.body.username}, function (error) {
       if (error) res.status(500).json({
         failure: "The user weren't removed from the database:\t" + error,
-        boolean: false
+        boolean: true
       });
       else res.status(200).json({
         success: "The user was successfully deleted from the database!",
-        boolean: true
+        boolean: false,
+        path: "/sign_in"
       });
     });
   });

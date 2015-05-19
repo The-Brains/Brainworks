@@ -105,12 +105,14 @@ brainworks.controller('brainworksCtrl', function($scope, signinService) {
 });
 
 // Login path to the database
-brainworks.factory('login', function($http, $location, signinService) {
+brainworks.factory('signin', function($http, $location, signinService) {
   var modelService = {};
-  var userAPI = '/login';
+  var loginAPI = '/login';
+  var signupAPI = '/signup';
   
-  modelService.getSingle = function(User) {
-    $http.post(userAPI, User).success(function(response) {
+  // Login the user to the program
+  modelService.login = function(User) {
+    $http.post(loginAPI, User).success(function(response) {
       
       // Action for successful login
       signinService.setBoolean(response.boolean);
@@ -123,19 +125,71 @@ brainworks.factory('login', function($http, $location, signinService) {
       alert(response.failure);
       signinService.setBoolean(response.boolean);
       return;      
-    });
+    });    
+  };
+  
+  // Signup the user to the database
+  modelService.signup = function(User) {
+    $http.post(signupAPI, User).success(function(response) {
+      
+      // Action for successful login
+      signinService.setBoolean(response.boolean);
+      signinService.setUser(response.user);
+      $location.path(response.path);
+      return;
+    }).error(function(response) {
+      
+      // Action for failed login
+      alert(response.failure);
+      signinService.setBoolean(response.boolean);
+      return;
+    }); 
   };
     
   return modelService;
 });
 
-// Signup path to the database
-brainworks.factory('signup', function($http, $location, signinService) {
+// User path to the database
+brainworks.factory('user', function($http, $location, signinService) {
   var modelService = {};
-  var userAPI = '/signup';
+  var userAPI = '/user';
+  var passAPI = '/pass';
+  var deleteAPI = '/delete';
   
-  modelService.save = function(User) {
+  // Change user data in the database
+  modelService.updateUser = function(User) {
     $http.post(userAPI, User).success(function(response) {
+      
+      // Action for successful login
+      signinService.setUser(response.user);
+      return;
+    }).error(function(response) {
+      
+      // Action for failed login
+      alert(response.failure);
+      return;
+    }); 
+  };
+  
+  // Change user password in the database
+  modelService.updatePass = function(User) {
+    $http.post(passAPI, User).success(function(response) {
+      
+      // Action for successful login
+      signinService.setUser(response.user);
+      alert(response.success);
+      return;
+    }).error(function(response) {
+      
+      // Action for failed login
+      alert(response.failure);
+      return;
+    }); 
+  };
+  
+  // Delete user data from the database
+  modelService.removeUser = function() {
+    $http.post(deleteAPI, signinService.user).success(function(response) {
       
       // Action for successful login
       signinService.setBoolean(response.boolean);
