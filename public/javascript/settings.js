@@ -68,6 +68,9 @@ settings.controller('user', function($scope, signinService, user) {
 
 settings.controller('pass', function($scope, signinService, user) {
   $scope.changePass = function() {
+  //This will add the $rootScope to the $scope
+    this.$inject = ['$scope', 'signinService'];
+    
     var currPass = "";
     var newPass = "";
     var newPassAgain = "";
@@ -104,6 +107,15 @@ settings.controller('pass', function($scope, signinService, user) {
         } else alert("The new password isn't correct!");
       } else alert("The current password isn't correct!");
     }
+    
+    // Change the status if the user were logged in or not
+    $scope.$on("signedIn", function() {
+      if (signinService.cleanPass) {
+        $scope.currPass = "";
+        $scope.newPass = "";
+        $scope.newPassAgain = "";
+      }
+    });
     
     currPass = "";
     newPass = "";

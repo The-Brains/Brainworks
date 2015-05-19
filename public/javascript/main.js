@@ -59,7 +59,8 @@ brainworks.directive('navItem', function($location) {
 brainworks.factory('signinService', function($rootScope) {
   var options = {
     boolean: false,
-    user: {}
+    user: {},
+    cleanPass: false
   };
   
   // This will share the boolean for the Login-Page
@@ -81,6 +82,13 @@ brainworks.factory('signinService', function($rootScope) {
       this.user = user;
       this.shareValues();
     } else this.user = {};
+  }
+  
+  options.setCleanPass = function(value) {
+    if (typeof value === "boolean") {
+      this.cleanPass = value;
+      this.shareValues();
+    } else this.cleanPass = false;
   }
   
   return options;
@@ -162,6 +170,7 @@ brainworks.factory('user', function($http, $location, signinService) {
       
       // Action for successful login
       signinService.setUser(response.user);
+      alert(response.success);
       return;
     }).error(function(response) {
       
@@ -178,11 +187,13 @@ brainworks.factory('user', function($http, $location, signinService) {
       // Action for successful login
       signinService.setUser(response.user);
       alert(response.success);
+      signinService.setCleanPass(response.cleanPass);
       return;
     }).error(function(response) {
       
       // Action for failed login
       alert(response.failure);
+      signinService.setCleanPass(response.cleanPass);
       return;
     }); 
   };

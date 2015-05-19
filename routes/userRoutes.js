@@ -67,7 +67,7 @@ module.exports = function(router) {
   router.route(modelUser).post(function(req, res, next) {
     var data = req.body;
     
-    var query = User.findById(data.id);
+    var query = User.findById(data._id);
     query.exec(function (error, User) {
       if (error) res.status(500).json({
         failure: "An error has occured:\t" + error
@@ -98,25 +98,29 @@ module.exports = function(router) {
   router.route(modelPass).post(function(req, res, next) {
     var data = req.body;
     
-    var query = User.findById(data.id);
+    var query = User.findById(data._id);
     query.exec(function(error, User) {
       if (error) res.status(500).json({
-        failure: "An error has occured:\t" + error
+        failure: "An error has occured:\t" + error,
+        cleanPass: false
       }); 
       if (User) {
         User.password = data.newPass;
         
         User.save(function(error) {
           if (error) res.status(500).json({
-            failure: "An error has occured:\t" + error
+            failure: "An error has occured:\t" + error,
+            cleanPass: false
           });
           else res.status(200).json({
             success: "The password was successfully changed in the database!",
-            user: User
+            user: User,
+            cleanPass: true
           });
         });
       } else res.status(500).json({
-        failure: "The password couldn't changed in the database!"
+        failure: "The password couldn't changed in the database!",
+        cleanPass: false
       });
     });
   });
