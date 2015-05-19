@@ -2,41 +2,32 @@
   <div class="panel-heading">My user data</div>
   <div class="panel-body">
     <form class="form-horizontal" ng-submit="changeUser(user)" name="changeUserForm" novalidate>
-      <div class="form-group"
-        ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.forename.$touched) && changeUserForm.forename.$invalid}">
+      <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.forename.$touched) && changeUserForm.forename.$invalid}">
         <label for="forename" class="col-sm-3 control-label">Forename</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="forename" placeholder="Forename" ng-model="user.forename"
-            name="forename" required /> <span ng-show="changeUserForm.$submitted || changeUserForm.forename.$touched">
+          <input type="text" class="form-control" id="forename" placeholder="Forename" ng-model="user.forename" name="forename" required />
+          <span ng-show="changeUserForm.$submitted || changeUserForm.forename.$touched">
             <span ng-show="changeUserForm.forename.$error.required">This field is required.</span>
           </span>
         </div>
       </div>
-      <div class="form-group"
-        ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.surname.$touched) && changeUserForm.surname.$invalid}">
+      <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.surname.$touched) && changeUserForm.surname.$invalid}">
         <label for="surname" class="col-sm-3 control-label">Surname</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="surname" placeholder="Surname" ng-model="user.surname"
-            name="surname" required /> <span ng-show="changeUserForm.$submitted || changeUserForm.surname.$touched">
+          <input type="text" class="form-control" id="surname" placeholder="Surname" ng-model="user.surname" name="surname" required />
+          <span ng-show="changeUserForm.$submitted || changeUserForm.surname.$touched">
             <span ng-show="changeUserForm.surname.$error.required">This field is required.</span>
           </span>
         </div>
       </div>
-      <div class="form-group"
-        ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.email.$touched) && changeUserForm.email.$invalid}">
+      <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.email.$touched) && changeUserForm.email.$invalid}">
         <label for="email" class="col-sm-3 control-label">E-Mail</label>
         <div class="col-sm-5">
-          <input type="email" class="form-control" id="email" placeholder="E-Mail" ng-model="user.email" name="email"
-            required /> <span ng-show="changeUserForm.$submitted || changeUserForm.email.$touched"> <span
-            ng-show="changeUserForm.email.$error.required">This field is required.</span> <span
-            ng-show="changeUserForm.email.$error.email">The email is invalid.</span>
+          <input type="email" class="form-control" id="email" placeholder="E-Mail" ng-model="user.email" name="email" required />
+          <span ng-show="changeUserForm.$submitted || changeUserForm.email.$touched">
+            <span ng-show="changeUserForm.email.$error.required">This field is required.</span>
+            <span ng-show="changeUserForm.email.$error.email">The email is invalid.</span>
           </span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="username" class="col-sm-3 control-label">Username</label>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.username" required />
         </div>
       </div>
       <div class="form-group">
@@ -55,43 +46,35 @@
         ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.currentPw.$touched) && changePasswordForm.currentPw.$invalid}">
         <label for="currentPw" class="col-sm-3 control-label">current password</label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="currentPw" placeholder="current password" ng-model="currentPw"
-            name="currentPw" match="user.password" required /> <span
-            ng-show="changePasswordForm.$submitted || changePasswordForm.currentPw.$touched"> <span
-            ng-show="changePasswordForm.currentPw.$error.required && !changePasswordForm.currentPw.$error.match">This
-              field is required.</span> <span ng-show="changePasswordForm.currentPw.$error.match">The password doesn't
-              match with the actual. Try again?</span>
+          <input type="password" class="form-control" id="currentPw" placeholder="current password" ng-model="currentPw" name="currentPw" match="user.password" required />
+          <span ng-show="changePasswordForm.$submitted || changePasswordForm.currentPw.$touched">
+            <span ng-show="changePasswordForm.currentPw.$error.required && !changePasswordForm.currentPw.$error.match">This field is required.</span>
+            <span ng-show="changePasswordForm.currentPw.$error.match">The password doesn't match with the actual. Try again?</span>
           </span>
         </div>
       </div>
-      <div class="form-group"
-        ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPw.$touched) && changePasswordForm.newPw.$invalid}">
+      <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPw.$touched) && changePasswordForm.newPw.$invalid}">
         <label for="newPw" class="col-sm-3 control-label">new password</label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="newPw" placeholder="new password" ng-model="newPw"
-            name="newPw" required /> <span ng-show="changePasswordForm.$submitted || changePasswordForm.newPw.$touched">
-            <span ng-show="changePasswordForm.newPw.$error.required && !changePasswordForm.newPw.$error.match">This
-              field is required.</span>
+          <input type="password" class="form-control" id="newPw" placeholder="new password" ng-model="newPw" name="newPw" required />
+          <span ng-show="changePasswordForm.$submitted || changePasswordForm.newPw.$touched">
+            <span ng-show="changePasswordForm.newPw.$error.required && !changePasswordForm.newPw.$error.match">This field is required.</span>
           </span>
         </div>
       </div>
-      <div class="form-group"
-        ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched) && changePasswordForm.newPwConfirmation.$invalid}">
+      <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched) && changePasswordForm.newPwConfirmation.$invalid}">
         <label for="newPwConfirmation" class="col-sm-3 control-label">repeat new password</label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="newPwConfirmation" placeholder="repeat new password"
-            ng-model="newPwConfirmation" name="newPwConfirmation" match="newPw" required /> <span
-            ng-show="changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched"> <span
-            ng-show="changePasswordForm.newPwConfirmation.$error.required && !changePasswordForm.newPwConfirmation.$error.match">This
-              field is required.</span> <span ng-show="changePasswordForm.newPwConfirmation.$error.match">These
-              passwords don't match. Try again?</span>
+          <input type="password" class="form-control" id="newPwConfirmation" placeholder="repeat new password" ng-model="newPwConfirmation" name="newPwConfirmation" match="newPw" required />
+          <span ng-show="changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched">
+            <span ng-show="changePasswordForm.newPwConfirmation.$error.required && !changePasswordForm.newPwConfirmation.$error.match">This field is required.</span>
+            <span ng-show="changePasswordForm.newPwConfirmation.$error.match">These passwords don't match. Try again?</span>
           </span>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
           <button type="submit" class="btn btn-primary">Save</button>
-          &nbsp;
         </div>
       </div>
     </form>
