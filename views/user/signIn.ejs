@@ -113,6 +113,7 @@
                   <button type="submit" class="btn btn-primary">Sign in</button>
                 </div>
               </div>
+              <alert ng-repeat="formError in formErrors" type="danger" close="closeError($index)">{{formError}}</alert>
             </form>
           </td>
         </tr>

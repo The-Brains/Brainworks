@@ -8,8 +8,10 @@ angular.module('brainworks.user')
   $scope.passwordConfirmation = "";
   $scope.signUp = function(user) {
     var parameters = angular.copy(user);
-    var shaObj = new jsSHA(parameters.password, "TEXT");
-    parameters.password = shaObj.getHash("SHA-512", "HEX");
+    if(angular.isDefined(parameters.password)) {
+      var shaObj = new jsSHA(parameters.password, "TEXT");
+      parameters.password = shaObj.getHash("SHA-512", "HEX");
+    }
     userFactory.createUser(parameters).success(function(response) {
       if(response.success) {
         localStorageService.set('token', response.token);

@@ -32,9 +32,6 @@ angular.module('brainworks.user', [])
     },
     checkLoggedIn: function() {
       return $http.get('/user/loggedIn');
-    },
-    loadUserData: function(userId) {
-      return $http.get('/user/'+userId);
     }
   };
 }]);

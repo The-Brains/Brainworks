@@ -1,7 +1,13 @@
 <div class="panel panel-primary">
   <div class="panel-heading">My user data</div>
   <div class="panel-body">
-    <form class="form-horizontal" ng-submit="changeUser(user)" name="changeUserForm" novalidate>
+    <form class="form-horizontal" ng-submit="updateUser(user)" name="changeUserForm" novalidate>
+      <div class="form-group">
+        <label for="username" class="col-sm-3 control-label">Username</label>
+        <div class="col-sm-5">
+          <input disabled="true" name="username" id="username" type="text" class="form-control" placeholder="Username" ng-model="user.username" />
+        </div>
+      </div>
       <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.forename.$touched) && changeUserForm.forename.$invalid}">
         <label for="forename" class="col-sm-3 control-label">Forename</label>
         <div class="col-sm-5">

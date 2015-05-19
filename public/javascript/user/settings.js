@@ -2,12 +2,28 @@
  * New node file
  */
 angular.module('brainworks.user')
-.controller('settingsCtrl', ['$scope', 'userFactory', 'localStorageService', function($scope, userFactory, localStorageService) {
+.factory('userSettingsFactory', ['$http', function($http){
+  return {
+    loadUserData: function(userId) {
+      return $http.get('/user/'+userId);
+    },
+    updateUser: function(user) {
+      // TODO
+    },
+    changePassword: function(newPassword) {
+      // TODO
+    },
+    deleteAccount: function(userId) {
+      // TODO
+    }
+  };
+}])
+.controller('settingsCtrl', ['$scope', 'userSettingsFactory', 'localStorageService', function($scope, userSettingsFactory, localStorageService) {
   $scope.user = {};
   $scope.currentPw = '';
   $scope.newPw = '';
   $scope.newPwConfirmation = '';
-  userFactory.loadUserData(localStorageService.get('userId')).success(function(response) {
+  userSettingsFactory.loadUserData(localStorageService.get('userId')).success(function(response) {
     $scope.user = response;
   });
   $scope.createHash = function(value) {
@@ -18,5 +34,14 @@ angular.module('brainworks.user')
       hash = shaObj.getHash("SHA-512", "HEX");
     }
     return hash;
+  };
+  $scope.updateUser = function(user) {
+    // TODO
+  };
+  $scope.changePassword = function(newPw) {
+    // TODO
+  };
+  $scope.deleteAccount = function(userId) {
+    // TODO
   };
 }]);
