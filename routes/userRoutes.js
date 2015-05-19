@@ -66,11 +66,12 @@ module.exports = function(router) {
   //Route to update user data
   router.route(modelUser).post(function(req, res, next) {
     var data = req.body;
-    var user = {
-      newForename: 
-      newUser: data.user.newUser,
-      new
-    }
+    var user = {};
+    
+    if (data.newForename) user.forename = data.newForename;
+    if (data.newSurname) user.surname = data.newSurname;
+    if (data.newEmail) user.email = data.newEmail;
+    if (data.newUsername) user.username = data.newUsername;
     
     User.findByIdAndUpdate(data.id, {$set: user}, function(error, User) {
       if (error) res.status(500).json({
@@ -91,8 +92,9 @@ module.exports = function(router) {
   //Route to update password
   router.route(modelPass).post(function(req, res, next) {
     var data = req.body;
+    var user = {password: data.newPass};
     
-    User.findByIdAndUpdate(data.id, {$set: data.newPass}, function(error, User) {
+    User.findByIdAndUpdate(data.id, {$set: user}, function(error, User) {
       if (error) res.status(500).json({
         failure: "An error has occured:\t" + error
       }); 
