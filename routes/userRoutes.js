@@ -66,45 +66,58 @@ module.exports = function(router) {
   //Route to update user data
   router.route(modelUser).post(function(req, res, next) {
     var data = req.body;
-    var user = {};
     
-    if (data.newForename) user.forename = data.newForename;
-    if (data.newSurname) user.surname = data.newSurname;
-    if (data.newEmail) user.email = data.newEmail;
-    if (data.newUsername) user.username = data.newUsername;
-    
-    User.findByIdAndUpdate(data.id, {$set: user}, function(error, User) {
+    var query = User.findById(data.id);
+    query.exec(function (error, User) {
       if (error) res.status(500).json({
-        failure: "An error has occured:\t" + error,
-        boolean: false        
-      }); 
-      if (User) res.status(200).json({
-        success: "The user data was successfully changed in the database!",
-        boolean: true
+        failure: "An error has occured:\t" + error
       });
+      if (User) {
+        if (data.newForename) User.forename = data.newForename;
+        if (data.newSurname) User.surname = data.newSurname;
+        if (data.newEmail) User.email = data.newEmail;
+        if (data.newUsername) User.username = data.newUsername;
+        
+        User.save(function(error) {
+          if (error) res.status(500).json({
+            failure: "An error has occured:\t" + error
+          });
+          else res.status(200).json({
+            success: "The user data was successfully changed in the database!",
+            user: User
+          });  
+        });
+      }
       else res.status(500).json({
-        failure: "The user data couldn't changed in the database!",
-        boolean: false
-      });   
+        failure: "The user data couldn't changed in the database!"
+      });
     });
   });
     
   //Route to update password
   router.route(modelPass).post(function(req, res, next) {
     var data = req.body;
-    var user = {password: data.newPass};
     
-    User.findByIdAndUpdate(data.id, {$set: user}, function(error, User) {
+    var query = User.findById(data.id);
+    query.exec(function(error, User) {
       if (error) res.status(500).json({
         failure: "An error has occured:\t" + error
       }); 
-      if (User) res.status(200).json({
-        success: "The password was successfully changed in the database!",
-        user: User
-      });
-      else res.status(500).json({
+      if (User) {
+        User.password = data.newPass;
+        
+        User.save(function(error) {
+          if (error) res.status(500).json({
+            failure: "An error has occured:\t" + error
+          });
+          else res.status(200).json({
+            success: "The password was successfully changed in the database!",
+            user: User
+          });
+        });
+      } else res.status(500).json({
         failure: "The password couldn't changed in the database!"
-      });   
+      });
     });
   });
   
