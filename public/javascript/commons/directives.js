@@ -10,7 +10,7 @@ angular.module('brainworks.commons')
     },
     link: function(scope, element, attrs, ngModel) {
       ngModel.$validators.match = function(modelValue) {
-        return modelValue === scope.matchValue;
+        return angular.isArray(scope.matchValue) ? scope.matchValue[0] === scope.matchValue[1] : modelValue === scope.matchValue;
       };
       
       scope.$watch('matchValue', function() {

@@ -48,9 +48,9 @@ body {
 }
 
 .has-error > div > span {
-  color: #A94442;
+  color: #ff0039;
 }
 
 .has-success > div > span {
-  color: #3c763d;
+  color: #3fb618;
 }
