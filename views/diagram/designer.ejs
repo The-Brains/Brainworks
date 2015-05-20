@@ -2,10 +2,40 @@
   <nav class="navbar">
   </nav>
   <div class="row">
-    <div class=".col-md-4">
-      
+    <div class="col-md-4">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <a data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne">
+            <h4 class="panel-title">
+              
+                Klassendiagramme
+            </h4>
+                          </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseTwo">
+                Test
+              </a>
+            </h4>
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+              
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class=".col-md-8">
+    <div class="col-md-8">
       <canvas style="width: 100%; max-height: 100%; border:1px solid #000000;"></canvas>
     </div>
   </div>
