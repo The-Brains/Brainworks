@@ -7,7 +7,7 @@ var tokenSchema = new mongoose.Schema({
   createdAt: {type: Date, 'default': Date.now},
   revokedAt: {type: Date},
   token: {type: String},
-  userId: {type: ObjectId},
+  userId: {type: mongoose.Schema.ObjectId, auto: false},
   loggedIn: {type: Boolean}
 });
 

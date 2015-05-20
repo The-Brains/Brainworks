@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user/User');
+var Token = require('../models/user/Token');
 var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
 
