@@ -1,14 +1,11 @@
 /**
  * New node file
  */
-require('../models/user/User');
-
 var express = require('express');
-var mongoose = require('mongoose');
 var router = express.Router();
-var User = mongoose.model('User');
+var User = require('../models/user/User');
 var jwt = require('jsonwebtoken');
-var userCtrl = require('../controller/user');
+var userCtrl = require('../controller/User');
 
 router.get('/signIn', function(req, res, next) {
   res.render('user/signIn', {});

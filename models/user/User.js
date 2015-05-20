@@ -12,4 +12,4 @@ var userSchema = new mongoose.Schema({
 //  failedLoginCount
 });
 
-mongoose.model('User', userSchema, 'user');
+module.exports = mongoose.model('User', userSchema, 'user');
