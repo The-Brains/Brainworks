@@ -2,7 +2,7 @@
   Diagramme
   <a class="btn btn-default pull-right" href="" ng-click="addDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
 </h1>
-<div class="row" ng-repeat-start="diagram in filteredDiagrams">
+<div class="row" ng-repeat-start="diagram in diagrams | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
       <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.title}}">
@@ -17,5 +17,5 @@
 </div>
 <hr ng-repeat-end>
 <div class="text-center">
-  <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true" ng-change="filterData()"></pagination>
+  <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true"></pagination>
 </div>

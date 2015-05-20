@@ -12,22 +12,22 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     .state('diagram', {
       url: '/diagram/{id}',
       templateUrl: '/diagram/designer'
+    })
+    .state('diagramInformation', {
+      url: '/diagramInformation/{id}',
+      templateUrl: '/diagram/diagramInformation'
     });
 }])
 .controller('diagramCtrl', ['$scope', function($scope) {
   $scope.diagrams = [{_id: 1, title: 'Test'}, {_id: 2, title: 'Test1'}, {_id: 3, title: 'Test2'}];
-  $scope.filteredDiagrams=[];
   $scope.currentPage = 1;
   $scope.numPerPage = 2;
   $scope.maxSize = 5;
-  $scope.addDiagram = function() {
-    $scope.diagrams.push({_id: 4, title: 'Test neu'});
-    console.log($scope.diagrams);
+}])
+.filter('startFrom', function() {
+  return function(input, start) {
+    start = +start;
+    return input.slice(start);
   };
-  $scope.filterData = function() {
-    var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-    var end = begin + $scope.numPerPage;
-    $scope.filteredDiagrams = $scope.diagrams.slice(begin, end);
-  };
-  $scope.filterData();
-}]);
+})
+;
