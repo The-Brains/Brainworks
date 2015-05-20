@@ -1,7 +1,7 @@
 /**
  * New node file
  */
-require('../models/User');
+require('../models/user/User');
 
 var express = require('express');
 var mongoose = require('mongoose');
