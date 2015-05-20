@@ -4,7 +4,6 @@
 var jwt = require('jsonwebtoken');
 var User = require('../models/user/User');
 
-// TODO token muss in der datenbank vorhanden sein
 exports.verifyLogin = function(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
