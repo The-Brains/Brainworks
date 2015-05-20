@@ -80,7 +80,6 @@ router.get('/loggedIn', function(req, res) {
 });
 
 router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
-//  console.log(req);
   res.json(req.user);
 });
 
