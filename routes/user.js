@@ -1,6 +1,7 @@
 /**
  * New node file
  */
+// TODO serverside validation and alerts on client
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user/User');
@@ -99,13 +100,21 @@ router.delete('/:user', userCtrl.verifyLogin, function(req, res, next) {
 });
 
 router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
+  
   // TODO aendern eines benutzers
   console.log(req);
 });
 
 router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {
-  // TODO new token based on username and new password
-  console.log(req);
+  User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
+    if(err){ res.send(err); }
+    else {
+      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+        expiresInMinutes: 1440
+      });
+      res.json({success: true, token: token, userId: user._id});
+    }
+  })
 });
 
 module.exports = router;
