@@ -19,7 +19,11 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   $scope.filteredDiagrams=[];
   $scope.currentPage = 1;
   $scope.numPerPage = 2;
-  
+  $scope.maxSize = 5;
+  $scope.addDiagram = function() {
+    $scope.diagrams.push({_id: 4, title: 'Test neu'});
+    console.log($scope.diagrams);
+  };
   $scope.filterData = function() {
     var begin = (($scope.currentPage - 1) * $scope.numPerPage);
     var end = begin + $scope.numPerPage;

@@ -1,6 +1,6 @@
 <h1 class="page-header">
   Diagramme
-  <a class="btn btn-default pull-right" href="#/diagram/{{diagram._id}}"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+  <a class="btn btn-default pull-right" href="" ng-click="addDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
 </h1>
 <div class="row" ng-repeat-start="diagram in filteredDiagrams">
   <div class="col-md-7">
@@ -17,5 +17,5 @@
 </div>
 <hr ng-repeat-end>
 <div class="text-center">
-  <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" boundary-links="true" ng-change="filterData()"></pagination>
+  <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true" ng-change="filterData()"></pagination>
 </div>
