@@ -9,8 +9,8 @@ angular.module('brainworks.user')
   $scope.signUp = function(user) {
     var parameters = angular.copy(user);
     if(angular.isDefined(parameters.password)) {
-      var shaObj = new jsSHA(parameters.password, "TEXT");
-      parameters.password = shaObj.getHash("SHA-512", "HEX");
+      parameters.password = CryptoJS.SHA3(parameters.password, { outputLength: 512 }).toString();
+      console.log(parameters);
     }
     userFactory.createUser(parameters).success(function(response) {
       if(response.success) {

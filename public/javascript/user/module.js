@@ -11,11 +11,13 @@ angular.module('brainworks.user', [])
     })
     .state('profile.logout', {
       url: '/user/signOut',
-      controller: ['$rootScope', '$state', 'localStorageService', function($rootScope, $state, localStorageService) {
-        $rootScope.isAuthentificated = false;
-        localStorageService.remove('token');
-        localStorageService.remove('userId');
-        $state.go('signIn');
+      controller: ['$rootScope', '$state', 'localStorageService', 'userFactory', function($rootScope, $state, localStorageService, userFactory) {
+        userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(function() {
+          $rootScope.isAuthentificated = false;
+          localStorageService.remove('token');
+          localStorageService.remove('userId');
+          $state.go('signIn');
+        });
       }]
     });
 }])
@@ -32,6 +34,9 @@ angular.module('brainworks.user', [])
     },
     checkLoggedIn: function() {
       return $http.get('/user/loggedIn');
+    },
+    signOut: function(userId, token) {
+      return $http.post('/user/signOut', {userId: userId, token: token});
     }
   };
 }]);

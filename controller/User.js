@@ -2,8 +2,9 @@
  * New node file
  */
 var jwt = require('jsonwebtoken');
+var User = require('../models/user/User');
 
-// TODO chack if the requested user is also the logged in user
+// TODO token muss in der datenbank vorhanden sein
 exports.verifyLogin = function(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
@@ -11,8 +12,14 @@ exports.verifyLogin = function(req, res, next) {
       if (err) {
         return res.sendStatus(401);
       } else {
-        req.decoded = decoded;
-        next();
+        User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
+          if(err){ return res.sendStatus(401); }
+          else if(!user) { return res.sendStatus(401); }
+          else {
+            req.decoded = decoded;
+            next();
+          }
+        });
       }
     });
   } else {

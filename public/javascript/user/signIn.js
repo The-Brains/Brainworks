@@ -8,8 +8,7 @@ angular.module('brainworks.user')
   $scope.signIn = function(user) {
     var password = '';
     if(angular.isDefined(user.password)) {
-      var shaObj = new jsSHA(user.password, "TEXT");
-      password = shaObj.getHash("SHA-512", "HEX");
+      password = CryptoJS.SHA3(user.password, { outputLength: 512 }).toString();
     }
     userFactory.signIn(user.username, password).success(function(response) {
       if(response.success) {

@@ -30,8 +30,7 @@ angular.module('brainworks.user')
     var val = angular.copy(value);
     var hash = '';
     if(angular.isDefined(val)) {
-      var shaObj = new jsSHA(val, "TEXT");
-      hash = shaObj.getHash("SHA-512", "HEX");
+      hash = CryptoJS.SHA3(val, { outputLength: 512 }).toString();
     }
     return hash;
   };

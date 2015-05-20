@@ -4,7 +4,6 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user/User');
-var Token = require('../models/user/Token');
 var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
 
@@ -18,11 +17,9 @@ router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
 
 router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
-
   query.exec(function (err, user){
     if (err) { return next(err); }
     if (!user) { return next(new Error("can't find user")); }
-
     req.user = user;
     return next();
   });
@@ -30,13 +27,14 @@ router.param('user', function(req, res, next, id) {
 
 router.post('/check', function(req, res, next) {
   User.findOne({username: req.body.username}, function(err, user) {
-    if(err) { res.sendStatus(500); }
+    if(err) { res.send(err); }
     else { res.json({success: true, available: !user}); }
   });
 });
 
 router.post('/signUp', function(req, res, next) {
   var user = new User(req.body.user);
+  user.set('loggedIn', true);
   user.save(function(err, user){
     if(err){ res.send(err); }
     else {
@@ -57,8 +55,16 @@ router.post('/signIn', function(req, res, next) {
       var token = jwt.sign({username: user.username, password: user.password}, 'test', {
         expiresInMinutes: 1440
       });
-      res.json({success: true, token: token, userId: user._id});
+      User.findByIdAndUpdate(user._id, {loggedIn: true}, function() {
+        res.json({success: true, token: token, userId: user._id});
+      });
     }
+  });
+});
+
+router.post('/signOut', function(req, res, next) {
+  User.findByIdAndUpdate(req.body.userId, {loggedIn: false}, function() {
+    res.sendStatus(200);
   });
 });
 
@@ -69,7 +75,11 @@ router.get('/loggedIn', function(req, res) {
       if (err) {
         res.send(err); 
       } else {
-        res.json({success: true});
+        User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
+          if(err){ res.send(err); }
+          else if(!user) { res.json({success: false, message: 'Not logged in!'}); }
+          else { res.json({success: true}); }
+        });
       }
     });
   } else {
@@ -89,10 +99,6 @@ router.delete('/:user', userCtrl.verifyLogin, function(req, res, next) {
 });
 
 router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
-  /*
-   * TODO schema for tokens so that they can be revoked on the server side
-   * because otherwise there is a security gap in the token infrastructure
-   */
   // TODO aendern eines benutzers
   console.log(req);
 });
