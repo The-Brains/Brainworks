@@ -7,18 +7,18 @@ angular.module('brainworks.user')
     loadUserData: function(userId) {
       return $http.get('/user/'+userId);
     },
-    updateUser: function(user) {
-      // TODO
+    updateUser: function(userId, user) {
+      return $http.put('/user/'+user, user);
     },
-    changePassword: function(newPassword) {
-      // TODO
+    changePassword: function(userId, newPassword) {
+      return $http.post('/user/changePassword/'+userId, {password: newPassword});
     },
     deleteAccount: function(userId) {
-      // TODO
+      return $http.delete('/user/'+userId);
     }
   };
 }])
-.controller('settingsCtrl', ['$scope', 'userSettingsFactory', 'localStorageService', function($scope, userSettingsFactory, localStorageService) {
+.controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userSettingsFactory', 'localStorageService', function($scope, $rootScope, $state, userSettingsFactory, localStorageService) {
   $scope.user = {};
   $scope.currentPw = '';
   $scope.newPw = '';
@@ -36,12 +36,19 @@ angular.module('brainworks.user')
     return hash;
   };
   $scope.updateUser = function(user) {
-    // TODO
+    userSettingsFactory.updateUser(user._id, user);
   };
-  $scope.changePassword = function(newPw) {
-    // TODO
+  $scope.changePassword = function(userId, newPw) {
+    userSettingsFactory.changePassword(userId, newPw);
   };
   $scope.deleteAccount = function(userId) {
-    // TODO
+    userSettingsFactory.deleteAccount(userId).success(function(response) {
+      if(response.success) {
+        $rootScope.isAuthentificated = false;
+        localStorageService.remove('token');
+        localStorageService.remove('userId');
+        $state.go('signIn');
+      }
+    });
   };
 }]);

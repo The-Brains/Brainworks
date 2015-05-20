@@ -23,9 +23,9 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-  $httpProvider.interceptors.push(['$q', '$location', 'localStorageService', function($q, $location, localStorageService) {
+  $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService', function($q, $injector, localStorageService) {
     return {
-      request: function (config) {
+      request: function(config) {
         config.headers = config.headers || {};
         if (localStorageService.get('token')) {
           config.headers['x-access-token'] = localStorageService.get('token');
@@ -34,7 +34,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       },
       responseError: function(response) {
         if(response.status === 401 || response.status === 403) {
-          $location.path('/user/signIn');
+          $injector.get('$state').go('signIn');
         }
         return $q.reject(response);
       }

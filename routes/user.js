@@ -79,8 +79,30 @@ router.get('/loggedIn', function(req, res) {
   }
 });
 
-router.get('/:user', function(req, res, next) {
+router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
+//  console.log(req);
   res.json(req.user);
+});
+
+router.delete('/:user', userCtrl.verifyLogin, function(req, res, next) {
+  req.user.remove(function(err) {
+    if (err) { res.send(err); }
+    else { res.json({success: true}); }
+  });
+});
+
+router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
+  /*
+   * TODO schema for tokens so that they can be revoked on the server side
+   * because otherwise there is a security gap in the token infrastructure
+   */
+  // TODO aendern eines benutzers
+  console.log(req);
+});
+
+router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {
+  // TODO new token based on username and new password
+  console.log(req);
 });
 
 module.exports = router;

@@ -47,7 +47,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">My login data</div>
   <div class="panel-body">
-    <form class="form-horizontal" ng-submit="changePassword(newPw)" name="changePasswordForm" novalidate>
+    <form class="form-horizontal" ng-submit="changePassword(user._id, newPw)" name="changePasswordForm" novalidate>
       <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.currentPw.$touched) && changePasswordForm.currentPw.$invalid}">
         <label for="currentPw" class="col-sm-3 control-label">current password</label>
         <div class="col-sm-5">
@@ -88,7 +88,7 @@
 <div class="panel panel-danger">
   <div class="panel-heading">Delete my account</div>
   <div class="panel-body">
-    <form class="form-horizontal" ng-submit="deleteAccount(user.username)">
+    <form class="form-horizontal" ng-submit="deleteAccount(user._id)">
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5"">
           <p class="help-block">
