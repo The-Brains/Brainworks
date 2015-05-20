@@ -1,4 +1,9 @@
-<h1 class="page-header">Diagramme</h1>
+<h1 class="page-header row">
+  Diagramme
+  <div class="text-right">
+    <a class="btn btn-default" href="#/diagram/{{diagram._id}}"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+  </div>
+</h1>
 <div class="row" ng-repeat-start="diagram in filteredDiagrams">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
