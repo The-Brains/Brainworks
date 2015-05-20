@@ -16,12 +16,16 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
       templateUrl: '/diagram/diagramInformation'
+    })
+    .state('addDiagram', {
+      url: '/addDiagram',
+      templateUrl: '/diagram/diagramInformation'
     });
 }])
 .controller('diagramCtrl', ['$scope', function($scope) {
   $scope.diagrams = [{_id: 1, title: 'Test'}, {_id: 2, title: 'Test1'}, {_id: 3, title: 'Test2'}];
   $scope.currentPage = 1;
-  $scope.numPerPage = 2;
+  $scope.numPerPage = 5;
   $scope.maxSize = 5;
 }])
 .filter('startFrom', function() {

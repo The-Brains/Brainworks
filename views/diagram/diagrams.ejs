@@ -1,6 +1,6 @@
 <h1 class="page-header">
   Diagramme
-  <a class="btn btn-default pull-right" href="" ng-click="addDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+  <a class="btn btn-default pull-right" href="#/addDiagram"><span class="glyphicon glyphicon-plus"></span> Add new</a>
 </h1>
 <div class="row" ng-repeat-start="diagram in diagrams | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
@@ -10,8 +10,7 @@
   </div>
   <div class="col-md-5">
     <h3>{{diagram.title}}</h3>
-    <!-- TODO hier muss dann ein modal fenster zum updaten der informationen auftauchen dasselbe auch beim erstellen eines diagrammes -->
-    <a class="btn btn-default" href="#/diagram/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
+    <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
     <a class="btn btn-primary" href="#/diagram/{{diagram._id}}">Edit Diagram <span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>
 </div>
