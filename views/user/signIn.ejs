@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <td colspan="2" class="signin-header">Register</td>
-          <td colspan="2" class="signin-header-center">or</td>
+          <td colspan="2" class="signin-header">or</td>
           <td colspan="2" class="signin-header">Login</td>
         </tr>
       </thead>
@@ -13,7 +13,7 @@
           <td colspan="3">
             <form ng-controller="signUpCtrl" class="form-horizontal" ng-submit="signUp(user)" name="signUpForm" novalidate>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.forename.$touched) && signUpForm.forename.$invalid}">
-                <label for="forename" class="col-sm-3 control-label">Forename</label>
+                <label for="forename" class="col-sm-4 control-label">Forename</label>
                 <div class="col-sm-5">
                   <input name="forename" id="forename" type="text" class="form-control" placeholder="Forename" ng-model="user.forename" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.forename.$touched">
@@ -22,7 +22,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.surname.$touched) && signUpForm.surname.$invalid}">
-                <label for="surname" class="col-sm-3 control-label">Surname</label>
+                <label for="surname" class="col-sm-4 control-label">Surname</label>
                 <div class="col-sm-5">
                   <input name="surname" id="surname" type="text" class="form-control" placeholder="Surname" ng-model="user.surname" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.surname.$touched">
@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.username.$touched) && signUpForm.username.$invalid, 'has-success': (signUpForm.$submitted || signUpForm.username.$touched) && signUpForm.username.$valid}">
-                <label for="username" class="col-sm-3 control-label">Username</label>
+                <label for="username" class="col-sm-4 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="username" type="text" class="form-control" placeholder="Username" ng-model="user.username" required username />
                   <span ng-show="signUpForm.$submitted || signUpForm.username.$touched">
@@ -43,7 +43,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.email.$touched) && signUpForm.email.$invalid}">
-                <label for="email" class="col-sm-3 control-label">E-Mail</label>
+                <label for="email" class="col-sm-4 control-label">E-Mail</label>
                 <div class="col-sm-5">
                   <input name="email" id="email" type="email" class="form-control" placeholder="E-Mail" ng-model="user.email" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.email.$touched">
@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.emailConfirmation.$touched) && signUpForm.emailConfirmation.$invalid}">
-                <label for="emailConfirmation" class="col-sm-3 control-label">Confirm your E-Mail</label>
+                <label for="emailConfirmation" class="col-sm-4 control-label">Confirm your E-Mail</label>
                 <div class="col-sm-5">
                   <input name="emailConfirmation" id="emailConfirmation" type="text" class="form-control" placeholder="Confirm your E-Mail" match="user.email" ng-model="emailConfirmation" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.emailConfirmation.$touched">
@@ -63,7 +63,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.password.$touched) && signUpForm.password.$invalid}">
-                <label for="password" class="col-sm-3 control-label">Password</label>
+                <label for="password" class="col-sm-4 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="password" type="password" class="form-control" placeholder="Password" ng-model="user.password" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.password.$touched">
@@ -72,7 +72,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signUpForm.$submitted || signUpForm.passwordConfirmation.$touched) && signUpForm.passwordConfirmation.$invalid}">
-                <label for="passwordConfirmation" class="col-sm-3 control-label">Confirm your Password</label>
+                <label for="passwordConfirmation" class="col-sm-4 control-label">Confirm your Password</label>
                 <div class="col-sm-5">
                   <input name="passwordConfirmation" id="passwordConfirmation" type="password" class="form-control" placeholder="Confirm your Password" match="user.password" ng-model="passwordConfirmation" required />
                   <span ng-show="signUpForm.$submitted || signUpForm.passwordConfirmation.$touched">
@@ -82,7 +82,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-5">
+                <div class="col-sm-offset-4 col-sm-5">
                   <button type="submit" class="btn btn-success">Sign up</button>
                 </div>
               </div>
@@ -91,7 +91,7 @@
           <td colspan="3">
             <form ng-controller="signInCtrl" class="form-horizontal" ng-submit="signIn(user)" name="signInForm" novalidate>
               <div class="form-group" ng-class="{'has-error': (signInForm.$submitted || signInForm.username.$touched) && signInForm.username.$invalid}">
-                <label for="singinUsername" class="col-sm-3 control-label">Username</label>
+                <label for="singinUsername" class="col-sm-5 control-label">Username</label>
                 <div class="col-sm-5">
                   <input name="username" id="singinUsername" type="text" class="form-control" placeholder="Username" ng-model="user.username" required/>
                   <span ng-show="signInForm.$submitted || signInForm.username.$touched">
@@ -100,7 +100,7 @@
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (signInForm.$submitted || signInForm.password.$touched) && signInForm.password.$invalid}">
-                <label for="signinPassword" class="col-sm-3 control-label">Password</label>
+                <label for="signinPassword" class="col-sm-5 control-label">Password</label>
                 <div class="col-sm-5">
                   <input name="password" id="signinPassword" type="password" class="form-control" placeholder="Password" ng-model="user.password" required/>
                   <span ng-show="signInForm.$submitted || signInForm.password.$touched">
@@ -109,11 +109,11 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-5">
+                <div class="col-sm-offset-5 col-sm-5">
                   <button type="submit" class="btn btn-primary">Sign in</button>
                 </div>
               </div>
-              <alert ng-repeat="formError in formErrors" type="danger" close="closeError($index)">{{formError}}</alert>
+              <alert class="col-sm-offset-2 col-sm-8" ng-repeat="formError in formErrors" type="danger" close="closeError($index)">{{formError}}</alert>
             </form>
           </td>
         </tr>
