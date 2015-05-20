@@ -38,7 +38,11 @@ angular.module('brainworks.user')
     userSettingsFactory.updateUser(user._id, user);
   };
   $scope.changePassword = function(userId, newPw) {
-    userSettingsFactory.changePassword(userId, newPw);
+    var password = '';
+    if(angular.isDefined(newPw)) {
+      password = CryptoJS.SHA3(newPw, { outputLength: 512 }).toString();
+    }
+    userSettingsFactory.changePassword(userId, password);
   };
   $scope.deleteAccount = function(userId) {
     userSettingsFactory.deleteAccount(userId).success(function(response) {

@@ -10,7 +10,6 @@ angular.module('brainworks.user')
     var parameters = angular.copy(user);
     if(angular.isDefined(parameters.password)) {
       parameters.password = CryptoJS.SHA3(parameters.password, { outputLength: 512 }).toString();
-      console.log(parameters);
     }
     userFactory.createUser(parameters).success(function(response) {
       if(response.success) {
