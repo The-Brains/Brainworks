@@ -15,11 +15,13 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     })
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
-      templateUrl: '/diagram/diagramInformation'
+      templateUrl: '/diagram/diagramInformation',
+      controller: 'createDiagramCtrl'
     })
     .state('addDiagram', {
       url: '/addDiagram',
-      templateUrl: '/diagram/diagramInformation'
+      templateUrl: '/diagram/diagramInformation',
+      controller: 'updateDiagramCtrl'
     });
 }])
 .controller('diagramCtrl', ['$scope', function($scope) {
