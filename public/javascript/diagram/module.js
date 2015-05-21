@@ -16,7 +16,8 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     })
     .state('diagram', {
       url: '/diagram/{id}',
-      templateUrl: '/diagram/designer'
+      templateUrl: '/diagram/designer',
+      controller: 'designerController'
     })
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
