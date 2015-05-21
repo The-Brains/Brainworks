@@ -1,8 +1,11 @@
 <h1 class="page-header">
   Diagramme
-  <a class="btn btn-default pull-right" href="#/addDiagram"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+  <span class="pull-right form-inline">
+    <input class="form-control" type="text" placeholder="Suche" ng-model="searchText">
+    <a class="btn btn-default" href="#/addDiagram"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+  </span>
 </h1>
-<div class="row" ng-repeat-start="diagram in diagrams | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
+<div class="row" ng-repeat-start="diagram in diagrams | filter:searchText | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
       <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.name}}">
