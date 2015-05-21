@@ -5,7 +5,9 @@ angular.module('brainworks.user')
 .factory('userSettingsFactory', ['$http', function($http){
   return {
     loadUserData: function(userId) {
-      return $http.get('/user/'+userId);
+      return $http.get('/user/'+userId).then(function(res) {
+        return res.data;
+      });
     },
     updateUser: function(userId, user) {
       return $http.put('/user/'+user, user);
@@ -18,14 +20,11 @@ angular.module('brainworks.user')
     }
   };
 }])
-.controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userSettingsFactory', 'localStorageService', function($scope, $rootScope, $state, userSettingsFactory, localStorageService) {
-  $scope.user = {};
+.controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userSettingsFactory', 'localStorageService', 'user', function($scope, $rootScope, $state, userSettingsFactory, localStorageService, user) {
+  $scope.user = user;
   $scope.currentPw = '';
   $scope.newPw = '';
   $scope.newPwConfirmation = '';
-  userSettingsFactory.loadUserData(localStorageService.get('userId')).success(function(response) {
-    $scope.user = response;
-  });
   $scope.createHash = function(value) {
     var val = angular.copy(value);
     var hash = '';

@@ -42,8 +42,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   }]);
 }])
 .controller('brainworksCtrl', ['$rootScope', 'userFactory', function($rootScope, userFactory) {
-  $rootScope.isAuthentificated = false;
-  userFactory.checkLoggedIn().success(function(response) {
-    $rootScope.isAuthentificated = response.success;
+  userFactory.checkLoggedIn().then(function(res) {
+    $rootScope.isAuthentificated = res.data.success;
   });
 }]);
