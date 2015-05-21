@@ -1,41 +1,57 @@
+html, body {
+  min-height: 100%;
+  height: 100%;
+}
+
 body {
-	font-family: Arial;
-	font-size: 15pt;
-	color: #000000;
+  padding-top: 100px;
+  padding-bottom: 50px;
 }
-#header {
-	padding: 10px;
-	border: 1px solid black;
+
+.logo {
+  max-height: 75px;
+  height: 75px;
+  padding: 0;
+  font-size: 1.75em;
 }
-#header table {
-	width: 100%;
-	border: 0px solid transparent;
-	border-collapse: collapse;
-	border-spacing: 0px;
+
+.logo div, .logo img {
+  display: inline-block;
 }
-#header table tr td {
-	vertical-align: middle;
+
+.logo img {
+  width: 75px;
+  height: 75px;
+  min-width: 75px;
 }
-img#logo {
-	width: 100px;
-	height: 100px;
-	margin-right: 30px;
-	display: block;
-	float: left;
+
+.brainworks-navigation {
+  margin-right: 0.5%;
 }
-h2#title {
-	font-size: 25pt;
-	
+
+.brainworks-navigation > li > a {
+  line-height: 75px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
-td div#navbar {
-	float: right;
+
+.container {
+  height: 100%;
 }
-div#navbar div.nav {
-	width: 100px;
-	padding: 5px;
-	border: 1px solid #000000;
-	text-align: center;
-	display: block;
-	float: right;
-	margin-left: 10px;
+
+.signin-header-center,
+.signin-header {
+  font-weight: bold;
+}
+
+.signin-header {
+  text-align: center;
+}
+
+.has-error > div > span {
+  color: #ff0039;
+}
+
+.has-success > div > span {
+  color: #3fb618;
 }

@@ -1,0 +1,20 @@
+<h1 class="page-header">
+  Diagramme
+  <a class="btn btn-default pull-right" href="#/addDiagram"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+</h1>
+<div class="row" ng-repeat-start="diagram in diagrams | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
+  <div class="col-md-7">
+    <a href="#/diagram/{{diagram._id}}">
+      <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.title}}">
+    </a>
+  </div>
+  <div class="col-md-5">
+    <h3>{{diagram.title}}</h3>
+    <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
+    <a class="btn btn-primary" href="#/diagram/{{diagram._id}}">Edit Diagram <span class="glyphicon glyphicon-chevron-right"></span></a>
+  </div>
+</div>
+<hr ng-repeat-end>
+<div class="text-center">
+  <pagination ng-model="currentPage" total-items="diagrams.length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true"></pagination>
+</div>
