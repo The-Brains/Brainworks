@@ -13,7 +13,7 @@
   </div>
   <div class="col-md-5">
     <h3>{{diagram.name}}</h3>
-    <p ng-bind-html="diagram.description|nl2br"></p>
+    <p class="diagram-description">{{diagram.description}}</p>
     <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
     <a class="btn btn-primary" href="#/diagram/{{diagram._id}}">Edit Diagram <span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>

@@ -1,7 +1,7 @@
 /**
  * New node file
  */
-angular.module('brainworks.diagram', ['ui.bootstrap', 'ngSanitize'])
+angular.module('brainworks.diagram', ['ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.diagrams', {
@@ -61,9 +61,4 @@ angular.module('brainworks.diagram', ['ui.bootstrap', 'ngSanitize'])
     start = +start;
     return input.slice(start);
   };
-})
-.filter('nl2br', ['$sanitize', '$sce', function($sanitize, $sce) {
-  return function(textInput) {
-    return textInput ? $sce.trustAsHtml($sanitize(textInput).replace(/&#10;/g, '<br />')) : '';
-  }
-}]);
+});

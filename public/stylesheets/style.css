@@ -55,3 +55,7 @@ body {
 .has-success > div > span {
   color: #3fb618;
 }
+
+.diagram-description {
+  white-space: pre-wrap;
+}
