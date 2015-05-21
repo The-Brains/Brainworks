@@ -37,6 +37,15 @@ router.get('/diagrams/:userId', userCtrl.verifyLogin, function(req, res, next) {
   })
 });
 
+router.get('/publicDiagrams', function(req, res, next) {
+  Diagram.find({isPublic: true}, 'authorId _id name description isPublic', function(err, diagrams) {
+    if(err) { res.send(err); }
+    else {
+      res.json({success: true, diagrams: diagrams});
+    }
+  })
+});
+
 router.get('/diagramInformation/:diagram', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.diagram);
 });

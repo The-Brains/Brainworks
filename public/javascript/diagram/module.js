@@ -48,6 +48,11 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       return $http.get('/diagram/diagrams/'+userId).then(function(res) {
         return res.data;
       });
+    },
+    getPublicDiagrams: function(userId) {
+      return $http.get('/diagram/publicDiagrams').then(function(res) {
+        return res.data;
+      });
     }
   };
 }])

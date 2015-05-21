@@ -1,0 +1,23 @@
+<h1 class="page-header">
+  &nbsp;
+  <span class="pull-right form-inline">
+    <input class="form-control" type="text" placeholder="Suche" ng-model="searchText">
+  </span>
+</h1>
+<div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
+  <div class="col-md-7">
+    <a href="#/diagram/{{diagram._id}}">
+      <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.name}}">
+    </a>
+  </div>
+  <div class="col-md-5">
+    <h3>{{diagram.name}}</h3>
+    <p class="diagram-description">{{diagram.description}}</p>
+    <!-- TODO add button for adding comments only if logged in <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
+    <a class="btn btn-primary" href="#/diagram/{{diagram._id}}">Edit Diagram <span class="glyphicon glyphicon-chevron-right"></span></a> -->
+  </div>
+</div>
+<hr ng-repeat-end>
+<div class="text-center">
+  <pagination ng-model="currentPage" total-items="(diagrams | filter:searchText).length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true"></pagination>
+</div>

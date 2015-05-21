@@ -8,7 +8,18 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   $stateProvider
     .state('home', {
       url: '/home',
-      templateUrl: '/home'
+      templateUrl: '/home',
+      resolve: {
+        diagrams: ['diagramsFactory', function(diagramsFactory) {
+          return diagramsFactory.getPublicDiagrams();
+        }]
+      },
+      controller: ['$scope', 'diagrams', function($scope, diagrams) {
+        $scope.diagrams = diagrams.diagrams;
+        $scope.currentPage = 1;
+        $scope.numPerPage = 5;
+        $scope.maxSize = 5;
+      }]
     })
     .state('signIn', {
       url: '/signIn',
