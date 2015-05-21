@@ -4,6 +4,7 @@ html, body {
 
 body {
   padding-top: 100px;
+  padding-bottom: 50px;
 }
 
 .logo {
@@ -28,7 +29,7 @@ body {
 }
 
 .brainworks-navigation > li > a {
-  line-height: 73px;
+  line-height: 75px;
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -37,11 +38,19 @@ body {
   height: 100%;
 }
 
-td > form {
-  padding-top: 10px;
+.signin-header-center,
+.signin-header {
+  font-weight: bold;
 }
 
-tr.thmiddle > td {
-	font-weight: bold;
-	text-align: center;
+.signin-header {
+  text-align: center;
+}
+
+.has-error > div > span {
+  color: #ff0039;
+}
+
+.has-success > div > span {
+  color: #3fb618;
 }
