@@ -16,12 +16,22 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
       templateUrl: '/diagram/diagramInformation',
-      controller: 'createDiagramCtrl'
+      controller: 'diagramInformationCtrl',
+      resolve: {
+        diagram: ['$stateParams', 'diagramInformationFactory', function($stateParams, diagramInformationFactory) {
+          return diagramInformationFactory.get($stateParams.id);
+        }]
+      }
     })
     .state('addDiagram', {
       url: '/addDiagram',
       templateUrl: '/diagram/diagramInformation',
-      controller: 'updateDiagramCtrl'
+      controller: 'diagramInformationCtrl',
+      resolve: {
+        diagram: function() {
+          return {};
+        }
+      }
     });
 }])
 .controller('diagramCtrl', ['$scope', function($scope) {
