@@ -3,13 +3,13 @@
   <div class="panel-body row" style="height: 100%; overflow: auto;">
     <div class="col-md-4">
     <!-- url fuer tags noch gucken https://angular-ui.github.io/bootstrap/ -->
-      <accordion close-others="oneAtATime">
+        <accordion close-others="oneAtATime">
         <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
-        {{group.content}}
-        </accordion-group>
-      </accordion>
+          {{group.content}}
+          </accordion-group>
+        </accordion>
     </div>
-    <div class="col-md-8" style="height: 100%">
+    <div class='col-md-8' style="height: 100%">
       <div  style="height: 100%; overflow: hidden; border:1px solid #000000; width: 100%">
         <canvas style="height: 5000px; width:5000px;"></canvas>
       </div>
