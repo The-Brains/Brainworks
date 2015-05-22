@@ -13,8 +13,9 @@ angular.module('brainworks.diagram')
   return {
     restrict:'E',
     replace:'true',
-    template:'<canvas class="designer-element" ></canvas>'
+    template:'<canvas class="designer-element" ></canvas>',
+    link: function(scope, element, attr) {
       
-      
+    }
   }
 });
