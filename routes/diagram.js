@@ -24,7 +24,7 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
   res.render('diagram/diagramInformation', {
     title: 'Titel',
     description: 'Beschreibung',
-    publicDiagram: 'Öffentlicher Diagramm',
+    publicDiagram: 'Öffentliches Diagramm',
     save: 'Save',
     cancel: 'Abbrechen'
   });
