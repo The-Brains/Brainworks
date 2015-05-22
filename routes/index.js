@@ -15,7 +15,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/home', function(req, res, next) {
-  res.render('home', {});
+  res.render('home', {
+    paginationNext: 'Weiter',
+    paginationPrevious: 'Zurück',
+    paginationLast: 'Letzte',
+    paginationFirst: 'Erste',
+    search: 'Suche'
+  });
 });
 
 router.get('/about', function(req, res, next) {

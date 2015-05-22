@@ -1,7 +1,7 @@
 <h1 class="page-header">
   &nbsp;
   <span class="pull-right form-inline">
-    <input class="form-control" type="text" placeholder="Suche" ng-model="searchText">
+    <input class="form-control" type="text" placeholder="<%= search %>" ng-model="searchText">
   </span>
 </h1>
 <div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
@@ -19,5 +19,5 @@
 </div>
 <hr ng-repeat-end>
 <div class="text-center">
-  <pagination ng-model="currentPage" total-items="(diagrams | filter:searchText).length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true"></pagination>
+  <pagination ng-model="currentPage" total-items="(diagrams | filter:searchText).length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true" next-text="<%= paginationNext %>" previous-text="<%= paginationPrevious %>" first-text="<%= paginationFirst %>" last-text="<%= paginationLast %>"></pagination>
 </div>

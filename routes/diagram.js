@@ -7,11 +7,27 @@ var userCtrl = require('../controller/user');
 var Diagram = require('../models/diagrams/Diagram');
 
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
-  res.render('diagram/diagrams', {});
+  res.render('diagram/diagrams', {
+    diagrams: 'Diagramme',
+    paginationNext: 'Weiter',
+    paginationPrevious: 'Zurück',
+    paginationLast: 'Letzte',
+    paginationFirst: 'Erste',
+    search: 'Suche',
+    addDiagram: 'Diagramm hinzufügen',
+    updateInformation: 'Informationen aktualisieren',
+    editDiagram: 'Diagramm Bearbeiten'
+  });
 });
 
 router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next) {
-  res.render('diagram/diagramInformation', {});
+  res.render('diagram/diagramInformation', {
+    title: 'Titel',
+    description: 'Beschreibung',
+    publicDiagram: 'Öffentlicher Diagramm',
+    save: 'Save',
+    cancel: 'Abbrechen'
+  });
 });
 
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {

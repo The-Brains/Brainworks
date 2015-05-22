@@ -9,11 +9,45 @@ var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
 
 router.get('/signIn', function(req, res, next) {
-  res.render('user/signIn', {});
+  res.render('user/signIn', {
+    signUp: 'Registrieren',
+    or: 'oder',
+    signIn: 'Einloggen',
+    forename: 'Vorname',
+    surname: 'Nachname',
+    username: 'Benutzername',
+    email: 'E-Mail',
+    password: 'Passwort',
+    fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
+    checkingUsername: 'Prüfe ob Benutzername verfügbar ist...',
+    usernameUnavailable: 'Der Benutzername ist schon vorhanden.',
+    usernameAvailable: 'Der Benutzername ist verfügbar.',
+    emailInvalid: 'Die E-Mail ist falsch.',
+    emailConfirmation: 'E-Mail bestätigen',
+    emailNotMatch: 'Die E-Mails stimmen nicht überein. Erneut versuchen?',
+    passwordConfirmation: 'Passwort bestätigen',
+    passwordNotMatch: 'Die Passwörter stimmen nicht überein. Erneut versuchen?'
+  });
 });
 
 router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
-  res.render('user/settings', {});
+  res.render('user/settings', {
+    accountSettings: 'Profileinstellungen',
+    forename: 'Vorname',
+    surname: 'Nachname',
+    username: 'Benutzername',
+    email: 'E-Mail',
+    save: 'Speichern',
+    changePassword: 'Passwort ändern',
+    currentPassword: 'Aktuelles Passwort',
+    newPassword: 'Neues Passwort',
+    newPasswordConfirmation: 'Neues Password bestätigen',
+    deleteAccount: 'Profil löschen',
+    fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
+    emailInvalid: 'Die E-Mail ist falsch.',
+    actualPasswordNotMatch: 'Das Passwort stimmt mit dem aktuellen nicht überein. Erneut versuchen?',
+    passwordNotMatch: 'Die Passwörter stimmen nicht überein. Erneut versuchen?'
+  });
 });
 
 router.param('user', function(req, res, next, id) {
@@ -51,7 +85,7 @@ router.post('/signIn', function(req, res, next) {
   User.findOne({username: req.body.username, password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
     else if(!user) {
-      res.json({success: false, message: 'The username or password was wrong!'});
+      res.json({success: false, message: 'Das Passwort oder der Benutzername ist falsch!'});
     } else {
       var token = jwt.sign({username: user.username, password: user.password}, 'test', {
         expiresInMinutes: 1440
