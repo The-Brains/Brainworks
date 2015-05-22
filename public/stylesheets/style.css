@@ -59,3 +59,9 @@ body {
 .diagram-description {
   white-space: pre-wrap;
 }
+
+.designer-element {
+  heigth: 50px;
+  width: 100px;
+  border-style: solid;
+}
