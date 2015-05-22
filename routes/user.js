@@ -46,7 +46,9 @@ router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
     fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
     emailInvalid: 'Die E-Mail ist falsch.',
     actualPasswordNotMatch: 'Das Passwort stimmt mit dem aktuellen nicht überein. Erneut versuchen?',
-    passwordNotMatch: 'Die Passwörter stimmen nicht überein. Erneut versuchen?'
+    passwordNotMatch: 'Die Passwörter stimmen nicht überein. Erneut versuchen?',
+    deleteInformation: '*<sup>1</sup> Warnung:<br />Ihr Profil wird entgültig gelöscht. Es werden auch alle Diagramme<br />engültig gelöscht. Bitte sichern Sie sich umgehend Ihre Diagramme.',
+    deleteConfirmation: 'Ja, ich will mein Profil endgültig löschen. Ich habe auch die <br /> Informationen aus *<sup>1</sup> gelesen und bin damit einverstanden.'
   });
 });
 

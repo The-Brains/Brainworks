@@ -92,14 +92,10 @@
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5"">
           <p class="help-block">
-            *<sup>1</sup> Warning:<br /> Your account will be deleted irrevocably. When you deleted this account, we
-            cannot recovery your data and your saved projects. Please recover your data yourself before you delete this
-            account.
+            <%- deleteInformation %>
           </p>
           <div class="checkbox">
-            <label> <input type="checkbox" ng-model="assignment"> Yes, I want delete my account
-              irrevocably and I also have read the notices which are shown in *<sup>1</sup>.
-            </label>
+            <label> <input type="checkbox" ng-model="assignment"> <%- deleteConfirmation %></label>
           </div>
         </div>
       </div>
