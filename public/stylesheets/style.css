@@ -61,7 +61,6 @@ body {
 }
 
 .designer-element {
-  heigth: 50px;
-  width: 100px;
-  border-style: solid;
+  height: 100px;
+  width: 150px;
 }

@@ -150,7 +150,7 @@ router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, ne
       });
       res.json({success: true, token: token, userId: user._id});
     }
-  })
+  });
 });
 
 module.exports = router;

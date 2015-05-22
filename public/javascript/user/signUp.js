@@ -38,7 +38,7 @@ angular.module('brainworks.user')
           }
         });
         return def.promise;
-      }
+      };
     }
   };
 }]);

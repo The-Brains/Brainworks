@@ -50,7 +50,7 @@ router.get('/diagrams/:userId', userCtrl.verifyLogin, function(req, res, next) {
     else {
       res.json({success: true, diagrams: diagrams});
     }
-  })
+  });
 });
 
 router.get('/publicDiagrams', function(req, res, next) {
@@ -59,7 +59,7 @@ router.get('/publicDiagrams', function(req, res, next) {
     else {
       res.json({success: true, diagrams: diagrams});
     }
-  })
+  });
 });
 
 router.get('/diagramInformation/:diagram', userCtrl.verifyLogin, function(req, res, next) {

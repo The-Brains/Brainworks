@@ -7,7 +7,7 @@ var diagramSchema = new mongoose.Schema({
   name: {type: String, required: true},
   description: {type: String, required: true},
   authorId: {type: mongoose.Schema.ObjectId, auto: false, required: true},
-  isPublic: {type: Boolean}
+  isPublic: {type: Boolean, 'default': false}
 });
 
 module.exports = mongoose.model('Diagram', diagramSchema);
