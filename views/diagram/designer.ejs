@@ -1,17 +1,21 @@
-<div class="panel panel-default" style="height: 100%;">
-  <!-- TODO hier noch den titel anzeigen -->
-  <div class="panel-body row" style="height: 100%; overflow: auto;">
-    <div class="col-md-4">
+<div class="panel panel-default full-height">
+  <div class="panel-body full-height">
+    <h1 class="page-header designer-header">
+      {{diagram.title}}
+      <a class="btn btn-primary pull-right" tooltip-placement="bottom" tooltip="<%= save %>"><span class="glyphicon glyphicon-floppy-save"></span></a>
+    </h1>
+    <div class="row full-height" style="overflow: auto;">
+      <div class="col-md-4 designer-main-container full-height">
         <accordion close-others="oneAtATime">
           <accordion-group heading="Klassendiagramme" ng-repeat="group in groups">
-          
-           <designer-element> </designer-element>
+            <designer-element></designer-element>
           </accordion-group>
         </accordion>
-    </div>
-    <div class='col-md-8' style="height: 100%">
-      <div  style="height: 100%; overflow: hidden; border:1px solid #000000; width: 100%">
-        <canvas style="height: 5000px; width:5000px;"></canvas>
+      </div>
+      <div class="col-md-8 full-height">
+        <div class="full-height designer-container">
+          <designer></designer>
+        </div>
       </div>
     </div>
   </div>

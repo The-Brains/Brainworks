@@ -35,7 +35,7 @@ body {
   padding-bottom: 0;
 }
 
-.container {
+.full-height {
   height: 100%;
 }
 
@@ -59,8 +59,25 @@ body {
 .diagram-description {
   white-space: pre-wrap;
 }
+.designer-header {
+  margin-top: 0;
+}
 
 .designer-element {
   height: 100px;
   width: 150px;
+}
+
+.designer-main-container {
+  overflow-y: auto;
+}
+
+.designer-container {
+  overflow: hidden;
+  border: 1px solid #000000;
+}
+
+.designer {
+  height: 5000px;
+  width: 5000px;
 }

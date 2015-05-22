@@ -31,7 +31,9 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
 });
 
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
-  res.render('diagram/designer', {});
+  res.render('diagram/designer', {
+    save: 'Speichern'
+  });
 });
 
 router.param('diagram', function(req, res, next, id) {
