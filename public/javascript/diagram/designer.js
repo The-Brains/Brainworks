@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', function ($scope) {
   $scope.oneAtATime = true;
-  $scope.groups = [{}];
+  $scope.classShapes = ['ActiveClass'];
   $scope.diagram = {title: 'Test'};
 }])
 .directive('designer', function() {
@@ -18,14 +18,18 @@ angular.module('brainworks.diagram')
   }
 })
 .directive('designerElement', function($document) {
+  // TODO elementType
   return {
     restrict: 'E',
     replace: true,
+    scope: {
+      type: '@type'
+    },
     template: '<canvas class="designer-element" height="100" width="150"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var activeClass = new ActiveClass(0, 0, 150, 100, 'black', 1);
-      activeClass.draw(element[0]);
+      var shape = new window[scope.type](0, 0, 150, 100, 'black', 1);
+      shape.draw(element[0]);
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
@@ -37,7 +41,7 @@ angular.module('brainworks.diagram')
         clonedElement = element.clone();
         element.removeClass('designer-element-active');
         $('#designerContainer').append(clonedElement);
-        activeClass.draw(clonedElement[0]);
+        shape.draw(clonedElement[0]);
         offsetX = element.prop('offsetWidth')/2;
         offsetY = element.prop('offsetHeight')/2;
         clonedElement.css({
