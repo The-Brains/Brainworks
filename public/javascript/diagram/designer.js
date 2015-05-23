@@ -10,7 +10,7 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    template: '<canvas class="designer"></canvas>',
+    template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
     link: function() {
       // TODO per attribut den array mit den shapes oder das object des diagrammes aus dem model binden und per scope.$watch
       // darauf achten, wenn aendernungen stattfinden und dann einen redraw anfordern
@@ -21,9 +21,12 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    template: '<canvas class="designer-element"></canvas>',
+    template: '<canvas class="designer-element" height="100" width="150"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
+      var activeClass = new ActiveClass(0, 0, 150, 100, 'black', 1);
+      activeClass.draw(element[0]);
+      
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });

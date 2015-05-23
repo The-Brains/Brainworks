@@ -69,8 +69,6 @@ body {
 }
 
 .designer-element {
-  height: 100px;
-  width: 150px;
   cursor: pointer;
 }
 
@@ -90,9 +88,4 @@ body {
 .designer-container {
   overflow: hidden;
   border: 1px solid #000000;
-}
-
-.designer {
-  height: 5000px;
-  width: 5000px;
 }
