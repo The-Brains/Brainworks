@@ -13,19 +13,6 @@ angular.module('brainworks.diagram')
   }
   
   /*****************************************************************************
-   * All class-diagram drawing functions are defined here                      *
-   ****************************************************************************/
-
-  function drawActiveClass(context, x, y, width, height, borderColor, lineWidth) {
-    var innerWidth = width * 0.8;
-    var posInnerWidth = (width - innerWidth) / 2;
-    
-    drawRectangle(context, x, y, width, height, borderColor, lineWidth);
-    drawRectangle(context, posInnerWidth, y, innerWidth, height, borderColor, lineWidth);
-  }
-  
-    
-  /*****************************************************************************
    * All raw figure drawings are defined here                                  *
    ****************************************************************************/
   

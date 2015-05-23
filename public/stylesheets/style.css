@@ -1,5 +1,6 @@
 html, body {
   min-height: 100%;
+  height: 100%;
 }
 
 body {
@@ -34,7 +35,7 @@ body {
   padding-bottom: 0;
 }
 
-.container {
+.full-height {
   height: 100%;
 }
 
@@ -53,4 +54,38 @@ body {
 
 .has-success > div > span {
   color: #3fb618;
+}
+
+.diagram-description {
+  white-space: pre-wrap;
+}
+
+.designer-header {
+  margin-top: 0;
+}
+
+.designer-wrap {
+  overflow: hidden;
+}
+
+.designer-element {
+  cursor: pointer;
+}
+
+.designer-element-active {
+  background-color: #e5e5e5;
+  z-index: 1;
+}
+
+.designer-main-container-wrap, .designer-main-container {
+  overflow-y: auto;
+}
+
+.designer-main-container-wrap {
+  padding-bottom: 74px;
+}
+
+.designer-container {
+  overflow: hidden;
+  border: 1px solid #000000;
 }

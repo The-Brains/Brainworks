@@ -1,21 +1,60 @@
 angular.module('brainworks.diagram')
-.controller('designerCtrl', [function ($scope) {
+.controller('designerCtrl', ['$scope', function ($scope) {
   $scope.oneAtATime = true;
-
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'template'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
+  $scope.diagram = {title: 'Test', shapes: []};
+  $scope.shapes = [];
 }])
 .directive('designer', function() {
-  // TODO hier wird ein canvas element mit den notwendigen listeners definiert. es erhält alle shapes und relations und ruft bei diesen die zeichnen funktion auf
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
+    link: function(scope, element, attr) {
+      $(element).droppable({
+        accept: '.designer-element',
+        drop: function(event, ui) {
+          var y = ui.helper.position().top - $(element).parent().offset().top;
+          var x = ui.helper.position().left - $(element).parent().offset().left;
+          scope.diagram.shapes.push({x: x, y: y});
+          scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, 'black', 1));
+          draw();
+        }
+      });
+      var draw = function() {
+        var context = element[0].getContext('2d');
+        context.clearRect(0, 0, 5000, 5000);
+        angular.forEach(scope.shapes, function(value) {
+          value.draw(element[0]);
+        });
+      };
+      draw();
+    }
+  }
 })
-.directive('designerElement', function() {
-  // TODO hier wird ein canvas element mit den notwendigen listeners definiert. diese direktive wird in der seiten auswahl verndet um die einzelnen elemente zu auswahl zur verfügung zu stellen
+.directive('designerElement', function($document) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<canvas class="designer-element" height="100" width="150"></canvas>',
+    link: function(scope, element, attr) {
+      var offsetX, offsetY;
+      var shape = new window[attr.type](0, 0, 150, 100, 'black', 1);
+      shape.draw(element[0]);
+      $(element).draggable({
+        helper: 'clone',
+        appendTo: $('#designerContainer'),
+        containment: $('#designerContainer'),
+        start: function(event, ui) {
+          shape.draw(ui.helper[0]);
+        }
+      });
+      element.on('mouseover', function(event) {
+        element.addClass('designer-element-active');
+      });
+      element.on('mouseout', function(event) {
+        element.removeClass('designer-element-active');
+      });
+    }
+  };
 });
