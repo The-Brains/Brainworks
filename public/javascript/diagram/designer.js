@@ -2,16 +2,18 @@ angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', function ($scope) {
   $scope.oneAtATime = true;
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
-  $scope.diagram = {title: 'Test'};
+  $scope.diagram = {title: 'Test', shapes: []};
 }])
 .directive('designer', function() {
-  // TODO hier wird ein canvas element mit den notwendigen listeners definiert. 
-  //es erhält alle shapes und relations und ruft bei diesen die zeichnen funktion auf
   return {
     restrict: 'E',
     replace: true,
+    scope: {
+      shapes: ''
+    },
     template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
-    link: function() {
+    link: function(scope, element, attr) {
+      
       // TODO per attribut den array mit den shapes oder das object des diagrammes aus dem model binden und per scope.$watch
       // darauf achten, wenn aendernungen stattfinden und dann einen redraw anfordern
     }
@@ -21,13 +23,10 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    scope: {
-      type: '@type'
-    },
     template: '<canvas class="designer-element" height="100" width="150"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var shape = new window[scope.type](0, 0, 150, 100, 'black', 1);
+      var shape = new window[attr.type](0, 0, 150, 100, 'black', 1);
       shape.draw(element[0]);
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
