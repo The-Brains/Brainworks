@@ -8,12 +8,8 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    scope: {
-      shapes: ''
-    },
     template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
     link: function(scope, element, attr) {
-      
       // TODO per attribut den array mit den shapes oder das object des diagrammes aus dem model binden und per scope.$watch
       // darauf achten, wenn aendernungen stattfinden und dann einen redraw anfordern
     }
