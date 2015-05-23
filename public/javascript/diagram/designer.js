@@ -26,7 +26,6 @@ angular.module('brainworks.diagram')
       var offsetX, offsetY;
       var activeClass = new ActiveClass(0, 0, 150, 100, 'black', 1);
       activeClass.draw(element[0]);
-      
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
@@ -38,6 +37,7 @@ angular.module('brainworks.diagram')
         clonedElement = element.clone();
         element.removeClass('designer-element-active');
         $('#designerContainer').append(clonedElement);
+        activeClass.draw(clonedElement[0]);
         offsetX = element.prop('offsetWidth')/2;
         offsetY = element.prop('offsetHeight')/2;
         clonedElement.css({
