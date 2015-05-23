@@ -70,6 +70,7 @@ body {
 
 .designer-element {
   cursor: pointer;
+  margin: 2px;
 }
 
 .designer-element-active {

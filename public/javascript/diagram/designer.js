@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', function ($scope) {
   $scope.oneAtATime = true;
-  $scope.classShapes = ['ActiveClass'];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
   $scope.diagram = {title: 'Test'};
 }])
 .directive('designer', function() {
@@ -18,7 +18,6 @@ angular.module('brainworks.diagram')
   }
 })
 .directive('designerElement', function($document) {
-  // TODO elementType
   return {
     restrict: 'E',
     replace: true,
