@@ -67,13 +67,12 @@ ActiveClass.prototype = new Shape();
 
 ActiveClass.prototype.draw = function(canvas) {
   var innerWidth = this.width * 0.8;
-  var posInnerWidth = (this.width - innerWidth) / 2;
+  var posInnerWidth = this.x + (this.width - innerWidth) / 2;
   var context = canvas.getContext('2d');
-  context.save();
+  context.beginPath();
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
   context.rect(posInnerWidth, this.y, innerWidth, this.height);
   context.stroke();
-  context.restore();
 };

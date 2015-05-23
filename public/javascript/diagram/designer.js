@@ -14,19 +14,21 @@ angular.module('brainworks.diagram')
       $(element).droppable({
         accept: '.designer-element',
         drop: function(event, ui) {
-          console.log(event);
-          console.log(ui);
-          //scope.diagrams.shapes.push({});
-          //scope.shapes.push();
+          var y = ui.helper.position().top - $(element).parent().offset().top;
+          var x = ui.helper.position().left - $(element).parent().offset().left;
+          scope.diagram.shapes.push({x: x, y: y});
+          scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, 'black', 1));
+          draw();
         }
       });
-      scope.$watch('shapes', function() {
+      var draw = function() {
+        var context = element[0].getContext('2d');
+        context.clearRect(0, 0, 5000, 5000);
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
-      });
-      // TODO per attribut den array mit den shapes oder das object des diagrammes aus dem model binden und per scope.$watch
-      // darauf achten, wenn aendernungen stattfinden und dann einen redraw anfordern
+      };
+      draw();
     }
   }
 })
