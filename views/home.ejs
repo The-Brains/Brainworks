@@ -1,24 +1,23 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-	eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam 
-	voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet 
-	clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit 
-	amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
-	nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed 
-	diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-	Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-	sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
-	nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed 
-	diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-	Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-	sit amet. 
-	<br /><br />
-	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse 
-	molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero 
-	eros et accumsan et iusto odio dignissim qui blandit praesent luptatum 
-	zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum 
-	dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod 
-	tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+<h1 class="page-header">
+  &nbsp;
+  <span class="pull-right form-inline">
+    <input class="form-control" type="text" placeholder="<%= search %>" ng-model="searchText">
+  </span>
+</h1>
+<div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
+  <div class="col-md-7">
+    <a href="#/diagram/{{diagram._id}}">
+      <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.name}}">
+    </a>
   </div>
+  <div class="col-md-5">
+    <h3>{{diagram.name}}</h3>
+    <p class="diagram-description">{{diagram.description}}</p>
+    <!-- TODO add button for adding comments only if logged in <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> Update Information</a>
+    <a class="btn btn-primary" href="#/diagram/{{diagram._id}}">Edit Diagram <span class="glyphicon glyphicon-chevron-right"></span></a> -->
+  </div>
+</div>
+<hr ng-repeat-end>
+<div class="text-center">
+  <pagination ng-model="currentPage" total-items="(diagrams | filter:searchText).length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true" next-text="<%= paginationNext %>" previous-text="<%= paginationPrevious %>" first-text="<%= paginationFirst %>" last-text="<%= paginationLast %>"></pagination>
 </div>

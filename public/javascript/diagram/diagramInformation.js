@@ -5,14 +5,26 @@ angular.module('brainworks.diagram')
 .factory('diagramInformationFactory', ['$http', function($http) {
   return {
     get: function(id) {
-      return $http.get('/diagramInformation/' + id).then(function(res) {
+      return $http.get('/diagram/diagramInformation/' + id).then(function(res) {
         return res.data;
       });
+    },
+    save: function(diagram) {
+      return $http.put('/diagram/diagram', diagram);
     }
   };
-  // TODO ein controller und beim laden der seite evtl. die daten laden oder leer definieren
-  // zudem sollte diese technik dann auf alle anderen seiten übertragen werden
 }])
-.controller('diagramInformationCtrl', ['$scope', 'diagram', 'diagramInformationFactory', function($scope, diagram, diagramInformationFactory) {
+.controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory', function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
   $scope.diagram = diagram;
+  $scope.cancel = function() {
+    $state.go('profile.diagrams');
+  };
+  $scope.save = function(diagram) {
+    diagram.authorId = localStorageService.get('userId');
+    diagramInformationFactory.save(diagram).success(function(data) {
+      if(data.success) {
+        $state.go('diagram', {id: data.diagramId});
+      }
+    });
+  };
 }]);

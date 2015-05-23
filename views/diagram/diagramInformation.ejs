@@ -2,20 +2,21 @@
   <div class="panel-body">
     <form>
       <div class="form-group">
-        <label>Titel</label>
-        <input class="form-control">
+        <label><%= title %></label>
+        <input class="form-control" ng-model="diagram.name">
       </div>
       <div class="form-group">
-        <label>Beschreibung</label>
-        <textarea class="form-control" rows="10"></textarea>
+        <label><%= description %></label>
+        <textarea class="form-control" rows="10" ng-model="diagram.description"></textarea>
       </div>
       <div class="checkbox">
         <label>
-          <input type="checkbox">
-          &Ouml;ffentlicher Diagram
+          <input type="checkbox" ng-model="diagram.isPublic">
+          <%= publicDiagram %>
         </label>
       </div>
-      <button type="submit" class="btn btn-primary">Speichern</button>
+      <button type="submit" class="btn btn-primary" ng-click="save(diagram)"><%= save %></button>
+      <button type="submit" class="btn btn-default" ng-click="cancel()"><%= cancel %></button>
     </form>
   </div>
 </div>

@@ -7,7 +7,12 @@ angular.module('brainworks.user', [])
     .state('profile.settings', {
       url: '/settings',
       templateUrl: '/user/settings',
-      controller: 'settingsCtrl'
+      controller: 'settingsCtrl',
+      resolve: {
+        user: ['localStorageService', 'userSettingsFactory', function(localStorageService, userSettingsFactory) {
+          return userSettingsFactory.loadUserData(localStorageService.get('userId'));
+        }]
+      }
     })
     .state('profile.logout', {
       url: '/user/signOut',

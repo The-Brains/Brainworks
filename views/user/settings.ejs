@@ -1,111 +1,107 @@
 <div class="panel panel-primary">
-  <div class="panel-heading">My user data</div>
+  <div class="panel-heading"><%= accountSettings %></div>
   <div class="panel-body">
     <form class="form-horizontal" ng-submit="updateUser(user)" name="changeUserForm" novalidate>
       <div class="form-group">
-        <label for="username" class="col-sm-3 control-label">Username</label>
+        <label for="username" class="col-sm-3 control-label"><%= username %></label>
         <div class="col-sm-5">
-          <input disabled="true" name="username" id="username" type="text" class="form-control" placeholder="Username" ng-model="user.username" />
+          <input disabled="true" name="username" id="username" type="text" class="form-control" placeholder="<%= username %>" ng-model="user.username" />
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.forename.$touched) && changeUserForm.forename.$invalid}">
-        <label for="forename" class="col-sm-3 control-label">Forename</label>
+        <label for="forename" class="col-sm-3 control-label"><%= forename %></label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="forename" placeholder="Forename" ng-model="user.forename" name="forename" required />
+          <input type="text" class="form-control" id="forename" placeholder="<%= forename %>" ng-model="user.forename" name="forename" required />
           <span ng-show="changeUserForm.$submitted || changeUserForm.forename.$touched">
-            <span ng-show="changeUserForm.forename.$error.required">This field is required.</span>
+            <span ng-show="changeUserForm.forename.$error.required"><%= fieldRequired %></span>
           </span>
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.surname.$touched) && changeUserForm.surname.$invalid}">
-        <label for="surname" class="col-sm-3 control-label">Surname</label>
+        <label for="surname" class="col-sm-3 control-label"><%= surname %></label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="surname" placeholder="Surname" ng-model="user.surname" name="surname" required />
+          <input type="text" class="form-control" id="surname" placeholder="<%= surname %>" ng-model="user.surname" name="surname" required />
           <span ng-show="changeUserForm.$submitted || changeUserForm.surname.$touched">
-            <span ng-show="changeUserForm.surname.$error.required">This field is required.</span>
+            <span ng-show="changeUserForm.surname.$error.required"><%= fieldRequired %></span>
           </span>
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error': (changeUserForm.$submitted || changeUserForm.email.$touched) && changeUserForm.email.$invalid}">
-        <label for="email" class="col-sm-3 control-label">E-Mail</label>
+        <label for="email" class="col-sm-3 control-label"><%= email %></label>
         <div class="col-sm-5">
-          <input type="email" class="form-control" id="email" placeholder="E-Mail" ng-model="user.email" name="email" required />
+          <input type="email" class="form-control" id="email" placeholder="<%= email %>" ng-model="user.email" name="email" required />
           <span ng-show="changeUserForm.$submitted || changeUserForm.email.$touched">
-            <span ng-show="changeUserForm.email.$error.required">This field is required.</span>
-            <span ng-show="changeUserForm.email.$error.email">The email is invalid.</span>
+            <span ng-show="changeUserForm.email.$error.required"><%= fieldRequired %></span>
+            <span ng-show="changeUserForm.email.$error.email"><%= emailInvalid %></span>
           </span>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary"><%= save %></button>
         </div>
       </div>
     </form>
   </div>
 </div>
 <div class="panel panel-primary">
-  <div class="panel-heading">My login data</div>
+  <div class="panel-heading"><%= changePassword %></div>
   <div class="panel-body">
     <form class="form-horizontal" ng-submit="changePassword(user._id, newPw)" name="changePasswordForm" novalidate>
       <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.currentPw.$touched) && changePasswordForm.currentPw.$invalid}">
-        <label for="currentPw" class="col-sm-3 control-label">current password</label>
+        <label for="currentPw" class="col-sm-3 control-label"><%= currentPassword %></label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="currentPw" placeholder="current password" ng-model="currentPw" name="currentPw" match="[createHash(changePasswordForm.currentPw.$viewValue), user.password]" required />
+          <input type="password" class="form-control" id="currentPw" placeholder="<%= currentPassword %>" ng-model="currentPw" name="currentPw" match="[createHash(changePasswordForm.currentPw.$viewValue), user.password]" required />
           <span ng-show="changePasswordForm.$submitted || changePasswordForm.currentPw.$touched">
-            <span ng-show="changePasswordForm.currentPw.$error.required && !changePasswordForm.currentPw.$error.match">This field is required.</span>
-            <span ng-show="changePasswordForm.currentPw.$error.match">The password doesn't match with the actual. Try again?</span>
+            <span ng-show="changePasswordForm.currentPw.$error.required && !changePasswordForm.currentPw.$error.match"><%= fieldRequired %></span>
+            <span ng-show="changePasswordForm.currentPw.$error.match"><%= actualPasswordNotMatch %></span>
           </span>
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPw.$touched) && changePasswordForm.newPw.$invalid}">
-        <label for="newPw" class="col-sm-3 control-label">new password</label>
+        <label for="newPw" class="col-sm-3 control-label"><%= newPassword %></label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="newPw" placeholder="new password" ng-model="newPw" name="newPw" required />
+          <input type="password" class="form-control" id="newPw" placeholder="<%= newPassword %>" ng-model="newPw" name="newPw" required />
           <span ng-show="changePasswordForm.$submitted || changePasswordForm.newPw.$touched">
-            <span ng-show="changePasswordForm.newPw.$error.required && !changePasswordForm.newPw.$error.match">This field is required.</span>
+            <span ng-show="changePasswordForm.newPw.$error.required && !changePasswordForm.newPw.$error.match"><%= fieldRequired %></span>
           </span>
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error': (changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched) && changePasswordForm.newPwConfirmation.$invalid}">
-        <label for="newPwConfirmation" class="col-sm-3 control-label">repeat new password</label>
+        <label for="newPwConfirmation" class="col-sm-3 control-label"><%= newPasswordConfirmation %></label>
         <div class="col-sm-5">
-          <input type="password" class="form-control" id="newPwConfirmation" placeholder="repeat new password" ng-model="newPwConfirmation" name="newPwConfirmation" match="newPw" required />
+          <input type="password" class="form-control" id="newPwConfirmation" placeholder="<%= newPasswordConfirmation %>" ng-model="newPwConfirmation" name="newPwConfirmation" match="newPw" required />
           <span ng-show="changePasswordForm.$submitted || changePasswordForm.newPwConfirmation.$touched">
-            <span ng-show="changePasswordForm.newPwConfirmation.$error.required && !changePasswordForm.newPwConfirmation.$error.match">This field is required.</span>
-            <span ng-show="changePasswordForm.newPwConfirmation.$error.match">These passwords don't match. Try again?</span>
+            <span ng-show="changePasswordForm.newPwConfirmation.$error.required && !changePasswordForm.newPwConfirmation.$error.match"><%= fieldRequired %></span>
+            <span ng-show="changePasswordForm.newPwConfirmation.$error.match"><%= passwordNotMatch %></span>
           </span>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary"><%= save %></button>
         </div>
       </div>
     </form>
   </div>
 </div>
 <div class="panel panel-danger">
-  <div class="panel-heading">Delete my account</div>
+  <div class="panel-heading"><%= deleteAccount %></div>
   <div class="panel-body">
     <form class="form-horizontal" ng-submit="deleteAccount(user._id)">
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5"">
           <p class="help-block">
-            *<sup>1</sup> Warning:<br /> Your account will be deleted irrevocably. When you deleted this account, we
-            cannot recovery your data and your saved projects. Please recover your data yourself before you delete this
-            account.
+            <%- deleteInformation %>
           </p>
           <div class="checkbox">
-            <label> <input type="checkbox" ng-model="assignment"> Yes, I want delete my account
-              irrevocably and I also have read the notices which are shown in *<sup>1</sup>.
-            </label>
+            <label> <input type="checkbox" ng-model="assignment"> <%- deleteConfirmation %></label>
           </div>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
-          <button type="submit" class="btn btn-danger">Delete Account</button>
+          <button type="submit" class="btn btn-danger"><%= deleteAccount %></button>
         </div>
       </div>
     </form>

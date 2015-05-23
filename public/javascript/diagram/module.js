@@ -7,11 +7,17 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     .state('profile.diagrams', {
       url: '/diagrams',
       templateUrl: '/diagram/diagrams',
-      controller: 'diagramCtrl'
+      controller: 'diagramCtrl',
+      resolve: {
+        diagrams: ['localStorageService', 'diagramsFactory', function(localStorageService, diagramsFactory) {
+          return diagramsFactory.get(localStorageService.get('userId'));
+        }]
+      }
     })
     .state('diagram', {
       url: '/diagram/{id}',
-      templateUrl: '/diagram/designer'
+      templateUrl: '/diagram/designer',
+      controller: 'designerController'
     })
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
@@ -29,13 +35,29 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       controller: 'diagramInformationCtrl',
       resolve: {
         diagram: function() {
-          return {};
+          return {
+            diagram: {}
+          };
         }
       }
     });
 }])
-.controller('diagramCtrl', ['$scope', function($scope) {
-  $scope.diagrams = [{_id: 1, title: 'Test'}, {_id: 2, title: 'Test1'}, {_id: 3, title: 'Test2'}];
+.factory('diagramsFactory', ['$http', function($http) {
+  return {
+    get: function(userId) {
+      return $http.get('/diagram/diagrams/'+userId).then(function(res) {
+        return res.data;
+      });
+    },
+    getPublicDiagrams: function(userId) {
+      return $http.get('/diagram/publicDiagrams').then(function(res) {
+        return res.data;
+      });
+    }
+  };
+}])
+.controller('diagramCtrl', ['$scope', 'diagrams', function($scope, diagrams) {
+  $scope.diagrams = diagrams.diagrams;
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
   $scope.maxSize = 5;
@@ -45,5 +67,4 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     start = +start;
     return input.slice(start);
   };
-})
-;
+});

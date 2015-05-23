@@ -1,15 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/brainworks/user/');
-
-require('../routes/userRoutes')(router); // Routing of User
 
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Brainworks',
     home: 'Startseite',
-    sign_in: 'Einloggen',
+    signIn: 'Einloggen',
     profile: 'Profil',
     about: 'Über',
     diagrams: 'Diagramme',
@@ -19,19 +15,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/home', function(req, res, next) {
-  res.render('home', {});
-});
-
-router.get('/sign_in', function(req, res, next) {
-  res.render('sign_in', {});
-});
-
-router.get('/diagrams', function(req, res, next) {
-  res.render('diagrams', {});
-});
-
-router.get('/settings', function(req, res, next) {
-  res.render('settings', {});
+  res.render('home', {
+    paginationNext: 'Weiter',
+    paginationPrevious: 'Zurück',
+    paginationLast: 'Letzte',
+    paginationFirst: 'Erste',
+    search: 'Suche'
+  });
 });
 
 router.get('/about', function(req, res, next) {

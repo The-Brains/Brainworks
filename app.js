@@ -8,8 +8,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var session = require('express-session');
-
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 mongoose.connect('mongodb://localhost/brainworks');
@@ -17,6 +15,7 @@ mongoose.connect('mongodb://localhost/brainworks');
 var mainRoutes = require('./routes/index');
 var userRoutes = require('./routes/user');
 var diagramRoutes = require('./routes/diagram');
+
 var app = express();
 
 // all environments
@@ -25,9 +24,8 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(session({secret: '1234567890QWERTY'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 

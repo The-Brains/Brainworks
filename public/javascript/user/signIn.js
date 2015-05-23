@@ -8,7 +8,7 @@ angular.module('brainworks.user')
   $scope.signIn = function(user) {
     var password = '';
     if(angular.isDefined(user.password)) {
-      password = CryptoJS.SHA3(user.password, { outputLength: 512 }).toString();
+      password = CryptoJS.SHA3(user.password, { outputLength: 512 }).toString().toUpperCase();
     }
     userFactory.signIn(user.username, password).success(function(response) {
       if(response.success) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
   <title><%= title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -26,8 +26,8 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
           <nav-item page="home" title="<%= home %>"></nav-item>
-          <nav-item ng-hide="signed_in" page="sign_in" title="<%= sign_in %>"></nav-item>
-          <li ui-sref-active="active" ng-show="signed_in" class="dropdown">
+          <nav-item ng-hide="isAuthentificated" page="signIn" title="<%= signIn %>"></nav-item>
+          <li ui-sref-active="active" ng-show="isAuthentificated" class="dropdown">
             <a ui-sref="profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%= profile %> <span class="caret"></span>
             </a>
@@ -50,11 +50,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.0/angular-local-storage.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha3.js"></script>
+  
+  <!-- Geimeinsame Funktionen -->
+  <script src="/javascript/commons/module.js"></script>
+  <script src="/javascript/commons/directives.js"></script>
+  
+  <!-- Diagramme -->
+  <script src="/javascript/diagram/module.js"></script>
+  <script src="/javascript/diagram/designer.js"></script>
+  <script src="/javascript/diagram/shapes.js"></script>
+  <script src="/javascript/diagram/diagramSpecies.js"></script>
+  <script src="/javascript/diagram/diagramInformation.js"></script>
+  
+  <!-- User -->
+  <script src="/javascript/user/module.js"></script>
+  <script src="/javascript/user/settings.js"></script>
+  <script src="/javascript/user/signIn.js"></script>
+  <script src="/javascript/user/signUp.js"></script>
+  
+  <!-- Hauptdatei -->
   <script src="/javascript/main.js"></script>
-  <script src="/javascript/signin.js"></script>
-  <script src="/javascript/diagrams.js"></script>
-  <script src="/javascript/settings.js"></script>
 </body>
 </html>
