@@ -3,6 +3,7 @@ angular.module('brainworks.diagram')
   $scope.oneAtATime = true;
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
   $scope.diagram = {title: 'Test', shapes: []};
+  $scope.shapes = [];
 }])
 .directive('designer', function() {
   return {
@@ -10,6 +11,20 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
     link: function(scope, element, attr) {
+      $(element).droppable({
+        accept: '.designer-element',
+        drop: function(event, ui) {
+          console.log(event);
+          console.log(ui);
+          //scope.diagrams.shapes.push({});
+          //scope.shapes.push();
+        }
+      });
+      scope.$watch('shapes', function() {
+        angular.forEach(scope.shapes, function(value) {
+          value.draw(element[0]);
+        });
+      });
       // TODO per attribut den array mit den shapes oder das object des diagrammes aus dem model binden und per scope.$watch
       // darauf achten, wenn aendernungen stattfinden und dann einen redraw anfordern
     }
@@ -24,43 +39,20 @@ angular.module('brainworks.diagram')
       var offsetX, offsetY;
       var shape = new window[attr.type](0, 0, 150, 100, 'black', 1);
       shape.draw(element[0]);
+      $(element).draggable({
+        helper: 'clone',
+        appendTo: $('#designerContainer'),
+        containment: $('#designerContainer'),
+        start: function(event, ui) {
+          shape.draw(ui.helper[0]);
+        }
+      });
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
       element.on('mouseout', function(event) {
         element.removeClass('designer-element-active');
       });
-      element.on('mousedown', function(event) {
-        event.preventDefault();
-        clonedElement = element.clone();
-        element.removeClass('designer-element-active');
-        $('#designerContainer').append(clonedElement);
-        shape.draw(clonedElement[0]);
-        offsetX = element.prop('offsetWidth')/2;
-        offsetY = element.prop('offsetHeight')/2;
-        clonedElement.css({
-          position: 'absolute',
-          top: event.pageY - offsetY + 'px',
-          left: event.pageX - offsetX + 'px'
-        });
-        $document.on('mousemove', mousemove);
-        $document.on('mouseup', mouseup);
-      });
-      function mousemove(event) {
-        console.log(event);
-        clonedElement.css({
-          position: 'absolute',
-          top: event.pageY - offsetY + 'px',
-          left:  event.pageX - offsetX + 'px'
-        });
-        clonedElement.addClass('designer-element-active');
-      }
-      function mouseup(event) {
-        console.log(event);
-        clonedElement.remove();
-        $document.off('mousemove', mousemove);
-        $document.off('mouseup', mouseup);
-      }
     }
   };
 });
