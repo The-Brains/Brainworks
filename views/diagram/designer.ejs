@@ -1,10 +1,10 @@
 <div class="panel panel-default full-height">
-  <div class="panel-body full-height">
+  <div class="panel-body full-height designer-wrap">
     <h1 class="page-header designer-header">
       {{diagram.title}}
       <a class="btn btn-primary pull-right" tooltip-placement="bottom" tooltip="<%= save %>"><span class="glyphicon glyphicon-floppy-save"></span></a>
     </h1>
-    <div class="row full-height" style="overflow: auto;">
+    <div id="designerContainer" class="row full-height designer-main-container-wrap">
       <div class="col-md-4 designer-main-container full-height">
         <accordion close-others="oneAtATime">
           <accordion-group heading="Klassendiagramme" ng-repeat="group in groups">

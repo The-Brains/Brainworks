@@ -25,7 +25,7 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
     title: 'Titel',
     description: 'Beschreibung',
     publicDiagram: 'Öffentliches Diagramm',
-    save: 'Save',
+    save: 'Speichern',
     cancel: 'Abbrechen'
   });
 });

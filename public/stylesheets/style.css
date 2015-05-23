@@ -59,17 +59,32 @@ body {
 .diagram-description {
   white-space: pre-wrap;
 }
+
 .designer-header {
   margin-top: 0;
+}
+
+.designer-wrap {
+  overflow: hidden;
 }
 
 .designer-element {
   height: 100px;
   width: 150px;
+  cursor: pointer;
 }
 
-.designer-main-container {
+.designer-element-active {
+  background-color: #e5e5e5;
+  z-index: 1;
+}
+
+.designer-main-container-wrap, .designer-main-container {
   overflow-y: auto;
+}
+
+.designer-main-container-wrap {
+  padding-bottom: 74px;
 }
 
 .designer-container {
