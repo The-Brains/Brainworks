@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', 'diagram', function ($scope, diagram) {
   $scope.oneAtATime = true;
-  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'Class', name: 'Klasse'}]}];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'Class', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Notice', name: 'Notiz'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
 }])
@@ -20,7 +20,6 @@ angular.module('brainworks.diagram')
           console.log(ui);
           var y = ui.helper.position().top - $(element).parent().offset().top;
           var x = ui.helper.position().left - $(element).parent().offset().left;
-          //scope.diagram.shapes.push({x: x, y: y});
           scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, ui.helper.attr('name')));
           draw();
         }
@@ -74,7 +73,7 @@ angular.module('brainworks.diagram')
       });
       draw();
     }
-  }
+  };
 })
 .directive('designerElement', function($document) {
   return {

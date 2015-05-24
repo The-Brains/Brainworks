@@ -102,8 +102,66 @@ Class.prototype.draw = function(canvas) {
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  context.font = "bold " + this.fontSize + "px " + this.fontFamily;
-  context.textAlign = "center";
+  context.font = 'bold ' + this.fontSize + 'px ' + this.fontFamily;
+  context.textAlign = 'center';
+  context.fillText(this.name, centerX, centerY, this.width);
+  context.closePath();
+  context.stroke();
+  context.restore();
+};
+
+
+function AbstractClass(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+}
+
+AbstractClass.prototype = new Shape();
+
+AbstractClass.prototype.draw = function(canvas) {
+  var context = canvas.getContext('2d');
+  var centerX = this.x + (this.width / 2);
+  var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
+  context.save();
+  context.beginPath();
+  context.strokeStyle = this.borderColor;
+  context.lineWidth = this.lineWidth;
+  context.rect(this.x, this.y, this.width, this.height);
+  context.font = 'italic bold ' + this.fontSize + 'px ' + this.fontFamily;
+  context.textAlign = 'center';
+  context.fillText(this.name, centerX, centerY, this.width);
+  context.closePath();
+  context.stroke();
+  context.restore();
+};
+
+
+function Notice(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+}
+
+Notice.prototype = new Shape();
+
+Notice.prototype.draw = function(canvas) {
+  var context = canvas.getContext('2d');
+  var horizontalPiece = this.width * 0.8;
+  var verticalPiece = this.height * 0.3;
+  var centerX = this.x + (this.width / 2);
+  var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
+  context.save();
+  context.beginPath();
+  context.strokeStyle = this.borderColor;
+  context.lineWidth = this.lineWidth;
+  context.moveTo(this.x, this.y);
+  context.lineTo(this.x + horizontalPiece, this.y);
+  context.lineTo(this.x + this.width, this.y + verticalPiece);
+  context.lineTo(this.x + this.width, this.y + this.height);
+  context.lineTo(this.x, this.y + this.height);
+  context.lineTo(this.x, this.y);
+  context.moveTo(this.x + horizontalPiece, this.y);
+  context.lineTo(this.x + horizontalPiece, this.y + verticalPiece);
+  context.lineTo(this.x + this.width, this.y + verticalPiece);
+  context.font = 'bold ' + this.fontSize + 'px ' + this.fontFamily;
+  context.textAlign = 'center';
   context.fillText(this.name, centerX, centerY, this.width);
   context.closePath();
   context.stroke();
@@ -132,8 +190,8 @@ ActiveClass.prototype.draw = function(canvas) {
   context.lineTo(startPosInner, this.y + this.height);
   context.moveTo(endPosInner, this.y);
   context.lineTo(endPosInner, this.y + this.height);
-  context.font = "italic bold " + this.fontSize + "px " + this.fontFamily;
-  context.textAlign = "center";
+  context.font = 'bold ' + this.fontSize + 'px ' + this.fontFamily;
+  context.textAlign = 'center';
   context.fillText(this.name, centerX, centerY, this.width);
   context.closePath();
   context.stroke();
