@@ -1,13 +1,19 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <form>
-      <div class="form-group">
-        <label><%= title %></label>
-        <input class="form-control" ng-model="diagram.name">
+    <form name="diagramInformationForm" novalidate>
+      <div class="form-group" ng-class="{'has-error': (diagramInformationForm.$submitted || diagramInformationForm.title.$touched) && diagramInformationForm.title.$invalid}">
+        <label for="title" class="control-label"><%= title %></label>
+        <input type="text" class="form-control" id="title" placeholder="<%= title %>" name="title" ng-model="diagram.name" required />
+        <span ng-show="diagramInformationForm.$submitted || diagramInformationForm.title.$touched">
+          <span ng-show="diagramInformationForm.title.$error.required"><%= fieldRequired %></span>
+        </span>
       </div>
-      <div class="form-group">
-        <label><%= description %></label>
-        <textarea class="form-control" rows="10" ng-model="diagram.description"></textarea>
+      <div class="form-group" ng-class="{'has-error': (diagramInformationForm.$submitted || diagramInformationForm.description.$touched) && diagramInformationForm.description.$invalid}">
+        <label for="description" class="control-label"><%= description %></label>
+        <textarea class="form-control" rows="10" id="description" placeholder="<%= description %>" name="description" ng-model="diagram.description" required></textarea>
+        <span ng-show="diagramInformationForm.$submitted || diagramInformationForm.description.$touched">
+          <span ng-show="diagramInformationForm.description.$error.required"><%= fieldRequired %></span>
+        </span>
       </div>
       <div class="checkbox">
         <label>

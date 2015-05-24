@@ -26,7 +26,8 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
     description: 'Beschreibung',
     publicDiagram: 'Öffentliches Diagramm',
     save: 'Speichern',
-    cancel: 'Abbrechen'
+    cancel: 'Abbrechen',
+    fieldRequired: 'Dieses Feld ist ein Pflichtfeld.'
   });
 });
 

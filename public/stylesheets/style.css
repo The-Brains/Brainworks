@@ -48,7 +48,7 @@ body {
   text-align: center;
 }
 
-.has-error > div > span {
+.has-error > div > span, .has-error > span {
   color: #ff0039;
 }
 
