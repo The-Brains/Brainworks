@@ -97,6 +97,7 @@ Class.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
+  context.beginPath();
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
@@ -114,15 +115,19 @@ function ActiveClass(x, y, width, height, name, lineWidth, borderColor, fontFami
 ActiveClass.prototype = new Shape();
 
 ActiveClass.prototype.draw = function(canvas) {
-  var innerWidth = this.width * 0.8;
-  var posInnerWidth = this.x + (this.width - innerWidth) / 2;
+  var startPosInner = this.x + this.width * 0.1;
+  var endPosInner = this.x + this.width * 0.9;
   var context = canvas.getContext('2d');
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
+  context.beginPath();
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  context.rect(posInnerWidth, this.y, innerWidth, this.height);
+  context.moveTo(startPosInner, this.y);
+  context.lineTo(startPosInner, this.y + this.height);
+  context.moveTo(endPosInner, this.y);
+  context.lineTo(endPosInner, this.y + this.height);
   context.font = "italic bold " + this.fontSize + "px " + this.fontFamily;
   context.textAlign = "center";
   context.fillText(this.name, centerX, centerY, this.width); 
