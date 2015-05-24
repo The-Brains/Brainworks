@@ -1,7 +1,6 @@
 /**
  * New node file
  */
-// TODO serverside validation and alerts on client
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user/User');
@@ -128,17 +127,31 @@ router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user);
 });
 
-router.delete('/:user', userCtrl.verifyLogin, function(req, res, next) {
-  req.user.remove(function(err) {
-    if (err) { res.send(err); }
-    else { res.json({success: true}); }
-  });
+router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
+  if(!req.body.assignment) {
+    res.json({success: false, message: 'Bitte bestätigen Sie die Löschung Ihres Profils!'});
+  } else {
+    req.user.remove(function(err) {
+      if (err) { res.send(err); }
+      else { res.json({success: true}); }
+    });
+  }
 });
 
 router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
-  
-  // TODO aendern eines benutzers
-  console.log(req);
+  User.findByIdAndUpdate(req.user._id, {
+    forename: req.body.forename,
+    surname: req.body.surname,
+    email: req.body.email
+  }, function(err, user) {
+    if(err){ res.send(err); }
+    else {
+      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+        expiresInMinutes: 1440
+      });
+      res.json({success: true, token: token, userId: user._id});
+    }
+  });
 });
 
 router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {

@@ -10,13 +10,13 @@ angular.module('brainworks.user')
       });
     },
     updateUser: function(userId, user) {
-      return $http.put('/user/'+user, user);
+      return $http.put('/user/'+userId, user);
     },
     changePassword: function(userId, newPassword) {
       return $http.post('/user/changePassword/'+userId, {password: newPassword});
     },
-    deleteAccount: function(userId) {
-      return $http.delete('/user/'+userId);
+    deleteAccount: function(userId, assignment) {
+      return $http.post('/user/delete/'+userId, {assignment: assignment});
     }
   };
 }])
@@ -25,6 +25,8 @@ angular.module('brainworks.user')
   $scope.currentPw = '';
   $scope.newPw = '';
   $scope.newPwConfirmation = '';
+  $scope.assignment = false;
+  $scope.deleteFormErrors = [];
   $scope.createHash = function(value) {
     var val = angular.copy(value);
     var hash = '';
@@ -34,7 +36,12 @@ angular.module('brainworks.user')
     return hash;
   };
   $scope.updateUser = function(user) {
-    userSettingsFactory.updateUser(user._id, user);
+    userSettingsFactory.updateUser(user._id, user).success(function(response) {
+      if(response.success) {
+        localStorageService.set('token', response.token);
+        localStorageService.set('userId', response.userId);
+      }
+    });
   };
   $scope.changePassword = function(userId, newPw) {
     var password = '';
@@ -45,18 +52,28 @@ angular.module('brainworks.user')
       if(response.success) {
         localStorageService.set('token', response.token);
         localStorageService.set('userId', response.userId);
-        // TODO response update/reset data
+        $scope.user.password = $scope.newPw;
+        $scope.currentPw = '';
+        $scope.newPw = '';
+        $scope.newPwConfirmation = '';
+        $scope.changePasswordForm.$setPristine();
+        $scope.changePasswordForm.$setUntouched();
       }
     });
   };
-  $scope.deleteAccount = function(userId) {
-    userSettingsFactory.deleteAccount(userId).success(function(response) {
+  $scope.deleteAccount = function(userId, assignment) {
+    userSettingsFactory.deleteAccount(userId, assignment).success(function(response) {
       if(response.success) {
         $rootScope.isAuthentificated = false;
         localStorageService.remove('token');
         localStorageService.remove('userId');
         $state.go('signIn');
+      } else {
+        $scope.deleteFormErrors.push(response.message);
       }
     });
+  };
+  $scope.closeDeleteError = function(index) {
+    $scope.deleteFormErrors.splice(index, 1);
   };
 }]);
