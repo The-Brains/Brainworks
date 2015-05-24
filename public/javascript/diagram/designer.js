@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', 'diagram', function ($scope, diagram) {
   $scope.oneAtATime = true;
-  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'Class', name: 'Klasse'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
 }])
@@ -14,10 +14,11 @@ angular.module('brainworks.diagram')
       $(element).droppable({
         accept: '.designer-element',
         drop: function(event, ui) {
+          console.log(ui);
           var y = ui.helper.position().top - $(element).parent().offset().top;
           var x = ui.helper.position().left - $(element).parent().offset().left;
-          scope.diagram.shapes.push({x: x, y: y});
-          scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, 'black', 1));
+          //scope.diagram.shapes.push({x: x, y: y});
+          scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, ui.helper.attr('name')));
           draw();
         }
       });
@@ -39,7 +40,7 @@ angular.module('brainworks.diagram')
     template: '<canvas class="designer-element" height="100" width="150"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var shape = new window[attr.type](0, 0, 150, 100, 'black', 1);
+      var shape = new window[attr.type](0, 0, 150, 100, attr.name);
       shape.draw(element[0]);
       $(element).draggable({
         helper: 'clone',

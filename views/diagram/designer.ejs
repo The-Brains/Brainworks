@@ -8,7 +8,7 @@
       <div class="col-md-4 designer-main-container full-height">
         <accordion close-others="oneAtATime">
           <accordion-group heading="{{diagramType.name}}" ng-repeat="diagramType in diagramTypes">
-            <designer-element type="{{shape.type}}" tooltip-placement="bottom" tooltip="{{shape.name}}" ng-repeat="shape in diagramType.shapes"></designer-element>
+            <designer-element name="{{shape.name}}" type="{{shape.type}}" tooltip-placement="bottom" tooltip="{{shape.name}}" ng-repeat="shape in diagramType.shapes"></designer-element>
           </accordion-group>
         </accordion>
       </div>
