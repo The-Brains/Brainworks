@@ -102,15 +102,183 @@ function Class(x, y, width, height, lineWidth, title, fontFamily,
   };  
 }
 
-// This will inherit the class Layout
+// This will inherit the class Shape
 Class.prototype = new Shape();
 
-// Define functions for ActiveClass
+// Define functions for Class
 Class.prototype.draw = function(context) {
   context.save();
   context.strokeStyle = "black";
   
   context.rect(this.x, this.y, this.width, this.height);
+      
+  // Settings for border width
+  if (this.lineWidth) context.lineWidth = this.lineWidth;
+  else context.lineWidth = 1;
+  
+  if (this.title) {
+	  
+	  // Settings for font-family  
+	  if (this.fontFamily) var fontFamily = this.fontFamily;
+	  else var fontFamily = "Arial";
+	
+	  // Settings for font-size in px
+	  if (this.fontSize) var fontSize = this.fontSize;
+	  else var fontSize = 16;
+	
+	  // Settings for text-orientation in the center of both sides
+	  var centerX = this.x + (this.width / 2);
+	  var centerY = this.y + (this.height / 2) + (fontSize / 2);
+	
+	  context.font = "bold " + fontSize + "px " + fontFamily;
+	  context.textAlign = "center";
+	  context.fillText(this.title, centerX, centerY, this.width);	
+  }
+              
+  context.stroke();
+  
+  context.restore();
+};
+
+/*******************************************************************************
+ * The class AbstractClass                                                     *
+ ******************************************************************************/
+
+function AbstractClass(x, y, width, height, lineWidth, title, fontFamily, 
+  fontSize) {
+  Shape.call(this, x, y, width, height, lineWidth);
+  
+  if (typeof title === "string") this.title = title;
+  else this.title = "";
+  
+  if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  else this.fontFamily = "";
+  
+  if (typeof fontSize === "number") this.fontSize = fontSize;
+  else this.fontSize = 0;
+  
+  // Define the setters
+  this.setTitle = function() {
+    if (typeof title === "string") this.title = title;
+  };
+  this.getY = function() {
+    if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  };
+  this.getWidth = function() {
+    if (typeof fontSize === "number") this.fontSize = fontSize;
+  };
+  
+  // Define the getters
+  this.getTitle = function() {
+    return this.title;
+  };
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  this.getFontSize = function() {
+    return this.fontSize;
+  };  
+}
+
+// This will inherit the class Shape
+AbstractClass.prototype = new Shape();
+
+// Define functions for AbstractClass
+AbstractClass.prototype.draw = function(context) {
+  context.save();
+  context.strokeStyle = "black";
+  
+  context.rect(this.x, this.y, this.width, this.height);
+      
+  // Settings for border width
+  if (this.lineWidth) context.lineWidth = this.lineWidth;
+  else context.lineWidth = 1;
+  
+  if (this.title) {
+	  
+	  // Settings for font-family  
+	  if (this.fontFamily) var fontFamily = this.fontFamily;
+	  else var fontFamily = "Arial";
+	
+	  // Settings for font-size in px
+	  if (this.fontSize) var fontSize = this.fontSize;
+	  else var fontSize = 16;
+	
+	  // Settings for text-orientation in the center of both sides
+	  var centerX = this.x + (this.width / 2);
+	  var centerY = this.y + (this.height / 2) + (fontSize / 2);
+	
+	  context.font = "italic bold " + fontSize + "px " + fontFamily;
+	  context.textAlign = "center";
+	  context.fillText(this.title, centerX, centerY, this.width);	
+  }
+              
+  context.stroke();
+  
+  context.restore();
+};
+
+/*******************************************************************************
+ * The class Notice                                                            *
+ ******************************************************************************/
+
+function Notice(x, y, width, height, lineWidth, title, fontFamily, 
+  fontSize) {
+  Shape.call(this, x, y, width, height, lineWidth); 
+    
+  if (typeof title === "string") this.title = title;
+  else this.title = "";
+  
+  if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  else this.fontFamily = "";
+  
+  if (typeof fontSize === "number") this.fontSize = fontSize;
+  else this.fontSize = 0;
+  
+  // Define the setters
+  this.setTitle = function() {
+    if (typeof title === "string") this.title = title;
+  };
+  this.getY = function() {
+    if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  };
+  this.getWidth = function() {
+    if (typeof fontSize === "number") this.fontSize = fontSize;
+  };
+  
+  // Define the getters
+  this.getTitle = function() {
+    return this.title;
+  };
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  this.getFontSize = function() {
+    return this.fontSize;
+  }; 
+}
+
+//This will inherit the class Shape
+Notice.prototype = new Shape();
+
+//Define functions for Class
+Notice.prototype.draw = function(context) {
+  var horizontalPiece = this.width * 0.8;
+  var verticalPiece = this.height * 0.3;
+	
+  context.save();
+  context.strokeStyle = "black";
+  
+  context.beginPath();
+  context.moveTo(this.x, this.y);
+  context.lineTo(this.x + horizontalPiece, this.y);
+  context.lineTo(this.x + this.width, this.y + verticalPiece);
+  context.lineTo(this.x + this.width, this.y + this.height);
+  context.lineTo(this.x, this.y + this.height);
+  context.lineTo(this.x, this.y);
+  context.moveTo(this.x + horizontalPiece, this.y);
+  context.lineTo(this.x + horizontalPiece, this.y + verticalPiece);
+  context.lineTo(this.x + this.width, this.y + verticalPiece);
       
   // Settings for border width
   if (this.lineWidth) context.lineWidth = this.lineWidth;
@@ -209,8 +377,8 @@ ActiveClass.prototype.draw = function(context) {
 	  else var fontSize = 16;
 	
 	  // Settings for text-orientation in the center of both sides
-	  var centerX = this.width / 2;
-	  var centerY = (this.height / 2) + (fontSize / 2);
+	  var centerX = this.x + (this.width / 2);
+	  var centerY = this.y + ((this.height / 2) + (fontSize / 2));
 	
 	  context.font = "italic bold " + fontSize + "px " + fontFamily;
 	  context.textAlign = "center";
