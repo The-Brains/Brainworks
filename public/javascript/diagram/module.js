@@ -45,7 +45,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
 .factory('diagramsFactory', ['$http', function($http) {
   return {
     get: function(userId) {
-      return $http.get('/diagram/diagrams/'+userId).then(function(res) {
+      return $http.get('/diagram/' + userId + '/diagrams').then(function(res) {
         return res.data;
       });
     },
@@ -57,7 +57,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   };
 }])
 .controller('diagramCtrl', ['$scope', 'diagrams', function($scope, diagrams) {
-  $scope.diagrams = diagrams.diagrams;
+  $scope.diagrams = diagrams;
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
   $scope.maxSize = 5;
