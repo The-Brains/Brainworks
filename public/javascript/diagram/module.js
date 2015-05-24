@@ -10,14 +10,19 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       controller: 'diagramCtrl',
       resolve: {
         diagrams: ['localStorageService', 'diagramsFactory', function(localStorageService, diagramsFactory) {
-          return diagramsFactory.get(localStorageService.get('userId'));
+          return diagramsFactory.getAll(localStorageService.get('userId'));
         }]
       }
     })
     .state('diagram', {
       url: '/diagram/{id}',
       templateUrl: '/diagram/designer',
-      controller: 'designerCtrl'
+      controller: 'designerCtrl',
+      resolve: {
+        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
+          return diagramsFactory.get(localStorageService.get('userId'), $stateParams.id);
+        }]
+      }
     })
     .state('diagramInformation', {
       url: '/diagramInformation/{id}',
@@ -44,13 +49,18 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
 }])
 .factory('diagramsFactory', ['$http', function($http) {
   return {
-    get: function(userId) {
+    getAll: function(userId) {
       return $http.get('/diagram/' + userId + '/diagrams').then(function(res) {
         return res.data;
       });
     },
     getPublicDiagrams: function(userId) {
       return $http.get('/diagram/publicDiagrams').then(function(res) {
+        return res.data;
+      });
+    },
+    get: function(userId, diagramId) {
+      return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(function(res) {
         return res.data;
       });
     }

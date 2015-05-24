@@ -69,6 +69,10 @@ router.get('/publicDiagrams', function(req, res, next) {
   });
 });
 
+router.get('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
+  res.json(req.user.diagrams.id(req.params.diagramId));
+});
+
 router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user.diagrams.id(req.params.diagramId));
 });

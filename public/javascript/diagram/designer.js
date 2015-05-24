@@ -1,8 +1,8 @@
 angular.module('brainworks.diagram')
-.controller('designerCtrl', ['$scope', function ($scope) {
+.controller('designerCtrl', ['$scope', 'diagram', function ($scope, diagram) {
   $scope.oneAtATime = true;
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}]}];
-  $scope.diagram = {title: 'Test', shapes: []};
+  $scope.diagram = diagram;
   $scope.shapes = [];
 }])
 .directive('designer', function() {

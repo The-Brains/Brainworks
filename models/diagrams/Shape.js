@@ -2,21 +2,17 @@
  * @author Dennis Stumm
  */
 var mongoose = require('mongoose');
+var extend = require('mongoose-schema-extend');
+var RelationSchema = require('./Relation');
 
 var shapeSchema = new mongoose.Schema({
   x: {type: Number, required: true},
   y: {type: Number, required: true},
   name: {type: String, required: true},
-  diagramId: {type: mongoose.Schema.ObjectId, required: true, auto: false}
-});
+  relations: [RelationSchema]
+}, {collection : 'shapes', discriminatorKey : '_type'});
 
 var classSchema = new mongoose.Schema({
-  //attributes: 
-  //methods
+  attributes: [String],
+  methods: [String]
 });
-
-/**
- * TODO die anderen shapes typen definieren
- */
-
-module.exports = mongoose.model('Shape', shapeSchema);
