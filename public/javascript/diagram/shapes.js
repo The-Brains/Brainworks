@@ -4,14 +4,10 @@
  */
 
 /*******************************************************************************
- * The class Layout                                                            *
+ * The class Shape                                                            *
  ******************************************************************************/
 
-// This is the super class, but beware of Prototype!
-var Layout = function() {};
-
-// Define a initialisation for Layout
-Layout.prototype.init = function(x, y, width, height, lineWidth) {
+function Shape(x, y, width, height, lineWidth) {
   if (typeof x === "number") this.x = x;
   else this.x = 0;
   
@@ -23,74 +19,56 @@ Layout.prototype.init = function(x, y, width, height, lineWidth) {
   
   if (typeof height === "number") this.height = height;
   else this.height = 0;
-    
+  
   if (typeof lineWidth === "number") this.lineWidth = lineWidth;
   else this.lineWidth = 0;
-};
+  
+  // Define the setters
+  this.setX = function(x) {
+    if (typeof x === "number") this.x = x;
+  };  
+  this.setY = function(y) {
+    if (typeof y === "number") this.y = y;
+  };  
+  this.setWidth = function(width) {
+    if (typeof width === "number") this.width = width;
+  };  
+  this.setHeight = function(height) {
+    if (typeof height === "number") this.height = height;
+  };  
+  this.setLineWidth = function(lineWidth) {
+    if (typeof lineWidth === "number") this.lineWidth = lineWidth;
+  };
+  
+  // Define the getters
+  this.getX = function() {
+    return this.x;
+  };
+  this.getY = function() {
+    return this.y;
+  };
+  this.getWidth = function() {
+    return this.width;
+  };
+  this.getHeight = function() {
+    return this.height;
+  };
+  this.getLineWidth = function() {
+    return this.lineWidth;
+  };
+}
 
-// Define setters for Layout
-Layout.prototype.setX = function(x) {
-  if (typeof x === "number") this.x = x;
-  else this.x = 0;
+Shape.prototype.draw = function() {
+  throw new Error('This method should not be directly called!');
 };
-Layout.prototype.setY = function(y) {
-  if (typeof y === "number") this.y = y;
-  else this.y = 0;
-};
-Layout.prototype.setWidth = function(width) {
-  if (typeof width === "number") this.width = width;
-  else this.width = 0;
-};
-Layout.prototype.setHeight = function(height) {
-  if (typeof height === "number") this.height = height;
-  else this.height = 0;
-};
-Layout.prototype.setLineWidth = function(lineWidth) {
-  if (typeof lineWidth === "number") this.lineWidth = lineWidth;
-  else this.lineWidth = 1;
-};
-
-//Define getters for Layout
-Layout.prototype.getX = function() {
-  return this.x;
-};
-Layout.prototype.getY = function() {
-  return this.y;
-};
-Layout.prototype.getWidth = function() {
-  return this.width;
-};
-Layout.prototype.getHeight = function() {
-  return this.height;
-};
-Layout.prototype.getLineWidth = function() {
-  return this.lineWidth;
-};
-
 
 /*******************************************************************************
- * The class ActiveClass                                                       *
+ * The class Class                                                             *
  ******************************************************************************/
 
-var ActiveClass = function(x, y, width, height, lineWidth, title, fontFamily, 
+function Class(x, y, width, height, lineWidth, title, fontFamily, 
   fontSize) {
-  this.init(x, y, width, height, lineWidth, title, fontFamily, fontSize);  
-}
-// This will inherit the class Layout
-ActiveClass.prototype = new Layout();
-
-// This will set the contstructor to itself
-ActiveClass.prototype.constructor = ActiveClass;
-
-// This will add a parent to the ActiveClass (also known as "super" in Java)
-ActiveClass.parent = Layout.prototype;
-
-// Define a initialisation for ActiveClass
-ActiveClass.prototype.init = function(x, y, width, height, lineWidth, title, 
-  fontFamily, fontSize) {
-  
-  // This will add the values to the parent class
-  ActiveClass.parent.init(x, y, width, height, lineWidth);
+  Shape.call(this, x, y, width, height, lineWidth);
   
   if (typeof title === "string") this.title = title;
   else this.title = "";
@@ -100,49 +78,42 @@ ActiveClass.prototype.init = function(x, y, width, height, lineWidth, title,
   
   if (typeof fontSize === "number") this.fontSize = fontSize;
   else this.fontSize = 0;
-};
+  
+  // Define the setters
+  this.setTitle = function() {
+    if (typeof title === "string") this.title = title;
+  };
+  this.getY = function() {
+    if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  };
+  this.getWidth = function() {
+    if (typeof fontSize === "number") this.fontSize = fontSize;
+  };
+  
+  // Define the getters
+  this.getTitle = function() {
+    return this.title;
+  };
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  this.getFontSize = function() {
+    return this.fontSize;
+  };  
+}
 
-// Define setters for ActiveClass
-ActiveClass.prototype.setTitle = function(title) {
-  if (typeof title === "string") this.title = title;	
-};
-ActiveClass.prototype.setFontFamily = function(fontFamily) {
-  if (typeof fontFamily === "string") this.fontFamily = fontFamily;	
-};
-ActiveClass.prototype.setFontSize = function(fontSize) {
-  if (typeof fontSize === "number") this.fontSize = fontSize;	
-};
-	
-// Define getters for ActiveClass
-ActiveClass.prototype.getTitle = function() {
-  return this.title;	
-};
-ActiveClass.prototype.setFontFamily = function(fontFamily) {
-  return this.fontFamily;	
-};
-ActiveClass.prototype.setFontSize = function(fontSize) {
-  return this.fontSize;	
-};
+// This will inherit the class Layout
+Class.prototype = new Shape();
 
 // Define functions for ActiveClass
-ActiveClass.prototype.draw = function(context) {
-  var x = ActiveClass.parent.getX();
-  var y = ActiveClass.parent.getY();
-  var width = ActiveClass.parent.getWidth();
-  var height = ActiveClass.parent.getHeight();
-  var lineWidth = ActiveClass.parent.getLineWidth();
-    
-  var innerWidth = width * 0.8;
-  var posInnerWidth = (width - innerWidth) / 2;
-    
+Class.prototype.draw = function(context) {
   context.save();
   context.strokeStyle = "black";
   
-  context.rect(x, y, width, height);
-  context.rect(posInnerWidth, y, innerWidth, height);
+  context.rect(this.x, this.y, this.width, this.height);
       
   // Settings for border width
-  if (lineWidth) context.lineWidth = lineWidth;
+  if (this.lineWidth) context.lineWidth = this.lineWidth;
   else context.lineWidth = 1;
   
   if (this.title) {
@@ -156,12 +127,94 @@ ActiveClass.prototype.draw = function(context) {
 	  else var fontSize = 16;
 	
 	  // Settings for text-orientation in the center of both sides
-	  var centerX = width / 2;
-	  var centerY = (height / 2) + (fontSize / 2);
+	  var centerX = this.x + (this.width / 2);
+	  var centerY = this.y + (this.height / 2) + (fontSize / 2);
+	
+	  context.font = "bold " + fontSize + "px " + fontFamily;
+	  context.textAlign = "center";
+	  context.fillText(this.title, centerX, centerY, this.width);	
+  }
+              
+  context.stroke();
+  
+  context.restore();
+};
+
+/*******************************************************************************
+ * The class ActiveClass                                                       *
+ ******************************************************************************/
+
+function ActiveClass(x, y, width, height, lineWidth, title, fontFamily, 
+  fontSize) {
+  Shape.call(this, x, y, width, height, lineWidth);
+  
+  if (typeof title === "string") this.title = title;
+  else this.title = "";
+  
+  if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  else this.fontFamily = "";
+  
+  if (typeof fontSize === "number") this.fontSize = fontSize;
+  else this.fontSize = 0;
+  
+  // Define the setters
+  this.setTitle = function() {
+    if (typeof title === "string") this.title = title;
+  };
+  this.getY = function() {
+    if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  };
+  this.getWidth = function() {
+    if (typeof fontSize === "number") this.fontSize = fontSize;
+  };
+  
+  // Define the getters
+  this.getTitle = function() {
+    return this.title;
+  };
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  this.getFontSize = function() {
+    return this.fontSize;
+  };  
+}
+
+// This will inherit the class Layout
+ActiveClass.prototype = new Shape();
+
+// Define functions for ActiveClass
+ActiveClass.prototype.draw = function(context) {
+  var innerWidth = this.width * 0.8;
+  var posInnerWidth = this.x + ((this.width - innerWidth) / 2);
+    
+  context.save();
+  context.strokeStyle = "black";
+  
+  context.rect(this.x, this.y, this.width, this.height);
+  context.rect(posInnerWidth, this.y, innerWidth, this.height);
+      
+  // Settings for border width
+  if (this.lineWidth) context.lineWidth = this.lineWidth;
+  else context.lineWidth = 1;
+  
+  if (this.title) {
+	  
+	  // Settings for font-family  
+	  if (this.fontFamily) var fontFamily = this.fontFamily;
+	  else var fontFamily = "Arial";
+	
+	  // Settings for font-size in px
+	  if (this.fontSize) var fontSize = this.fontSize;
+	  else var fontSize = 16;
+	
+	  // Settings for text-orientation in the center of both sides
+	  var centerX = this.width / 2;
+	  var centerY = (this.height / 2) + (fontSize / 2);
 	
 	  context.font = "italic bold " + fontSize + "px " + fontFamily;
 	  context.textAlign = "center";
-	  context.fillText(this.title, centerX, centerY, width);	
+	  context.fillText(this.title, centerX, centerY, this.width);	
   }
               
   context.stroke();
