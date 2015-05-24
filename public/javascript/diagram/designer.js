@@ -11,6 +11,7 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
     link: function(scope, element, attr) {
+      var selected = null;
       $(element).droppable({
         accept: '.designer-element',
         drop: function(event, ui) {
@@ -28,7 +29,50 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
+        if(angular.isDefined(selected) && selected !== null) {
+          context.save();
+          context.strokeStyle = 'black';
+          context.lineWidth = 1;
+          context.setLineDash([5, 2]);
+          context.strokeRect(selected.getX() - 5, selected.getY() - 5, selected.getWidth() + 10, selected.getHeight() + 10);
+          context.setLineDash([]);
+          context.fillRect(selected.getX() - 8, selected.getY() - 8, 6, 6);
+          context.fillRect(selected.getX() - 8, selected.getY() + selected.getHeight() + 2, 6, 6);
+          context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() + selected.getHeight() + 2, 6, 6);
+          context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() - 8, 6, 6);
+          context.stroke();
+          context.restore();
+        }
       };
+      element.on('mousedown', function(event) {
+        result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        selected = result[0];
+        draw();
+      });
+      element.on('click', function(event) {
+        result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        if(result.length !== 0) {
+          console.log(result[0]);
+        }
+      });
+      element.on('doubelclick', function(event) {
+        result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        if(result.length !== 0) {
+          console.log(result[0]);
+        }
+      });
+      element.on('mousemove', function(event) {
+        result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        if(result.length !== 0) {
+          console.log(result[0]);
+        }
+      });
+      element.on('mouseup', function(event) {
+        result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        if(result.length !== 0) {
+          console.log(result[0]);
+        }
+      });
       draw();
     }
   }
