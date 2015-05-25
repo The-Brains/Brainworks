@@ -1,9 +1,12 @@
 angular.module('brainworks.diagram')
-.controller('designerCtrl', ['$scope', 'diagram', function ($scope, diagram) {
+.controller('designerCtrl', ['$scope', '$state', 'diagram', function ($scope, $state, diagram) {
   $scope.oneAtATime = true;
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'Class', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Notice', name: 'Notiz'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
+  $scope.cancel = function() {
+    $state.go('profile.diagrams');
+  };
 }])
 .directive('designer', function() {
   return {
