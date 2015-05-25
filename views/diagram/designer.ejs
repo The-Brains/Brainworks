@@ -1,5 +1,5 @@
-<div class="panel panel-default full-height designer-main-container">
-  <div class="panel-body full-height">
+<div class="panel panel-default full-height" ng-class="{'designer-main-container': diagram.comments.length > 0}">
+  <div class="panel-body full-height" ng-class="{'designer-wrap': !diagram.comments.length}">
     <h1 class="page-header designer-header">
       {{diagram.name}}
       <span class="pull-right">
@@ -21,7 +21,8 @@
         </div>
       </div>
     </div>
-    <div class="diagram-comment-container">
+    <div ng-show="diagram.comments.length > 0" class="diagram-comment-container">
+      <h3><%= comments %></h3>
       <hr>
       <div ng-repeat-start="comment in diagram.comments">
         <p class="diagram-comment">{{comment.text}}</p>

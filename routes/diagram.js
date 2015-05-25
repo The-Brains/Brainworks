@@ -36,7 +36,8 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {
     save: 'Speichern',
-    cancel: 'Abbrechen'
+    cancel: 'Abbrechen',
+    comments: 'Kommentare'
   });
 });
 

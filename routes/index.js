@@ -30,7 +30,8 @@ router.get('/publicDiagram', function(req, res, next) {
     back: 'Zurück',
     comment: 'Kommentar',
     fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
-    addComment: 'Kommentieren'
+    addComment: 'Kommentieren',
+    comments: 'Kommentare'
   });
 });
 
