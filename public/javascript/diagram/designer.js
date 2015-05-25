@@ -54,7 +54,7 @@ angular.module('brainworks.diagram')
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, ui.helper.attr('name')));
+            scope.shapes.push(new window[ui.helper.attr('type')](x, y, 140, 90, ui.helper.attr('name')));
             draw();
           },
           over: function(event, ui) {
@@ -199,10 +199,10 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    template: '<canvas class="designer-element" height="100" width="150"></canvas>',
+    template: '<canvas class="designer-element" height="90" width="140"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var shape = new window[attr.type](0, 0, 150, 100, attr.name);
+      var shape = new window[attr.type](0, 0, 140, 90, attr.name);
       shape.draw(element[0]);
       $(element).draggable({
         helper: 'clone',
