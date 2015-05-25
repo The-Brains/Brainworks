@@ -6,6 +6,8 @@ var router = express.Router();
 var userCtrl = require('../controller/user');
 var Diagram = require('../models/diagrams/Diagram');
 var User = require('../models/user/User');
+var getRawBody = require('raw-body');
+var fs = require("fs");
 
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/diagrams', {
@@ -136,6 +138,40 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
         }
       });
     }
+  });
+});
+
+router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
+  if(req.headers['content-type'] === 'application/octet-stream') {
+    getRawBody(req, {
+      length: req.headers['content-length'],
+      encoding: 'UTF-8'
+    }, function (err, string) {
+      if(err) { res.send(err); }
+      else {
+        var jsonData = JSON.parse(string);
+        fs.writeFile('uploads/' + jsonData._id + '.png', new Buffer(jsonData.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'), function(err) {
+          if(err) { res.send(err); }
+          else {
+            var diagram = req.user.diagrams.id(jsonData._id);
+            diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + jsonData._id;
+            req.user.save(function(err, user) {
+              if(err) { res.send(err); }
+              else {
+                res.json({success: true});
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+});
+
+router.get('/thumbnail/:imageId', function(req, res, next) {
+  fs.readFile('uploads/'+req.params.imageId+'.png', function(err, data) {
+    if (err) throw err;
+    res.end(data, 'base64');
   });
 });
 

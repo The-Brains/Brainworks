@@ -1,11 +1,23 @@
 angular.module('brainworks.diagram')
-.controller('designerCtrl', ['$scope', '$state', 'diagram', function ($scope, $state, diagram) {
+.controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'Class', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Notice', name: 'Notiz'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
   $scope.cancel = function() {
     $state.go('profile.diagrams');
+  };
+  $scope.save = function(diagram) {
+    var saveDiagram = angular.copy(diagram);
+    var designerCanvas = $('.designer');
+    var tmpCanvas = designerCanvas.clone();
+    tmpCanvas.attr('height', '300px');
+    tmpCanvas.attr('width', '700px');
+    var img = $('#diagramThumbnail')[0];
+    img.src = designerCanvas[0].toDataURL();
+    tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
+    saveDiagram.thumbnail = tmpCanvas[0].toDataURL();
+    diagramsFactory.saveDiagram(localStorageService.get('userId'), saveDiagram);
   };
 }])
 .directive('designer', function() {

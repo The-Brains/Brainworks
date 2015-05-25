@@ -10,5 +10,6 @@ module.exports = new mongoose.Schema({
   description: {type: String, required: true},
   isPublic: {type: Boolean, 'default': false},
   shapes: [ShapeSchema],
-  comments: [CommentSchema]
+  comments: [CommentSchema],
+  thumbnail: {type: String, 'default': 'http://placehold.it/700x300'}
 });

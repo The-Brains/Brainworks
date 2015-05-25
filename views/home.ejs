@@ -7,7 +7,7 @@
 <div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
-      <img class="img-responsive" src="http://placehold.it/700x300" alt="{{diagram.name}}">
+      <img class="img-responsive" src="{{diagram.thumbnail}}" alt="{{diagram.name}}">
     </a>
   </div>
   <div class="col-md-5">
