@@ -40,6 +40,7 @@ angular.module('brainworks.diagram')
         });
         if(angular.isDefined(selected) && selected !== null) {
           context.save();
+          context.beginPath();
           context.strokeStyle = 'gray';
           context.fillStyle = 'gray';
           context.lineWidth = 1;
@@ -54,6 +55,7 @@ angular.module('brainworks.diagram')
           context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() + (selected.getHeight()/2) - 2, 6, 6);
           context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() - 8, 6, 6);
           context.fillRect(selected.getX() + (selected.getWidth()/2) - 2, selected.getY() - 8, 6, 6);
+          context.closePath();
           context.stroke();
           context.restore();
         }
