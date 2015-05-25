@@ -79,6 +79,16 @@ router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin, functio
   res.json(req.user.diagrams.id(req.params.diagramId));
 });
 
+router.delete('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
+  req.user.diagrams.id(req.params.diagramId).remove();
+  req.user.save(function(err) {
+    if(err) { res.send(err); }
+    else {
+      res.json({success: true});
+    }
+  });
+});
+
 router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
   if(typeof req.body._id !== 'undefined') {
     var diagram = req.user.diagrams.id(req.body._id);

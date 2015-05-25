@@ -14,7 +14,7 @@
   <div class="col-md-5">
     <h3>{{diagram.name}}</h3>
     <p class="diagram-description">{{diagram.description}}</p>
-    <a class="btn btn-danger" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= deleteDiagram %>"><span class="glyphicon glyphicon-trash"></span></a>
+    <a class="btn btn-danger" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= deleteDiagram %>" ng-click="removeDiagram($index)"><span class="glyphicon glyphicon-trash"></span></a>
     <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= updateInformation %>"><span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-primary" href="#/diagram/{{diagram._id}}" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= editDiagram %>"><span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>

@@ -63,14 +63,24 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(function(res) {
         return res.data;
       });
+    },
+    remove: function(userId, diagramId) {
+      return $http.delete('/diagram/' + userId + '/diagram/' + diagramId);
     }
   };
 }])
-.controller('diagramCtrl', ['$scope', 'diagrams', function($scope, diagrams) {
+.controller('diagramCtrl', ['$scope', 'localStorageService', 'diagramsFactory', 'diagrams', function($scope, localStorageService, diagramsFactory, diagrams) {
   $scope.diagrams = diagrams;
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
   $scope.maxSize = 5;
+  $scope.removeDiagram = function(index) {
+    diagramsFactory.remove(localStorageService.get('userId'), $scope.diagrams[index]._id).success(function(response) {
+      if(response.success) {
+        $scope.diagrams.splice(index, 1);
+      }
+    });
+  };
 }])
 .filter('startFrom', function() {
   return function(input, start) {
