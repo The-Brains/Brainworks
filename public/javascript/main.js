@@ -77,6 +77,9 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
     diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(function(response) {
       if(response.success) {
         $scope.diagram.comments.push(response.comment);
+        $scope.comment = '';
+        $scope.commentDiagramForm.$setPristine();
+        $scope.commentDiagramForm.$setUntouched();
       }
     });
   };

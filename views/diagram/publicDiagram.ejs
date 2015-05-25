@@ -9,13 +9,14 @@
         <designer></designer>
       </div>
     </div>
-    <div style="margin-top: -50px; margin-bottom: 15px;">
+    <div class="diagram-comment-container">
       <hr>
-      <div ng-repeat-start="comment in diagram.comments" class="commentText">
-        <p style="white-space: pre-wrap;">{{comment.text}}</p> <span class="date sub-text">{{comment.creationDate}}</span>
+      <div ng-repeat-start="comment in diagram.comments">
+        <p class="diagram-comment">{{comment.text}}</p>
+        <span class="diagram-comment-sub-text">{{comment.author}} &#8226; {{comment.creationDate | date:'dd.MM.yyyy HH:mm:ss'}}</span>
       </div>
       <hr ng-repeat-end>
-      <form style="" ng-show="isAuthentificated" ng-submit="commentDiagram(diagram._id)" name="commentDiagramForm" novalidate>
+      <form ng-show="isAuthentificated" ng-submit="commentDiagram(diagram._id)" name="commentDiagramForm" novalidate>
         <div class="form-group" ng-class="{'has-error': (commentDiagramForm.$submitted || commentDiagramForm.comment.$touched) && commentDiagramForm.comment.$invalid}">
           <label for="cooment" class="control-label"><%= comment %></label>
           <textarea class="form-control" rows="10" id="comment" placeholder="<%= comment %>" name="comment" ng-model="comment" required></textarea>

@@ -56,7 +56,7 @@ body {
   color: #3fb618;
 }
 
-.diagram-description {
+.diagram-comment, .diagram-description {
   white-space: pre-wrap;
 }
 
@@ -89,4 +89,18 @@ body {
 .designer-container {
   overflow: hidden;
   border: 1px solid #000000;
+}
+
+.diagram-comment-container {
+  margin-top: -50px;
+  margin-bottom: 15px;
+}
+
+.diagram-comment {
+  font-size: 14pt;
+}
+
+.diagram-comment-sub-text {
+  color: #aaa;
+  font-size: 10pt;
 }
