@@ -19,6 +19,7 @@ angular.module('brainworks.diagram')
       var positionY = 0;
       var drag = false;
       var resize = false;
+      var resizeDirection = '';
       $(element).droppable({
         accept: '.designer-element',
         drop: function(event, ui) {
@@ -72,6 +73,23 @@ angular.module('brainworks.diagram')
           drag = true;
         } else if(angular.isDefined(selected) && selected !== null) {
           resize = true;
+          if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+            resizeDirection = 'up left';
+          } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)){
+            resizeDirection = 'down right';
+          } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+            resizeDirection = 'up right';
+          } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
+            resizeDirection = 'down left';
+          } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
+            resizeDirection = 'left';
+          } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
+            resizeDirection = 'right';
+          } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+            resizeDirection = 'up';
+          } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
+            resizeDirection = 'down';
+          }
         }
         draw();
       });
@@ -115,22 +133,41 @@ angular.module('brainworks.diagram')
             var moveY = 0;
             var x = selected.getX();
             var y = selected.getY();
-            if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
-              // TODO vergrößerung in x und y oben links
-            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)){
-              // TODO vergrößerung in x und y unten rechts
-            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
-              // TODO vergrößerung in x und y oben rechts
-            } else if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)) {
-              // TODO vergrößerung in x und y unten links
-            } else if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4) {
-              // TODO vergrößerung in x links
-            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4) {
-              // TODO vergrößerung in x rechts
-            } else if(event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
-              //moveY = event.layerY - (selected.getY() + selected.getHeight());
-            } else if(event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)) {
-              moveY = event.layerY - (selected.getY() + selected.getHeight());
+            switch(resizeDirection) {
+              case 'up left':
+                moveX = selected.getX()- event.layerX;
+                moveY = selected.getY()- event.layerY;
+                x = event.layerX;
+                y = event.layerY;
+                break;
+              case 'down right':
+                moveX = event.layerX - (selected.getWidth() + selected.getX());
+                moveY = event.layerY - (selected.getHeight() + selected.getY());
+                break;
+              case 'up right':
+                moveX = event.layerX - (selected.getWidth() + selected.getX());
+                moveY = selected.getY()- event.layerY;
+                y = event.layerY;
+                break;
+              case 'down left':
+                moveY = event.layerY - (selected.getHeight() + selected.getY());
+                moveX = selected.getX()- event.layerX;
+                x = event.layerX;
+                break;
+              case 'right':
+                moveX = event.layerX - (selected.getWidth() + selected.getX());
+                break;
+              case 'left':
+                moveX = selected.getX()- event.layerX;
+                x = event.layerX;
+                break;
+              case 'up':
+                moveY = selected.getY()- event.layerY;
+                y = event.layerY;
+                break;
+              case 'down':
+                moveY = event.layerY - (selected.getHeight() + selected.getY());
+                break;
             }
             selected.setX(x);
             selected.setY(y);
@@ -150,6 +187,7 @@ angular.module('brainworks.diagram')
       element.on('mouseup', function(event) {
         drag = false;
         resize = false;
+        resizeDirection = '';
       });
       draw();
     }
