@@ -20,7 +20,8 @@ router.get('/home', function(req, res, next) {
     paginationPrevious: 'Zurück',
     paginationLast: 'Letzte',
     paginationFirst: 'Erste',
-    search: 'Suche'
+    search: 'Suche',
+    viewDiagram: 'Diagramm ansehen'
   });
 });
 

@@ -12,8 +12,10 @@ angular.module('brainworks.diagram')
     template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
     link: function(scope, element, attr) {
       var selected = null;
-      var positionX = Number.MIN_VALUE;
-      var positionY = Number.MIN_VALUE;
+      var positionX = 0;
+      var positionY = 0;
+      var drag = false;
+      var resize = false;
       $(element).droppable({
         accept: '.designer-element',
         drop: function(event, ui) {
@@ -22,6 +24,12 @@ angular.module('brainworks.diagram')
           var x = ui.helper.position().left - $(element).parent().offset().left;
           scope.shapes.push(new window[ui.helper.attr('type')](x, y, 150, 100, ui.helper.attr('name')));
           draw();
+        },
+        over: function(event, ui) {
+          ui.helper.css('cursor', 'copy');
+        },
+        out: function(event, ui) {
+          ui.helper.css('cursor', 'no-drop');
         }
       });
       var draw = function() {
@@ -32,24 +40,34 @@ angular.module('brainworks.diagram')
         });
         if(angular.isDefined(selected) && selected !== null) {
           context.save();
-          context.strokeStyle = 'black';
+          context.strokeStyle = 'gray';
+          context.fillStyle = 'gray';
           context.lineWidth = 1;
           context.setLineDash([5, 2]);
           context.strokeRect(selected.getX() - 5, selected.getY() - 5, selected.getWidth() + 10, selected.getHeight() + 10);
           context.setLineDash([]);
           context.fillRect(selected.getX() - 8, selected.getY() - 8, 6, 6);
+          context.fillRect(selected.getX() - 8, selected.getY() + (selected.getHeight()/2) - 2, 6, 6);
           context.fillRect(selected.getX() - 8, selected.getY() + selected.getHeight() + 2, 6, 6);
+          context.fillRect(selected.getX() + (selected.getWidth()/2) - 2, selected.getY() + selected.getHeight() + 2, 6, 6);
           context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() + selected.getHeight() + 2, 6, 6);
+          context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() + (selected.getHeight()/2) - 2, 6, 6);
           context.fillRect(selected.getX() + selected.getWidth() + 2, selected.getY() - 8, 6, 6);
+          context.fillRect(selected.getX() + (selected.getWidth()/2) - 2, selected.getY() - 8, 6, 6);
           context.stroke();
           context.restore();
         }
       };
       element.on('mousedown', function(event) {
-        var result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
+        var result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8); });
         selected = result[0];
         positionX = event.layerX;
         positionY = event.layerY;
+        if(angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
+          drag = true;
+        } else if(angular.isDefined(selected) && selected !== null) {
+          resize = true;
+        }
         draw();
       });
       element.on('doubelclick', function(event) {
@@ -59,17 +77,74 @@ angular.module('brainworks.diagram')
         }
       });
       element.on('mousemove', function(event) {
-        if(angular.isDefined(selected) && selected !== null && positionX !== Number.MIN_VALUE && positionY !== Number.MIN_VALUE) {
-          selected.setX(selected.getX() + event.layerX - positionX);
-          selected.setY(selected.getY() + event.layerY - positionY);
-          positionX = event.layerX;
-          positionY = event.layerY;
+        if(angular.isDefined(selected) && selected !== null) {
+          var cursor = 'initial';
+          if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
+            cursor = 'move'; // Bewegungscursor
+          } else if(
+            event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2 ||
+            event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)
+          ) {
+            cursor = 'se-resize'; // Oben-Links oder Unten-Rechts Größenänderungscursor
+          } else if(
+            event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2 ||
+            event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)
+          ) {
+            cursor = 'sw-resize'; // Oben-Rechts oder Unten-Links Größenänderungscursor
+          } else if(
+            event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4 ||
+            event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4
+          ) {
+            cursor = 'e-resize'; // Rechts oder Links Größenänderungscursor
+          } else if(
+            event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2 ||
+            event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)
+          ) {
+            cursor = 'n-resize'; // Oben oder Unten Größenänderungscursor
+          }
+          element.css({
+            cursor: cursor
+          });
+          if(resize) {
+            var moveX = 0;
+            var moveY = 0;
+            var x = selected.getX();
+            var y = selected.getY();
+            if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
+              // TODO vergrößerung in x und y oben links
+            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)){
+              // TODO vergrößerung in x und y unten rechts
+            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
+              // TODO vergrößerung in x und y oben rechts
+            } else if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)) {
+              // TODO vergrößerung in x und y unten links
+            } else if(event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4) {
+              // TODO vergrößerung in x links
+            } else if(event.layerX >= selected.getX() + selected.getWidth() + 2 && event.layerX <= selected.getX() + selected.getWidth() + 8 && event.layerY >= selected.getY() + (selected.getHeight()/2) - 2 && event.layerY <= selected.getY() + (selected.getHeight()/2) + 4) {
+              // TODO vergrößerung in x rechts
+            } else if(event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2) {
+              //moveY = event.layerY - (selected.getY() + selected.getHeight());
+            } else if(event.layerX >= selected.getX() + (selected.getWidth()/2) - 2 && event.layerX <= selected.getX() + (selected.getWidth()/2) + 4 && event.layerY >= selected.getY() + selected.getHeight() + 2 && event.layerY <= (selected.getY() + selected.getHeight() + 8)) {
+              moveY = event.layerY - (selected.getY() + selected.getHeight());
+            }
+            selected.setX(x);
+            selected.setY(y);
+            selected.setWidth(selected.getWidth() + moveX);
+            selected.setHeight(selected.getHeight() + moveY);
+          } else if(drag) {
+            selected.setX(selected.getX() + event.layerX - positionX);
+            selected.setY(selected.getY() + event.layerY - positionY);
+            positionX = event.layerX;
+            positionY = event.layerY;
+          }
+          if(drag || resize) {
+            draw();
+          }
         }
-        draw();
       });
       element.on('mouseup', function(event) {
-        positionX = Number.MIN_VALUE;
-        positionY = Number.MIN_VALUE;
+        drag = false;
+        resize = false;
       });
       draw();
     }
@@ -90,6 +165,10 @@ angular.module('brainworks.diagram')
         containment: $('#designerContainer'),
         start: function(event, ui) {
           shape.draw(ui.helper[0]);
+          ui.helper.css('cursor', 'no-drop');
+        },
+        stop: function(event, ui) {
+          ui.helper.css('cursor', 'initial');
         }
       });
       element.on('mouseover', function(event) {

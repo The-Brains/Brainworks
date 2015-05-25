@@ -2,7 +2,7 @@
   <%= diagrams %>
   <span class="pull-right form-inline">
     <input class="form-control" type="text" placeholder="<%= search %>" ng-model="searchText">
-    <a class="btn btn-default" href="#/addDiagram"><span class="glyphicon glyphicon-plus"></span> <%= addDiagram %></a>
+    <a class="btn btn-default" href="#/addDiagram" tooltip-placement="bottom" tooltip="<%= addDiagram %>"><span class="glyphicon glyphicon-plus"></span></a>
   </span>
 </h1>
 <div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
@@ -14,8 +14,9 @@
   <div class="col-md-5">
     <h3>{{diagram.name}}</h3>
     <p class="diagram-description">{{diagram.description}}</p>
-    <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}"><span class="glyphicon glyphicon-pencil"></span> <%= updateInformation %></a>
-    <a class="btn btn-primary" href="#/diagram/{{diagram._id}}"><%= editDiagram %> <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <a class="btn btn-danger" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= deleteDiagram %>"><span class="glyphicon glyphicon-trash"></span></a>
+    <a class="btn btn-default" href="#/diagramInformation/{{diagram._id}}" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= updateInformation %>"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-primary" href="#/diagram/{{diagram._id}}" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= editDiagram %>"><span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>
 </div>
 <hr ng-repeat-end>

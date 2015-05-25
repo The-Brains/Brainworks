@@ -2,7 +2,10 @@
   <div class="panel-body full-height designer-wrap">
     <h1 class="page-header designer-header">
       {{diagram.name}}
-      <a class="btn btn-primary pull-right" tooltip-placement="bottom" tooltip="<%= save %>"><span class="glyphicon glyphicon-floppy-save"></span></a>
+      <span class="pull-right">
+        <a class="btn btn-default" tooltip-placement="bottom" tooltip="<%= cancel %>"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+        <a class="btn btn-primary" tooltip-placement="bottom" tooltip="<%= save %>"><span class="glyphicon glyphicon-floppy-save"></span></a>
+      </span>
     </h1>
     <div id="designerContainer" class="row full-height designer-main-container-wrap">
       <div class="col-md-4 designer-main-container full-height">

@@ -17,7 +17,8 @@ router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
     search: 'Suche',
     addDiagram: 'Diagramm hinzufügen',
     updateInformation: 'Informationen aktualisieren',
-    editDiagram: 'Diagramm Bearbeiten'
+    editDiagram: 'Diagramm Bearbeiten',
+    deleteDiagram: 'Diagramm löschen'
   });
 });
 
@@ -34,7 +35,8 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
 
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {
-    save: 'Speichern'
+    save: 'Speichern',
+    cancel: 'Abbrechen'
   });
 });
 
