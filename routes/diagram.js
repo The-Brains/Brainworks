@@ -37,7 +37,8 @@ router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {
     save: 'Speichern',
     cancel: 'Abbrechen',
-    comments: 'Kommentare'
+    comments: 'Kommentare',
+    dateFormat: 'dd.MM.yyyy HH:mm:ss'
   });
 });
 

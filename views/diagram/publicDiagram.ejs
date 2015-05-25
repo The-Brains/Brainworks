@@ -14,7 +14,7 @@
       <hr>
       <div ng-repeat-start="comment in diagram.comments">
         <p class="diagram-comment">{{comment.text}}</p>
-        <span class="diagram-comment-sub-text">{{comment.author}} &#8226; {{comment.creationDate | date:'dd.MM.yyyy HH:mm:ss'}}</span>
+        <span class="diagram-comment-sub-text">{{comment.author}} &#8226; {{comment.creationDate | date:'<%= dateFormat %>'}}</span>
       </div>
       <hr ng-repeat-end>
       <form ng-show="isAuthentificated" ng-submit="commentDiagram(diagram._id)" name="commentDiagramForm" novalidate>

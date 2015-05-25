@@ -31,7 +31,8 @@ router.get('/publicDiagram', function(req, res, next) {
     comment: 'Kommentar',
     fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
     addComment: 'Kommentieren',
-    comments: 'Kommentare'
+    comments: 'Kommentare',
+    dateFormat: 'dd.MM.yyyy HH:mm:ss'
   });
 });
 
