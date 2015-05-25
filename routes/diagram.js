@@ -79,6 +79,15 @@ router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin, functio
   res.json(req.user.diagrams.id(req.params.diagramId));
 });
 
+router.get('/:diagramId', function(req, res, next) {
+  User.findOne({'diagrams._id': req.params.diagramId}, function(err, user) {
+    if(err) { res.send(err); }
+    else {
+      res.json(user.diagrams.id(req.params.diagramId));
+    }
+  });
+});
+
 router.delete('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   req.user.diagrams.id(req.params.diagramId).remove();
   req.user.save(function(err) {
@@ -110,6 +119,22 @@ router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
       }
     });
   }
+});
+
+router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(req, res, next) {
+  User.findOne({'diagrams._id': req.params.diagramId}, function(err, foundUser) {
+    if(err) { res.send(err); }
+    else {
+      var diagram = foundUser.diagrams.id(req.params.diagramId);
+      diagram.comments.push({text: req.body.text, author: req.user.username});
+      foundUser.save(function(err, user) {
+        if(err) { res.send(err); }
+        else {
+          res.json({success: true, comment: diagram.comments[diagram.comments.length-1]});
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;

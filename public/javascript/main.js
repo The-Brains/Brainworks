@@ -21,6 +21,16 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
         $scope.maxSize = 5;
       }]
     })
+    .state('publicDiagram', {
+      url: '/publicDiagram/{id}',
+      templateUrl: '/publicDiagram',
+      controller: 'publicDiagramCtrl',
+      resolve: {
+        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
+          return diagramsFactory.getPublicDiagram($stateParams.id);
+        }]
+      }
+    })
     .state('signIn', {
       url: '/signIn',
       templateUrl: '/user/signIn'
@@ -56,4 +66,18 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   userFactory.checkLoggedIn().then(function(res) {
     $rootScope.isAuthentificated = res.data.success;
   });
+}])
+.controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
+  $scope.diagram = diagram;
+  $scope.comment = '';
+  $scope.back = function() {
+    $state.go('home');
+  };
+  $scope.addComment = function(comment, diagramId) {
+    diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(function(response) {
+      if(response.success) {
+        $scope.diagram.comments.push(response.comment);
+      }
+    });
+  };
 }]);

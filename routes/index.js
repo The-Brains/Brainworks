@@ -25,6 +25,15 @@ router.get('/home', function(req, res, next) {
   });
 });
 
+router.get('/publicDiagram', function(req, res, next) {
+  res.render('diagram/publicDiagram', {
+    back: 'Zurück',
+    comment: 'Kommentar',
+    fieldRequired: 'Dieses Feld ist ein Pflichtfeld.',
+    addComment: 'Kommentieren'
+  });
+});
+
 router.get('/about', function(req, res, next) {
   res.render('about', {});
 });

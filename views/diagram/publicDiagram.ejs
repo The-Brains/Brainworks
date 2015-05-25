@@ -1,0 +1,30 @@
+<div class="panel panel-default full-height designer-main-container">
+  <div class="panel-body full-height">
+    <h1 class="page-header designer-header">
+      <a class="btn btn-default" tooltip-placement="bottom" tooltip="<%= back %>"  ng-click="back()"><span class="glyphicon glyphicon-arrow-left"></span></a>
+      {{diagram.name}}
+    </h1>
+    <div class="full-height designer-main-container-wrap">
+      <div class="full-height designer-container">
+        <designer></designer>
+      </div>
+    </div>
+    <div style="margin-top: -50px; margin-bottom: 15px;">
+      <hr>
+      <div ng-repeat-start="comment in diagram.comments" class="commentText">
+        <p style="white-space: pre-wrap;">{{comment.text}}</p> <span class="date sub-text">{{comment.creationDate}}</span>
+      </div>
+      <hr ng-repeat-end>
+      <form style="" ng-show="isAuthentificated" ng-submit="commentDiagram(diagram._id)" name="commentDiagramForm" novalidate>
+        <div class="form-group" ng-class="{'has-error': (commentDiagramForm.$submitted || commentDiagramForm.comment.$touched) && commentDiagramForm.comment.$invalid}">
+          <label for="cooment" class="control-label"><%= comment %></label>
+          <textarea class="form-control" rows="10" id="comment" placeholder="<%= comment %>" name="comment" ng-model="comment" required></textarea>
+          <span ng-show="commentDiagramForm.$submitted || commentDiagramForm.comment.$touched">
+            <span ng-show="commentDiagramForm.comment.$error.required"><%= fieldRequired %></span>
+          </span>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-click="addComment(comment, diagram._id)"><%= addComment %></button>
+      </form>
+    </div>
+  </div>
+</div>

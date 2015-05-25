@@ -13,7 +13,7 @@
   <div class="col-md-5">
     <h3>{{diagram.name}}</h3>
     <p class="diagram-description">{{diagram.description}}</p>
-    <a class="btn btn-primary" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= viewDiagram %>"><span class="glyphicon glyphicon-eye-open"></span></a>
+    <a class="btn btn-primary" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="<%= viewDiagram %>" href="#/publicDiagram/{{diagram._id}}"><span class="glyphicon glyphicon-eye-open"></span></a>
   </div>
 </div>
 <hr ng-repeat-end>

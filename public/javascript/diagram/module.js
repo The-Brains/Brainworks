@@ -54,10 +54,18 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
         return res.data;
       });
     },
-    getPublicDiagrams: function(userId) {
+    getPublicDiagrams: function() {
       return $http.get('/diagram/publicDiagrams').then(function(res) {
         return res.data;
       });
+    },
+    getPublicDiagram: function(diagramId) {
+      return $http.get('/diagram/' + diagramId).then(function(res) {
+        return res.data;
+      });
+    },
+    addComment: function(comment, diagramId, userId) {
+      return $http.put('/diagram/' + userId + '/diagram/' + diagramId + '/comment', {text: comment});
     },
     get: function(userId, diagramId) {
       return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(function(res) {
