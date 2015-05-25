@@ -348,7 +348,7 @@ function ActiveClass(x, y, width, height, lineWidth, title, fontFamily,
   };  
 }
 
-// This will inherit the class Layout
+// This will inherit the class Shape
 ActiveClass.prototype = new Shape();
 
 // Define functions for ActiveClass
@@ -387,5 +387,196 @@ ActiveClass.prototype.draw = function(context) {
               
   context.stroke();
   
+  context.restore();
+};
+
+/*******************************************************************************
+ * The class PackageClass                                                      *
+ ******************************************************************************/
+
+function PackageClass(x, y, width, height, lineWidth, title, fontFamily, 
+  attributes, functions) {
+  Shape.call(this, x, y, width, height, lineWidth);
+	
+  if (typeof title === "string") this.title = title
+  else this.title = "";
+  
+  if (typeof fontFamily === "string") this.fontFamily = fontFamily
+  else this.fontFamily = "";
+  
+  if (attributes instanceof Array) this.attributes = attributes;
+  else this.attributes = [];
+  
+  if (functions instanceof Array) this.functions = functions;
+  else this.functions = [];
+	
+  // Define the setters
+  this.setTitle = function(title) {
+    if (typeof title === "string") this.title = title;
+  };
+  this.setFontFamily = function(fontFamily) {
+	if (typeof fontFamily === "string") this.fontFamily = fontFamily;
+  };
+  this.setAttributes = function(attributes) {
+    if (attributes instanceof Array) this.attributes = attributes;
+  };
+  this.setFunctions = function(functions) {
+	if (functions instanceof Array) this.functions = functions;
+  };
+	
+  // Define the getters
+  this.getTitle = function() {
+    return this.title;
+  };
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  this.getAttributes = function() {
+    return this.attributes;
+  };
+  this.getFunctions = function() {
+	return this.functions;
+  };
+}
+
+// This will inherit the class Shape
+PackageClass.prototype = new Shape();
+
+// Define functions for PackageClass
+PackageClass.prototype.draw = function(context) {
+  var minSpacing = Math.round(this.height * 0.05);
+  	
+  context.save();
+  context.strokeStyle = "black";
+  context.textBaseline = "middle";
+	
+  context.rect(this.x, this.y, this.width, this.height);
+	   
+  // Settings for border width
+  if (this.lineWidth) context.lineWidth = this.lineWidth;
+  else context.lineWidth = 1;
+	
+  if (this.title) {
+	  var numAttributes = this.attributes.length;
+	  var numFunctions = this.functions.length;
+	  var numElements = 1 + numAttributes + numFunctions;
+	
+	  // Settings for font-family  
+	  if (this.fontFamily) var fontFamily = this.fontFamily;
+	  else var fontFamily = "Arial";
+	
+	  // Initializes the font-size
+	  if (numAttributes > 0 && numFunctions > 0) {
+	    var totalSpace = 6 + (numAttributes - 1) + (numFunctions - 1);
+	  } else if (numAttributes > 0 && numFunctions === 0) {
+	    var totalSpace = 4 + (numAttributes - 1);
+	  } else if (numAttributes === 0 && numFunctions > 0) {
+	    var totalSpace = 4 + (numFunctions - 1);
+	  } else {
+	    var totalSpace = 2;
+	  }
+		
+	  // Settings for the fonts (fontSize are defined in px)
+	  var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
+	  var fontTitle = "bold " + fontSize + "px " + fontFamily;
+	  var fontText = fontSize + "px " + fontFamily;
+	
+	  /** TODO: Check if a text is bigger than the given width, then create a 
+	   * decreasing loop to reduce the font size. Meanwhile in the loop check if 
+	   * the new width is correct.*/
+	
+	  // Settings for text-orientation
+	  var centerX = this.x + (this.width / 2);
+	  var centerY = this.y + ((this.height / 2) + (fontSize / 2));
+	  var leftSpacing = this.x + (this.width * 0.05);
+	  var yNextGap = minSpacing + (fontSize / 2);
+	
+	  if (numAttributes > 0 && numFunctions > 0) {
+	    var yPos = this.y + yNextGap;
+	  	  
+	    // Fill the title
+	    context.font = fontTitle;
+	    context.textAlign = "center";
+	    context.fillText(context.measureText(this.title).width, 155, 0);
+	    context.fillText(this.title, centerX, yPos, this.width);
+	    yPos += yNextGap;
+	  
+	    // Draws the first line
+	    context.moveTo(this.x, yPos);
+	    context.lineTo(this.width, yPos);
+	    yPos += yNextGap;
+	  
+	    // Fill the attributes
+	    context.font = fontText;
+	    context.textAlign = "left";
+	    for (var a = 0; a < numAttributes; a++) {
+		    context.fillText(this.attributes[a], leftSpacing, yPos, this.width - leftSpacing);
+		    yPos += yNextGap; 
+	    }
+	  
+	    // Draws the second line
+	    context.moveTo(this.x, yPos);
+	    context.lineTo(this.width, yPos);
+	    yPos += yNextGap;
+	  
+	    // Fill the functions
+	    context.font = fontText;
+	    context.textAlign = "left";
+	    for (var a = 0; a < numFunctions; a++) {
+		    context.fillText(this.functions[a], leftSpacing, yPos, this.width - leftSpacing);
+		  yPos += yNextGap; 
+	    }
+	  } else if (numAttributes > 0 && numFunctions === 0) {
+	    var yPos = this.y + yNextGap;
+	  	  
+	    // Fill the title
+	    context.font = fontTitle;
+	    context.textAlign = "center";
+	    context.fillText(this.title, centerX, yPos, this.width);
+	    yPos += yNextGap;
+		  
+	    // Draws the first line
+	    context.moveTo(this.x, yPos);
+	    context.lineTo(this.width, yPos);
+	    yPos += yNextGap;
+		  
+	    // Fill the attributes
+	    context.font = fontText;
+	    context.textAlign = "left";
+	    for (var a = 0; a < numAttributes; a++) {
+	      context.fillText(this.attributes[a], leftSpacing, yPos, this.width - leftSpacing);
+	      yPos += yNextGap; 
+	    }
+	  } else if (numAttributes === 0 && numFunctions > 0) {
+	    var yPos = this.y + yNextGap;
+	  	  
+	    // Fill the title
+	    context.font = fontTitle;
+	    context.textAlign = "center";
+	    alert(context.measureText(this.title).width);
+	    context.fillText(this.title, centerX, yPos, this.width);
+	    yPos += yNextGap;
+		  
+	    // Draws the first line
+	    context.moveTo(this.x, yPos);
+	    context.lineTo(this.width, yPos);
+	    yPos += yNextGap;
+		  
+	    // Fill the functions
+	    context.font = fontText;
+	    context.textAlign = "left";
+	    for (var a = 0; a < numFunctions; a++) {
+		    context.fillText(this.functions[a], leftSpacing, yPos, this.width - leftSpacing);
+		    yPos += yNextGap; 
+	    }		
+	  } else {
+	    context.font = "bold " + fontSize + "px " + fontFamily;
+	    context.textAlign = "center";
+	    context.fillText(this.title, centerX, centerY, this.width);
+	  }
+  }
+	           
+  context.stroke();
+	
   context.restore();
 };
