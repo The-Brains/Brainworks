@@ -342,27 +342,27 @@ Class.prototype.draw = function(canvas) {
   
     // Draws the first line
     context.moveTo(this.x, yPos);
-    context.lineTo(this.width, yPos);
+    context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
   
     // Fill the attributes
     context.font = fontText;
     context.textAlign = "left";
     for (var a = 0; a < numAttributes; a++) {
-      context.fillText(this.attributes[a], leftSpacing, yPos, this.width - leftSpacing);
+      context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }
   
     // Draws the second line
     context.moveTo(this.x, yPos);
-    context.lineTo(this.width, yPos);
+    context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
   
     // Fill the functions
     context.font = fontText;
     context.textAlign = "left";
     for (var a = 0; a < numMethods; a++) {
-      context.fillText(this.methods[a], leftSpacing, yPos, this.width - leftSpacing);
+      context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
     yPos += yNextGap; 
     }
   } else if (numAttributes > 0 && numMethods === 0) {
@@ -376,14 +376,14 @@ Class.prototype.draw = function(canvas) {
     
     // Draws the first line
     context.moveTo(this.x, yPos);
-    context.lineTo(this.width, yPos);
+    context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
     
     // Fill the attributes
     context.font = fontText;
     context.textAlign = "left";
     for (var a = 0; a < numAttributes; a++) {
-      context.fillText(this.attributes[a], leftSpacing, yPos, this.width - leftSpacing);
+      context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }
   } else if (numAttributes === 0 && numFunctions > 0) {
@@ -405,7 +405,7 @@ Class.prototype.draw = function(canvas) {
     context.font = fontText;
     context.textAlign = "left";
     for (var a = 0; a < numMethods; a++) {
-      context.fillText(this.methods[a], leftSpacing, yPos, this.width - leftSpacing);
+      context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }   
   } else {
