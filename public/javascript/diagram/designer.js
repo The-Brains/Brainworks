@@ -70,7 +70,7 @@ angular.module('brainworks.diagram')
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(new window[ui.helper.attr('type')](x, y, 140, 90, ui.helper.attr('name')));
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')]([x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
             draw();
           },
           over: function(event, ui) {
