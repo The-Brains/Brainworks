@@ -481,9 +481,66 @@ PackageClass.prototype.draw = function(context) {
 	  var fontTitle = "bold " + fontSize + "px " + fontFamily;
 	  var fontText = fontSize + "px " + fontFamily;
 	
-	  /** TODO: Check if a text is bigger than the given width, then create a 
-	   * decreasing loop to reduce the font size. Meanwhile in the loop check if 
-	   * the new width is correct.*/
+	  // Settings for finding the biggest width and its text
+	  var biggestWidth = 0;
+	  var biggestText = "";
+	  
+	  // Finding the biggest width and its text
+	  for (var a = 0; a < 2; a++) {
+	    
+	    // Checks the width of the title  
+	    if (a === 0) {
+	      context.font = fontTitle;
+	        
+	      var width = context.measureText(this.title).width;
+	      if (width > biggestWidth) {
+	        biggestWidth = width;
+	        biggestText = this.text;
+	      }
+	    }
+	    
+	    // Checks the width of each attributes elements
+	    if (a === 1 && numAttributes > 0) {
+	      context.font = fontText;
+	        
+	      for (var b = 0; b < numAttributes; b++) {
+	        var width = context.measureText(this.attributes[b]).width;
+	        if (width > biggestWidth) {
+	          biggestWidth = width;
+	          biggestText = this.attributes[b];
+	        }
+	      }
+	    }
+	    
+	    // Checks the width of each functions elements
+	    if (a === 2 && numFunctions > 0) {
+	      context.font = fontText;
+	        
+	      for (var b = 0; b < numFunctions; b++) {
+	        var width = context.measureText(this.functions[b]).width;
+	        if (width > biggestWidth) {
+	          biggestWidth = width;
+	          biggestText = this.functions[b];
+	        }
+	      }
+	    }
+	  }
+	  
+	  // Reduce the font until it fits to the given width
+	  while (biggestWidth > (this.width / 2)) {
+	    fontSize--;
+	    
+	    fontTitle = "bold " + fontSize + "px " + fontFamily;
+	    fontText = fontSize + "px " + fontFamily;
+	    
+	    context.font = fontTitle;
+	    var width1 = context.measureText(biggestText).width;
+	        
+	    context.font = fontText;
+	    var width2 = context.measureText(biggestText).width;
+	    
+	    if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
+	  }
 	
 	  // Settings for text-orientation
 	  var centerX = this.x + (this.width / 2);
