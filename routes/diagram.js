@@ -6,8 +6,8 @@ var router = express.Router();
 var userCtrl = require('../controller/user');
 var Diagram = require('../models/diagrams/Diagram');
 var User = require('../models/user/User');
-var Comment = require('../models/daigrams/Comment');
-var Shape = require('../models/daigrams/Shape');
+var Comment = require('../models/diagrams/Comment');
+var Shape = require('../models/diagrams/Shape');
 var getRawBody = require('raw-body');
 var fs = require("fs");
 

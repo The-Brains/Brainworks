@@ -8,18 +8,18 @@ var shapeSchema = new mongoose.Schema({
   x: {type: Number, required: true},
   y: {type: Number, required: true},
   name: {type: String, required: true},
-  relations: [mongoose.Schema.types.Mixed]
+  relations: [mongoose.Schema.Types.Mixed]
 }, {discriminatorKey : '_type'});
 
-var emptyClassSchema = new shapeSchema.extend();
+var emptyClassSchema = shapeSchema.extend({});
 
-var abstractClassSchema = new shapeSchema.extend();
+var abstractClassSchema = shapeSchema.extend({});
 
-var commentSchema = new shapeSchema.extend();
+var commentSchema = shapeSchema.extend({});
 
-var activeClassSchema = new shapeSchema.extend();
+var activeClassSchema = shapeSchema.extend({});
 
-var classSchema = new shapeSchema.extend({
+var classSchema = shapeSchema.extend({
   attributes: [String],
   methods: [String]
 });
