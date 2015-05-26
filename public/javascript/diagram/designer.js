@@ -4,10 +4,12 @@ angular.module('brainworks.diagram')
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Inheritance', name: 'Vererbung'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
-  $scope.cancel = function() {
+  $scope.back = function() {
     $state.go('profile.diagrams');
   };
   $scope.save = function(diagram) {
+    var waitElement = $('#saveAnimation');
+    waitElement.removeClass('hidden');
     var saveDiagram = angular.copy(diagram);
     var designerCanvas = $('.designer');
     var tmpCanvas = designerCanvas.clone();
@@ -17,7 +19,9 @@ angular.module('brainworks.diagram')
     img.src = designerCanvas[0].toDataURL();
     tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
     saveDiagram.thumbnail = tmpCanvas[0].toDataURL();
-    diagramsFactory.saveDiagram(localStorageService.get('userId'), saveDiagram);
+    diagramsFactory.saveDiagram(localStorageService.get('userId'), saveDiagram).success(function(response) {
+      waitElement.addClass('hidden');
+    });
   };
 }])
 .directive('designer', function() {

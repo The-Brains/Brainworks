@@ -40,7 +40,7 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {
     save: 'Speichern',
-    cancel: 'Abbrechen',
+    back: 'Zurück',
     comments: 'Kommentare',
     dateFormat: 'dd.MM.yyyy HH:mm:ss'
   });
@@ -175,6 +175,9 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
 router.get('/thumbnail/:imageId', function(req, res, next) {
   fs.readFile('uploads/'+req.params.imageId+'.png', function(err, data) {
     if (err) throw err;
+    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.setHeader('Expires', '-1');
+    res.setHeader('Pragma', 'no-cache');
     res.end(data, 'base64');
   });
 });

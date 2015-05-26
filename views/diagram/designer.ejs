@@ -1,10 +1,11 @@
 <div class="panel panel-default full-height" ng-class="{'designer-main-container': diagram.comments.length > 0}">
   <div class="panel-body full-height" ng-class="{'designer-wrap': !diagram.comments.length}">
     <h1 class="page-header designer-header">
+      <a class="btn btn-default" tooltip-placement="bottom" tooltip="<%= back %>"  ng-click="back()"><span class="glyphicon glyphicon-arrow-left"></span></a>
       {{diagram.name}}
       <span class="pull-right">
-        <a class="btn btn-default" tooltip-placement="bottom" tooltip="<%= cancel %>" ng-click="cancel()"><span class="glyphicon glyphicon-floppy-remove"></span></a>
-        <a class="btn btn-primary" tooltip-placement="bottom" tooltip="<%= save %>" ng-click="save(diagram)"><span class="glyphicon glyphicon-floppy-save"></span></a>
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" id="saveAnimation"></span>
+        <a class="btn btn-primary pull-right" tooltip-placement="bottom" tooltip="<%= save %>" ng-click="save(diagram)"><span class="glyphicon glyphicon-floppy-save"></span></a>
       </span>
     </h1>
     <div id="designerContainer" class="row full-height designer-main-container-wrap">
@@ -31,5 +32,5 @@
       <hr ng-repeat-end>
     </div>
   </div>
-  <img id="diagramThumbnail" class="invisible"></img>
+  <img id="diagramThumbnail" class="hidden"></img>
 </div>

@@ -104,3 +104,21 @@ body {
   color: #aaa;
   font-size: 10pt;
 }
+
+.glyphicon-refresh-animate {
+   font-size: 0.5em;
+   margin: 5px;
+   -webkit-animation-name: rotateThis;
+   -webkit-animation-duration: 2s;
+   -webkit-animation-iteration-count: infinite;
+   -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes "rotateThis" {
+  from { 
+    -webkit-transform: rotate( 0deg );  
+  }
+  to  { 
+    -webkit-transform: rotate( 360deg ); 
+  }
+}
