@@ -4,10 +4,10 @@ function Shape(x, y, width, height, name, lineWidth, borderColor, fontFamily, fo
   this.width = width;
   this.height = height;
   this.name = name;
-  this.lineWidth = (typeof lineWidth !== 'undefined') ? lineWidth : 1;
-  this.borderColor = (typeof borderColor !== 'undefined') ? borderColor : 'black';
-  this.fontFamily = (typeof fontFamily !== 'undefined') ? fontFamily : 'Arial';
-  this.fontSize = (typeof fontSize !== 'undefined') ? fontSize : 16;
+  this.lineWidth = (typeof lineWidth === 'number') ? lineWidth : 1;
+  this.borderColor = (typeof borderColor === 'string') ? borderColor : 'black';
+  this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
+  this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
   
   this.setX = function(x) {
     this.x = x;
@@ -87,13 +87,13 @@ Shape.prototype.draw = function() {
 };
 
 
-function Class(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+function EmptyClass(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
-Class.prototype = new Shape();
+EmptyClass.prototype = new Shape();
 
-Class.prototype.draw = function(canvas) {
+EmptyClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
@@ -135,13 +135,13 @@ AbstractClass.prototype.draw = function(canvas) {
 };
 
 
-function Notice(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+function Comment(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
-Notice.prototype = new Shape();
+Comment.prototype = new Shape();
 
-Notice.prototype.draw = function(canvas) {
+Comment.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var horizontalPiece = this.width * 0.8;
   var verticalPiece = this.height * 0.3;
@@ -193,6 +193,45 @@ ActiveClass.prototype.draw = function(canvas) {
   context.font = 'bold ' + this.fontSize + 'px ' + this.fontFamily;
   context.textAlign = 'center';
   context.fillText(this.name, centerX, centerY, this.width);
+  context.closePath();
+  context.stroke();
+  context.restore();
+};
+
+
+function Class(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
+  Shape.call(this, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+  
+  this.attributes = attributes instanceof Array ? attributes : [];
+  this.methods = methods instanceof Array ? methods : [];
+  
+  this.setAttributes = function(attributes) {
+    this.attributes = attributes;
+  };
+  
+  this.setMethods = function(methods) {
+    this.methods = methods;
+  };
+  
+  this.getAttributes = function() {
+    return this.attributes;
+  };
+  
+  this.getMethods = function() {
+    return this.methods;
+  };
+}
+
+Class.prototype = new Shape();
+
+Class.prototype.draw = function(canvas) {
+  var context = canvas.getContext('2d');
+  context.save();
+  context.beginPath();
+  context.strokeStyle = this.borderColor;
+  context.lineWidth = this.lineWidth;
+  context.rect(this.x, this.y, this.width, this.height);
+  
   context.closePath();
   context.stroke();
   context.restore();
