@@ -560,7 +560,7 @@ PackageClass.prototype.draw = function(context) {
 	  
 	    // Draws the first line
 	    context.moveTo(this.x, yPos);
-	    context.lineTo(this.width, yPos);
+	    context.lineTo(this.x + this.width, yPos);
 	    yPos += yNextGap;
 	  
 	    // Fill the attributes
@@ -573,7 +573,7 @@ PackageClass.prototype.draw = function(context) {
 	  
 	    // Draws the second line
 	    context.moveTo(this.x, yPos);
-	    context.lineTo(this.width, yPos);
+	    context.lineTo(this.x + this.width, yPos);
 	    yPos += yNextGap;
 	  
 	    // Fill the functions
@@ -594,7 +594,7 @@ PackageClass.prototype.draw = function(context) {
 		  
 	    // Draws the first line
 	    context.moveTo(this.x, yPos);
-	    context.lineTo(this.width, yPos);
+	    context.lineTo(this.x + this.width, yPos);
 	    yPos += yNextGap;
 		  
 	    // Fill the attributes
@@ -616,7 +616,7 @@ PackageClass.prototype.draw = function(context) {
 		  
 	    // Draws the first line
 	    context.moveTo(this.x, yPos);
-	    context.lineTo(this.width, yPos);
+	    context.lineTo(this.x + this.width, yPos);
 	    yPos += yNextGap;
 		  
 	    // Fill the functions
