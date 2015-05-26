@@ -6,6 +6,8 @@ var router = express.Router();
 var userCtrl = require('../controller/user');
 var Diagram = require('../models/diagrams/Diagram');
 var User = require('../models/user/User');
+var Comment = require('../models/daigrams/Comment');
+var Shape = require('../models/daigrams/Shape');
 var getRawBody = require('raw-body');
 var fs = require("fs");
 
@@ -115,7 +117,7 @@ router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
       }
     });
   } else {
-    req.user.diagrams.push(req.body);
+    req.user.diagrams.push(new Diagram(req.body));
     req.user.save(function(err, user) {
       if(err) { res.send(err); }
       else {
@@ -130,7 +132,7 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
     if(err) { res.send(err); }
     else {
       var diagram = foundUser.diagrams.id(req.params.diagramId);
-      diagram.comments.push({text: req.body.text, author: req.user.username});
+      diagram.comments.push(new Comment({text: req.body.text, author: req.user.username}));
       foundUser.save(function(err, user) {
         if(err) { res.send(err); }
         else {
@@ -155,6 +157,8 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
           else {
             var diagram = req.user.diagrams.id(jsonData._id);
             diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + jsonData._id;
+            // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
+            diagram.shapes = jsonData.shapes;
             req.user.save(function(err, user) {
               if(err) { res.send(err); }
               else {

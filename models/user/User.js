@@ -2,7 +2,7 @@
  * New node file
  */
 var mongoose = require('mongoose');
-var DiagramSchema = require('../diagrams/Diagram');
+var DiagramSchema = require('../diagrams/Diagram').schema;
 
 var userSchema = new mongoose.Schema({
   forename: {type: String, required: true},

@@ -82,7 +82,19 @@ function Shape(x, y, width, height, name, lineWidth, borderColor, fontFamily, fo
   };
 }
 
-Shape.prototype.draw = function() {
+Shape.prototype.draw = function(canvas) {
+  throw new Error('This method should not be directly called!');
+};
+
+Shape.prototype.toJSON = function() {
+  throw new Error('This method should not be directly called!');
+};
+
+Shape.prototype.startEditmode = function(canvas) {
+  throw new Error('This method should not be directly called!');
+};
+
+Shape.prototype.endEditmode = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
 
