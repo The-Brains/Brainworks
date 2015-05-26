@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
-  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}]}];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Inheritance', name: 'Vererbung'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
   $scope.cancel = function() {
@@ -214,7 +214,7 @@ angular.module('brainworks.diagram')
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var shape = new window[attr.type](0, 0, 140, 90, attr.name);
+      var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 140, 90, attr.name) : new window[attr.type]([0, 45], [140, 45], attr.name);
       shape.draw(element[0]);
       $(element).draggable({
         helper: 'clone',
