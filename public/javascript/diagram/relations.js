@@ -59,14 +59,19 @@ Inheritance.prototype = new Relation();
 
 Inheritance.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
+  var deltaX = this.coordsB[0] - this.coordsA[0];
+  var deltaY = this.coordsB[1] - this.coordsA[1];
   context.save();
   context.beginPath();
+  context.translate(this.coordsA[0], this.coordsA[1]);
+  context.rotate(Math.atan2(deltaY, deltaX));
+  context.translate(-this.coordsA[0], -this.coordsA[1]);
   context.moveTo(this.coordsA[0], this.coordsA[1]);
-  context.lineTo(this.coordsB[0], this.coordsB[1]);
-  /*ctx.moveTo(180, 60);
-  ctx.lineTo(180, 40);
-  ctx.lineTo(200, 50);
-  ctx.lineTo(180, 60);*/
+  context.lineTo(this.coordsB[0]-10, this.coordsA[1]);
+  context.moveTo(this.coordsB[0]-10, this.coordsA[1]+10);
+  context.lineTo(this.coordsB[0]-10, this.coordsA[1]-10);
+  context.lineTo(this.coordsB[0], this.coordsA[1]);
+  context.lineTo(this.coordsB[0]-10, this.coordsA[1]+10);
   context.closePath();
   context.stroke();
   context.restore();
