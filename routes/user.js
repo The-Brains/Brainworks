@@ -6,6 +6,7 @@ var router = express.Router();
 var User = require('../models/user/User');
 var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
+var configuration = require('../config.json');
 
 router.get('/signIn', function(req, res, next) {
   res.render('user/signIn', {
@@ -74,7 +75,7 @@ router.post('/signUp', function(req, res, next) {
   user.save(function(err, user){
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
         expiresInMinutes: 1440
       });
       res.json({success: true, token: token, userId: user._id});
@@ -88,7 +89,7 @@ router.post('/signIn', function(req, res, next) {
     else if(!user) {
       res.json({success: false, message: 'Das Passwort oder der Benutzername ist falsch!'});
     } else {
-      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
         expiresInMinutes: 1440
       });
       User.findByIdAndUpdate(user._id, {loggedIn: true}, function() {
@@ -107,7 +108,7 @@ router.post('/signOut', function(req, res, next) {
 router.get('/loggedIn', function(req, res) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
-    jwt.verify(token, 'test', function(err, decoded) {
+    jwt.verify(token, configuration.secret, function(err, decoded) {
       if (err) {
         res.send(err); 
       } else {
@@ -146,7 +147,7 @@ router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
   }, function(err, user) {
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
         expiresInMinutes: 1440
       });
       res.json({success: true, token: token, userId: user._id});
@@ -158,7 +159,7 @@ router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, ne
   User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, 'test', {
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
         expiresInMinutes: 1440
       });
       res.json({success: true, token: token, userId: user._id});
