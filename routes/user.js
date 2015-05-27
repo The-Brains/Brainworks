@@ -75,9 +75,7 @@ router.post('/signUp', function(req, res, next) {
   user.save(function(err, user){
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
-        expiresInMinutes: 1440
-      });
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
       res.json({success: true, token: token, userId: user._id});
     }
   });
@@ -89,9 +87,7 @@ router.post('/signIn', function(req, res, next) {
     else if(!user) {
       res.json({success: false, message: 'Das Passwort oder der Benutzername ist falsch!'});
     } else {
-      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
-        expiresInMinutes: 1440
-      });
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
       User.findByIdAndUpdate(user._id, {loggedIn: true}, function() {
         res.json({success: true, token: token, userId: user._id});
       });
@@ -147,9 +143,7 @@ router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
   }, function(err, user) {
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
-        expiresInMinutes: 1440
-      });
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
       res.json({success: true, token: token, userId: user._id});
     }
   });
@@ -159,9 +153,7 @@ router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, ne
   User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
     else {
-      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, {
-        expiresInMinutes: 1440
-      });
+      var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
       res.json({success: true, token: token, userId: user._id});
     }
   });

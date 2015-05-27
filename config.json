@@ -1,3 +1,7 @@
 {
-  secret: 'brainworks-secret-key'
+  secret: 'brainworks-secret-key',
+  tokenConfig: {
+    expiresInMinutes: 1440
+  },
+  mongodbURL: 'mongodb://localhost/brainworks'
 }

@@ -10,7 +10,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
-mongoose.connect('mongodb://localhost/brainworks');
+var configuration = require('./config');
+mongoose.connect(configuration.mongodbURL);
 
 var mainRoutes = require('./routes/index');
 var userRoutes = require('./routes/user');
