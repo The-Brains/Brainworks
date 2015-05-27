@@ -142,9 +142,11 @@ angular.module('brainworks.diagram')
             ) {
               cursor = 'n-resize'; // Oben oder Unten Größenänderungscursor
             }
-            element.css({
-              cursor: cursor
-            });
+            if(!drag && !resize) {
+              element.css({
+                cursor: cursor
+              });
+            }
             if(resize) {
               var moveX = 0;
               var moveY = 0;
