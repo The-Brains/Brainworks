@@ -143,18 +143,17 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
 });
 
 router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
-  var diagram = req.user.diagrams.id(req.body.diagram._id);
-  diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + req.body.diagram._id;
+  var requestDiagram = JSON.parse(req.body.diagram);
+  var diagram = req.user.diagrams.id(requestDiagram._id);
+  diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + requestDiagram._id;
   // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
-  diagram.shapes = req.body.diagram.shapes;
+  diagram.shapes = requestDiagram.shapes;
   req.user.save(function(err, user) {
     if(err) { res.send(err); }
     else {
       res.json({success: true});
     }
   });
-  console.log(req);
-  res.sendStatus(200);
 });
 
 router.get('/thumbnail/:imageId', function(req, res, next) {

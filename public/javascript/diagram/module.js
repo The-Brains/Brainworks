@@ -80,7 +80,8 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
         method: 'POST',
         url: '/diagram/' + userId + '/diagram/',
         data: formdata,
-        headers: {'Content-Type': 'multipart/form-data' }
+        headers: {'Content-Type': undefined},
+        transformRequest: angular.identity
       });
     }
   };
