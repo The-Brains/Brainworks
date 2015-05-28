@@ -108,17 +108,30 @@ body {
 .glyphicon-refresh-animate {
    font-size: 0.5em;
    margin: 5px;
+   animation-name: rotateThis;
+   animation-duration: 2s;
+   animation-iteration-count: infinite;
+   animation-timing-function: linear;
    -webkit-animation-name: rotateThis;
    -webkit-animation-duration: 2s;
    -webkit-animation-iteration-count: infinite;
    -webkit-animation-timing-function: linear;
 }
 
-@-webkit-keyframes "rotateThis" {
-  from { 
-    -webkit-transform: rotate( 0deg );  
+@keyframes "rotateThis" {
+  from {
+    transform: rotate( 0deg );
   }
-  to  { 
-    -webkit-transform: rotate( 360deg ); 
+  to {
+    transform: rotate( 360deg );
+  }
+}
+
+@-webkit-keyframes "rotateThis" {
+  from {
+    -webkit-transform: rotate( 0deg );
+  }
+  to {
+    -webkit-transform: rotate( 360deg );
   }
 }
