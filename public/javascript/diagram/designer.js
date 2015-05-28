@@ -82,7 +82,15 @@ angular.module('brainworks.diagram')
         });
         
         element.on('mousedown', function(event) {
-          var result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8); });
+          var result = $.grep(scope.shapes, function(shape) {
+            var isSelected = false;
+            if(shape instanceof Shape) {
+              isSelected = event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8);
+            } else {
+//              isSelected = TODO das ist eine relation
+            }
+            return isSelected;
+          });
           selected = result[0];
           positionX = event.layerX;
           positionY = event.layerY;
@@ -111,6 +119,7 @@ angular.module('brainworks.diagram')
           draw();
         });
         element.on('doubelclick', function(event) {
+          // TODO edtiermodus des shapes/der relation oeffnen
           var result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
           if(result.length !== 0) {
             console.log(result[0]);
@@ -119,6 +128,7 @@ angular.module('brainworks.diagram')
         element.on('mousemove', function(event) {
           if(angular.isDefined(selected) && selected !== null) {
             var cursor = 'initial';
+            // TODO bei einer relation immer den movecursor anzeigen
             if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
               cursor = 'move'; // Bewegungscursor
             } else if(
@@ -147,6 +157,7 @@ angular.module('brainworks.diagram')
                 cursor: cursor
               });
             }
+            // TODO sonderlogik für relation
             if(resize) {
               var moveX = 0;
               var moveY = 0;
