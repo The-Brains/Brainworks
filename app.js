@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var configuration = require('./config');
+var multer = require('multer');
 mongoose.connect(configuration.mongodbURL);
 
 var mainRoutes = require('./routes/index');
@@ -25,7 +26,13 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer({
+  dest: configuration.uploadDir,
+  rename: function(fieldname, filename, req, res) {
+    return filename;
+  }
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));

@@ -75,12 +75,12 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     remove: function(userId, diagramId) {
       return $http.delete('/diagram/' + userId + '/diagram/' + diagramId);
     },
-    saveDiagram: function(userId, diagram) {
+    saveDiagram: function(userId, formdata) {
       return $http({
         method: 'POST',
         url: '/diagram/' + userId + '/diagram/',
-        data: JSON.stringify(diagram),
-        headers: {'Content-Type': 'application/octet-stream'}
+        data: formdata,
+        headers: {'Content-Type': 'multipart/form-data' }
       });
     }
   };

@@ -8,7 +8,6 @@ var Diagram = require('../models/diagrams/Diagram');
 var User = require('../models/user/User');
 var Comment = require('../models/diagrams/Comment');
 var Shape = require('../models/diagrams/Shape');
-var getRawBody = require('raw-body');
 var fs = require("fs");
 
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
@@ -144,32 +143,18 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
 });
 
 router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
-  if(req.headers['content-type'] === 'application/octet-stream') {
-    getRawBody(req, {
-      length: req.headers['content-length'],
-      encoding: 'UTF-8'
-    }, function (err, string) {
-      if(err) { res.send(err); }
-      else {
-        var jsonData = JSON.parse(string);
-        fs.writeFile('uploads/' + jsonData._id + '.png', new Buffer(jsonData.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'), function(err) {
-          if(err) { res.send(err); }
-          else {
-            var diagram = req.user.diagrams.id(jsonData._id);
-            diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + jsonData._id;
-            // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
-            diagram.shapes = jsonData.shapes;
-            req.user.save(function(err, user) {
-              if(err) { res.send(err); }
-              else {
-                res.json({success: true});
-              }
-            });
-          }
-        });
-      }
-    });
-  }
+  var diagram = req.user.diagrams.id(req.body.diagram._id);
+  diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + req.body.diagram._id;
+  // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
+  diagram.shapes = req.body.diagram.shapes;
+  req.user.save(function(err, user) {
+    if(err) { res.send(err); }
+    else {
+      res.json({success: true});
+    }
+  });
+  console.log(req);
+  res.sendStatus(200);
 });
 
 router.get('/thumbnail/:imageId', function(req, res, next) {

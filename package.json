@@ -17,6 +17,6 @@
     "serve-favicon": "~2.2.0",
     "mongoose-schema-extend": "~0.1.7",
     "jsonwebtoken": "~5.0.1",
-    "raw-body": "~2.0.2"
+    "multer": "~0.1.8"
   }
 }

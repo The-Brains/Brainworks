@@ -10,7 +10,6 @@ angular.module('brainworks.diagram')
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
     waitElement.removeClass('hidden');
-    var saveDiagram = angular.copy(diagram);
     var designerCanvas = $('.designer');
     var tmpCanvas = designerCanvas.clone();
     tmpCanvas.attr('height', '300px');
@@ -18,9 +17,13 @@ angular.module('brainworks.diagram')
     var img = $('#diagramThumbnail')[0];
     img.src = designerCanvas[0].toDataURL();
     tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
-    saveDiagram.thumbnail = tmpCanvas[0].toDataURL();
-    diagramsFactory.saveDiagram(localStorageService.get('userId'), saveDiagram).success(function(response) {
-      waitElement.addClass('hidden');
+    tmpCanvas[0].toBlob(function(blob) {
+      var formData = new FormData();
+      formData.append('file', blob, diagram._id + '.png');
+      formData.append('diagram', JSON.stringify(diagram));
+      diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(function(response) {
+        waitElement.addClass('hidden');
+      });
     });
   };
 }])

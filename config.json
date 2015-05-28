@@ -3,5 +3,6 @@
   "tokenConfig": {
     "expiresInMinutes": "1440"
   },
-  "mongodbURL": "mongodb://localhost/brainworks"
+  "mongodbURL": "mongodb://localhost/brainworks",
+  "uploadDir": "./uploads/"
 }
