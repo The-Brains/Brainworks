@@ -157,12 +157,17 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
 });
 
 router.get('/thumbnail/:imageId', function(req, res, next) {
-  fs.readFile('uploads/'+req.params.imageId+'.png', function(err, data) {
-    if (err) throw err;
-    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.setHeader('Expires', '-1');
-    res.setHeader('Pragma', 'no-cache');
-    res.end(data, 'base64');
+  fs.exists('uploads/'+req.params.imageId+'.png', function(exists) {
+    if (!exists) { res.sendStatus(404); }
+    else {
+      fs.readFile('uploads/'+req.params.imageId+'.png', function(err, data) {
+        if (err) res.send(err);
+        res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        res.setHeader('Expires', '-1');
+        res.setHeader('Pragma', 'no-cache');
+        res.end(data, 'base64');
+      });
+    }
   });
 });
 
