@@ -237,6 +237,7 @@ angular.module('brainworks.diagram')
             drag = false;
             resize = false;
             resizeDirection = '';
+            draw();
           }
         });
       }
