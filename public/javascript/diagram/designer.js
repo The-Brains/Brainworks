@@ -11,7 +11,9 @@ angular.module('brainworks.diagram')
     var waitElement = $('#saveAnimation');
     var shapes = [];
     angular.forEach($scope.shapes, function(shape) {
-      shapes.push(shape.toJSON());
+      if(shape instanceof Shape) {
+        shapes.push(shape.toJSON());
+      }
     });
     console.log(shapes);
     waitElement.removeClass('hidden');
@@ -36,7 +38,7 @@ angular.module('brainworks.diagram')
   return {
     restrict: 'E',
     replace: true,
-    template: '<canvas class="designer" height="5000px" width="5000px"></canvas>',
+    template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     link: function(scope, element, attr) {
       var draw = function() {
         var context = element[0].getContext('2d');
@@ -76,6 +78,7 @@ angular.module('brainworks.diagram')
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
+            // TODO interne id vergeben, damit das element aus dem canvas entfernt werden kann
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
             scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')]([x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
@@ -226,6 +229,15 @@ angular.module('brainworks.diagram')
           drag = false;
           resize = false;
           resizeDirection = '';
+        });
+        element.on('keydown', function(event) {
+          if(angular.isDefined(selected) && selected !== null && event.code === 'Delete') {
+            //$scope.shapes
+            selected = null;
+            drag = false;
+            resize = false;
+            resizeDirection = '';
+          }
         });
       }
       draw();
