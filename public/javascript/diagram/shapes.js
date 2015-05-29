@@ -173,6 +173,28 @@ AbstractClass.prototype.draw = function(canvas) {
   context.restore();
 };
 
+AbstractClass.prototype.toJSON = function() {
+  var json = {
+    _type: 'AbstractClass',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+AbstractClass.prototype.applyJSON = function(json) {
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
+};
+
 
 function Comment(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -207,6 +229,28 @@ Comment.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Comment.prototype.toJSON = function() {
+  var json = {
+    _type: 'Comment',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+Comment.prototype.applyJSON = function(json) {
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
+};
+
 
 function ActiveClass(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -235,6 +279,28 @@ ActiveClass.prototype.draw = function(canvas) {
   context.closePath();
   context.stroke();
   context.restore();
+};
+
+ActiveClass.prototype.toJSON = function() {
+  var json = {
+    _type: 'ActiveClass',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+ActiveClass.prototype.applyJSON = function(json) {
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
 };
 
 
@@ -443,4 +509,30 @@ Class.prototype.draw = function(canvas) {
   context.closePath();
   context.stroke();
   context.restore();
+};
+
+Class.prototype.toJSON = function() {
+  var json = {
+    _type: 'Class',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName(),
+    methods: this.getMethods(),
+    attributes: this.getAttributes()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+Class.prototype.applyJSON = function(json) {
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
+  this.methods = json.methods;
+  this.attributes = json.attributes;
 };

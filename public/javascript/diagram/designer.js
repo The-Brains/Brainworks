@@ -48,7 +48,6 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     link: function(scope, element, attr) {
-      
       var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);

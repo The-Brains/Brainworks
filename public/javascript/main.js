@@ -70,6 +70,15 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
 .controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.diagram = diagram;
   $scope.comment = '';
+  $scope.elementId = 1;
+  $scope.shapes = [];
+  angular.forEach($scope.diagram.shapes, function(shape) {
+    var tmp = new window[shape._type];
+    tmp.applyJSON(shape);
+    tmp.id = $scope.elementId;
+    $scope.elementId++;
+    $scope.shapes.push(tmp);
+  });
   $scope.back = function() {
     $state.go('home');
   };
