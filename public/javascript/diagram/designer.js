@@ -9,6 +9,11 @@ angular.module('brainworks.diagram')
   };
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
+    var shapes = [];
+    angular.forEach($scope.shapes, function(shape) {
+      shapes.push(shape.toJSON());
+    });
+    console.log(shapes);
     waitElement.removeClass('hidden');
     var designerCanvas = $('.designer');
     var tmpCanvas = designerCanvas.clone();

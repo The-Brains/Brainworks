@@ -90,6 +90,10 @@ Shape.prototype.toJSON = function() {
   throw new Error('This method should not be directly called!');
 };
 
+Shape.prototype.applyJSON = function(json) {
+  throw new Error('This method should not be directly called!');
+};
+
 Shape.prototype.startEditmode = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
@@ -120,6 +124,23 @@ EmptyClass.prototype.draw = function(canvas) {
   context.closePath();
   context.stroke();
   context.restore();
+};
+
+EmptyClass.prototype.toJSON = function() {
+  var json = {
+    _type: 'EmptyClass',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+EmptyClass.prototype.applyJSON = function(json) {
+  
 };
 
 
