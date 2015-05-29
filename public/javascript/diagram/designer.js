@@ -4,6 +4,14 @@ angular.module('brainworks.diagram')
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Inheritance', name: 'Vererbung'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
+  $scope.elementId = 1;
+  angular.forEach($scope.diagram.shapes, function(shape) {
+    var tmp = new window[shape._type];
+    tmp.applyJSON(shape);
+    tmp.id = $scope.elementId;
+    $scope.elementId++;
+    $scope.shapes.push(tmp);
+  });
   $scope.back = function() {
     $state.go('profile.diagrams');
   };
@@ -15,7 +23,7 @@ angular.module('brainworks.diagram')
         shapes.push(shape.toJSON());
       }
     });
-    console.log(shapes);
+    diagram.shapes = shapes;
     waitElement.removeClass('hidden');
     var designerCanvas = $('.designer');
     var tmpCanvas = designerCanvas.clone();
@@ -40,7 +48,7 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     link: function(scope, element, attr) {
-      var element_id = 1;
+      
       var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);
@@ -81,8 +89,8 @@ angular.module('brainworks.diagram')
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](element_id, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](element_id, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
-            element_id++;
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.elementId, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            scope.elementId++;
             draw();
           },
           over: function(event, ui) {

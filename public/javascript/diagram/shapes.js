@@ -141,7 +141,12 @@ EmptyClass.prototype.toJSON = function() {
 };
 
 EmptyClass.prototype.applyJSON = function(json) {
-  
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
 };
 
 

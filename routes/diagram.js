@@ -150,7 +150,11 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
     else {
       diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + requestDiagram._id;
       // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
-      diagram.shapes = requestDiagram.shapes;
+      var shapes = [];
+      for(var i = 0; i<requestDiagram.shapes.length; i++) {
+        shapes.push(new Shape[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]));
+      }
+      diagram.shapes = shapes;
       req.user.save(function(err, user) {
         if(err) { res.send(err); }
         else {
