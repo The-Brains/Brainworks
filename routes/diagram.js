@@ -145,13 +145,18 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
 router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
   var requestDiagram = JSON.parse(req.body.diagram);
   var diagram = req.user.diagrams.id(requestDiagram._id);
-  diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + requestDiagram._id;
-  // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
-  diagram.shapes = requestDiagram.shapes;
-  req.user.save(function(err, user) {
+  fs.writeFile('uploads/' + requestDiagram._id + '.png', new Buffer(req.body.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'), function(err) {
     if(err) { res.send(err); }
     else {
-      res.json({success: true});
+      diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + requestDiagram._id;
+      // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
+      diagram.shapes = requestDiagram.shapes;
+      req.user.save(function(err, user) {
+        if(err) { res.send(err); }
+        else {
+          res.json({success: true});
+        }
+      });
     }
   });
 });

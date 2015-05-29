@@ -14,17 +14,17 @@ angular.module('brainworks.diagram')
     var tmpCanvas = designerCanvas.clone();
     tmpCanvas.attr('height', '300px');
     tmpCanvas.attr('width', '700px');
-    var img = $('#diagramThumbnail')[0];
-    img.src = designerCanvas[0].toDataURL();
-    tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
-    tmpCanvas[0].toBlob(function(blob) {
+    var img = new Image();
+    img.onload = function() {
+      tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
       var formData = new FormData();
-      formData.append('file', blob, diagram._id + '.png');
+      formData.append('thumbnail', tmpCanvas[0].toDataURL('image/png'));
       formData.append('diagram', JSON.stringify(diagram));
       diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(function(response) {
         waitElement.addClass('hidden');
       });
-    });
+    };
+    img.src = designerCanvas[0].toDataURL();
   };
 }])
 .directive('designer', function() {
