@@ -1,4 +1,5 @@
-function Shape(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
+function Shape(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
+  this.id = element_id;
   this.x = x;
   this.y = y;
   this.width = width;
@@ -103,8 +104,8 @@ Shape.prototype.endEditmode = function(canvas) {
 };
 
 
-function EmptyClass(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
-  Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function EmptyClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
 EmptyClass.prototype = new Shape();
@@ -144,8 +145,8 @@ EmptyClass.prototype.applyJSON = function(json) {
 };
 
 
-function AbstractClass(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
-  Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function AbstractClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
 AbstractClass.prototype = new Shape();
@@ -168,8 +169,8 @@ AbstractClass.prototype.draw = function(canvas) {
 };
 
 
-function Comment(x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
-  Shape.call(this, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function Comment(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
 Comment.prototype = new Shape();
@@ -202,8 +203,8 @@ Comment.prototype.draw = function(canvas) {
 };
 
 
-function ActiveClass(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
-  Shape.call(this, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+function ActiveClass(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
+  Shape.call(this, element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 }
 
 ActiveClass.prototype = new Shape();
@@ -232,8 +233,8 @@ ActiveClass.prototype.draw = function(canvas) {
 };
 
 
-function Class(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
-  Shape.call(this, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+function Class(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
+  Shape.call(this, element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
   
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];

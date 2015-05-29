@@ -40,6 +40,7 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     link: function(scope, element, attr) {
+      var element_id = 1;
       var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);
@@ -78,10 +79,10 @@ angular.module('brainworks.diagram')
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
-            // TODO interne id vergeben, damit das element aus dem canvas entfernt werden kann
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')]([x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](element_id, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](element_id, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            element_id++;
             draw();
           },
           over: function(event, ui) {
@@ -232,7 +233,10 @@ angular.module('brainworks.diagram')
         });
         element.on('keydown', function(event) {
           if(angular.isDefined(selected) && selected !== null && event.code === 'Delete') {
-            //$scope.shapes
+            element.css({
+              cursor: 'initial'
+            });
+            scope.shapes = $.grep(scope.shapes, function(shape) { return shape.id !== selected.id });
             selected = null;
             drag = false;
             resize = false;
@@ -252,7 +256,7 @@ angular.module('brainworks.diagram')
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
     link: function(scope, element, attr) {
       var offsetX, offsetY;
-      var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 140, 90, attr.name) : new window[attr.type]([0, 45], [140, 45], attr.name);
+      var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 0, 140, 90, attr.name) : new window[attr.type](0, [0, 45], [140, 45], attr.name);
       shape.draw(element[0]);
       $(element).draggable({
         helper: 'clone',

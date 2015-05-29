@@ -1,4 +1,5 @@
-function Relation(coordsA, coordsB, name) {
+function Relation(element_id, coordsA, coordsB, name) {
+  this.id = element_id;
   this.shapeA = null;
   this.shapeB = null;
   this.coordsA = coordsA;
@@ -51,8 +52,8 @@ Relation.prototype.draw = function() {
 };
 
 
-function Inheritance(coordsA, coordsB, name) {
-  Relation.call(this, coordsA, coordsB, name);
+function Inheritance(element_id, coordsA, coordsB, name) {
+  Relation.call(this, element_id, coordsA, coordsB, name);
 }
 
 Inheritance.prototype = new Relation();
