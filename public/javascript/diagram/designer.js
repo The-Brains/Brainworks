@@ -119,27 +119,21 @@ angular.module('brainworks.diagram')
             if(shape instanceof Shape) {
               isSelected = event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8);
             } else {
-//              var A = -(y2 - y1)
-//              var B = x2 - x1
-//              var C = -(A * x1 + B * y1)
-//              var D = A * event.layerX + B * event.layerY + C
-//              var slope = (shape.getCoordsB()[1] - shape.getCoordsA()[1]) / (shape.getCoordsB()[0] - shape.getCoordsA()[0]);
-//              var newSlope = (shape.getCoordsB()[1] - event.layerY) / (shape.getCoordsB()[0] - event.layerX);
-//              console.log(event.layerX > shape.getCoordsA()[0]);
-//              console.log(event.layerX < shape.getCoordsB()[0]);
-//              console.log(event.layerY > shape.getCoordsA()[1]);
-//              console.log(event.layerY < shape.getCoordsB()[1]);
-//              console.log(slope.toFixed(2) === newSlope.toFixed(2));
-//              isSelected = D === 0;
-              console.log(isSelected);
-//              var slope = (shape.getCoordsB()[1] - shape.getCoordsA()[1]) / (shape.getCoordsB()[0] - shape.getCoordsA()[0]);
-//              var newSlope = (shape.getCoordsB()[1] - event.layerY) / (shape.getCoordsB()[0] - event.layerX);
-//              isSelected = (shape.getCoordsA()[1] === shape.getCoordsB()[1] || Math.round(slope).toFixed(2) == Math.round(newSlope).toFixed(2)) && newSlope >= 0 && newSlope <= 1;
+              var context = element[0].getContext('2d');
+              var deltaX = shape.getCoordsB()[0] - shape.getCoordsA()[0];
+              var deltaY = shape.getCoordsB()[1] - shape.getCoordsA()[1];
+              context.save();
+              context.beginPath();
+              context.translate(shape.getCoordsA()[0], shape.getCoordsA()[1]);
+              context.rotate(Math.atan2(deltaY, deltaX));
+              context.translate(-shape.getCoordsA()[0], -shape.getCoordsA()[1]);
+              context.rect(shape.getCoordsA()[0], shape.getCoordsA()[1]-5, shape.getCoordsB()[0]-shape.getCoordsA()[0], 10);
+              isSelected = context.isPointInPath(event.layerX, event.layerY) || (Math.sqrt((event.layerX-shape.getCoordsA()[0]+3)*(event.layerX-shape.getCoordsA()[0]+3) + (event.layerY-shape.getCoordsA()[1]+3)*(event.layerY-shape.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-shape.getCoordsB()[0]+3)*(event.layerX-shape.getCoordsB()[0]+3) + (event.layerY-shape.getCoordsB()[1]+3)*(event.layerY-shape.getCoordsB()[1]+3)) < 3);
+              context.restore();
             }
             return isSelected;
           });
           selected = result[0];
-          console.log(selected);
           positionX = event.layerX;
           positionY = event.layerY;
           if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
@@ -163,6 +157,25 @@ angular.module('brainworks.diagram')
             } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
               resizeDirection = 'down';
             }
+          } else if(selected instanceof Relation && angular.isDefined(selected) && selected !== null) {
+            var context = element[0].getContext('2d');
+            var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
+            var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
+            context.save();
+            context.beginPath();
+            context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
+            context.rotate(Math.atan2(deltaY, deltaX));
+            context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
+            context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, selected.getCoordsB()[0]-selected.getCoordsA()[0], 10);
+            if(context.isPointInPath(event.layerX, event.layerY)) {
+              dragPoint = 'shape';
+            } else if(Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) {
+              dragPoint = 'pointA';
+            } else if(Math.sqrt((event.layerX-selected.getCoordsB()[0]+3)*(event.layerX-selected.getCoordsB()[0]+3) + (event.layerY-selected.getCoordsB()[1]+3)*(event.layerY-selected.getCoordsB()[1]+3)) < 3) {
+              dragPoint = 'pointB';
+            }
+            drag = dragPoint !== '';
+            context.restore();
           }
           draw();
         });
@@ -177,11 +190,17 @@ angular.module('brainworks.diagram')
           if(angular.isDefined(selected) && selected !== null) {
             var cursor = 'initial';
             if(selected instanceof Relation) {
-              var vecY = (event.layerY - selected.getCoordsA()[1]) / selected.getCoordsB()[1];
-              var vecX = (event.layerX - selected.getCoordsA()[0]) / selected.getCoordsB()[0];
-              console.log(vecY);
-              console.log(vecX);
-              cursor = ((selected.getCoordsA()[1] === selected.getCoordsB()[1] || vecY === vecX) && vecX >= 0 && vecX <= 1) || (Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-selected.getCoordsB()[0]+3)*(event.layerX-selected.getCoordsB()[0]+3) + (event.layerY-selected.getCoordsB()[1]+3)*(event.layerY-selected.getCoordsB()[1]+3)) < 3) ? 'move' : 'initial';
+              var context = element[0].getContext('2d');
+              var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
+              var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
+              context.save();
+              context.beginPath();
+              context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
+              context.rotate(Math.atan2(deltaY, deltaX));
+              context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
+              context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, selected.getCoordsB()[0]-selected.getCoordsA()[0], 10);
+              cursor = context.isPointInPath(event.layerX, event.layerY) || (Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-selected.getCoordsB()[0]+3)*(event.layerX-selected.getCoordsB()[0]+3) + (event.layerY-selected.getCoordsB()[1]+3)*(event.layerY-selected.getCoordsB()[1]+3)) < 3) ? 'move' : 'initial';
+              context.restore();
             } else if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
               cursor = 'move'; // Bewegungscursor
             } else if(
@@ -256,9 +275,24 @@ angular.module('brainworks.diagram')
               selected.setY(y);
               selected.setWidth(Math.max(1, selected.getWidth() + moveX));
               selected.setHeight(Math.max(1, selected.getHeight() + moveY));
-            } else if(drag) {
+            } else if(drag && dragPoint === '') {
               selected.setX(selected.getX() + event.layerX - positionX);
               selected.setY(selected.getY() + event.layerY - positionY);
+              positionX = event.layerX;
+              positionY = event.layerY;
+            } else if(drag && dragPoint !== '') {
+              switch(dragPoint) {
+                case 'shape':
+                  selected.setCoordsA([selected.getCoordsA()[0] + event.layerX - positionX, selected.getCoordsA()[1] + event.layerY - positionY]);
+                  selected.setCoordsB([selected.getCoordsB()[0] + event.layerX - positionX, selected.getCoordsB()[1] + event.layerY - positionY]);
+                  break;
+                case 'pointA':
+                  selected.setCoordsA([selected.getCoordsA()[0] + event.layerX - positionX, selected.getCoordsA()[1] + event.layerY - positionY]);
+                  break;
+                case 'pointB':
+                  selected.setCoordsB([selected.getCoordsB()[0] + event.layerX - positionX, selected.getCoordsB()[1] + event.layerY - positionY]);
+                  break;
+              }
               positionX = event.layerX;
               positionY = event.layerY;
             }
@@ -271,6 +305,7 @@ angular.module('brainworks.diagram')
           drag = false;
           resize = false;
           resizeDirection = '';
+          dragPoint = '';
         });
         element.on('keydown', function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
