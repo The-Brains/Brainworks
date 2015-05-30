@@ -1,7 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
-  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Inheritance', name: 'Vererbung'}]}];
+  $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
   $scope.elementId = 1;
@@ -54,7 +54,7 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
-        if(angular.isDefined(selected) && selected !== null) {
+        if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
           context.save();
           context.beginPath();
           context.strokeStyle = 'gray';
@@ -74,6 +74,18 @@ angular.module('brainworks.diagram')
           context.closePath();
           context.stroke();
           context.restore();
+        } else if(angular.isDefined(selected) && selected !== null) {
+          context.save();
+          context.beginPath();
+          context.strokeStyle = 'gray';
+          context.arc(selected.getCoordsA()[0] - 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+          context.closePath();
+          context.stroke();
+          context.beginPath();
+          context.arc(selected.getCoordsB()[0], selected.getCoordsB()[1], 3, 0, 2*Math.PI);
+          context.closePath();
+          context.stroke();
+          context.restore();
         }
       };
       if(attr.editable) {
@@ -83,12 +95,13 @@ angular.module('brainworks.diagram')
         var drag = false;
         var resize = false;
         var resizeDirection = '';
+        var dragPoint = '';
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.elementId, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.elementId, [x, y + 45], [x + 140, y + 10], ui.helper.attr('name')));
             scope.elementId++;
             draw();
           },
@@ -106,16 +119,32 @@ angular.module('brainworks.diagram')
             if(shape instanceof Shape) {
               isSelected = event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8);
             } else {
-//              isSelected = TODO das ist eine relation
+//              var A = -(y2 - y1)
+//              var B = x2 - x1
+//              var C = -(A * x1 + B * y1)
+//              var D = A * event.layerX + B * event.layerY + C
+//              var slope = (shape.getCoordsB()[1] - shape.getCoordsA()[1]) / (shape.getCoordsB()[0] - shape.getCoordsA()[0]);
+//              var newSlope = (shape.getCoordsB()[1] - event.layerY) / (shape.getCoordsB()[0] - event.layerX);
+//              console.log(event.layerX > shape.getCoordsA()[0]);
+//              console.log(event.layerX < shape.getCoordsB()[0]);
+//              console.log(event.layerY > shape.getCoordsA()[1]);
+//              console.log(event.layerY < shape.getCoordsB()[1]);
+//              console.log(slope.toFixed(2) === newSlope.toFixed(2));
+//              isSelected = D === 0;
+              console.log(isSelected);
+//              var slope = (shape.getCoordsB()[1] - shape.getCoordsA()[1]) / (shape.getCoordsB()[0] - shape.getCoordsA()[0]);
+//              var newSlope = (shape.getCoordsB()[1] - event.layerY) / (shape.getCoordsB()[0] - event.layerX);
+//              isSelected = (shape.getCoordsA()[1] === shape.getCoordsB()[1] || Math.round(slope).toFixed(2) == Math.round(newSlope).toFixed(2)) && newSlope >= 0 && newSlope <= 1;
             }
             return isSelected;
           });
           selected = result[0];
+          console.log(selected);
           positionX = event.layerX;
           positionY = event.layerY;
-          if(angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
+          if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
             drag = true;
-          } else if(angular.isDefined(selected) && selected !== null) {
+          } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
             resize = true;
             if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
               resizeDirection = 'up left';
@@ -147,8 +176,13 @@ angular.module('brainworks.diagram')
         element.on('mousemove', function(event) {
           if(angular.isDefined(selected) && selected !== null) {
             var cursor = 'initial';
-            // TODO bei einer relation immer den movecursor anzeigen
-            if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
+            if(selected instanceof Relation) {
+              var vecY = (event.layerY - selected.getCoordsA()[1]) / selected.getCoordsB()[1];
+              var vecX = (event.layerX - selected.getCoordsA()[0]) / selected.getCoordsB()[0];
+              console.log(vecY);
+              console.log(vecX);
+              cursor = ((selected.getCoordsA()[1] === selected.getCoordsB()[1] || vecY === vecX) && vecX >= 0 && vecX <= 1) || (Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-selected.getCoordsB()[0]+3)*(event.layerX-selected.getCoordsB()[0]+3) + (event.layerY-selected.getCoordsB()[1]+3)*(event.layerY-selected.getCoordsB()[1]+3)) < 3) ? 'move' : 'initial';
+            } else if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
               cursor = 'move'; // Bewegungscursor
             } else if(
               event.layerX >= selected.getX() - 8 && event.layerX <= selected.getX() - 2 && event.layerY >= selected.getY() - 8 && event.layerY <= selected.getY() - 2 ||
@@ -220,8 +254,8 @@ angular.module('brainworks.diagram')
               }
               selected.setX(x);
               selected.setY(y);
-              selected.setWidth(selected.getWidth() + moveX);
-              selected.setHeight(selected.getHeight() + moveY);
+              selected.setWidth(Math.max(1, selected.getWidth() + moveX));
+              selected.setHeight(Math.max(1, selected.getHeight() + moveY));
             } else if(drag) {
               selected.setX(selected.getX() + event.layerX - positionX);
               selected.setY(selected.getY() + event.layerY - positionY);
@@ -239,7 +273,7 @@ angular.module('brainworks.diagram')
           resizeDirection = '';
         });
         element.on('keydown', function(event) {
-          if(angular.isDefined(selected) && selected !== null && event.code === 'Delete') {
+          if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
             element.css({
               cursor: 'initial'
             });
