@@ -87,7 +87,7 @@ body {
 }
 
 .designer-container {
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid #000000;
 }
 
