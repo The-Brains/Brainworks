@@ -122,12 +122,13 @@ angular.module('brainworks.diagram')
               var context = element[0].getContext('2d');
               var deltaX = shape.getCoordsB()[0] - shape.getCoordsA()[0];
               var deltaY = shape.getCoordsB()[1] - shape.getCoordsA()[1];
+              var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
               context.save();
               context.beginPath();
               context.translate(shape.getCoordsA()[0], shape.getCoordsA()[1]);
               context.rotate(Math.atan2(deltaY, deltaX));
               context.translate(-shape.getCoordsA()[0], -shape.getCoordsA()[1]);
-              context.rect(shape.getCoordsA()[0], shape.getCoordsA()[1]-5, shape.getCoordsB()[0]-shape.getCoordsA()[0], 10);
+              context.rect(shape.getCoordsA()[0], shape.getCoordsA()[1]-5, length, 10);
               isSelected = context.isPointInPath(event.layerX, event.layerY) || (Math.sqrt((event.layerX-shape.getCoordsA()[0]+3)*(event.layerX-shape.getCoordsA()[0]+3) + (event.layerY-shape.getCoordsA()[1]+3)*(event.layerY-shape.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-shape.getCoordsB()[0]+3)*(event.layerX-shape.getCoordsB()[0]+3) + (event.layerY-shape.getCoordsB()[1]+3)*(event.layerY-shape.getCoordsB()[1]+3)) < 3);
               context.restore();
             }
@@ -161,12 +162,13 @@ angular.module('brainworks.diagram')
             var context = element[0].getContext('2d');
             var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
             var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
+            var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
             context.save();
             context.beginPath();
             context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
             context.rotate(Math.atan2(deltaY, deltaX));
             context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
-            context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, selected.getCoordsB()[0]-selected.getCoordsA()[0], 10);
+            context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
             if(context.isPointInPath(event.layerX, event.layerY)) {
               dragPoint = 'shape';
             } else if(Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) {
@@ -193,12 +195,13 @@ angular.module('brainworks.diagram')
               var context = element[0].getContext('2d');
               var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
               var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
+              var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
               context.save();
               context.beginPath();
               context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
               context.rotate(Math.atan2(deltaY, deltaX));
               context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
-              context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, selected.getCoordsB()[0]-selected.getCoordsA()[0], 10);
+              context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
               cursor = context.isPointInPath(event.layerX, event.layerY) || (Math.sqrt((event.layerX-selected.getCoordsA()[0]+3)*(event.layerX-selected.getCoordsA()[0]+3) + (event.layerY-selected.getCoordsA()[1]+3)*(event.layerY-selected.getCoordsA()[1]+3)) < 3) || (Math.sqrt((event.layerX-selected.getCoordsB()[0]+3)*(event.layerX-selected.getCoordsB()[0]+3) + (event.layerY-selected.getCoordsB()[1]+3)*(event.layerY-selected.getCoordsB()[1]+3)) < 3) ? 'move' : 'initial';
               context.restore();
             } else if(event.layerX >= selected.getX() && event.layerX <= (selected.getX() + selected.getWidth()) && event.layerY >= selected.getY() && event.layerY <= (selected.getY() + selected.getHeight())) {
@@ -229,7 +232,6 @@ angular.module('brainworks.diagram')
                 cursor: cursor
               });
             }
-            // TODO sonderlogik für relation
             if(resize) {
               var moveX = 0;
               var moveY = 0;
