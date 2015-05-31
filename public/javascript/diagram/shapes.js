@@ -150,24 +150,208 @@ EmptyClass.prototype.applyJSON = function(json) {
 };
 
 
-function AbstractClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+function AbstractClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+  
+  this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
+  this.methods = methods instanceof Array ? methods : ['Methoden'];
+  
+  this.setAttributes = function(attributes) {
+    this.attributes = attributes;
+  };
+  
+  this.setMethods = function(methods) {
+    this.methods = methods;
+  };
+  
+  this.getAttributes = function() {
+    return this.attributes;
+  };
+  
+  this.getMethods = function() {
+    return this.methods;
+  };
 }
 
 AbstractClass.prototype = new Shape();
 
 AbstractClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
-  var centerX = this.x + (this.width / 2);
-  var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
+  var minSpacing = Math.round(this.height * 0.05);
+  var numAttributes = this.attributes.length;
+  var numMethods = this.methods.length;
+  var numElements = 1 + numAttributes + numMethods;
   context.save();
   context.beginPath();
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  context.font = 'italic bold ' + this.fontSize + 'px ' + this.fontFamily;
-  context.textAlign = 'center';
-  context.fillText(this.name, centerX, centerY, this.width);
+  //Initializes the font-size
+  if (numAttributes > 0 && numMethods > 0) {
+    var totalSpace = 6 + (numAttributes - 1) + (numMethods - 1);
+  } else if (numAttributes > 0 && numMethods === 0) {
+    var totalSpace = 4 + (numAttributes - 1);
+  } else if (numAttributes === 0 && numMethods > 0) {
+    var totalSpace = 4 + (numMethods - 1);
+  } else {
+    var totalSpace = 2;
+  }
+  
+  // Settings for the fonts (fontSize are defined in px)
+  var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
+  var fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
+  var fontText = fontSize + "px " + this.fontFamily;
+
+  // Settings for finding the biggest width and its text
+  var biggestWidth = 0;
+  var biggestText = "";
+  
+  // Finding the biggest width and its text
+  for (var a = 0; a < 2; a++) {
+    
+    // Checks the width of the title  
+    if (a === 0) {
+      context.font = fontTitle;
+        
+      var width = context.measureText(this.name).width;
+      if (width > biggestWidth) {
+        biggestWidth = width;
+        biggestText = this.text;
+      }
+    }
+    
+    // Checks the width of each attributes elements
+    if (a === 1 && numAttributes > 0) {
+      context.font = fontText;
+        
+      for (var b = 0; b < numAttributes; b++) {
+        var width = context.measureText(this.attributes[b]).width;
+        if (width > biggestWidth) {
+          biggestWidth = width;
+          biggestText = this.attributes[b];
+        }
+      }
+    }
+    
+    // Checks the width of each functions elements
+    if (a === 2 && numMethods > 0) {
+      context.font = fontText;
+        
+      for (var b = 0; b < numMethods; b++) {
+        var width = context.measureText(this.methods[b]).width;
+        if (width > biggestWidth) {
+          biggestWidth = width;
+          biggestText = this.functions[b];
+        }
+      }
+    }
+  }
+  
+  // Reduce the font until it fits to the given width
+  while (biggestWidth > (this.width / 2)) {
+    fontSize--;
+    
+    fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
+    fontText = fontSize + "px " + this.fontFamily;
+    
+    context.font = fontTitle;
+    var width1 = context.measureText(biggestText).width;
+        
+    context.font = fontText;
+    var width2 = context.measureText(biggestText).width;
+    
+    if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
+  }
+
+  // Settings for text-orientation
+  var centerX = this.x + (this.width / 2);
+  var centerY = this.y + ((this.height / 2) + (fontSize / 2));
+  var leftSpacing = this.x + (this.width * 0.05);
+  var yNextGap = minSpacing + (fontSize / 2);
+
+  if (numAttributes > 0 && numMethods > 0) {
+    var yPos = this.y + yNextGap;
+      
+    // Fill the title
+    context.font = fontTitle;
+    context.textAlign = "center";
+    context.fillText(context.measureText(this.name).width, 155, 0);
+    context.fillText(this.name, centerX, yPos, this.width);
+    yPos += yNextGap;
+  
+    // Draws the first line
+    context.moveTo(this.x, yPos);
+    context.lineTo(this.x + this.width, yPos);
+    yPos += yNextGap;
+  
+    // Fill the attributes
+    context.font = fontText;
+    context.textAlign = "left";
+    for (var a = 0; a < numAttributes; a++) {
+      context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
+      yPos += yNextGap; 
+    }
+  
+    // Draws the second line
+    context.moveTo(this.x, yPos);
+    context.lineTo(this.x + this.width, yPos);
+    yPos += yNextGap;
+  
+    // Fill the functions
+    context.font = fontText;
+    context.textAlign = "left";
+    for (var a = 0; a < numMethods; a++) {
+      context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
+    yPos += yNextGap; 
+    }
+  } else if (numAttributes > 0 && numMethods === 0) {
+    var yPos = this.y + yNextGap;
+      
+    // Fill the title
+    context.font = fontTitle;
+    context.textAlign = "center";
+    context.fillText(this.name, centerX, yPos, this.width);
+    yPos += yNextGap;
+    
+    // Draws the first line
+    context.moveTo(this.x, yPos);
+    context.lineTo(this.x + this.width, yPos);
+    yPos += yNextGap;
+    
+    // Fill the attributes
+    context.font = fontText;
+    context.textAlign = "left";
+    for (var a = 0; a < numAttributes; a++) {
+      context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
+      yPos += yNextGap; 
+    }
+  } else if (numAttributes === 0 && numMethods > 0) {
+    var yPos = this.y + yNextGap;
+      
+    // Fill the title
+    context.font = fontTitle;
+    context.textAlign = "center";
+    alert(context.measureText(this.name).width);
+    context.fillText(this.name, centerX, yPos, this.width);
+    yPos += yNextGap;
+    
+    // Draws the first line
+    context.moveTo(this.x, yPos);
+    context.lineTo(this.width, yPos);
+    yPos += yNextGap;
+    
+    // Fill the functions
+    context.font = fontText;
+    context.textAlign = "left";
+    for (var a = 0; a < numMethods; a++) {
+      context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
+      yPos += yNextGap; 
+    }   
+  } else {
+    context.font = "bold " + fontSize + "px " + this.fontFamily;
+    context.textAlign = "center";
+    context.fillText(this.name, centerX, centerY, this.width);
+  }
   context.closePath();
   context.stroke();
   context.restore();
@@ -180,7 +364,9 @@ AbstractClass.prototype.toJSON = function() {
     y: this.getY(),
     height: this.getHeight(),
     width: this.getWidth(),
-    name: this.getName()
+    name: this.getName(),
+    methods: this.getMethods(),
+    attributes: this.getAttributes()
   };
   if(typeof this._id === 'number') { json._id = this._id; }
   return json;
@@ -192,6 +378,8 @@ AbstractClass.prototype.applyJSON = function(json) {
   this.height = json.height;
   this.width = json.width;
   this.name = json.name;
+  this.methods = json.methods;
+  this.attributes = json.attributes;
   this._id = json._id;
 };
 
@@ -535,4 +723,170 @@ Class.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.methods = json.methods;
   this.attributes = json.attributes;
+};
+
+
+function Interface(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
+  Shape.call(this, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+  
+  this.methods = methods instanceof Array ? methods : ['Methoden'];
+  
+  this.setMethods = function(methods) {
+    this.methods = methods;
+  };
+  
+  this.getMethods = function() {
+    return this.methods;
+  };
+}
+
+Interface.prototype = new Shape();
+
+Interface.prototype.draw = function(canvas) {
+  var context = canvas.getContext('2d');
+  var minSpacing = Math.round(this.height * 0.05);
+  var numMethods = this.methods.length;
+  var numElements = 2 + numMethods;
+  var firstTitle = "<<interface>>";
+  context.save();
+  context.beginPath();
+  context.strokeStyle = this.borderColor;
+  context.lineWidth = this.lineWidth;
+  context.rect(this.x, this.y, this.width, this.height);
+  //Initializes the font-size
+  if (numMethods > 0) {
+    var totalSpace = 5 + (numMethods - 1);
+  } else {
+    var totalSpace = 2;
+  }
+        
+  // Settings for the fonts (fontSize are defined in px)
+  var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
+  var fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
+  var fontText = fontSize + "px " + this.fontFamily;
+
+  // Settings for finding the biggest width and its text
+  var biggestWidth = 0;
+  var biggestText = "";
+        
+  // Finding the biggest width and its text
+  for (var a = 0; a < 2; a++) {
+  
+  // Checks the width of the interface-title
+  if (a === 0) {
+    context.font = fontText;
+        
+    var width = context.measureText(firstTitle).width;
+    if (width > biggestWidth) {
+      biggestWidth = width;
+      biggestText = this.text;
+    } 
+  }  
+    
+    // Checks the width of the title  
+    if (a === 1) {
+      context.font = fontTitle;
+              
+      var width = context.measureText(this.name).width;
+      if (width > biggestWidth) {
+        biggestWidth = width;
+        biggestText = this.text;
+      }
+    }
+          
+    // Checks the width of each functions elements
+    if (a === 2 && numMethods > 0) {
+      context.font = fontText;
+              
+      for (var b = 0; b < numMethods; b++) {
+        var width = context.measureText(this.methods[b]).width;
+        if (width > biggestWidth) {
+          biggestWidth = width;
+          biggestText = this.functions[b];
+        }
+      }
+    }
+  }
+    
+  // Reduce the font until it fits to the given width
+  while (biggestWidth > (this.width / 2)) {
+    fontSize--;
+          
+    fontTitle = "bold " + fontSize + "px " + this.fontFamily;
+    fontText = fontSize + "px " + this.fontFamily;
+          
+    context.font = fontTitle;
+    var width1 = context.measureText(biggestText).width;
+              
+    context.font = fontText;
+    var width2 = context.measureText(biggestText).width;
+          
+    if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
+  }
+
+  // Settings for text-orientation
+  var centerX = this.x + (this.width / 2);
+  var centerY = this.y + ((this.height / 2) + (fontSize / 2));
+  var leftSpacing = this.x + (this.width * 0.05);
+  var yNextGap = minSpacing + (fontSize / 2);
+
+  if (numMethods > 0) {
+    var yPos = this.y + yNextGap;
+    
+    // Fill the first-title
+    context.font = fontText;
+    context.textAlign = "center";
+    context.fillText(firstTitle, centerX, yPos, this.width);
+    yPos += yNextGap;
+    
+    // Fill the title
+    context.font = fontTitle;
+    context.textAlign = "center";
+    context.fillText(this.name, centerX, yPos, this.width);
+    yPos += yNextGap;
+          
+    // Draws the first line
+    context.moveTo(this.x, yPos);
+    context.lineTo(this.x + this.width, yPos);
+    yPos += yNextGap;
+          
+    // Fill the functions
+    context.font = fontText;
+    context.textAlign = "left";
+    for (var a = 0; a < numMethods; a++) {
+      context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
+      yPos += yNextGap; 
+    }   
+  } else {
+    context.font = "bold " + fontSize + "px " + this.fontFamily;
+    context.textAlign = "center";
+    context.fillText(this.name, centerX, centerY, this.width);
+  }
+  context.closePath();
+  context.stroke();
+  context.restore();
+};
+
+Interface.prototype.toJSON = function() {
+  var json = {
+    _type: 'Interface',
+    x: this.getX(),
+    y: this.getY(),
+    height: this.getHeight(),
+    width: this.getWidth(),
+    name: this.getName(),
+    methods: this.getMethods()
+  };
+  if(typeof this._id === 'number') { json._id = this._id; }
+  return json;
+};
+
+Interface.prototype.applyJSON = function(json) {
+  this.x = json.x;
+  this.y = json.y;
+  this.height = json.height;
+  this.width = json.width;
+  this.name = json.name;
+  this._id = json._id;
+  this.methods = json.methods;
 };

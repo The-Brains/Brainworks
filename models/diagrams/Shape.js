@@ -15,7 +15,10 @@ var shapeSchema = new mongoose.Schema({
 
 var emptyClassSchema = shapeSchema.extend({});
 
-var abstractClassSchema = shapeSchema.extend({});
+var abstractClassSchema = shapeSchema.extend({
+  attributes: [String],
+  methods: [String]
+});
 
 var commentSchema = shapeSchema.extend({});
 
@@ -26,10 +29,16 @@ var classSchema = shapeSchema.extend({
   methods: [String]
 });
 
+var interfaceSchema = shapeSchema.extend({
+  attributes: [String],
+  methods: [String]
+});
+
 module.exports = {
   EmptyClass: mongoose.model('EmptyClass', emptyClassSchema),
   AbstractClass: mongoose.model('AbstractClass', abstractClassSchema),
   Comment: mongoose.model('Comment', commentSchema),
   ActiveClass: mongoose.model('ActiveClass', activeClassSchema),
-  Class: mongoose.model('Class', classSchema)
+  Class: mongoose.model('Class', classSchema),
+  Interface: mongoose.model('Interface', interfaceSchema)
 };
