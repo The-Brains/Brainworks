@@ -102,6 +102,7 @@ angular.module('brainworks.diagram')
         var resize = false;
         var resizeDirection = '';
         var dragPoint = '';
+        var clicks = 0;
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
@@ -118,8 +119,11 @@ angular.module('brainworks.diagram')
             ui.helper.css('cursor', 'no-drop');
           }
         });
-        
         element.on('mousedown', function(event) {
+          clicks++;
+          setTimeout(function() {
+            clicks = 0;
+          }, 400);
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
@@ -150,66 +154,64 @@ angular.module('brainworks.diagram')
             return isSelected;
           });
           selected = result[0];
-          positionX = event.layerX;
-          positionY = event.layerY;
-          if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
-            drag = true;
-          } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
-            resize = true;
-            if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
-              resizeDirection = 'up left';
-            } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)){
-              resizeDirection = 'down right';
-            } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
-              resizeDirection = 'up right';
-            } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
-              resizeDirection = 'down left';
-            } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
-              resizeDirection = 'left';
-            } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
-              resizeDirection = 'right';
-            } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
-              resizeDirection = 'up';
-            } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
-              resizeDirection = 'down';
+          if(clicks === 2) {
+            clicks = 0;
+            console.log('doubleclick');
+          } else {
+            positionX = event.layerX;
+            positionY = event.layerY;
+            if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
+              drag = true;
+            } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
+              resize = true;
+              if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+                resizeDirection = 'up left';
+              } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)){
+                resizeDirection = 'down right';
+              } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+                resizeDirection = 'up right';
+              } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
+                resizeDirection = 'down left';
+              } else if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
+                resizeDirection = 'left';
+              } else if(positionX >= selected.getX() + selected.getWidth() + 2 && positionX <= selected.getX() + selected.getWidth() + 8 && positionY >= selected.getY() + (selected.getHeight()/2) - 2 && positionY <= selected.getY() + (selected.getHeight()/2) + 4) {
+                resizeDirection = 'right';
+              } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
+                resizeDirection = 'up';
+              } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
+                resizeDirection = 'down';
+              }
+            } else if(selected instanceof Relation && angular.isDefined(selected) && selected !== null) {
+              var context = element[0].getContext('2d');
+              var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
+              var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
+              var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
+              context.save();
+              context.beginPath();
+              context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
+              context.rotate(Math.atan2(deltaY, deltaX));
+              context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
+              context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
+              if(context.isPointInPath(event.layerX, event.layerY)) {
+                dragPoint = 'shape';
+              }
+              context.closePath();
+              context.beginPath();
+              context.arc(selected.getCoordsA()[0] - 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
+                dragPoint = 'pointA';
+              }
+              context.closePath();
+              context.beginPath();
+              context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
+                dragPoint = 'pointB';
+              }
+              context.closePath();
+              drag = dragPoint !== '';
+              context.restore();
             }
-          } else if(selected instanceof Relation && angular.isDefined(selected) && selected !== null) {
-            var context = element[0].getContext('2d');
-            var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
-            var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
-            var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
-            context.save();
-            context.beginPath();
-            context.translate(selected.getCoordsA()[0], selected.getCoordsA()[1]);
-            context.rotate(Math.atan2(deltaY, deltaX));
-            context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
-            context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
-            if(context.isPointInPath(event.layerX, event.layerY)) {
-              dragPoint = 'shape';
-            }
-            context.closePath();
-            context.beginPath();
-            context.arc(selected.getCoordsA()[0] - 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
-            if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
-              dragPoint = 'pointA';
-            }
-            context.closePath();
-            context.beginPath();
-            context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
-            if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
-              dragPoint = 'pointB';
-            }
-            context.closePath();
-            drag = dragPoint !== '';
-            context.restore();
-          }
-          draw();
-        });
-        element.on('doubelclick', function(event) {
-          // TODO edtiermodus des shapes/der relation oeffnen
-          var result = $.grep(scope.shapes, function(shape) { return event.layerX >= shape.getX() && event.layerX <= (shape.getX() + shape.getWidth()) && event.layerY >= shape.getY() && event.layerY <= (shape.getY() + shape.getHeight()); });
-          if(result.length !== 0) {
-            console.log(result[0]);
+            draw();
           }
         });
         element.on('mousemove', function(event) {
