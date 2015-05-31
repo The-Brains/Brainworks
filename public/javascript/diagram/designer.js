@@ -156,7 +156,9 @@ angular.module('brainworks.diagram')
           selected = result[0];
           if(clicks === 2) {
             clicks = 0;
-            console.log('doubleclick');
+            if(angular.isDefined(selected) && selected !== null) {
+              selected.startEditmode(element[0]);
+            }
           } else {
             positionX = event.layerX;
             positionY = event.layerY;
