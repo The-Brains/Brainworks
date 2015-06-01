@@ -103,6 +103,7 @@ angular.module('brainworks.diagram')
         var resizeDirection = '';
         var dragPoint = '';
         var clicks = 0;
+        var inEditmode = false;
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
@@ -124,6 +125,10 @@ angular.module('brainworks.diagram')
           setTimeout(function() {
             clicks = 0;
           }, 400);
+          if(inEditmode && angular.isDefined(selected) && selected !== null) {
+            selected.endEditmode(element[0]);
+            inEditmode = false;
+          }
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
@@ -153,11 +158,14 @@ angular.module('brainworks.diagram')
             }
             return isSelected;
           });
-          selected = result[0];
+          if(selected === null) {
+            selected = result[0];
+          }
           if(clicks === 2) {
             clicks = 0;
             if(angular.isDefined(selected) && selected !== null) {
               selected.startEditmode(element[0]);
+              inEditmode = true;
             }
           } else {
             positionX = event.layerX;
@@ -338,6 +346,8 @@ angular.module('brainworks.diagram')
                   selected.setCoordsB([selected.getCoordsB()[0] + event.layerX - positionX, selected.getCoordsB()[1] + event.layerY - positionY]);
                   break;
               }
+              // TODO roten rahmen bei den shapes wenn relation dort dran ist
+//              $.grep(scope.shapes, function(shape) {});
               positionX = event.layerX;
               positionY = event.layerY;
             }
@@ -347,6 +357,7 @@ angular.module('brainworks.diagram')
           }
         });
         element.on('mouseup', function(event) {
+          // TODO setzen der shapes an den relationen bei vorhandener auswahl
           drag = false;
           resize = false;
           resizeDirection = '';
