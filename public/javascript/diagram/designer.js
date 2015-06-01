@@ -215,6 +215,8 @@ angular.module('brainworks.diagram')
               context.closePath();
               drag = dragPoint !== '';
               context.restore();
+            } else {
+              selected = null;
             }
             draw();
           }

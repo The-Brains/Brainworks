@@ -35,9 +35,9 @@ angular.module('brainworks.commons')
   return {
     restrict: 'E',
     replace: true,
-    template: '<input type="text"></input>',
+    template: '<div><input type="text"></input></div>',
     link: function(scope, element, attrs) {
-      // TODO direktive fuer die eiditierfelder, damit diese sich der textgroesse anpassen
+      
     }
   };
 });
