@@ -8,7 +8,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
   this.lineWidth = (typeof lineWidth === 'number') ? lineWidth : 1;
   this.lineColor = (typeof lineColor === 'string') ? lineColor : 'black';
   this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
-  this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
+  this.fontSize = (typeof fontSize === 'number') ? fontSize : 12;
   
   this.setShapeA = function(shapeA) {
     this.shapeA = shapeA;
@@ -117,6 +117,8 @@ Inheritance.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -126,6 +128,11 @@ Inheritance.prototype.draw = function(canvas) {
   context.lineTo(this.coordsA[0]+length-10, this.coordsA[1]-10);
   context.lineTo(this.coordsA[0]+length, this.coordsA[1]);
   context.lineTo(this.coordsA[0]+length-10, this.coordsA[1]+10);
+  context.closePath();
+  context.font = 'bold ' + this.fontSize + 'px ' + this.fontFamily;
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText(this.name, this.coordsA[0]+(length/2)-(this.name.length/2), this.coordsA[1], length);
   context.closePath();
   context.stroke();
   context.restore();
@@ -188,6 +195,8 @@ Association.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.moveTo(this.coordsA[0], this.coordsA[1]);
   context.lineTo(this.coordsB[0], this.coordsB[1]);
   context.closePath();
@@ -250,6 +259,8 @@ UniDirectionalAssociation.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -325,6 +336,8 @@ Aggregation.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -404,6 +417,8 @@ Composition.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -463,6 +478,8 @@ Realization.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -523,6 +540,8 @@ Dependency.prototype.draw = function(canvas) {
   var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
   context.save();
   context.beginPath();
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.translate(this.coordsA[0], this.coordsA[1]);
   context.rotate(Math.atan2(deltaY, deltaX));
   context.translate(-this.coordsA[0], -this.coordsA[1]);
@@ -579,8 +598,10 @@ Link.prototype = new Relation();
 Link.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   context.save();
-  context.setLineDash([5, 10]);
   context.beginPath();
+  context.setLineDash([5, 10]);
+  context.strokeStyle = this.lineColor;
+  context.lineWidth = this.lineWidth;
   context.moveTo(this.coordsA[0], this.coordsA[1]);
   context.lineTo(this.coordsB[0], this.coordsB[1]);
   context.closePath();
