@@ -116,7 +116,6 @@ angular.module('brainworks.diagram')
           }
         });
         element.on('mousedown', function(event) {
-          clicks++;
           setTimeout(function() {
             clicks = 0;
           }, 400);
@@ -161,10 +160,15 @@ angular.module('brainworks.diagram')
               return false;
             }
           });
+          var oldSelected = selected;
           if(selected === null || !selectedInResult) {
             selected = result[0];
           }
+          if(!angular.isDefined(oldSelected) || oldSelected === null || !angular.isDefined(selected) || selected === null || oldSelected._id === selected._id) {
+            clicks++;
+          }
           if(clicks === 2) {
+            oldSelected = null;
             clicks = 0;
             if(angular.isDefined(selected) && selected !== null) {
               selected.startEditmode(element[0]);
