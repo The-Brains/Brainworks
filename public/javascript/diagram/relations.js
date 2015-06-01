@@ -152,6 +152,12 @@ Inheritance.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 
+Inheritance.prototype.startEditmode = function(canvas) {
+};
+
+Inheritance.prototype.endEditmode = function(canvas) {
+};
+
 
 function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -214,6 +220,12 @@ Association.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
+Association.prototype.startEditmode = function(canvas) {
+};
+
+Association.prototype.endEditmode = function(canvas) {
+};
+
 
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -272,6 +284,12 @@ UniDirectionalAssociation.prototype.applyJSON = function(json) {
   this.coordsA = json.coordsA;
   this.coordsB = json.coordsB;
   this.multiplicityB = json.multiplicityB;
+};
+
+UniDirectionalAssociation.prototype.startEditmode = function(canvas) {
+};
+
+UniDirectionalAssociation.prototype.endEditmode = function(canvas) {
 };
 
 
@@ -347,6 +365,12 @@ Aggregation.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
+Aggregation.prototype.startEditmode = function(canvas) {
+};
+
+Aggregation.prototype.endEditmode = function(canvas) {
+};
+
 
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -419,6 +443,12 @@ Composition.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
+Composition.prototype.startEditmode = function(canvas) {
+};
+
+Composition.prototype.endEditmode = function(canvas) {
+};
+
 
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -471,6 +501,12 @@ Realization.prototype.applyJSON = function(json) {
   this.name = json.name;
   this.coordsA = json.coordsA;
   this.coordsB = json.coordsB;
+};
+
+Realization.prototype.startEditmode = function(canvas) {
+};
+
+Realization.prototype.endEditmode = function(canvas) {
 };
 
 
@@ -527,6 +563,12 @@ Dependency.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 
+Dependency.prototype.startEditmode = function(canvas) {
+};
+
+Dependency.prototype.endEditmode = function(canvas) {
+};
+
 
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -565,4 +607,10 @@ Link.prototype.applyJSON = function(json) {
   this.name = json.name;
   this.coordsA = json.coordsA;
   this.coordsB = json.coordsB;
+};
+
+Link.prototype.startEditmode = function(canvas) {
+};
+
+Link.prototype.endEditmode = function(canvas) {
 };
