@@ -123,6 +123,7 @@ angular.module('brainworks.diagram')
           if(inEditmode && angular.isDefined(selected) && selected !== null) {
             selected.endEditmode(element[0]);
             inEditmode = false;
+            selected = null;
           }
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
@@ -153,8 +154,17 @@ angular.module('brainworks.diagram')
             }
             return isSelected;
           });
-          if(selected === null) {
+          var selectedInResult = false;
+          $.each(result, function(index, selection) {
+            if(selection._id === selected._id) {
+              selectedInResult = true;
+              return false;
+            }
+          });
+          if(selected === null || !selectedInResult) {
             selected = result[0];
+          } else if(!result.length) {
+            selected = null;
           }
           if(clicks === 2) {
             clicks = 0;
@@ -215,8 +225,6 @@ angular.module('brainworks.diagram')
               context.closePath();
               drag = dragPoint !== '';
               context.restore();
-            } else {
-              selected = null;
             }
             draw();
           }
@@ -365,7 +373,7 @@ angular.module('brainworks.diagram')
             element.css({
               cursor: 'initial'
             });
-            scope.shapes = $.grep(scope.shapes, function(shape) { return shape.id !== selected.id; });
+            scope.shapes = $.grep(scope.shapes, function(shape) { return shape._id !== selected._id; });
             selected = null;
             drag = false;
             resize = false;
