@@ -88,6 +88,26 @@ angular.module('brainworks.diagram')
           context.stroke();
           context.restore();
         }
+        if(shapeA !== null) {
+          var context = element[0].getContext('2d');
+          context.save();
+          context.beginPath();
+          context.shadowBlur = 5;
+          context.shadowColor = 'red';
+          context.strokeRect(shapeA.getX(), shapeA.getY(), shapeA.getWidth(), shapeA.getHeight());
+          context.closePath();
+          context.restore();
+        }
+        if(shapeB !== null) {
+          var context = element[0].getContext('2d');
+          context.save();
+          context.beginPath();
+          context.shadowBlur = 10;
+          context.shadowColor = 'red';
+          context.strokeRect(shapeB.getX(), shapeB.getY(), shapeB.getWidth(), shapeB.getHeight());
+          context.closePath();
+          context.restore();
+        }
       };
       if(attr.editable) {
         var selected = null;
@@ -99,6 +119,8 @@ angular.module('brainworks.diagram')
         var dragPoint = '';
         var clicks = 0;
         var inEditmode = false;
+        var shapeA = null;
+        var shapeB = null;
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
@@ -353,8 +375,25 @@ angular.module('brainworks.diagram')
                   selected.setCoordsB([selected.getCoordsB()[0] + event.layerX - positionX, selected.getCoordsB()[1] + event.layerY - positionY]);
                   break;
               }
-              // TODO roten rahmen bei den shapes wenn relation dort dran ist
-//              $.grep(scope.shapes, function(shape) {});
+              shapeA = null;
+              shapeB = null;
+              angular.forEach(scope.shapes, function(shape) {
+                if(shape instanceof Shape) {
+                  if((selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + 5)
+                    || (selected.getCoordsA()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
+                    || (selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
+                    || (selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() + shape.getHeight() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)) {
+                    shapeA = shape;
+                  } else if((selected.getCoordsB()[0] > shape.getX() - 5 && selected.getCoordsB()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsB()[1] > shape.getY() - 5 && selected.getCoordsB()[1] < shape.getY() + 5)
+                    || (selected.getCoordsB()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsB()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsB()[1] > shape.getY() - 5 && selected.getCoordsB()[1] < shape.getY() + shape.getHeight() + 5)
+                    || (selected.getCoordsB()[0] > shape.getX() - 5 && selected.getCoordsB()[0] < shape.getX() + 5 && selected.getCoordsB()[1] > shape.getY() - 5 && selected.getCoordsB()[1] < shape.getY() + shape.getHeight() + 5)
+                    || (selected.getCoordsB()[0] > shape.getX() - 5 && selected.getCoordsB()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsB()[1] > shape.getY() + shape.getHeight() - 5 && selected.getCoordsB()[1] < shape.getY() + shape.getHeight() + 5)) {
+                    shapeB = shape;
+                  }
+                }
+              });
+              selected.setShapeA(shapeA !== null ? shapeA._id : null);
+              selected.setShapeB(shapeB !== null ? shapeB._id : null);
               positionX = event.layerX;
               positionY = event.layerY;
             }
@@ -364,11 +403,13 @@ angular.module('brainworks.diagram')
           }
         });
         element.on('mouseup', function(event) {
-          // TODO setzen der shapes an den relationen bei vorhandener auswahl
           drag = false;
           resize = false;
           resizeDirection = '';
           dragPoint = '';
+          shapeA = null;
+          shapeB = null;
+          draw();
         });
         element.on('keydown', function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
