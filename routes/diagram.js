@@ -8,6 +8,7 @@ var Diagram = require('../models/diagrams/Diagram');
 var User = require('../models/user/User');
 var Comment = require('../models/diagrams/Comment');
 var Shape = require('../models/diagrams/Shape');
+var Relation = require('../models/diagrams/Relation');
 var fs = require("fs");
 
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
@@ -149,10 +150,9 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
     if(err) { res.send(err); }
     else {
       diagram.thumbnail = req.protocol + '://' + req.get('host') + '/diagram/thumbnail/' + requestDiagram._id;
-      // TODO neue shapes erstellen bzw. diese aktualisieren inkl. der relations
       var shapes = [];
       for(var i = 0; i<requestDiagram.shapes.length; i++) {
-        shapes.push(new Shape[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]));
+        shapes.push(Shape.hasOwnProperty(requestDiagram.shapes[i]._type) ? new Shape[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]) : new Relation[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]));
       }
       diagram.shapes = shapes;
       req.user.save(function(err, user) {

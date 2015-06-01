@@ -5,8 +5,9 @@ var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
 
 var relationSchema = new mongoose.Schema({
-  shapeA: {type: mongoose.Schema.ObjectId},
-  shapeB: {type: mongoose.Schema.ObjectId},
+  _id: Number,
+  shapeA: Number,
+  shapeB: Number,
   name: {type: String, required: true},
   coordsA: {type: Array, required: true},
   coordsB: {type: Array, required: true}
@@ -15,22 +16,22 @@ var relationSchema = new mongoose.Schema({
 var inheritanceSchema = relationSchema.extend({});
 
 var associationSchema = relationSchema.extend({
-  multiplicityA: Number,
-  multiplicityB: Number
+  multiplicityA: String,
+  multiplicityB: String
 });
 
 var uniDirectionalAssociationSchema = relationSchema.extend({
-  multiplicityB: Number
+  multiplicityB: String
 });
 
 var aggregationSchema = relationSchema.extend({
-  multiplicityA: Number,
-  multiplicityB: Number
+  multiplicityA: String,
+  multiplicityB: String
 });
 
 var compositionSchema = relationSchema.extend({
-  multiplicityA: Number,
-  multiplicityB: Number
+  multiplicityA: String,
+  multiplicityB: String
 });
 
 var realizationSchema = relationSchema.extend({});

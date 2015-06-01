@@ -32,3 +32,5 @@ angular.module('brainworks.commons')
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
 }]);
+// TODO direktive fuer die eiditierfelder, damit diese sich der textgroesse anpassen
+//.

@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
 
 var shapeSchema = new mongoose.Schema({
+  _id: Number,
   x: {type: Number, required: true},
   y: {type: Number, required: true},
   height: {type: Number, required: true},

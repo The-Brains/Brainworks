@@ -1,5 +1,5 @@
-function Relation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  this.id = element_id;
+function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  this._id = elementId;
   this.shapeA = null;
   this.shapeB = null;
   this.coordsA = coordsA;
@@ -104,8 +104,8 @@ Relation.prototype.endEditmode = function(canvas) {
 };
 
 
-function Inheritance(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Inheritance.prototype = new Relation();
@@ -131,9 +131,49 @@ Inheritance.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Inheritance.prototype.toJSON = function() {
+  return {
+    _type: 'Inheritance',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB()
+  };
+};
 
-function Association(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Inheritance.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+};
+
+
+function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+  
+  this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
+  this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
+  
+  this.setMultiplicityA = function(multiplicityA) {
+    this.multiplicityA = multiplicityA;
+  };
+  
+  this.setMultiplicityB = function(multiplicityB) {
+    this.multiplicityB = multiplicityB;
+  };
+  
+  this.getMultiplicityA = function() {
+    return this.multiplicityA;
+  };
+  
+  this.getMultiplicityB = function() {
+    return this.multiplicityB;
+  };
 }
 
 Association.prototype = new Relation();
@@ -149,9 +189,44 @@ Association.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Association.prototype.toJSON = function() {
+  return {
+    _type: 'Association',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB(),
+    multiplicityA: this.getMultiplicityA(),
+    multiplicityB: this.getMultiplicityB()
+  };
+};
 
-function UniDirectionalAssociation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Association.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+  this.multiplicityA = json.multiplicityA;
+  this.multiplicityB = json.multiplicityB;
+};
+
+
+function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+  
+  this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
+  
+  this.setMultiplicityB = function(multiplicityB) {
+    this.multiplicityB = multiplicityB;
+  };
+  
+  this.getMultiplicityB = function() {
+    return this.multiplicityB;
+  };
 }
 
 UniDirectionalAssociation.prototype = new Relation();
@@ -176,9 +251,51 @@ UniDirectionalAssociation.prototype.draw = function(canvas) {
   context.restore();
 };
 
+UniDirectionalAssociation.prototype.toJSON = function() {
+  return {
+    _type: 'UniDirectionalAssociation',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB(),
+    multiplicityB: this.getMultiplicityB()
+  };
+};
 
-function Aggregation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+UniDirectionalAssociation.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+  this.multiplicityB = json.multiplicityB;
+};
+
+
+function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+  
+  this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
+  this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
+  
+  this.setMultiplicityA = function(multiplicityA) {
+    this.multiplicityA = multiplicityA;
+  };
+  
+  this.setMultiplicityB = function(multiplicityB) {
+    this.multiplicityB = multiplicityB;
+  };
+  
+  this.getMultiplicityA = function() {
+    return this.multiplicityA;
+  };
+  
+  this.getMultiplicityB = function() {
+    return this.multiplicityB;
+  };
 }
 
 Aggregation.prototype = new Relation();
@@ -205,9 +322,53 @@ Aggregation.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Aggregation.prototype.toJSON = function() {
+  return {
+    _type: 'Aggregation',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB(),
+    multiplicityA: this.getMultiplicityA(),
+    multiplicityB: this.getMultiplicityB()
+  };
+};
 
-function Composition(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Aggregation.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+  this.multiplicityA = json.multiplicityA;
+  this.multiplicityB = json.multiplicityB;
+};
+
+
+function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+  
+  this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
+  this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
+  
+  this.setMultiplicityA = function(multiplicityA) {
+    this.multiplicityA = multiplicityA;
+  };
+  
+  this.setMultiplicityB = function(multiplicityB) {
+    this.multiplicityB = multiplicityB;
+  };
+  
+  this.getMultiplicityA = function() {
+    return this.multiplicityA;
+  };
+  
+  this.getMultiplicityB = function() {
+    return this.multiplicityB;
+  };
 }
 
 Composition.prototype = new Relation();
@@ -233,9 +394,34 @@ Composition.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Composition.prototype.toJSON = function() {
+  return {
+    _type: 'Composition',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB(),
+    multiplicityA: this.getMultiplicityA(),
+    multiplicityB: this.getMultiplicityB()
+  };
+};
 
-function Realization(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Composition.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+  this.multiplicityA = json.multiplicityA;
+  this.multiplicityB = json.multiplicityB;
+};
+
+
+function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Realization.prototype = new Relation();
@@ -266,9 +452,30 @@ Realization.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Realization.prototype.toJSON = function() {
+  return {
+    _type: 'Realization',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB()
+  };
+};
 
-function Dependency(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Realization.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+};
+
+
+function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Dependency.prototype = new Relation();
@@ -299,9 +506,30 @@ Dependency.prototype.draw = function(canvas) {
   context.restore();
 };
 
+Dependency.prototype.toJSON = function() {
+  return {
+    _type: 'Dependency',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB()
+  };
+};
 
-function Link(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
-  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
+Dependency.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
+};
+
+
+function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Link.prototype = new Relation();
@@ -316,4 +544,25 @@ Link.prototype.draw = function(canvas) {
   context.closePath();
   context.stroke();
   context.restore();
+};
+
+Link.prototype.toJSON = function() {
+  return {
+    _type: 'Link',
+    _id: this._id,
+    shapeA: this.getShapeA(),
+    shapeB: this.getShapeB(),
+    name: this.getName(),
+    coordsA: this.getCoordsA(),
+    coordsB: this.getCoordsB()
+  };
+};
+
+Link.prototype.applyJSON = function(json) {
+  this._id = json._id;
+  this.shapeA = json.shapeA;
+  this.shapeB = json.shapeB;
+  this.name = json.name;
+  this.coordsA = json.coordsA;
+  this.coordsB = json.coordsB;
 };

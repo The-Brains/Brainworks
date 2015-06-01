@@ -4,12 +4,9 @@ angular.module('brainworks.diagram')
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Interface', name: 'Schnittstelle'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'UniDirectionalAssociation', name: 'Gerichtete Assoziation'}, {type: 'Aggregation', name: 'Aggregation'}, {type: 'Composition', name: 'Komposition'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Dependency', name: 'Abhängigkeit'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
-  $scope.elementId = 1;
   angular.forEach($scope.diagram.shapes, function(shape) {
     var tmp = new window[shape._type];
     tmp.applyJSON(shape);
-    tmp.id = $scope.elementId;
-    $scope.elementId++;
     $scope.shapes.push(tmp);
   });
   $scope.back = function() {
@@ -19,9 +16,7 @@ angular.module('brainworks.diagram')
     var waitElement = $('#saveAnimation');
     var shapes = [];
     angular.forEach($scope.shapes, function(shape) {
-      if(shape instanceof Shape) {
-        shapes.push(shape.toJSON());
-      }
+      shapes.push(shape.toJSON());
     });
     diagram.shapes = shapes;
     waitElement.removeClass('hidden');
@@ -109,8 +104,8 @@ angular.module('brainworks.diagram')
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.elementId, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
-            scope.elementId++;
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.diagram.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.diagram.elementId, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            scope.diagram.elementId++;
             draw();
           },
           over: function(event, ui) {

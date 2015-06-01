@@ -1,5 +1,5 @@
-function Shape(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
-  this.id = element_id;
+function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
+  this._id = elementId;
   this.x = x;
   this.y = y;
   this.width = width;
@@ -104,8 +104,8 @@ Shape.prototype.endEditmode = function(canvas) {
 };
 
 
-function EmptyClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
-  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
 EmptyClass.prototype = new Shape();
@@ -128,16 +128,15 @@ EmptyClass.prototype.draw = function(canvas) {
 };
 
 EmptyClass.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'EmptyClass',
     x: this.getX(),
     y: this.getY(),
     height: this.getHeight(),
     width: this.getWidth(),
-    name: this.getName()
+    name: this.getName(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 EmptyClass.prototype.applyJSON = function(json) {
@@ -150,8 +149,8 @@ EmptyClass.prototype.applyJSON = function(json) {
 };
 
 
-function AbstractClass(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
-  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
+  Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
   
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
@@ -358,7 +357,7 @@ AbstractClass.prototype.draw = function(canvas) {
 };
 
 AbstractClass.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'AbstractClass',
     x: this.getX(),
     y: this.getY(),
@@ -366,10 +365,9 @@ AbstractClass.prototype.toJSON = function() {
     width: this.getWidth(),
     name: this.getName(),
     methods: this.getMethods(),
-    attributes: this.getAttributes()
+    attributes: this.getAttributes(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 AbstractClass.prototype.applyJSON = function(json) {
@@ -384,8 +382,8 @@ AbstractClass.prototype.applyJSON = function(json) {
 };
 
 
-function Comment(element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
-  Shape.call(this, element_id, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
+function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
+  Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 
 Comment.prototype = new Shape();
@@ -418,16 +416,15 @@ Comment.prototype.draw = function(canvas) {
 };
 
 Comment.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'Comment',
     x: this.getX(),
     y: this.getY(),
     height: this.getHeight(),
     width: this.getWidth(),
-    name: this.getName()
+    name: this.getName(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 Comment.prototype.applyJSON = function(json) {
@@ -440,8 +437,8 @@ Comment.prototype.applyJSON = function(json) {
 };
 
 
-function ActiveClass(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
-  Shape.call(this, element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
+  Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 }
 
 ActiveClass.prototype = new Shape();
@@ -470,16 +467,15 @@ ActiveClass.prototype.draw = function(canvas) {
 };
 
 ActiveClass.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'ActiveClass',
     x: this.getX(),
     y: this.getY(),
     height: this.getHeight(),
     width: this.getWidth(),
-    name: this.getName()
+    name: this.getName(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 ActiveClass.prototype.applyJSON = function(json) {
@@ -492,8 +488,8 @@ ActiveClass.prototype.applyJSON = function(json) {
 };
 
 
-function Class(element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
-  Shape.call(this, element_id, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
+  Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
   
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
@@ -700,7 +696,7 @@ Class.prototype.draw = function(canvas) {
 };
 
 Class.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'Class',
     x: this.getX(),
     y: this.getY(),
@@ -708,10 +704,9 @@ Class.prototype.toJSON = function() {
     width: this.getWidth(),
     name: this.getName(),
     methods: this.getMethods(),
-    attributes: this.getAttributes()
+    attributes: this.getAttributes(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 Class.prototype.applyJSON = function(json) {
@@ -726,8 +721,8 @@ Class.prototype.applyJSON = function(json) {
 };
 
 
-function Interface(x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
-  Shape.call(this, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
+function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
+  Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
   
   this.methods = methods instanceof Array ? methods : ['Methoden'];
   
@@ -868,17 +863,16 @@ Interface.prototype.draw = function(canvas) {
 };
 
 Interface.prototype.toJSON = function() {
-  var json = {
+  return {
     _type: 'Interface',
     x: this.getX(),
     y: this.getY(),
     height: this.getHeight(),
     width: this.getWidth(),
     name: this.getName(),
-    methods: this.getMethods()
+    methods: this.getMethods(),
+    _id: this._id
   };
-  if(typeof this._id === 'number') { json._id = this._id; }
-  return json;
 };
 
 Interface.prototype.applyJSON = function(json) {
