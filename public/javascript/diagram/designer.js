@@ -163,8 +163,6 @@ angular.module('brainworks.diagram')
           });
           if(selected === null || !selectedInResult) {
             selected = result[0];
-          } else if(!result.length) {
-            selected = null;
           }
           if(clicks === 2) {
             clicks = 0;
