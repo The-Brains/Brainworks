@@ -9,8 +9,7 @@ var shapeSchema = new mongoose.Schema({
   y: {type: Number, required: true},
   height: {type: Number, required: true},
   width: {type: Number, required: true},
-  name: {type: String, required: true},
-  relations: [mongoose.Schema.Types.Mixed]
+  name: {type: String, required: true}
 }, {discriminatorKey : '_type'});
 
 var emptyClassSchema = shapeSchema.extend({});

@@ -1,10 +1,14 @@
-function Relation(element_id, coordsA, coordsB, name) {
+function Relation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this.id = element_id;
   this.shapeA = null;
   this.shapeB = null;
   this.coordsA = coordsA;
   this.coordsB = coordsB;
   this.name = name;
+  this.lineWidth = (typeof lineWidth === 'number') ? lineWidth : 1;
+  this.lineColor = (typeof lineColor === 'string') ? lineColor : 'black';
+  this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
+  this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
   
   this.setShapeA = function(shapeA) {
     this.shapeA = shapeA;
@@ -26,6 +30,22 @@ function Relation(element_id, coordsA, coordsB, name) {
     this.name = name;
   };
   
+  this.setLineColor = function(lineColor) {
+    this.lineColor = lineColor;
+  };
+  
+  this.setLineWidth = function(lineWidth) {
+    this.lineWidth = lineWidth;
+  };
+  
+  this.setFontFamily = function(fontFamily) {
+    this.fontFamily = fontFamily;
+  };
+  
+  this.setFontSize = function(fontSize) {
+    this.fontSize = fontSize;
+  };
+  
   this.getShapeA = function() {
     return this.shapeA;
   };
@@ -45,15 +65,47 @@ function Relation(element_id, coordsA, coordsB, name) {
   this.getName = function() {
     return this.name;
   };
+  
+  this.getLineColor = function() {
+    return this.lineColor;
+  };
+  
+  this.getLineWidth = function() {
+    return this.lineWidth;
+  };
+  
+  this.getFontFamily = function() {
+    return this.fontFamily;
+  };
+  
+  this.getFontSize = function() {
+    return this.fontSize;
+  };
 }
 
 Relation.prototype.draw = function() {
   throw new Error('This method should not be directly called!');
 };
 
+Relation.prototype.toJSON = function() {
+  throw new Error('This method should not be directly called!');
+};
 
-function Inheritance(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+Relation.prototype.applyJSON = function(json) {
+  throw new Error('This method should not be directly called!');
+};
+
+Relation.prototype.startEditmode = function(canvas) {
+  throw new Error('This method should not be directly called!');
+};
+
+Relation.prototype.endEditmode = function(canvas) {
+  throw new Error('This method should not be directly called!');
+};
+
+
+function Inheritance(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Inheritance.prototype = new Relation();
@@ -80,8 +132,8 @@ Inheritance.prototype.draw = function(canvas) {
 };
 
 
-function Association(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Association(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Association.prototype = new Relation();
@@ -98,8 +150,8 @@ Association.prototype.draw = function(canvas) {
 };
 
 
-function UniDirectionalAssociation(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function UniDirectionalAssociation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 UniDirectionalAssociation.prototype = new Relation();
@@ -125,8 +177,8 @@ UniDirectionalAssociation.prototype.draw = function(canvas) {
 };
 
 
-function Aggregation(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Aggregation(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Aggregation.prototype = new Relation();
@@ -154,8 +206,8 @@ Aggregation.prototype.draw = function(canvas) {
 };
 
 
-function Composition(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Composition(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Composition.prototype = new Relation();
@@ -182,8 +234,8 @@ Composition.prototype.draw = function(canvas) {
 };
 
 
-function Realization(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Realization(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Realization.prototype = new Relation();
@@ -215,8 +267,8 @@ Realization.prototype.draw = function(canvas) {
 };
 
 
-function Dependency(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Dependency(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Dependency.prototype = new Relation();
@@ -248,8 +300,8 @@ Dependency.prototype.draw = function(canvas) {
 };
 
 
-function Link(element_id, coordsA, coordsB, name) {
-  Relation.call(this, element_id, coordsA, coordsB, name);
+function Link(element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
+  Relation.call(this, element_id, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Link.prototype = new Relation();
