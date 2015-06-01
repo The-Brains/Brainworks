@@ -129,3 +129,7 @@ body {
     -webkit-transform: rotate( 360deg );
   }
 }
+
+.designer:focus{
+  outline: 0px solid transparent;
+}
