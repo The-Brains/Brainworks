@@ -156,7 +156,7 @@ angular.module('brainworks.diagram')
           });
           var selectedInResult = false;
           $.each(result, function(index, selection) {
-            if(selection._id === selected._id) {
+            if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
               selectedInResult = true;
               return false;
             }
