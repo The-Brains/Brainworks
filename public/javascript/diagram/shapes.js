@@ -148,6 +148,22 @@ EmptyClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
+EmptyClass.prototype.startEditmode = function(canvas) {
+  var name = prompt("Please enter the title name");
+  if (name !== "") {
+    this.setName(name);
+    
+    var context = canvas.getContext("2d");
+    context.clearRect(this.x, this.y, this.width, this.height);
+    
+    this.draw(canvas);
+  }
+};
+
+EmptyClass.prototype.endEditmode = function(canvas) {
+  
+};
+
 
 function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -274,7 +290,6 @@ AbstractClass.prototype.draw = function(canvas) {
     // Fill the title
     context.font = fontTitle;
     context.textAlign = 'center';
-    context.fillText(context.measureText(this.name).width, 155, 0);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
   
@@ -336,7 +351,7 @@ AbstractClass.prototype.draw = function(canvas) {
     
     // Draws the first line
     context.moveTo(this.x, yPos);
-    context.lineTo(this.width, yPos);
+    context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
     
     // Fill the functions
@@ -379,6 +394,14 @@ AbstractClass.prototype.applyJSON = function(json) {
   this.methods = json.methods;
   this.attributes = json.attributes;
   this._id = json._id;
+};
+
+AbstractClass.prototype.startEditmode = function(canvas) {
+  alert("AbstractClass:\t" + canvas);
+};
+
+AbstractClass.prototype.endEditmode = function(canvas) {
+  
 };
 
 
@@ -436,6 +459,22 @@ Comment.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
+Comment.prototype.startEditmode = function(canvas) {
+  var name = prompt("Please enter the title name");
+  if (name !== "") {
+    this.setName(name);
+    
+    var context = canvas.getContext("2d");
+    context.clearRect(this.x, this.y, this.width, this.height);
+    
+    this.draw(canvas);
+  }
+};
+
+Comment.prototype.endEditmode = function(canvas) {
+  
+};
+
 
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -485,6 +524,22 @@ ActiveClass.prototype.applyJSON = function(json) {
   this.width = json.width;
   this.name = json.name;
   this._id = json._id;
+};
+
+ActiveClass.prototype.startEditmode = function(canvas) {
+  var name = prompt("Please enter the title name");
+  if (name !== "") {
+    this.setName(name);
+    
+    var context = canvas.getContext("2d");
+    context.clearRect(this.x, this.y, this.width, this.height);
+    
+    this.draw(canvas);
+  }
+};
+
+ActiveClass.prototype.endEditmode = function(canvas) {
+  
 };
 
 
@@ -551,7 +606,7 @@ Class.prototype.draw = function(canvas) {
     if (a === 0) {
       context.font = fontTitle;
         
-      var width = context.measureText(this.title).width;
+      var width = context.measureText(this.name).width;
       if (width > biggestWidth) {
         biggestWidth = width;
         biggestText = this.text;
@@ -613,7 +668,6 @@ Class.prototype.draw = function(canvas) {
     // Fill the title
     context.font = fontTitle;
     context.textAlign = 'center';
-    context.fillText(context.measureText(this.title).width, 155, 0);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
   
@@ -648,7 +702,7 @@ Class.prototype.draw = function(canvas) {
     // Fill the title
     context.font = fontTitle;
     context.textAlign = 'center';
-    context.fillText(this.title, centerX, yPos, this.width);
+    context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
     
     // Draws the first line
@@ -669,13 +723,12 @@ Class.prototype.draw = function(canvas) {
     // Fill the title
     context.font = fontTitle;
     context.textAlign = 'center';
-    alert(context.measureText(this.title).width);
-    context.fillText(this.title, centerX, yPos, this.width);
+    context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
     
     // Draws the first line
     context.moveTo(this.x, yPos);
-    context.lineTo(this.width, yPos);
+    context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
     
     // Fill the functions
@@ -718,6 +771,14 @@ Class.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.methods = json.methods;
   this.attributes = json.attributes;
+};
+
+Class.prototype.startEditmode = function(canvas) {
+  alert("Class:\t" + canvas);
+};
+
+Class.prototype.endEditmode = function(canvas) {
+  
 };
 
 
@@ -883,4 +944,12 @@ Interface.prototype.applyJSON = function(json) {
   this.name = json.name;
   this._id = json._id;
   this.methods = json.methods;
+};
+
+Interface.prototype.startEditmode = function(canvas) {
+  alert("Interface:\t" + canvas);
+};
+
+Interface.prototype.endEditmode = function(canvas) {
+  
 };
