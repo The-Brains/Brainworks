@@ -13,7 +13,6 @@ angular.module('brainworks.commons')
         return angular.isArray(scope.matchValue) ?
           scope.matchValue[0] === scope.matchValue[1] : modelValue === scope.matchValue;
       };
-      
       scope.$watch('matchValue', function() {
         ngModel.$validate();
       });
@@ -31,6 +30,14 @@ angular.module('brainworks.commons')
     },
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
-}]);
-// TODO direktive fuer die eiditierfelder, damit diese sich der textgroesse anpassen
-//.
+}])
+.directive('attributesEditor', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<input type="text"></input>',
+    link: function(scope, element, attrs) {
+      // TODO direktive fuer die eiditierfelder, damit diese sich der textgroesse anpassen
+    }
+  };
+});

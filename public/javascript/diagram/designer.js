@@ -5,7 +5,7 @@ angular.module('brainworks.diagram')
   $scope.diagram = diagram;
   $scope.shapes = [];
   angular.forEach($scope.diagram.shapes, function(shape) {
-    var tmp = new window[shape._type];
+    var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     $scope.shapes.push(tmp);
   });
@@ -363,7 +363,7 @@ angular.module('brainworks.diagram')
             element.css({
               cursor: 'initial'
             });
-            scope.shapes = $.grep(scope.shapes, function(shape) { return shape.id !== selected.id });
+            scope.shapes = $.grep(scope.shapes, function(shape) { return shape.id !== selected.id; });
             selected = null;
             drag = false;
             resize = false;

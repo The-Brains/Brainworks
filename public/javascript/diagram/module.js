@@ -73,7 +73,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       });
     },
     remove: function(userId, diagramId) {
-      return $http.delete('/diagram/' + userId + '/diagram/' + diagramId);
+      return $http['delete']('/diagram/' + userId + '/diagram/' + diagramId);
     },
     saveDiagram: function(userId, formdata) {
       return $http({

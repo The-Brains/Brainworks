@@ -36,7 +36,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/user/signIn'
     })
     .state('profile', {
-      abstract: true,
+      'abstract': true,
       template: '<ui-view/>'
     })
     .state('about', {
@@ -73,7 +73,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   $scope.elementId = 1;
   $scope.shapes = [];
   angular.forEach($scope.diagram.shapes, function(shape) {
-    var tmp = new window[shape._type];
+    var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     tmp.id = $scope.elementId;
     $scope.elementId++;

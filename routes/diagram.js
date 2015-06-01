@@ -94,7 +94,7 @@ router.get('/:diagramId', function(req, res, next) {
   });
 });
 
-router.delete('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
+router['delete']('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   req.user.diagrams.id(req.params.diagramId).remove();
   req.user.save(function(err) {
     if(err) { res.send(err); }
