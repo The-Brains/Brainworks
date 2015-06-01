@@ -312,6 +312,12 @@ angular.module('brainworks.diagram')
                 cursor: cursor
               });
             }
+            if(selected instanceof Shape) {
+              var oldX = selected.getX();
+              var oldY = selected.getY();
+              var oldHeight = selected.getHeight();
+              var oldWidth = selected.getWidth();
+            }
             if(resize) {
               var moveX = 0;
               var moveY = 0;
@@ -398,17 +404,49 @@ angular.module('brainworks.diagram')
               positionY = event.layerY;
             }
             if(drag || resize) {
+              if(selected instanceof Shape) {
+                angular.forEach(scope.shapes, function(shape) {
+                  if(shape instanceof Relation) {
+                    console.log(selected._id);
+                    console.log(shape.getShapeA());
+                    console.log(shape.getShapeB());
+                    if(shape.getShapeA() === selected._id) {
+                      if(drag
+                        || (resizeDirection === 'up left' || resizeDirection === 'left' || resizeDirection === 'down left') && (shape.getCoordsA()[0] > oldX - 5 && shape.getCoordsA()[0] < oldX + 5 && shape.getCoordsA()[1] > oldY - 5 && shape.getCoordsA()[1] < oldY + oldHeight + 5)
+                        || (resizeDirection === 'up right' || resizeDirection === 'right' || resizeDirection === 'down right') && (shape.getCoordsA()[0] > oldX + oldWidth - 5 && shape.getCoordsA()[0] < oldX + oldWidth + 5 && shape.getCoordsA()[1] > oldY - 5 && shape.getCoordsA()[1] < oldY + oldHeight + 5)
+                        || (resizeDirection === 'up left' || resizeDirection === 'up' || resizeDirection === 'up right') && (shape.getCoordsA()[0] > oldX - 5 && shape.getCoordsA()[0] < oldX + oldWidth + 5 && shape.getCoordsA()[1] > oldY - 5 && shape.getCoordsA()[1] < oldY + 5)
+                        || (resizeDirection === 'down left' || resizeDirection === 'down' || resizeDirection === 'down right') && (shape.getCoordsA()[0] > oldX - 5 && shape.getCoordsA()[0] < oldX + oldWidth + 5 && shape.getCoordsA()[1] > oldY + oldHeight - 5 && shape.getCoordsA()[1] < oldY + oldHeight + 5)
+                        ) {
+                        shape.setCoordsA([shape.getCoordsA()[0] + selected.getX() - oldX, shape.getCoordsA()[1] + selected.getY() - oldY]);
+                      }
+                    } else if(shape.getShapeB() === selected._id) {
+                      if(drag
+                        || (resizeDirection === 'up left' || resizeDirection === 'left' || resizeDirection === 'down left') && (shape.getCoordsB()[0] > oldX - 5 && shape.getCoordsB()[0] < oldX + 5 && shape.getCoordsB()[1] > oldY - 5 && shape.getCoordsB()[1] < oldY + oldHeight + 5)
+                        || (resizeDirection === 'up right' || resizeDirection === 'right' || resizeDirection === 'down right') && (shape.getCoordsB()[0] > oldX + oldWidth - 5 && shape.getCoordsB()[0] < oldX + oldWidth + 5 && shape.getCoordsB()[1] > oldY - 5 && shape.getCoordsB()[1] < oldY + oldHeight + 5)
+                        || (resizeDirection === 'up left' || resizeDirection === 'up' || resizeDirection === 'up right') && (shape.getCoordsB()[0] > oldX - 5 && shape.getCoordsB()[0] < oldX + oldWidth + 5 && shape.getCoordsB()[1] > oldY - 5 && shape.getCoordsB()[1] < oldY + 5)
+                        || (resizeDirection === 'down left' || resizeDirection === 'down' || resizeDirection === 'down right') && (shape.getCoordsB()[0] > oldX - 5 && shape.getCoordsB()[0] < oldX + oldWidth + 5 && shape.getCoordsB()[1] > oldY + oldHeight - 5 && shape.getCoordsB()[1] < oldY + oldHeight + 5)) {
+                        shape.setCoordsB([shape.getCoordsB()[0] + selected.getX() - oldX, shape.getCoordsB()[1] + selected.getY() - oldY]);
+                      }
+                    }
+                  }
+                });
+              }
               draw();
             }
           }
         });
         element.on('mouseup', function(event) {
+          if(shapeA !== null) {
+            // TODO relation an dem shape ausrichten
+          } else if(shapeB !== null) {
+            // TODO relation an dem shape ausrichten
+          }
+          shapeA = null;
+          shapeB = null;
           drag = false;
           resize = false;
           resizeDirection = '';
           dragPoint = '';
-          shapeA = null;
-          shapeB = null;
           draw();
         });
         element.on('keydown', function(event) {
