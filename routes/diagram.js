@@ -155,6 +155,7 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
         shapes.push(Shape.hasOwnProperty(requestDiagram.shapes[i]._type) ? new Shape[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]) : new Relation[requestDiagram.shapes[i]._type](requestDiagram.shapes[i]));
       }
       diagram.shapes = shapes;
+      diagram.elementId = requestDiagram.elementId;
       req.user.save(function(err, user) {
         if(err) { res.send(err); }
         else {
