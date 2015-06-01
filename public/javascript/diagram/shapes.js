@@ -198,12 +198,12 @@ AbstractClass.prototype.draw = function(canvas) {
   
   // Settings for the fonts (fontSize are defined in px)
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
-  var fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
-  var fontText = fontSize + "px " + this.fontFamily;
+  var fontTitle = 'bold italic ' + fontSize + 'px ' + this.fontFamily;
+  var fontText = fontSize + 'px ' + this.fontFamily;
 
   // Settings for finding the biggest width and its text
   var biggestWidth = 0;
-  var biggestText = "";
+  var biggestText = '';
   
   // Finding the biggest width and its text
   for (var a = 0; a < 2; a++) {
@@ -250,8 +250,8 @@ AbstractClass.prototype.draw = function(canvas) {
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
     
-    fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
-    fontText = fontSize + "px " + this.fontFamily;
+    fontTitle = 'bold italic ' + fontSize + 'px ' + this.fontFamily;
+    fontText = fontSize + 'px ' + this.fontFamily;
     
     context.font = fontTitle;
     var width1 = context.measureText(biggestText).width;
@@ -273,7 +273,7 @@ AbstractClass.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(context.measureText(this.name).width, 155, 0);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
@@ -285,7 +285,7 @@ AbstractClass.prototype.draw = function(canvas) {
   
     // Fill the attributes
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
       context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
@@ -298,7 +298,7 @@ AbstractClass.prototype.draw = function(canvas) {
   
     // Fill the functions
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
       context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
     yPos += yNextGap; 
@@ -308,7 +308,7 @@ AbstractClass.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
     
@@ -319,7 +319,7 @@ AbstractClass.prototype.draw = function(canvas) {
     
     // Fill the attributes
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
       context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
@@ -329,7 +329,7 @@ AbstractClass.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     alert(context.measureText(this.name).width);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
@@ -341,14 +341,14 @@ AbstractClass.prototype.draw = function(canvas) {
     
     // Fill the functions
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
       context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }   
   } else {
-    context.font = "bold " + fontSize + "px " + this.fontFamily;
-    context.textAlign = "center";
+    context.font = 'bold ' + fontSize + 'px ' + this.fontFamily;
+    context.textAlign = 'center';
     context.fillText(this.name, centerX, centerY, this.width);
   }
   context.closePath();
@@ -537,12 +537,12 @@ Class.prototype.draw = function(canvas) {
   
   // Settings for the fonts (fontSize are defined in px)
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
-  var fontTitle = "bold " + fontSize + "px " + this.fontFamily;
-  var fontText = fontSize + "px " + this.fontFamily;
+  var fontTitle = 'bold ' + fontSize + 'px ' + this.fontFamily;
+  var fontText = fontSize + 'px ' + this.fontFamily;
 
   // Settings for finding the biggest width and its text
   var biggestWidth = 0;
-  var biggestText = "";
+  var biggestText = '';
   
   // Finding the biggest width and its text
   for (var a = 0; a < 2; a++) {
@@ -589,8 +589,8 @@ Class.prototype.draw = function(canvas) {
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
     
-    fontTitle = "bold " + fontSize + "px " + this.fontFamily;
-    fontText = fontSize + "px " + this.fontFamily;
+    fontTitle = 'bold ' + fontSize + 'px ' + this.fontFamily;
+    fontText = fontSize + 'px ' + this.fontFamily;
     
     context.font = fontTitle;
     var width1 = context.measureText(biggestText).width;
@@ -612,7 +612,7 @@ Class.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(context.measureText(this.title).width, 155, 0);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
@@ -624,7 +624,7 @@ Class.prototype.draw = function(canvas) {
   
     // Fill the attributes
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
       context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
@@ -637,7 +637,7 @@ Class.prototype.draw = function(canvas) {
   
     // Fill the functions
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
       context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
     yPos += yNextGap; 
@@ -647,7 +647,7 @@ Class.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(this.title, centerX, yPos, this.width);
     yPos += yNextGap;
     
@@ -658,7 +658,7 @@ Class.prototype.draw = function(canvas) {
     
     // Fill the attributes
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
       context.fillText(this.attributes[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
@@ -668,7 +668,7 @@ Class.prototype.draw = function(canvas) {
       
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     alert(context.measureText(this.title).width);
     context.fillText(this.title, centerX, yPos, this.width);
     yPos += yNextGap;
@@ -680,14 +680,14 @@ Class.prototype.draw = function(canvas) {
     
     // Fill the functions
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
       context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }   
   } else {
-    context.font = "bold " + fontSize + "px " + this.fontFamily;
-    context.textAlign = "center";
+    context.font = 'bold ' + fontSize + 'px ' + this.fontFamily;
+    context.textAlign = 'center';
     context.fillText(this.name, centerX, centerY, this.width);
   }
   context.closePath();
@@ -742,7 +742,7 @@ Interface.prototype.draw = function(canvas) {
   var minSpacing = Math.round(this.height * 0.05);
   var numMethods = this.methods.length;
   var numElements = 2 + numMethods;
-  var firstTitle = "<<interface>>";
+  var firstTitle = '<<interface>>';
   context.save();
   context.beginPath();
   context.strokeStyle = this.borderColor;
@@ -757,12 +757,12 @@ Interface.prototype.draw = function(canvas) {
         
   // Settings for the fonts (fontSize are defined in px)
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
-  var fontTitle = "bold italic " + fontSize + "px " + this.fontFamily;
-  var fontText = fontSize + "px " + this.fontFamily;
+  var fontTitle = 'bold italic ' + fontSize + 'px ' + this.fontFamily;
+  var fontText = fontSize + 'px ' + this.fontFamily;
 
   // Settings for finding the biggest width and its text
   var biggestWidth = 0;
-  var biggestText = "";
+  var biggestText = '';
         
   // Finding the biggest width and its text
   for (var a = 0; a < 2; a++) {
@@ -807,8 +807,8 @@ Interface.prototype.draw = function(canvas) {
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
           
-    fontTitle = "bold " + fontSize + "px " + this.fontFamily;
-    fontText = fontSize + "px " + this.fontFamily;
+    fontTitle = 'bold ' + fontSize + 'px ' + this.fontFamily;
+    fontText = fontSize + 'px ' + this.fontFamily;
           
     context.font = fontTitle;
     var width1 = context.measureText(biggestText).width;
@@ -830,13 +830,13 @@ Interface.prototype.draw = function(canvas) {
     
     // Fill the first-title
     context.font = fontText;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(firstTitle, centerX, yPos, this.width);
     yPos += yNextGap;
     
     // Fill the title
     context.font = fontTitle;
-    context.textAlign = "center";
+    context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
           
@@ -847,14 +847,14 @@ Interface.prototype.draw = function(canvas) {
           
     // Fill the functions
     context.font = fontText;
-    context.textAlign = "left";
+    context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
       context.fillText(this.methods[a], leftSpacing, yPos, this.width * 0.95);
       yPos += yNextGap; 
     }   
   } else {
-    context.font = "bold " + fontSize + "px " + this.fontFamily;
-    context.textAlign = "center";
+    context.font = 'bold ' + fontSize + 'px ' + this.fontFamily;
+    context.textAlign = 'center';
     context.fillText(this.name, centerX, centerY, this.width);
   }
   context.closePath();

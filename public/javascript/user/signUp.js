@@ -4,8 +4,8 @@
 angular.module('brainworks.user')
 .controller('signUpCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService', function($scope, $rootScope, $state, userFactory, localStorageService) {
   $scope.user = {};
-  $scope.emailConfirmation = "";
-  $scope.passwordConfirmation = "";
+  $scope.emailConfirmation = '';
+  $scope.passwordConfirmation = '';
   $scope.signUp = function(user) {
     var parameters = angular.copy(user);
     if(angular.isDefined(parameters.password)) {

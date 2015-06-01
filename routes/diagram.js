@@ -9,7 +9,7 @@ var User = require('../models/user/User');
 var Comment = require('../models/diagrams/Comment');
 var Shape = require('../models/diagrams/Shape');
 var Relation = require('../models/diagrams/Relation');
-var fs = require("fs");
+var fs = require('fs');
 
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/diagrams', {
@@ -50,7 +50,7 @@ router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
   query.exec(function (err, user){
     if (err) { return next(err); }
-    if (!user) { return next(new Error("can't find user")); }
+    if (!user) { return next(new Error('can\'t find user')); }
     req.user = user;
     return next();
   });
