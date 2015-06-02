@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
-
+//Initialisierung der Aktiven Klasse beim Aufruf nach dem Speichern
 var relationSchema = new mongoose.Schema({
   _id: Number,
   shapeA: Number,
