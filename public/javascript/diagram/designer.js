@@ -1,6 +1,7 @@
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
+  //Initialisierung der Klassendiagramme
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Interface', name: 'Schnittstelle'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'UniDirectionalAssociation', name: 'Gerichtete Assoziation'}, {type: 'Aggregation', name: 'Aggregation'}, {type: 'Composition', name: 'Komposition'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Dependency', name: 'Abhängigkeit'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
@@ -20,10 +21,12 @@ angular.module('brainworks.diagram')
     });
     diagram.shapes = shapes;
     waitElement.removeClass('hidden');
+    //Klonen des verwendeten Canvas Designers mit anderer Größe
     var designerCanvas = $('.designer');
     var tmpCanvas = designerCanvas.clone();
     tmpCanvas.attr('height', '300px');
     tmpCanvas.attr('width', '700px');
+    //Speichern der Vorschau des Canvasausschnittes
     var img = new Image();
     img.onload = function() {
       tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
@@ -49,6 +52,7 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
+        // Anpassung der Größe von Klassenelementen
         if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
           context.save();
           context.beginPath();
@@ -69,7 +73,8 @@ angular.module('brainworks.diagram')
           context.closePath();
           context.stroke();
           context.restore();
-        } else if(angular.isDefined(selected) && selected !== null) {
+        } // Bearbeiten von Beziehungen (Länge und Ausrichtung)
+          else if(angular.isDefined(selected) && selected !== null) {
           var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
           var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
           var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
@@ -88,7 +93,7 @@ angular.module('brainworks.diagram')
           context.stroke();
           context.restore();
         }
-        if(shapeA !== null) {
+          if(shapeA !== null) {
           var context = element[0].getContext('2d');
           context.save();
           context.beginPath();
