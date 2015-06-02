@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var CommentSchema = require('./Comment').schema;
-//Initialisierung des Diagrammschemas
+/* Initialisierung des Diagrammschemas */
 var diagramSchema = new mongoose.Schema({
   name: {type: String, required: true},
   description: {type: String, required: true},

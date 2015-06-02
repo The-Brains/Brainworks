@@ -8,11 +8,11 @@ angular.module('brainworks.commons')
     scope: {
       matchValue: '=match'
     },
-    //link: ermöglicht es, DOM-Elemente zu manipulieren
+    /* link: ermöglicht es, DOM-Elemente zu manipulieren */
     link: function(scope, element, attrs, ngModel) {
-    //Passwortvalidierung
+      /* Passwortvalidierung */
       ngModel.$validators.match = function(modelValue) {
-      //Wenn beide Passwörter gleich sind, sind sie Valide
+        /* Wenn beide Passwörter gleich sind, sind sie Valide */
         return angular.isArray(scope.matchValue) ?
           scope.matchValue[0] === scope.matchValue[1] : modelValue === scope.matchValue;
       };

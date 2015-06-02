@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
-// Initialisierung der Klassenschemen
+/* Initialisierung der Klassenschemen */
 var shapeSchema = new mongoose.Schema({
   _id: Number,
   x: {type: Number, required: true},
@@ -33,7 +33,7 @@ var interfaceSchema = shapeSchema.extend({
   attributes: [String],
   methods: [String]
 });
-//Zuweisung der Schemen zu den Modulen
+/* Zuweisung der Schemen zu den Modulen */
 module.exports = {
   EmptyClass: mongoose.model('EmptyClass', emptyClassSchema),
   AbstractClass: mongoose.model('AbstractClass', abstractClassSchema),
