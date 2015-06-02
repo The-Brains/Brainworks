@@ -52,7 +52,7 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
-        // Anpassung der Größe von Klassenelementen
+        // Zeichnet Klassenelemente auf die Canvasfläche
         if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
           context.save();
           context.beginPath();
@@ -214,6 +214,7 @@ angular.module('brainworks.diagram')
           } else {
             positionX = event.layerX;
             positionY = event.layerY;
+            //Wenn in die Dragfläche geklickt wird, wird "drag" aktiviert
             if(selected instanceof Shape && 
               angular.isDefined(selected) && 
               selected !== null && 
@@ -223,7 +224,7 @@ angular.module('brainworks.diagram')
               positionY <= (selected.getY() + selected.getHeight())) {
               
               drag = true;
-              
+              //Anpassen der Größe einer Klasse auf der Canvasfläche
             } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
               resize = true;
               if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
@@ -243,6 +244,7 @@ angular.module('brainworks.diagram')
               } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
                 resizeDirection = 'down';
               }
+              // Beziehung bei der Auswahl
             } else if(selected instanceof Relation && angular.isDefined(selected) && selected !== null) {
               var context = element[0].getContext('2d');
               var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
@@ -254,18 +256,21 @@ angular.module('brainworks.diagram')
               context.rotate(Math.atan2(deltaY, deltaX));
               context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
               context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
+              //definiert die draglinie in einer Beziehung
               if(context.isPointInPath(event.layerX, event.layerY)) {
                 dragPoint = 'shape';
               }
               context.closePath();
               context.beginPath();
               context.arc(selected.getCoordsA()[0] - 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              //definiert den ersten Punkt einer Beziehung
               if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
                 dragPoint = 'pointA';
               }
               context.closePath();
               context.beginPath();
               context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              //definiert den zweiten Punkt einer Beziehung
               if(dragPoint === '' && context.isPointInPath(event.layerX, event.layerY)) {
                 dragPoint = 'pointB';
               }
@@ -279,6 +284,7 @@ angular.module('brainworks.diagram')
         element.on('mousemove', function(event) {
           if(angular.isDefined(selected) && selected !== null) {
             var cursor = 'initial';
+            //Layout des Cursors wird angepasst
             if(selected instanceof Relation) {
               var context = element[0].getContext('2d');
               var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
@@ -290,18 +296,21 @@ angular.module('brainworks.diagram')
               context.rotate(Math.atan2(deltaY, deltaX));
               context.translate(-selected.getCoordsA()[0], -selected.getCoordsA()[1]);
               context.rect(selected.getCoordsA()[0], selected.getCoordsA()[1]-5, length, 10);
+              //Cursor über der Beziehung
               if(context.isPointInPath(event.layerX, event.layerY)) {
                 cursor = 'move';
               }
               context.closePath();
               context.beginPath();
               context.arc(selected.getCoordsA()[0] - 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              //Cursor am rechten Punkt der Beziehung
               if(cursor === 'initial' && context.isPointInPath(event.layerX, event.layerY)) {
                 cursor = 'move';
               }
               context.closePath();
               context.beginPath();
               context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+              //Cursor am linken Punkt der Beziehung
               if(cursor === 'initial' && context.isPointInPath(event.layerX, event.layerY)) {
                 cursor = 'move';
               }
@@ -330,6 +339,7 @@ angular.module('brainworks.diagram')
             ) {
               cursor = 'n-resize'; // Oben oder Unten Größenänderungscursor
             }
+            //Setzen des Cursors
             if(!drag && !resize) {
               element.css({
                 cursor: cursor
@@ -341,6 +351,7 @@ angular.module('brainworks.diagram')
               var oldHeight = selected.getHeight();
               var oldWidth = selected.getWidth();
             }
+            //Resize der Klasse
             if(resize) {
               var moveX = 0;
               var moveY = 0;
@@ -386,13 +397,16 @@ angular.module('brainworks.diagram')
               selected.setY(y);
               selected.setWidth(Math.max(1, selected.getWidth() + moveX));
               selected.setHeight(Math.max(1, selected.getHeight() + moveY));
+              //Bewegung der Klasse
             } else if(drag && dragPoint === '') {
               selected.setX(selected.getX() + event.layerX - positionX);
               selected.setY(selected.getY() + event.layerY - positionY);
               positionX = event.layerX;
               positionY = event.layerY;
+              //
             } else if(drag && dragPoint !== '') {
               switch(dragPoint) {
+                //Bewegung der Beziehungslinie
                 case 'shape':
                   selected.setCoordsA([selected.getCoordsA()[0] + event.layerX - positionX, selected.getCoordsA()[1] + event.layerY - positionY]);
                   selected.setCoordsB([selected.getCoordsB()[0] + event.layerX - positionX, selected.getCoordsB()[1] + event.layerY - positionY]);
@@ -407,6 +421,7 @@ angular.module('brainworks.diagram')
               shapeA = null;
               shapeB = null;
               angular.forEach(scope.shapes, function(shape) {
+                //Verknüpfung zwischen Beziehung und Klasse
                 if(shape instanceof Shape) {
                   if((selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + 5)
                     || (selected.getCoordsA()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
@@ -433,6 +448,7 @@ angular.module('brainworks.diagram')
                     console.log(selected._id);
                     console.log(shape.getShapeA());
                     console.log(shape.getShapeB());
+                    //Bewegung der Beziehung bei Bewegung der Klasse 
                     if(shape.getShapeA() === selected._id) {
                       if(drag
                         || (resizeDirection === 'up left' || resizeDirection === 'left' || resizeDirection === 'down left') && (shape.getCoordsA()[0] > oldX - 5 && shape.getCoordsA()[0] < oldX + 5 && shape.getCoordsA()[1] > oldY - 5 && shape.getCoordsA()[1] < oldY + oldHeight + 5)
@@ -475,6 +491,7 @@ angular.module('brainworks.diagram')
           dragPoint = '';
           draw();
         });
+        //Bei Druck von entf wird das Element gelöscht
         element.on('keydown', function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
             element.css({
@@ -498,10 +515,12 @@ angular.module('brainworks.diagram')
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
+    //Zeichnen der Klassen und beziehungen auf der Klassendiagramm-Canvasfläche
     link: function(scope, element, attr) {
       var offsetX, offsetY;
       var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 0, 140, 90, attr.name) : new window[attr.type](0, [0, 45], [140, 45], attr.name);
       shape.draw(element[0]);
+     //Drag & Drop für die Elemente
       $(element).draggable({
         helper: 'clone',
         appendTo: $('#designerContainer'),
@@ -514,9 +533,11 @@ angular.module('brainworks.diagram')
           ui.helper.css('cursor', 'initial');
         }
       });
+      // Setzt einen grauen Hintergrund an ausgewählte Elemente
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
+      //Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
       element.on('mouseout', function(event) {
         element.removeClass('designer-element-active');
       });
