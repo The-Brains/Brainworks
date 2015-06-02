@@ -150,7 +150,7 @@ EmptyClass.prototype.applyJSON = function(json) {
 
 EmptyClass.prototype.startEditmode = function(canvas) {
   var name = prompt("Please enter the title name");
-  if (name !== "") {
+  if (name !== null) {
     this.setName(name);
     
     var context = canvas.getContext("2d");
