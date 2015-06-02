@@ -126,7 +126,7 @@ angular.module('brainworks.diagram')
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
-            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.diagram.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.diagram.elementId, [x, y + 45], [x + 140, y + 45], ui.helper.attr('name')));
+            scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.diagram.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.diagram.elementId, [x, y + 45], [x + 140, y + 45], ''));
             scope.diagram.elementId++;
             draw();
           },
@@ -438,8 +438,10 @@ angular.module('brainworks.diagram')
         });
         element.on('mouseup', function(event) {
           if(shapeA !== null) {
+            
             // TODO relation an dem shape ausrichten
           } else if(shapeB !== null) {
+            
             // TODO relation an dem shape ausrichten
           }
           shapeA = null;
