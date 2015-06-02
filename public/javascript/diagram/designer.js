@@ -432,9 +432,6 @@ angular.module('brainworks.diagram')
               if(selected instanceof Shape) {
                 angular.forEach(scope.shapes, function(shape) {
                   if(shape instanceof Relation) {
-                    console.log(selected._id);
-                    console.log(shape.getShapeA());
-                    console.log(shape.getShapeB());
                     /* Bewegung der Beziehung bei Bewegung der Klasse */
                     if(shape.getShapeA() === selected._id) {
                       if(drag
