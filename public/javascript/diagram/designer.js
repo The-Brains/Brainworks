@@ -93,6 +93,8 @@ angular.module('brainworks.diagram')
           context.stroke();
           context.restore();
         }
+        // Anheften von Beziehungen an Elemente
+        // Beim Verbinden von Elementen mit Beziehungen werden die Elemente A und B rötlich umrandet und 
           if(shapeA !== null) {
           var context = element[0].getContext('2d');
           context.save();
@@ -126,6 +128,7 @@ angular.module('brainworks.diagram')
         var inEditmode = false;
         var shapeA = null;
         var shapeB = null;
+        //Definiert die Droppbare Canvasfläche
         $(element).droppable({
           accept: '.designer-element',
           drop: function(event, ui) {
@@ -142,15 +145,18 @@ angular.module('brainworks.diagram')
             ui.helper.css('cursor', 'no-drop');
           }
         });
+        
         element.on('mousedown', function(event) {
           setTimeout(function() {
             clicks = 0;
           }, 400);
+          // Wenn im Editmode woanders hingeklickt wird, wird die Auswahl aufgehoben
           if(inEditmode && angular.isDefined(selected) && selected !== null) {
             selected.endEditmode(element[0]);
             inEditmode = false;
             selected = null;
           }
+          // Bewegung der Beziehungen bei der Bewegung eines Elements
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
@@ -180,6 +186,7 @@ angular.module('brainworks.diagram')
             }
             return isSelected;
           });
+          //Element als selected markieren
           var selectedInResult = false;
           $.each(result, function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
@@ -187,13 +194,16 @@ angular.module('brainworks.diagram')
               return false;
             }
           });
+          
           var oldSelected = selected;
           if(selected === null || !selectedInResult) {
             selected = result[0];
           }
+          
           if(!angular.isDefined(oldSelected) || oldSelected === null || !angular.isDefined(selected) || selected === null || oldSelected._id === selected._id) {
             clicks++;
           }
+          
           if(clicks === 2) {
             oldSelected = null;
             clicks = 0;
@@ -204,8 +214,16 @@ angular.module('brainworks.diagram')
           } else {
             positionX = event.layerX;
             positionY = event.layerY;
-            if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())) {
+            if(selected instanceof Shape && 
+              angular.isDefined(selected) && 
+              selected !== null && 
+              positionX >= selected.getX() && 
+              positionX <= (selected.getX() + selected.getWidth()) && 
+              positionY >= selected.getY() && 
+              positionY <= (selected.getY() + selected.getHeight())) {
+              
               drag = true;
+              
             } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
               resize = true;
               if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
