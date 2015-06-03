@@ -1,6 +1,9 @@
 /**
  * New node file
  */
+/*
+ * Initialisierung der Diagrammseiten/ Schnittstelle der Diagrammklassen
+ */
 angular.module('brainworks.diagram', ['ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider

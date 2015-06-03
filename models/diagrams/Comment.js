@@ -1,6 +1,3 @@
-/**
- * @author Dennis Stumm
- */
 var mongoose = require('mongoose');
 /* Definition von Charaktermerkmalen der Elemente in einem Kommentar */
 var diagramCommentSchema = new mongoose.Schema({

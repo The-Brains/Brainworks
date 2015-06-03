@@ -1,3 +1,6 @@
+/**
+ * Definition der Designerlogik
+ */
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
@@ -211,8 +214,8 @@ angular.module('brainworks.diagram')
             positionX = event.layerX;
             positionY = event.layerY;
             /* Wenn in die Dragfläche geklickt wird, wird "drag" aktiviert */
-            if(selected instanceof Shape && angular.isDefined(selected) && selected !== null && 
-              positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) && 
+            if(selected instanceof Shape && angular.isDefined(selected) && selected !== null &&
+              positionX >= selected.getX() && positionX <= (selected.getX() + selected.getWidth()) &&
               positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())
             ) {
               drag = true;
