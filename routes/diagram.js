@@ -49,7 +49,7 @@ router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
 router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/attributesEditor', {
     title: 'Eigenschaften ändern',
-    renameTitle: 'Titel ändern',
+    renameTitle: 'Namen ändern',
     renameAttributes: 'Attribute ändern',
     renameMethods: 'Methoden ändern',
     buttonSave: 'Speichern',
