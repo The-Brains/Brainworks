@@ -461,14 +461,23 @@ angular.module('brainworks.diagram')
         });
         element.on('mouseup', function(event) {
           if(shapeA !== null) {
-            
+            if(selected.getCoordsA()[0] > shapeA.getX() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + 5) {
+              selected.setCoordsA([selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 ? shapeA.getX() + shapeA.getWidth() : Math.max(selected.getCoordsA()[0], shapeA.getX() - 1), shapeA.getY() - 1]);
+            } else if(selected.getCoordsA()[0] > shapeA.getX() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() + shapeA.getHeight() - 5 && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5) {
+              selected.setCoordsA([selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 ? shapeA.getX() + shapeA.getWidth() : Math.max(selected.getCoordsA()[0], shapeA.getX() - 1), shapeA.getY() + shapeA.getHeight() + 1]);
+            } else if(selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5) {
+              selected.setCoordsA([shapeA.getX() + shapeA.getWidth() + 1, selected.getCoordsA()[1] > shapeA.getY() + shapeA.getHeight() && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5 ? shapeA.getY() + shapeA.getHeight() : Math.max(selected.getCoordsA()[1], shapeA.getY() - 1)]);
+            } /*else if() {
+              recht ist noch zu machen
+            }*/
             // TODO relation an dem shape ausrichten
-          } else if(shapeB !== null) {
-            
-            // TODO relation an dem shape ausrichten
+            shapeA = null;
           }
-          shapeA = null;
-          shapeB = null;
+          if(shapeB !== null) {
+            
+            // TODO relation an dem shape ausrichten
+            shapeB = null;
+          }
           drag = false;
           resize = false;
           resizeDirection = '';
