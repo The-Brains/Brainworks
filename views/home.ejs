@@ -1,15 +1,19 @@
+<!-- Startseite -->
 <h1 class="page-header">
   &nbsp;
+  <!-- Suche -->
   <span class="pull-right form-inline">
     <input class="form-control" type="text" placeholder="<%= search %>" ng-model="searchText">
   </span>
 </h1>
+<!-- Diagrammübersicht -->
 <div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
       <img class="img-responsive" ng-src="{{diagram.thumbnail}}" alt="{{diagram.name}}">
     </a>
   </div>
+  <!-- Beschreibung der Diagramme -->
   <div class="col-md-5">
     <h3>{{diagram.name}}</h3>
     <p class="diagram-description">{{diagram.description}}</p>
@@ -17,6 +21,7 @@
   </div>
 </div>
 <hr ng-repeat-end>
+<!-- Paging -->
 <div class="text-center">
   <pagination ng-model="currentPage" total-items="(diagrams | filter:searchText).length" items-per-page="numPerPage" max-size="maxSize" boundary-links="true" next-text="<%= paginationNext %>" previous-text="<%= paginationPrevious %>" first-text="<%= paginationFirst %>" last-text="<%= paginationLast %>"></pagination>
 </div>
