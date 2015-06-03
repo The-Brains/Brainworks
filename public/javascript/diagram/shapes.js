@@ -107,11 +107,7 @@ Shape.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
-Shape.prototype.startEditmode = function(canvas) {
-  throw new Error('This method should not be directly called!');
-};
-
-Shape.prototype.endEditmode = function(canvas) {
+Shape.prototype.startEditmode = function(modal) {
   throw new Error('This method should not be directly called!');
 };
 
@@ -160,20 +156,28 @@ EmptyClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-EmptyClass.prototype.startEditmode = function(canvas) {
-  var name = prompt("Please enter the title name");
-  if (name !== null) {
-    this.setName(name);
-
-    var context = canvas.getContext("2d");
-    context.clearRect(this.x, this.y, this.width, this.height);
-
-    this.draw(canvas);
-  }
-};
-
-EmptyClass.prototype.endEditmode = function(canvas) {
-
+EmptyClass.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return null;
+      },
+      methods: function() {
+        return null;
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+  });
 };
 
 
@@ -408,12 +412,30 @@ AbstractClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-AbstractClass.prototype.startEditmode = function(canvas) {
-  alert("AbstractClass:\t" + canvas);
-};
-
-AbstractClass.prototype.endEditmode = function(canvas) {
-
+AbstractClass.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return self.getAttributes();
+      },
+      methods: function() {
+        return self.getMethods();
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    self.setAttributes(result.attributes);
+    self.setMethods(result.methods);
+  });
 };
 
 
@@ -471,20 +493,28 @@ Comment.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-Comment.prototype.startEditmode = function(canvas) {
-  var name = prompt("Please enter the title name");
-  if (name !== "") {
-    this.setName(name);
-
-    var context = canvas.getContext("2d");
-    context.clearRect(this.x, this.y, this.width, this.height);
-
-    this.draw(canvas);
-  }
-};
-
-Comment.prototype.endEditmode = function(canvas) {
-
+Comment.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return null;
+      },
+      methods: function() {
+        return null;
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+  });
 };
 
 
@@ -538,20 +568,28 @@ ActiveClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-ActiveClass.prototype.startEditmode = function(canvas) {
-  var name = prompt("Please enter the title name");
-  if (name !== "") {
-    this.setName(name);
-
-    var context = canvas.getContext("2d");
-    context.clearRect(this.x, this.y, this.width, this.height);
-
-    this.draw(canvas);
-  }
-};
-
-ActiveClass.prototype.endEditmode = function(canvas) {
-
+ActiveClass.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return null;
+      },
+      methods: function() {
+        return null;
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+  });
 };
 
 
@@ -785,12 +823,30 @@ Class.prototype.applyJSON = function(json) {
   this.attributes = json.attributes;
 };
 
-Class.prototype.startEditmode = function(canvas) {
-  alert("Class:\t" + canvas);
-};
-
-Class.prototype.endEditmode = function(canvas) {
-
+Class.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return self.getAttributes();
+      },
+      methods: function() {
+        return self.getMethods();
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    self.setAttributes(result.attributes);
+    self.setMethods(result.methods);
+  });
 };
 
 
@@ -958,10 +1014,27 @@ Interface.prototype.applyJSON = function(json) {
   this.methods = json.methods;
 };
 
-Interface.prototype.startEditmode = function(canvas) {
-  alert("Interface:\t" + canvas);
-};
-
-Interface.prototype.endEditmode = function(canvas) {
-
+Interface.prototype.startEditmode = function(modal) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      title: function() {
+        return self.getName();
+      },
+      attributes: function() {
+        return null;
+      },
+      methods: function() {
+        return self.getMethods();
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    self.setMethods(result.methods);
+  });
 };

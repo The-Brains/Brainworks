@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h3 class="modal-title"><%= title %></h3>
+</div>
+<div class="modal-body">
+  <table class="table">
+    <tr>
+      <td><%= renameTitle %></td>
+      <td><input type="text" ng-model="title" /></td>
+    </tr>
+    <tr ng-hide="!attributes">
+      <td><%= renameAttributes %></td>
+      <td><textarea rows="5" cols="30" ng-model="attributes"></textarea></td>
+    </tr>
+    <tr ng-hide="!methods">
+      <td><%= renameMethods %></td>
+      <td><textarea rows="5" cols="30" ng-model="methods"></textarea></td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="save()"><%= buttonSave %></button>
+  <button class="btn btn-default" ng-click="cancel()"><%= buttonCancel %></button>
+</div>  

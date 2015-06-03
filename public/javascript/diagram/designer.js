@@ -46,7 +46,28 @@ angular.module('brainworks.diagram')
     img.src = designerCanvas[0].toDataURL();
   };
 }])
-.directive('designer', function() {
+.controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'title', 'attributes', 'methods' , function($scope, $modalInstance, title, attributes, methods) {
+  $scope.title = title;
+  
+  if (attributes !== null) $scope.attributes = attributes.join("\n");
+  if (methods !== null) $scope.methods = methods.join("\n");
+    
+  $scope.save = function() {
+    var results = {
+      name: $scope.title
+    };
+    
+    if (attributes !== null) results.attributes = $scope.attributes.split("\n");
+    if (methods !== null) results.methods = $scope.methods.split("\n");
+    
+    $modalInstance.close(results);
+  };
+  
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+}])
+.directive('designer', ['$modal', function($modal) {
   return {
     restrict: 'E',
     replace: true,
@@ -157,7 +178,6 @@ angular.module('brainworks.diagram')
           }, 400);
           /* Wenn im Editmode woanders hingeklickt wird, wird die Auswahl aufgehoben */
           if(inEditmode && angular.isDefined(selected) && selected !== null) {
-            selected.endEditmode(element[0]);
             inEditmode = false;
             selected = null;
           }
@@ -210,7 +230,7 @@ angular.module('brainworks.diagram')
             oldSelected = null;
             clicks = 0;
             if(angular.isDefined(selected) && selected !== null) {
-              selected.startEditmode(element[0]);
+              selected.startEditmode($modal);
               inEditmode = true;
             }
           } else {
@@ -514,7 +534,7 @@ angular.module('brainworks.diagram')
       draw();
     }
   };
-})
+}])
 .directive('designerElement', function($document) {
   return {
     restrict: 'E',
