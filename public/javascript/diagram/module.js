@@ -1,7 +1,4 @@
 /**
- * New node file
- */
-/*
  * Initialisierung der Diagrammseiten/ Schnittstelle der Diagrammklassen
  */
 angular.module('brainworks.diagram', ['ui.bootstrap'])

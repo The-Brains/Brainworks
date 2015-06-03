@@ -11,6 +11,7 @@
 <body ng-app="brainworks" ng-controller="brainworksCtrl">
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
+    <!-- Brainworks Titel in der Navigation -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
@@ -23,6 +24,7 @@
           <div><%= title %></div>
         </a>
       </div>
+      <!-- Menübuttons Startseite, Profil und Über-->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right brainworks-navigation">
           <nav-item page="home" title="<%= home %>"></nav-item>
@@ -42,6 +44,7 @@
       </div>
     </div>
   </nav>
+  <!-- Content der Seiten -->
   <div class="container full-height">
     <ui-view></ui-view>
   </div>
@@ -54,24 +57,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.0/angular-local-storage.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-  
+
   <!-- Geimeinsame Funktionen -->
   <script src="/javascript/commons/module.js"></script>
   <script src="/javascript/commons/directives.js"></script>
-  
+
   <!-- Diagramme -->
   <script src="/javascript/diagram/module.js"></script>
   <script src="/javascript/diagram/shapes.js"></script>
   <script src="/javascript/diagram/relations.js"></script>
   <script src="/javascript/diagram/designer.js"></script>
   <script src="/javascript/diagram/diagramInformation.js"></script>
-  
+
   <!-- User -->
   <script src="/javascript/user/module.js"></script>
   <script src="/javascript/user/settings.js"></script>
   <script src="/javascript/user/signIn.js"></script>
   <script src="/javascript/user/signUp.js"></script>
-  
+
   <!-- Hauptdatei -->
   <script src="/javascript/main.js"></script>
 </body>

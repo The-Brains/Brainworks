@@ -16,6 +16,9 @@ angular.module('brainworks.diagram')
   $scope.back = function() {
     $state.go('profile.diagrams');
   };
+  /**
+   * @param diagram
+   */
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
     var shapes = [];
@@ -235,10 +238,10 @@ angular.module('brainworks.diagram')
                 resizeDirection = 'right';
               } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
                 resizeDirection = 'up';
-              } else if(positionX >= selected.getX() + (selected.getWidth()/2) - 2 && positionX <= selected.getX() + (selected.getWidth()/2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
+              } else if ( positionX >= selected.getX() + (selected.getWidth() / 2) - 2 && positionX <= selected.getX() + (selected.getWidth() / 2) + 4 && positionY >= selected.getY() + selected.getHeight() + 2 && positionY <= (selected.getY() + selected.getHeight() + 8)) {
                 resizeDirection = 'down';
               }
-            } else if(selected instanceof Relation && angular.isDefined(selected) && selected !== null) { /* Beziehung bei der Auswahl */
+            } else if (selected instanceof Relation && angular.isDefined(selected) && selected !== null) { /* Beziehung bei der Auswahl */
               var context = element[0].getContext('2d');
               var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
               var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];

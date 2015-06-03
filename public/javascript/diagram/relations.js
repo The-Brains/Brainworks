@@ -1,3 +1,13 @@
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
   this.shapeA = null;
@@ -9,75 +19,75 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
   this.lineColor = (typeof lineColor === 'string') ? lineColor : 'black';
   this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 12;
-  
+
   this.setShapeA = function(shapeA) {
     this.shapeA = shapeA;
   };
-  
+
   this.setShapeB = function(shapeB) {
     this.shapeB = shapeB;
   };
-  
+
   this.setCoordsA = function(coordsA) {
     this.coordsA = coordsA;
   };
-  
+
   this.setCoordsB = function(coordsB) {
     this.coordsB = coordsB;
   };
-  
+
   this.setName = function(name) {
     this.name = name;
   };
-  
+
   this.setLineColor = function(lineColor) {
     this.lineColor = lineColor;
   };
-  
+
   this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
   };
-  
+
   this.setFontFamily = function(fontFamily) {
     this.fontFamily = fontFamily;
   };
-  
+
   this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
   };
-  
+
   this.getShapeA = function() {
     return this.shapeA;
   };
-  
+
   this.getShapeB = function() {
     return this.shapeB;
   };
-  
+
   this.getCoordsA = function() {
     return this.coordsA;
   };
-  
+
   this.getCoordsB = function() {
     return this.coordsB;
   };
-  
+
   this.getName = function() {
     return this.name;
   };
-  
+
   this.getLineColor = function() {
     return this.lineColor;
   };
-  
+
   this.getLineWidth = function() {
     return this.lineWidth;
   };
-  
+
   this.getFontFamily = function() {
     return this.fontFamily;
   };
-  
+
   this.getFontSize = function() {
     return this.fontSize;
   };
@@ -103,11 +113,21 @@ Relation.prototype.endEditmode = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
 
-
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ */
+/*Erben*/
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
-
+/* Über Prototype werden die Eigenschaften vererbt */
 Inheritance.prototype = new Relation();
 
 Inheritance.prototype.draw = function(canvas) {
@@ -141,7 +161,7 @@ Inheritance.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/* Setter für das JSON Objekt, welches in die Datenbank eingetragen wird */
 Inheritance.prototype.toJSON = function() {
   return {
     _type: 'Inheritance',
@@ -154,6 +174,7 @@ Inheritance.prototype.toJSON = function() {
   };
 };
 
+/* Speichern des JSON Objektes */
 Inheritance.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -162,39 +183,60 @@ Inheritance.prototype.applyJSON = function(json) {
   this.coordsA = json.coordsA;
   this.coordsB = json.coordsB;
 };
-
+/**
+ * @param canvas
+ */
 Inheritance.prototype.startEditmode = function(canvas) {
 };
-
+/**
+ * @param canvas
+ */
 Inheritance.prototype.endEditmode = function(canvas) {
 };
 
-
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ * @param multiplicityA
+ * @param multiplicityB
+ */
 function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
-  
+
   this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-  
+  /**
+   * @param multiplicityA
+   */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
-  
+  /**
+   * @param multiplicityB
+   */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
-  
+
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
-  
+
   this.getMultiplicityB = function() {
     return this.multiplicityB;
   };
 }
 
 Association.prototype = new Relation();
-
+/**
+ * @param canvas
+ */
 Association.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -239,7 +281,9 @@ Association.prototype.toJSON = function() {
     multiplicityB: this.getMultiplicityB()
   };
 };
-
+/**
+ * @param json
+ */
 Association.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -250,23 +294,37 @@ Association.prototype.applyJSON = function(json) {
   this.multiplicityA = json.multiplicityA;
   this.multiplicityB = json.multiplicityB;
 };
-
+/**
+ * @param canvas
+ */
 Association.prototype.startEditmode = function(canvas) {
 };
-
+/**
+ * @param canvas
+ */
 Association.prototype.endEditmode = function(canvas) {
 };
 
-
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ * @param multiplicityB
+ */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
-  
+
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-  
+
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
-  
+
   this.getMultiplicityB = function() {
     return this.multiplicityB;
   };
@@ -335,26 +393,36 @@ UniDirectionalAssociation.prototype.startEditmode = function(canvas) {
 
 UniDirectionalAssociation.prototype.endEditmode = function(canvas) {
 };
-
-
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ * @param multiplicityA
+ * @param multiplicityB
+ */
 function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
-  
+
   this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-  
+
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
-  
+
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
-  
+
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
-  
+
   this.getMultiplicityB = function() {
     return this.multiplicityB;
   };
@@ -432,22 +500,22 @@ Aggregation.prototype.endEditmode = function(canvas) {
 
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
-  
+
   this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-  
+
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
-  
+
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
-  
+
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
-  
+
   this.getMultiplicityB = function() {
     return this.multiplicityB;
   };
@@ -521,7 +589,16 @@ Composition.prototype.startEditmode = function(canvas) {
 Composition.prototype.endEditmode = function(canvas) {
 };
 
-
+/**
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ */
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
