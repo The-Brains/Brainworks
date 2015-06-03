@@ -220,7 +220,7 @@ angular.module('brainworks.diagram')
             oldSelected = null;
             clicks = 0;
             if(angular.isDefined(selected) && selected !== null) {
-              selected.startEditmode($modal);
+              selected.startEditmode($modal, draw);
               inEditmode = true;
             }
           } else {

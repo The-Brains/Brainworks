@@ -107,7 +107,7 @@ Shape.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
-Shape.prototype.startEditmode = function(modal) {
+Shape.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
 };
 
@@ -156,7 +156,7 @@ EmptyClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-EmptyClass.prototype.startEditmode = function(modal) {
+EmptyClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -165,16 +165,15 @@ EmptyClass.prototype.startEditmode = function(modal) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
-          attributes: null,
-          methods: null
-        };  
+          title: self.getName()
+        };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
     self.setName(result.title);
+    callback();
   });
 };
 
@@ -410,7 +409,7 @@ AbstractClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-AbstractClass.prototype.startEditmode = function(modal) {
+AbstractClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -422,7 +421,7 @@ AbstractClass.prototype.startEditmode = function(modal) {
           title: self.getName(),
           attributes: self.getAttributes().join("\n"),
           methods: self.getMethods().join("\n")
-        };  
+        };
       }
     }
   });
@@ -431,6 +430,7 @@ AbstractClass.prototype.startEditmode = function(modal) {
     self.setName(result.title);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
+    callback();
   });
 };
 
@@ -489,7 +489,7 @@ Comment.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-Comment.prototype.startEditmode = function(modal) {
+Comment.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -498,16 +498,15 @@ Comment.prototype.startEditmode = function(modal) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
-          attributes: null,
-          methods: null
-        };  
+          title: self.getName()
+        };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
     self.setName(result.title);
+    callback();
   });
 };
 
@@ -562,7 +561,7 @@ ActiveClass.prototype.applyJSON = function(json) {
   this._id = json._id;
 };
 
-ActiveClass.prototype.startEditmode = function(modal) {
+ActiveClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -571,16 +570,15 @@ ActiveClass.prototype.startEditmode = function(modal) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
-          attributes: null,
-          methods: null
-        };  
+          title: self.getName()
+        };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
     self.setName(result.title);
+    callback();
   });
 };
 
@@ -815,7 +813,7 @@ Class.prototype.applyJSON = function(json) {
   this.attributes = json.attributes;
 };
 
-Class.prototype.startEditmode = function(modal) {
+Class.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -827,7 +825,7 @@ Class.prototype.startEditmode = function(modal) {
           title: self.getName(),
           attributes: self.getAttributes().join("\n"),
           methods: self.getMethods().join("\n")
-        };  
+        };
       }
     }
   });
@@ -836,6 +834,7 @@ Class.prototype.startEditmode = function(modal) {
     self.setName(result.title);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
+    callback();
   });
 };
 
@@ -1004,7 +1003,7 @@ Interface.prototype.applyJSON = function(json) {
   this.methods = json.methods;
 };
 
-Interface.prototype.startEditmode = function(modal) {
+Interface.prototype.startEditmode = function(modal, callback) {
   var self = this;
   
   var modalInstance = modal.open({
@@ -1016,7 +1015,7 @@ Interface.prototype.startEditmode = function(modal) {
           title: self.getName(),
           attributes: null,
           methods: self.getMethods().join("\n")
-        };  
+        };
       }
     }
   });
@@ -1024,5 +1023,6 @@ Interface.prototype.startEditmode = function(modal) {
   modalInstance.result.then(function(result) {
     self.setName(result.title);
     self.setMethods(result.methods.split("\n"));
+    callback();
   });
 };
