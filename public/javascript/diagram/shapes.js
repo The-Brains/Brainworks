@@ -163,20 +163,18 @@ EmptyClass.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return null;
-      },
-      methods: function() {
-        return null;
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: null,
+          methods: null
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
+    self.setName(result.title);
   });
 };
 
@@ -419,22 +417,20 @@ AbstractClass.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return self.getAttributes();
-      },
-      methods: function() {
-        return self.getMethods();
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: self.getAttributes().join("\n"),
+          methods: self.getMethods().join("\n")
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
-    self.setAttributes(result.attributes);
-    self.setMethods(result.methods);
+    self.setName(result.title);
+    self.setAttributes(result.attributes.split("\n"));
+    self.setMethods(result.methods.split("\n"));
   });
 };
 
@@ -500,20 +496,18 @@ Comment.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return null;
-      },
-      methods: function() {
-        return null;
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: null,
+          methods: null
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
+    self.setName(result.title);
   });
 };
 
@@ -575,20 +569,18 @@ ActiveClass.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return null;
-      },
-      methods: function() {
-        return null;
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: null,
+          methods: null
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
+    self.setName(result.title);
   });
 };
 
@@ -830,22 +822,20 @@ Class.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return self.getAttributes();
-      },
-      methods: function() {
-        return self.getMethods();
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: self.getAttributes().join("\n"),
+          methods: self.getMethods().join("\n")
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
-    self.setAttributes(result.attributes);
-    self.setMethods(result.methods);
+    self.setName(result.title);
+    self.setAttributes(result.attributes.split("\n"));
+    self.setMethods(result.methods.split("\n"));
   });
 };
 
@@ -1021,20 +1011,18 @@ Interface.prototype.startEditmode = function(modal) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      title: function() {
-        return self.getName();
-      },
-      attributes: function() {
-        return null;
-      },
-      methods: function() {
-        return self.getMethods();
+      settings: function() {
+        return {
+          title: self.getName(),
+          attributes: null,
+          methods: self.getMethods().join("\n")
+        };  
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.name);
-    self.setMethods(result.methods);
+    self.setName(result.title);
+    self.setMethods(result.methods.split("\n"));
   });
 };

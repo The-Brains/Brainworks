@@ -46,21 +46,11 @@ angular.module('brainworks.diagram')
     img.src = designerCanvas[0].toDataURL();
   };
 }])
-.controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'title', 'attributes', 'methods' , function($scope, $modalInstance, title, attributes, methods) {
-  $scope.title = title;
-  
-  if (attributes !== null) $scope.attributes = attributes.join("\n");
-  if (methods !== null) $scope.methods = methods.join("\n");
+.controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' , function($scope, $modalInstance, settings) {
+  $scope.settings = settings;
     
   $scope.save = function() {
-    var results = {
-      name: $scope.title
-    };
-    
-    if (attributes !== null) results.attributes = $scope.attributes.split("\n");
-    if (methods !== null) results.methods = $scope.methods.split("\n");
-    
-    $modalInstance.close(results);
+    $modalInstance.close($scope.settings);
   };
   
   $scope.cancel = function() {
