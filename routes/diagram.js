@@ -46,6 +46,17 @@ router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   });
 });
 
+router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
+  res.render('diagram/attributesEditor', {
+    title: 'Eigenschaften ändern',
+    renameTitle: 'Titel ändern',
+    renameAttributes: 'Attribute ändern',
+    renameMethods: 'Methoden ändern',
+    buttonSave: 'Speichern',
+    buttonCancel: 'Abbrechen'
+  });
+});
+
 router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
   query.exec(function (err, user){
