@@ -15,6 +15,14 @@
       <td><%= renameMethods %></td>
       <td><textarea rows="5" cols="30" ng-model="settings.methods"></textarea></td>
     </tr>
+    <tr ng-hide="settings.multiplicityA == undefined">
+      <td><%= changeMultiplicityA %></td>
+      <td><input type="text" ng-model="settings.multiplicityA" /></td>
+    </tr>
+    <tr ng-hide="settings.multiplicityB == undefined">
+      <td><%= changeMultiplicityB %></td>
+      <td><input type="text" ng-model="settings.multiplicityB" /></td>
+    </tr>
   </table>
 </div>
 <div class="modal-footer">

@@ -53,7 +53,9 @@ router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
     renameAttributes: 'Attribute ändern',
     renameMethods: 'Methoden ändern',
     buttonSave: 'Speichern',
-    buttonCancel: 'Abbrechen'
+    buttonCancel: 'Abbrechen',
+    changeMultiplicityA: 'Kardinalität A ändern',
+    changeMultiplicityB: 'Kardinalität B ändern'
   });
 });
 

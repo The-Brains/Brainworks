@@ -318,7 +318,9 @@ Association.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          name: self.getName()
+          name: self.getName(),
+          multiplicityA: self.getMultiplicityA(),
+          multiplicityB: self.getMultiplicityB()
         };
       }
     }
@@ -326,6 +328,8 @@ Association.prototype.startEditmode = function(modal, callback) {
   
   modalInstance.result.then(function(result) {
     self.setName(result.name);
+    self.setMultiplicityA(result.multiplicityA);
+    self.setMultiplicityB(result.multiplicityB);
     callback();
   });
 };
@@ -427,7 +431,8 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          name: self.getName()
+          name: self.getName(),
+          multiplicityB: self.getMultiplicityB()
         };
       }
     }
@@ -435,6 +440,7 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
   
   modalInstance.result.then(function(result) {
     self.setName(result.name);
+    self.setMultiplicityB(result.multiplicityB);
     callback();
   });
 };
@@ -551,7 +557,9 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          name: self.getName()
+          name: self.getName(),
+          multiplicityA: self.getMultiplicityA(),
+          multiplicityB: self.getMultiplicityB()
         };
       }
     }
@@ -559,6 +567,8 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
   
   modalInstance.result.then(function(result) {
     self.setName(result.name);
+    self.setMultiplicityA(result.multiplicityA);
+    self.setMultiplicityB(self.multiplicityB);
     callback();
   });
 };
@@ -662,7 +672,9 @@ Composition.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          name: self.getName()
+          name: self.getName(),
+          multiplicityA: self.getMultiplicityA(),
+          multiplicityB: self.getMultiplicityB()
         };
       }
     }
@@ -670,6 +682,8 @@ Composition.prototype.startEditmode = function(modal, callback) {
   
   modalInstance.result.then(function(result) {
     self.setName(result.name);
+    self.setMultiplicityA(result.multiplicityA);
+    self.setMultiplicityB(result.multiplicityB);
     callback();
   });
 };
