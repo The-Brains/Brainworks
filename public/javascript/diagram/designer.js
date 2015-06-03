@@ -467,15 +467,21 @@ angular.module('brainworks.diagram')
               selected.setCoordsA([selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 ? shapeA.getX() + shapeA.getWidth() : Math.max(selected.getCoordsA()[0], shapeA.getX() - 1), shapeA.getY() + shapeA.getHeight() + 1]);
             } else if(selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5) {
               selected.setCoordsA([shapeA.getX() + shapeA.getWidth() + 1, selected.getCoordsA()[1] > shapeA.getY() + shapeA.getHeight() && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5 ? shapeA.getY() + shapeA.getHeight() : Math.max(selected.getCoordsA()[1], shapeA.getY() - 1)]);
-            } /*else if() {
-              recht ist noch zu machen
-            }*/
-            // TODO relation an dem shape ausrichten
+            } else if(selected.getCoordsA()[0] > shapeA.getX() - 5 && selected.getCoordsA()[0] < shapeA.getX() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5) {
+              selected.setCoordsA([shapeA.getX() - 1, selected.getCoordsA()[1] > shapeA.getY() + shapeA.getHeight() && selected.getCoordsA()[1] < shapeA.getY() + shapeA.getHeight() + 5 ? shapeA.getY() + shapeA.getHeight() : Math.max(selected.getCoordsA()[1], shapeA.getY() - 1)]);
+            }
             shapeA = null;
           }
           if(shapeB !== null) {
-            
-            // TODO relation an dem shape ausrichten
+            if(selected.getCoordsB()[0] > shapeB.getX() - 5 && selected.getCoordsB()[0] < shapeB.getX() + shapeB.getWidth() + 5 && selected.getCoordsB()[1] > shapeB.getY() - 5 && selected.getCoordsB()[1] < shapeB.getY() + 5) {
+              selected.setCoordsB([selected.getCoordsB()[0] > shapeB.getX() + shapeB.getWidth() && selected.getCoordsB()[0] < shapeB.getX() + shapeB.getWidth() + 5 ? shapeB.getX() + shapeB.getWidth() : Math.max(selected.getCoordsB()[0], shapeB.getX() - 1), shapeB.getY() - 1]);
+            } else if(selected.getCoordsB()[0] > shapeB.getX() - 5 && selected.getCoordsB()[0] < shapeB.getX() + shapeB.getWidth() + 5 && selected.getCoordsB()[1] > shapeB.getY() + shapeB.getHeight() - 5 && selected.getCoordsB()[1] < shapeB.getY() + shapeB.getHeight() + 5) {
+              selected.setCoordsB([selected.getCoordsB()[0] > shapeB.getX() + shapeB.getWidth() && selected.getCoordsB()[0] < shapeB.getX() + shapeB.getWidth() + 5 ? shapeB.getX() + shapeB.getWidth() : Math.max(selected.getCoordsB()[0], shapeB.getX() - 1), shapeB.getY() + shapeB.getHeight() + 1]);
+            } else if(selected.getCoordsB()[0] > shapeB.getX() + shapeB.getWidth() - 5 && selected.getCoordsB()[0] < shapeB.getX() + shapeB.getWidth() + 5 && selected.getCoordsB()[1] > shapeB.getY() - 5 && selected.getCoordsB()[1] < shapeB.getY() + shapeB.getHeight() + 5) {
+              selected.setCoordsB([shapeB.getX() + shapeB.getWidth() + 1, selected.getCoordsB()[1] > shapeB.getY() + shapeB.getHeight() && selected.getCoordsB()[1] < shapeB.getY() + shapeB.getHeight() + 5 ? shapeB.getY() + shapeB.getHeight() : Math.max(selected.getCoordsB()[1], shapeB.getY() - 1)]);
+            } else if(selected.getCoordsB()[0] > shapeB.getX() - 5 && selected.getCoordsB()[0] < shapeB.getX() + 5 && selected.getCoordsB()[1] > shapeB.getY() - 5 && selected.getCoordsB()[1] < shapeB.getY() + shapeB.getHeight() + 5) {
+              selected.setCoordsB([shapeB.getX() - 1, selected.getCoordsB()[1] > shapeB.getY() + shapeB.getHeight() && selected.getCoordsB()[1] < shapeB.getY() + shapeB.getHeight() + 5 ? shapeB.getY() + shapeB.getHeight() : Math.max(selected.getCoordsB()[1], shapeB.getY() - 1)]);
+            }
             shapeB = null;
           }
           drag = false;
