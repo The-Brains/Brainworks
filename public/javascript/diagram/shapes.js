@@ -165,14 +165,14 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName()
+          name: self.getName()
         };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     callback();
   });
 };
@@ -418,7 +418,7 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
+          name: self.getName(),
           attributes: self.getAttributes().join("\n"),
           methods: self.getMethods().join("\n")
         };
@@ -427,7 +427,7 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
     callback();
@@ -498,14 +498,14 @@ Comment.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName()
+          name: self.getName()
         };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     callback();
   });
 };
@@ -570,14 +570,14 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName()
+          name: self.getName()
         };
       }
     }
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     callback();
   });
 };
@@ -822,7 +822,7 @@ Class.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
+          name: self.getName(),
           attributes: self.getAttributes().join("\n"),
           methods: self.getMethods().join("\n")
         };
@@ -831,7 +831,7 @@ Class.prototype.startEditmode = function(modal, callback) {
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
     callback();
@@ -1012,7 +1012,7 @@ Interface.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings: function() {
         return {
-          title: self.getName(),
+          name: self.getName(),
           attributes: null,
           methods: self.getMethods().join("\n")
         };
@@ -1021,7 +1021,7 @@ Interface.prototype.startEditmode = function(modal, callback) {
   });
   
   modalInstance.result.then(function(result) {
-    self.setName(result.title);
+    self.setName(result.name);
     self.setMethods(result.methods.split("\n"));
     callback();
   });

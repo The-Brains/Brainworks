@@ -105,11 +105,7 @@ Relation.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
-Relation.prototype.startEditmode = function(canvas) {
-  throw new Error('This method should not be directly called!');
-};
-
-Relation.prototype.endEditmode = function(canvas) {
+Relation.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
 };
 
@@ -184,15 +180,30 @@ Inheritance.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 /**
- * @param canvas
+ * @param modal
+ * @param callback
  */
-Inheritance.prototype.startEditmode = function(canvas) {
+Inheritance.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
-/**
- * @param canvas
- */
-Inheritance.prototype.endEditmode = function(canvas) {
-};
+
 
 /**
  * @param elementId
@@ -295,15 +306,30 @@ Association.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 /**
- * @param canvas
+ * @param modal
+ * @param callback
  */
-Association.prototype.startEditmode = function(canvas) {
+Association.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
-/**
- * @param canvas
- */
-Association.prototype.endEditmode = function(canvas) {
-};
+
 
 /**
  * @param elementId
@@ -388,11 +414,32 @@ UniDirectionalAssociation.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
-UniDirectionalAssociation.prototype.startEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
 
-UniDirectionalAssociation.prototype.endEditmode = function(canvas) {
-};
+
 /**
  * @param elementId
  * @param coordsA
@@ -491,10 +538,29 @@ Aggregation.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
-Aggregation.prototype.startEditmode = function(canvas) {
-};
-
-Aggregation.prototype.endEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+Aggregation.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
 
 
@@ -583,11 +649,31 @@ Composition.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 
-Composition.prototype.startEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+Composition.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
 
-Composition.prototype.endEditmode = function(canvas) {
-};
 
 /**
  * @param elementId
@@ -663,10 +749,29 @@ Realization.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 
-Realization.prototype.startEditmode = function(canvas) {
-};
-
-Realization.prototype.endEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+Realization.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
 
 
@@ -734,10 +839,29 @@ Dependency.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 
-Dependency.prototype.startEditmode = function(canvas) {
-};
-
-Dependency.prototype.endEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+Dependency.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
 
 
@@ -797,8 +921,27 @@ Link.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 
-Link.prototype.startEditmode = function(canvas) {
-};
-
-Link.prototype.endEditmode = function(canvas) {
+/**
+ * @param modal
+ * @param callback
+ */
+Link.prototype.startEditmode = function(modal, callback) {
+  var self = this;
+  
+  var modalInstance = modal.open({
+    templateUrl: '/diagram/attributesEditor',
+    controller: 'attributesEditorCtrl',
+    resolve: {
+      settings: function() {
+        return {
+          name: self.getName()
+        };
+      }
+    }
+  });
+  
+  modalInstance.result.then(function(result) {
+    self.setName(result.name);
+    callback();
+  });
 };
