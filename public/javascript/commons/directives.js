@@ -33,14 +33,4 @@ angular.module('brainworks.commons')
     },
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
-}])
-.directive('attributesEditor', function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: '<div><input type="text"></input></div>',
-    link: function(scope, element, attrs) {
-      
-    }
-  };
-});
+}]);
