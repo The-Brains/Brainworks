@@ -114,7 +114,7 @@ angular.module('brainworks.diagram')
           context.closePath();
           context.stroke();
           context.beginPath();
-//          context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+          context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
           context.closePath();
           context.stroke();
           context.restore();
