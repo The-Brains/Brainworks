@@ -1,12 +1,8 @@
 /**
- * @param elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
- * @param lineColor
- * @param fontFamily
- * @param fontSize
+ * Definieren, zeichnen, wandeln, speichern und editieren der verscheidenen Beziehungen
+ */
+/**
+ * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -92,24 +88,36 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
     return this.fontSize;
   };
 }
-
+/**
+ * Zeichnen des Verbindungsprototyps
+ */
 Relation.prototype.draw = function() {
   throw new Error('This method should not be directly called!');
 };
-
+/**
+ * Wandeln des Verbindungsprototyps zu einem JSON Objekt
+ */
 Relation.prototype.toJSON = function() {
   throw new Error('This method should not be directly called!');
 };
-
+/**
+ * Speichern des JSON Objektes des Verbindungsprototyps
+ * @param json
+ */
 Relation.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
-
+/**
+ * Editieren des Verbindungsprototyps aktivieren
+ * @param modal
+ * @param callback
+ */
 Relation.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
 };
 
 /**
+ * Definition der Vererbung
  * @param elementId
  * @param coordsA
  * @param coordsB
@@ -119,13 +127,15 @@ Relation.prototype.startEditmode = function(modal, callback) {
  * @param fontFamily
  * @param fontSize
  */
-/*Erben*/
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 /* Über Prototype werden die Eigenschaften vererbt */
 Inheritance.prototype = new Relation();
-
+/**
+ * Zeichnen der Vererbung
+ * @param canvas
+ */
 Inheritance.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -157,7 +167,9 @@ Inheritance.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/* Setter für das JSON Objekt, welches in die Datenbank eingetragen wird */
+/**
+ * Wandeln der Vererbung in ein JSON Objekt
+ */
 Inheritance.prototype.toJSON = function() {
   return {
     _type: 'Inheritance',
@@ -170,7 +182,9 @@ Inheritance.prototype.toJSON = function() {
   };
 };
 
-/* Speichern des JSON Objektes */
+/**
+ *  Speichern des JSON Objektes der Vererbung
+ */
 Inheritance.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -180,12 +194,13 @@ Inheritance.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
 };
 /**
+ * Editieren der Vererbung aktivieren
  * @param modal
  * @param callback
  */
 Inheritance.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+  /* Bearbeiten des Editierbaren Elementes im Vordergrund */
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -197,7 +212,6 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
@@ -206,6 +220,7 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
 
 
 /**
+ * Definition der Assoziation ( einfache Linie )
  * @param elementId
  * @param coordsA
  * @param coordsB
@@ -243,10 +258,10 @@ function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
     return this.multiplicityB;
   };
 }
-
 Association.prototype = new Relation();
 /**
- * @param canvas
+ * Zeichnen der Assoziation mit der Einblendung von dessen Bezeichnungen
+ * @param canvas : Fläche, auf welcher die Beziehungen liegen
  */
 Association.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -278,7 +293,9 @@ Association.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der Assoziation in ein JSON Objekt
+ */
 Association.prototype.toJSON = function() {
   return {
     _type: 'Association',
@@ -293,6 +310,7 @@ Association.prototype.toJSON = function() {
   };
 };
 /**
+ * Speichern des JSON Objektes der Assoziation
  * @param json
  */
 Association.prototype.applyJSON = function(json) {
@@ -306,12 +324,12 @@ Association.prototype.applyJSON = function(json) {
   this.multiplicityB = json.multiplicityB;
 };
 /**
+ * Editieren der Assoziation aktivieren
  * @param modal
  * @param callback
  */
 Association.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -325,7 +343,6 @@ Association.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setMultiplicityA(result.multiplicityA);
@@ -334,8 +351,8 @@ Association.prototype.startEditmode = function(modal, callback) {
   });
 };
 
-
 /**
+ * Gerichtete Assoziation Definition (einfache Linie Mit Pfeil)
  * @param elementId
  * @param coordsA
  * @param coordsB
@@ -348,20 +365,19 @@ Association.prototype.startEditmode = function(modal, callback) {
  */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
-
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
-
   this.getMultiplicityB = function() {
     return this.multiplicityB;
   };
 }
-
 UniDirectionalAssociation.prototype = new Relation();
-
+/**
+ * Zeichnen der gerichteten Assoziation
+ * @param canvas
+ */
 UniDirectionalAssociation.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -394,7 +410,9 @@ UniDirectionalAssociation.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der gerichteten Assoziation in ein JSON Objekt
+ */
 UniDirectionalAssociation.prototype.toJSON = function() {
   return {
     _type: 'UniDirectionalAssociation',
@@ -407,7 +425,10 @@ UniDirectionalAssociation.prototype.toJSON = function() {
     multiplicityB: this.getMultiplicityB()
   };
 };
-
+/**
+ * Speichern des JSON Objektes der gerichteten Assoziation
+ * @param json
+ */
 UniDirectionalAssociation.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -417,14 +438,14 @@ UniDirectionalAssociation.prototype.applyJSON = function(json) {
   this.coordsB = json.coordsB;
   this.multiplicityB = json.multiplicityB;
 };
-
 /**
+ * Editieren der gerichteten Assoziation aktivieren
  * @param modal
  * @param callback
  */
 UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -437,7 +458,7 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setMultiplicityB(result.multiplicityB);
@@ -447,6 +468,7 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
 
 
 /**
+ * Definition der Aggregation (einfache Linie mit Quadraht)
  * @param elementId
  * @param coordsA
  * @param coordsB
@@ -480,9 +502,11 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
     return this.multiplicityB;
   };
 }
-
 Aggregation.prototype = new Relation();
-
+/**
+ * Zeichnen der Aggregation
+ * @param canvas
+ */
 Aggregation.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -518,7 +542,9 @@ Aggregation.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der Aggregation in ein JSON Objekt
+ */
 Aggregation.prototype.toJSON = function() {
   return {
     _type: 'Aggregation',
@@ -532,7 +558,9 @@ Aggregation.prototype.toJSON = function() {
     multiplicityB: this.getMultiplicityB()
   };
 };
-
+/**
+ * Speichern des JSON Objektes der Aggregation
+ */
 Aggregation.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -543,14 +571,14 @@ Aggregation.prototype.applyJSON = function(json) {
   this.multiplicityA = json.multiplicityA;
   this.multiplicityB = json.multiplicityB;
 };
-
 /**
+ * Editieren der Aggregation aktivieren
  * @param modal
  * @param callback
  */
 Aggregation.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -564,7 +592,7 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setMultiplicityA(result.multiplicityA);
@@ -573,7 +601,10 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
   });
 };
 
-
+/*TODO Composition Quadraht ausfüllen? Kann nicht einfach die Aggregation geklont werden (mit kleiner Änderung beim Zeichnen)?*/
+/**
+ * Definition der Komposition (Sonderfall der Aggregation)
+ */
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 
@@ -596,9 +627,11 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
     return this.multiplicityB;
   };
 }
-
 Composition.prototype = new Relation();
-
+/**
+ * Zeichnen der Komposition
+ * @param canvas
+ */
 Composition.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -633,7 +666,9 @@ Composition.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der Komposition in ein JSON Objekt
+ */
 Composition.prototype.toJSON = function() {
   return {
     _type: 'Composition',
@@ -647,7 +682,9 @@ Composition.prototype.toJSON = function() {
     multiplicityB: this.getMultiplicityB()
   };
 };
-
+/**
+ * Speichern des JSON Objektes der Komposition
+ */
 Composition.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -658,14 +695,14 @@ Composition.prototype.applyJSON = function(json) {
   this.multiplicityA = json.multiplicityA;
   this.multiplicityB = json.multiplicityB;
 };
-
 /**
+ * Editieren der Komposition aktivieren
  * @param modal
  * @param callback
  */
 Composition.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -679,7 +716,7 @@ Composition.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setMultiplicityA(result.multiplicityA);
@@ -688,8 +725,8 @@ Composition.prototype.startEditmode = function(modal, callback) {
   });
 };
 
-
 /**
+ * Definition der Realisierung (Schraffierte Linie mit Dreieck)
  * @param elementId
  * @param coordsA
  * @param coordsB
@@ -702,9 +739,11 @@ Composition.prototype.startEditmode = function(modal, callback) {
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
-
 Realization.prototype = new Relation();
-
+/**
+ * Zeichnen der Realisierung
+ * @param canvas
+ */
 Realization.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -741,7 +780,9 @@ Realization.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der Realisierung in ein JSON Objekt
+ */
 Realization.prototype.toJSON = function() {
   return {
     _type: 'Realization',
@@ -753,7 +794,9 @@ Realization.prototype.toJSON = function() {
     coordsB: this.getCoordsB()
   };
 };
-
+/**
+ * Speichern des JSON Objektes der Realisierung
+ */
 Realization.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -764,12 +807,13 @@ Realization.prototype.applyJSON = function(json) {
 };
 
 /**
+ * Editieren der Realisierung aktivieren
  * @param modal
  * @param callback
  */
 Realization.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -781,20 +825,32 @@ Realization.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
   });
 };
 
-
+/**
+ * Definition einer Abhängigkeit (Schraffierte Linier mit Pfeil)
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ */
 function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
-
 Dependency.prototype = new Relation();
-
+/**
+ * Zeichnen der Abhängigkeit
+ * @param canvas
+ */
 Dependency.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -831,7 +887,10 @@ Dependency.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandeln der Abhängigkeit in ein JSON Objekt
+ * @returns {___anonymous27837_28034}
+ */
 Dependency.prototype.toJSON = function() {
   return {
     _type: 'Dependency',
@@ -843,7 +902,10 @@ Dependency.prototype.toJSON = function() {
     coordsB: this.getCoordsB()
   };
 };
-
+/**
+ * Speichern des JSON Objektes der Abhängigkeit
+ * @param json
+ */
 Dependency.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -854,12 +916,13 @@ Dependency.prototype.applyJSON = function(json) {
 };
 
 /**
+ * Editieren der Abhängigkeit aktivieren
  * @param modal
  * @param callback
  */
 Dependency.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -871,20 +934,33 @@ Dependency.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
   });
 };
 
-
+/**
+ * Definition eines Verbinders (Schraffierte Linie)
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ */
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
 
 Link.prototype = new Relation();
-
+/**
+ * Zeichnen des Verbinders
+ * @param canvas
+ */
 Link.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var deltaX = this.coordsB[0] - this.coordsA[0];
@@ -913,7 +989,9 @@ Link.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-
+/**
+ * Wandelt den Verbinder in ein JSON Objekt
+ */
 Link.prototype.toJSON = function() {
   return {
     _type: 'Link',
@@ -925,7 +1003,9 @@ Link.prototype.toJSON = function() {
     coordsB: this.getCoordsB()
   };
 };
-
+/**
+ * Speichert das JSON Objekt des Verbinders
+ */
 Link.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.shapeA = json.shapeA;
@@ -936,12 +1016,13 @@ Link.prototype.applyJSON = function(json) {
 };
 
 /**
+ * Editieren des Verbinders aktivieren
  * @param modal
  * @param callback
  */
 Link.prototype.startEditmode = function(modal, callback) {
   var self = this;
-  
+
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
@@ -953,7 +1034,7 @@ Link.prototype.startEditmode = function(modal, callback) {
       }
     }
   });
-  
+
   modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();

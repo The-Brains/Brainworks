@@ -1,4 +1,5 @@
 /**
+ * Prototype der Klassenelemente
  * @param elementId
  * @param x
  * @param y

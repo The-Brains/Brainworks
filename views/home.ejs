@@ -6,7 +6,7 @@
     <input class="form-control" type="text" placeholder="<%= search %>" ng-model="searchText">
   </span>
 </h1>
-<!-- Diagrammübersicht -->
+<!-- Diagrammübersicht/Bild -->
 <div class="row" ng-repeat-start="diagram in (diagrams | filter:searchText) | startFrom:(currentPage-1)*numPerPage | limitTo:numPerPage">
   <div class="col-md-7">
     <a href="#/diagram/{{diagram._id}}">
