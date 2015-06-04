@@ -1,5 +1,5 @@
 /**
- * New node file
+ * Definition eines User
  */
 var mongoose = require('mongoose');
 var DiagramSchema = require('../diagrams/Diagram').schema;

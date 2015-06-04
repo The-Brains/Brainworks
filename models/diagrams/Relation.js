@@ -1,5 +1,5 @@
 /**
- * Prototypen der Verbindungselemente werden erstellt
+ * Verbindungsschemen werden erstellt  & entsprechenden Verbindungselementen zugewiesen
  */
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
