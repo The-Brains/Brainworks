@@ -226,8 +226,12 @@ angular.module('brainworks.diagram')
             }
             return isSelected;
           });
-          /* Element als selected markieren */
           var selectedInResult = false;
+          /**
+           * Element als selected markieren
+           * @param index
+           * @param selection
+           */
           $.each(result, function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
               selectedInResult = true;
@@ -238,10 +242,11 @@ angular.module('brainworks.diagram')
           if(selected === null || !selectedInResult) {
             selected = result[0];
           }
+          /* Erhöhe die Clicks um 1, wenn */
           if(!angular.isDefined(oldSelected) || oldSelected === null || !angular.isDefined(selected) || selected === null || oldSelected._id === selected._id) {
             clicks++;
           }
-
+          /* Bei zwei Klicks soll ein Dialog zum Ändern der Eigenschaften erscheinen */
           if(clicks === 2) {
             oldSelected = null;
             clicks = 0;
@@ -258,7 +263,7 @@ angular.module('brainworks.diagram')
               positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())
             ) {
               drag = true;
-            } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) { /* Anpassen der Größe einer Klasse auf der Canvasfläche */
+            } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) { /* Anpassen der Größe eines Klassenelements auf der Canvasfläche */
               resize = true;
               if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
                 resizeDirection = 'up left';
@@ -377,13 +382,14 @@ angular.module('brainworks.diagram')
                 cursor: cursor
               });
             }
+            /* Speichern der Position des Klassenelementes */
             if(selected instanceof Shape) {
               var oldX = selected.getX();
               var oldY = selected.getY();
               var oldHeight = selected.getHeight();
               var oldWidth = selected.getWidth();
             }
-            /* Resize der Klasse */
+            /* Resize des Klassenelementes */
             if(resize) {
               var moveX = 0;
               var moveY = 0;
@@ -429,12 +435,13 @@ angular.module('brainworks.diagram')
               selected.setY(y);
               selected.setWidth(Math.max(1, selected.getWidth() + moveX));
               selected.setHeight(Math.max(1, selected.getHeight() + moveY));
-            } else if(drag && dragPoint === '') { /* Bewegung des Shapes */
+            } else if(drag && dragPoint === '') { /* Bewegung des gesamten Klassenelementes */
               selected.setX(selected.getX() + event.layerX - positionX);
               selected.setY(selected.getY() + event.layerY - positionY);
               positionX = event.layerX;
               positionY = event.layerY;
             } else if(drag && dragPoint !== '') { /* Bewegung der Beziehungslinie */
+              /* Bewegung bei verschiedenen dragpoints (Klassenelement oder einer der beiden dragpoints des Beziehungselementes) */
               switch(dragPoint) {
                 case 'shape':
                   selected.setCoordsA([selected.getCoordsA()[0] + event.layerX - positionX, selected.getCoordsA()[1] + event.layerY - positionY]);
@@ -450,7 +457,7 @@ angular.module('brainworks.diagram')
               shapeA = null;
               shapeB = null;
               angular.forEach(scope.shapes, function(shape) {
-                /* Verknüpfung zwischen Beziehung und Klasse */
+                /* Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement */
                 if(shape instanceof Shape) {
                   if((selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + 5)
                     || (selected.getCoordsA()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
