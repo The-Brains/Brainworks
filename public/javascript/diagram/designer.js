@@ -34,6 +34,9 @@ angular.module('brainworks.diagram')
     tmpCanvas.attr('width', '700px');
     /* Speichern der Vorschau des Canvasausschnittes */
     var img = new Image();
+    /**
+     * Zeichnen der Canvasfläche der Klassendiagramme
+     */
     img.onload = function() {
       tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
       var formData = new FormData();
@@ -48,11 +51,15 @@ angular.module('brainworks.diagram')
 }])
 .controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' , function($scope, $modalInstance, settings) {
   $scope.settings = settings;
-    
+  /**
+   *
+   */
   $scope.save = function() {
     $modalInstance.close($scope.settings);
   };
-  
+  /**
+   *
+   */
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
@@ -62,6 +69,9 @@ angular.module('brainworks.diagram')
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
+    /**
+     *
+     */
     link: function(scope, element, attr) {
       var draw = function() {
         var context = element[0].getContext('2d');
@@ -145,9 +155,13 @@ angular.module('brainworks.diagram')
         var inEditmode = false;
         var shapeA = null;
         var shapeB = null;
-        /* Definiert die Droppbare Canvasfläche */
         $(element).droppable({
           accept: '.designer-element',
+          /**
+           * Area, auf der Elemente gezeichnet werden dürfen
+           * @param event
+           * @param ui
+           */
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
@@ -155,9 +169,19 @@ angular.module('brainworks.diagram')
             scope.diagram.elementId++;
             draw();
           },
+          /**
+           * Cursor layout in der Area über der Designer Fläche, auf der Elemente plaziert werden dürfen
+           * @param event
+           * @param ui
+           */
           over: function(event, ui) {
             ui.helper.css('cursor', 'copy');
           },
+          /**
+           * Cursor layour in der Area ausserhalb der Canvas Fläche
+           * @param event
+           * @param ui
+           */
           out: function(event, ui) {
             ui.helper.css('cursor', 'no-drop');
           }
@@ -166,17 +190,18 @@ angular.module('brainworks.diagram')
           setTimeout(function() {
             clicks = 0;
           }, 400);
-          /* Wenn im Editmode woanders hingeklickt wird, wird die Auswahl aufgehoben */
+          /* Wenn im Editmode woanders hingeklickt wird, wird dieser & die Auswahl aufgehoben */
           if(inEditmode && angular.isDefined(selected) && selected !== null) {
             inEditmode = false;
             selected = null;
           }
-          /* Bewegung der Beziehungen bei der Bewegung eines Elements */
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
+              /* Definition der Bearbeitungsfläche von Klassenelementen*/
               isSelected = event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8);
             } else {
+              /* Definition der Bearbeitungsfläche der Beziehungselemente */
               var context = element[0].getContext('2d');
               var deltaX = shape.getCoordsB()[0] - shape.getCoordsA()[0];
               var deltaY = shape.getCoordsB()[1] - shape.getCoordsA()[1];
@@ -216,6 +241,7 @@ angular.module('brainworks.diagram')
           if(!angular.isDefined(oldSelected) || oldSelected === null || !angular.isDefined(selected) || selected === null || oldSelected._id === selected._id) {
             clicks++;
           }
+
           if(clicks === 2) {
             oldSelected = null;
             clicks = 0;
