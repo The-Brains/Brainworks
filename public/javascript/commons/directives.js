@@ -1,5 +1,5 @@
 /**
- * 
+ * Navigationsdefinition
  */
 angular.module('brainworks.commons')
 .directive('match', function() {
@@ -8,11 +8,15 @@ angular.module('brainworks.commons')
     scope: {
       matchValue: '=match'
     },
-    /* link: ermöglicht es, DOM-Elemente zu manipulieren */
+    /**
+     * Validierungsprüfung eines Aufrufes
+     * @param scope
+     * @param element
+     * @param attrs
+     * @param ngModel
+     */
     link: function(scope, element, attrs, ngModel) {
-      /* Passwortvalidierung */
       ngModel.$validators.match = function(modelValue) {
-        /* Wenn beide Passwörter gleich sind, sind sie Valide */
         return angular.isArray(scope.matchValue) ?
           scope.matchValue[0] === scope.matchValue[1] : modelValue === scope.matchValue;
       };
@@ -22,7 +26,12 @@ angular.module('brainworks.commons')
     }
   };
 })
-.directive('navItem', ['$location', function($location) {
+.directive('navItem', ['$location',
+  /**
+   * Initialisierung des Prototyps für die Navigationsleiste
+   * @param $location
+   */
+  function($location) {
   return {
     restrict: 'E',
     replace: true,
