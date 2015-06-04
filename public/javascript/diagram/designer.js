@@ -1,5 +1,5 @@
 /**
- * Definition der Designerlogik
+ * Logik des Diagrammdesigners
  */
 angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
@@ -13,10 +13,14 @@ angular.module('brainworks.diagram')
     tmp.applyJSON(shape);
     $scope.shapes.push(tmp);
   });
+  /**
+   * Zurück-Button, welcher in die Diagrammübersicht wechselt
+   */
   $scope.back = function() {
     $state.go('profile.diagrams');
   };
   /**
+   * Animation beim Sichern des Diagramms
    * @param diagram
    */
   $scope.save = function(diagram) {
@@ -32,10 +36,9 @@ angular.module('brainworks.diagram')
     var tmpCanvas = designerCanvas.clone();
     tmpCanvas.attr('height', '300px');
     tmpCanvas.attr('width', '700px');
-    /* Speichern der Vorschau des Canvasausschnittes */
     var img = new Image();
     /**
-     * Zeichnen der Canvasfläche der Klassendiagramme
+     * Zeichnen der Vorschau für die Diagrammübersicht
      */
     img.onload = function() {
       tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
@@ -52,13 +55,13 @@ angular.module('brainworks.diagram')
 .controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' , function($scope, $modalInstance, settings) {
   $scope.settings = settings;
   /**
-   *
+   * Sichert das Diagramm
    */
   $scope.save = function() {
     $modalInstance.close($scope.settings);
   };
   /**
-   *
+   * Verwirft die Änderungen am Diagramm
    */
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
