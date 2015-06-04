@@ -70,7 +70,7 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     /**
-     *
+     * Der Bearbeitungsmodus für die Elemente wird definiert
      */
     link: function(scope, element, attr) {
       var draw = function() {
@@ -79,7 +79,7 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
-        /* Zeichnet Klassenelemente auf die Canvasfläche */
+        /* Initialisiert Bearbeitungspunkte und Umrandung der Klassenelemente beim Bearbeiten*/
         if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
           context.save();
           context.beginPath();
@@ -100,7 +100,7 @@ angular.module('brainworks.diagram')
           context.closePath();
           context.stroke();
           context.restore();
-        } else if(angular.isDefined(selected) && selected !== null) { /* Bearbeiten von Beziehungen (Länge und Ausrichtung) */
+        } else if(angular.isDefined(selected) && selected !== null) { /* Fügt Bearbeitungspunkte an das Beziehungselement */
           var deltaX = selected.getCoordsB()[0] - selected.getCoordsA()[0];
           var deltaY = selected.getCoordsB()[1] - selected.getCoordsA()[1];
           var length = Math.abs(Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2)));
@@ -114,7 +114,7 @@ angular.module('brainworks.diagram')
           context.closePath();
           context.stroke();
           context.beginPath();
-          context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
+//          context.arc(selected.getCoordsA()[0] + length + 3, selected.getCoordsA()[1], 3, 0, 2*Math.PI);
           context.closePath();
           context.stroke();
           context.restore();
@@ -158,7 +158,7 @@ angular.module('brainworks.diagram')
         $(element).droppable({
           accept: '.designer-element',
           /**
-           * Area, auf der Elemente gezeichnet werden dürfen
+           * Bestimmt Area, auf der Elemente gezeichnet werden dürfen
            * @param event
            * @param ui
            */
@@ -186,6 +186,9 @@ angular.module('brainworks.diagram')
             ui.helper.css('cursor', 'no-drop');
           }
         });
+        /**
+         * Es wird eine kleine Pause initialisiert und die Klicks wieder zurückgesetzt
+         */
         element.on('mousedown', function(event) {
           setTimeout(function() {
             clicks = 0;
@@ -195,7 +198,12 @@ angular.module('brainworks.diagram')
             inEditmode = false;
             selected = null;
           }
-          var result = $.grep(scope.shapes, function(shape) {
+          var result = $.grep(scope.shapes,
+            /**
+             * Definition der Bearbeitungsfläche des ausgewählten Elementes
+             * @param shape
+             */
+            function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
               /* Definition der Bearbeitungsfläche von Klassenelementen*/
@@ -227,12 +235,13 @@ angular.module('brainworks.diagram')
             return isSelected;
           });
           var selectedInResult = false;
-          /**
-           * Element als selected markieren
-           * @param index
-           * @param selection
-           */
-          $.each(result, function(index, selection) {
+          $.each(result,
+            /**
+             * Element als selected markieren
+             * @param index
+             * @param selection
+             */
+            function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
               selectedInResult = true;
               return false;
@@ -456,8 +465,12 @@ angular.module('brainworks.diagram')
               }
               shapeA = null;
               shapeB = null;
-              angular.forEach(scope.shapes, function(shape) {
-                /* Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement */
+              angular.forEach(scope.shapes,
+                /**
+                 * Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement
+                 * @param shape
+                 */
+                function(shape) {
                 if(shape instanceof Shape) {
                   if((selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + 5)
                     || (selected.getCoordsA()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
