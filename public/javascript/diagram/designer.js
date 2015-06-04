@@ -479,9 +479,14 @@ angular.module('brainworks.diagram')
             }
             if(drag || resize) {
               if(selected instanceof Shape) {
-                angular.forEach(scope.shapes, function(shape) {
+                angular.forEach(scope.shapes,
+                  /**
+                   * Resize der Beziehungslinie
+                   *@param shape
+                   */
+                  function(shape) {
                   if(shape instanceof Relation) {
-                    /* Bewegung der Beziehung bei Bewegung der Klasse */
+                    /* Bewegung der Beziehungselemente bei Bewegung des Klassenelementes, welches mit den Bearbeitungspunkten verbunden ist */
                     if(shape.getShapeA() === selected._id) {
                       if(drag
                         || (resizeDirection === 'up left' || resizeDirection === 'left' || resizeDirection === 'down left') && (shape.getCoordsA()[0] > oldX - 5 && shape.getCoordsA()[0] < oldX + 5 && shape.getCoordsA()[1] > oldY - 5 && shape.getCoordsA()[1] < oldY + oldHeight + 5)
@@ -508,7 +513,12 @@ angular.module('brainworks.diagram')
             }
           }
         });
-        element.on('mouseup', function(event) {
+        element.on('mouseup',
+          /**
+           * Beim Mouseup wird das Beziehungselement, welches mit einem Klassenelement verbunden werden soll an dieses angefügt, so dass es optimal verbunden ist
+           * @param event
+           */
+          function(event) {
           if(shapeA !== null) {
             if(selected.getCoordsA()[0] > shapeA.getX() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + 5) {
               selected.setCoordsA([selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 ? shapeA.getX() + shapeA.getWidth() : Math.max(selected.getCoordsA()[0], shapeA.getX() - 1), shapeA.getY() - 1]);
@@ -539,8 +549,12 @@ angular.module('brainworks.diagram')
           dragPoint = '';
           draw();
         });
-        /* Bei Druck von entf wird das Element gelöscht */
-        element.on('keydown', function(event) {
+        element.on('keydown',
+          /**
+           * Drücken von entf soll das zu bearbeitende Element löschen
+           * @param event
+           */
+          function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
             element.css({
               cursor: 'initial'
@@ -558,12 +572,22 @@ angular.module('brainworks.diagram')
     }
   };
 }])
-.directive('designerElement', function($document) {
+.directive('designerElement',
+  /**
+   * Vergabe von Cursoreigenschaften beim Arbeiten mit Elementen
+   * @param document
+   */
+  function($document) {
   return {
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
-    /* Zeichnen der Klassen und beziehungen auf der Klassendiagramm-Canvasfläche */
+    /**
+     * Zeichnen der Klassenelemente und Beziehungselemente auf der Klassendiagramm-Canvasfläche
+     * @param scope
+     * @param element
+     * @param attr
+     */
     link: function(scope, element, attr) {
       var offsetX, offsetY;
       var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 0, 140, 90, attr.name) : new window[attr.type](0, [0, 45], [140, 45], attr.name);
@@ -573,19 +597,35 @@ angular.module('brainworks.diagram')
         helper: 'clone',
         appendTo: $('#designerContainer'),
         containment: $('#designerContainer'),
+        /**
+         * Verändert den Curser bei dem Versuch ein Element auf eine nicht dropbare Fläche zu ziehen
+         * @param event
+         * @param ui
+         */
         start: function(event, ui) {
           shape.draw(ui.helper[0]);
           ui.helper.css('cursor', 'no-drop');
         },
+        /**
+         * Versetzt den Cursor beim plazieren des Elementes wieder in sein Standartlayout
+         * @param event
+         * @param ui
+         */
         stop: function(event, ui) {
           ui.helper.css('cursor', 'initial');
         }
       });
-      /* Setzt einen grauen Hintergrund an ausgewählte Elemente */
+      /**
+       * Setzt einen grauen Hintergrund an mit dem Curser ausgewählte Elemente
+       * @param event
+       */
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
-      /* Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt */
+      /**
+       * Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
+       * @param event
+       */
       element.on('mouseout', function(event) {
         element.removeClass('designer-element-active');
       });
