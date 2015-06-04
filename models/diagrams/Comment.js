@@ -1,5 +1,8 @@
+/**
+ * Diagrammkommentarschema wird erstellt und dem Diagrammkommentar zugewiesen
+ */
 var mongoose = require('mongoose');
-/* Definition von Charaktermerkmalen der Elemente in einem Kommentar */
+/* Definition von Charaktermerkmalen des Kommentars */
 var diagramCommentSchema = new mongoose.Schema({
   text: {type: String, required: true},
   creationDate: {type: Date, 'default': Date.now},

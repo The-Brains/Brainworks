@@ -1,5 +1,5 @@
 /**
- * Definition eines User
+ * Userschema wird erstellt & einem User zugewiesen
  */
 var mongoose = require('mongoose');
 var DiagramSchema = require('../diagrams/Diagram').schema;

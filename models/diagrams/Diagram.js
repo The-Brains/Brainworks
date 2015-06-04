@@ -1,5 +1,5 @@
 /**
- * @author Dennis Stumm
+ * Diagrammschema wird erstellt und dem Diagramm hinzugefügt
  */
 var mongoose = require('mongoose');
 var CommentSchema = require('./Comment').schema;
