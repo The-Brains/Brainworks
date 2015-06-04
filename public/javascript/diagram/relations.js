@@ -3,6 +3,14 @@
  */
 /**
  * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -184,6 +192,7 @@ Inheritance.prototype.toJSON = function() {
 
 /**
  *  Speichern des JSON Objektes der Vererbung
+ *  @param json
  */
 Inheritance.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -237,15 +246,11 @@ function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 
   this.multiplicityA = (typeof multiplicityA === 'string') ? multiplicityA : '';
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
-  /**
-   * @param multiplicityA
-   */
+
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
-  /**
-   * @param multiplicityB
-   */
+
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
@@ -560,6 +565,7 @@ Aggregation.prototype.toJSON = function() {
 };
 /**
  * Speichern des JSON Objektes der Aggregation
+ * @param json
  */
 Aggregation.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -604,6 +610,16 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
 /*TODO Composition Quadraht ausfüllen? Kann nicht einfach die Aggregation geklont werden (mit kleiner Änderung beim Zeichnen)?*/
 /**
  * Definition der Komposition (Sonderfall der Aggregation)
+ * @param elementId
+ * @param coordsA
+ * @param coordsB
+ * @param name
+ * @param lineWidth
+ * @param lineColor
+ * @param fontFamily
+ * @param fontSize
+ * @param multiplicityA
+ * @param multiplicityB
  */
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -684,6 +700,7 @@ Composition.prototype.toJSON = function() {
 };
 /**
  * Speichern des JSON Objektes der Komposition
+ * @param json
  */
 Composition.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -796,6 +813,7 @@ Realization.prototype.toJSON = function() {
 };
 /**
  * Speichern des JSON Objektes der Realisierung
+ * @param json
  */
 Realization.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -1005,6 +1023,7 @@ Link.prototype.toJSON = function() {
 };
 /**
  * Speichert das JSON Objekt des Verbinders
+ * @param json
  */
 Link.prototype.applyJSON = function(json) {
   this._id = json._id;
