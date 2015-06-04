@@ -1,15 +1,27 @@
 /**
- * Initialisierung der Diagrammseiten/ Schnittstelle der Diagrammklassen
+ * Implementieren der designer.js, diagrammInformation.js, relations.js und der shapes.js in das Projekt
  */
 angular.module('brainworks.diagram', ['ui.bootstrap'])
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider',
+  /**
+   *Weist dem state die zu verwaltenden Daten zu
+   * @param $stateProvider
+   * @param $urlRouterProvider
+   */
+  function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.diagrams', {
       url: '/diagrams',
       templateUrl: '/diagram/diagrams',
       controller: 'diagramCtrl',
       resolve: {
-        diagrams: ['localStorageService', 'diagramsFactory', function(localStorageService, diagramsFactory) {
+        diagrams: ['localStorageService', 'diagramsFactory',
+          /**
+           * Liest lokal gespeicherte Diagramme aus
+           * @param localStorageService
+           * @param diagramsFactory
+           */
+          function(localStorageService, diagramsFactory) {
           return diagramsFactory.getAll(localStorageService.get('userId'));
         }]
       }
