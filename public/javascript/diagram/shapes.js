@@ -1,6 +1,7 @@
 /**
  * Definieren, zeichnen, wandeln, speichern und editieren der Klassenelemente
  */
+
 /**
  * Definition des Prototypes der Klassenelemente (von diesem Erben andere Klassenelemente)
  * @param elementId

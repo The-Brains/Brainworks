@@ -1,6 +1,7 @@
 /**
  * Definieren, zeichnen, wandeln, speichern und editieren der verscheidenen Beziehungen
  */
+
 /**
  * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
  * @param elementId

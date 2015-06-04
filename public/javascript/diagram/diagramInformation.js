@@ -1,10 +1,11 @@
 /**
- * New node file
+ * Logik hinter den Diagramm Informationen
  */
 angular.module('brainworks.diagram')
 .factory('diagramInformationFactory', ['$http', 'localStorageService', function($http, localStorageService) {
   return {
     /**
+     * Holt die Daten (Titel, Beschreibung, öffentliches Diagramm) aus den aktuellen Diagramm Informationen
      * @param id
      */
     get: function(id) {
@@ -13,6 +14,7 @@ angular.module('brainworks.diagram')
       });
     },
     /**
+     * Sicherung der Adresse für das gesicherte Diagramm
      * @param diagram
      */
     save: function(diagram) {
@@ -22,10 +24,14 @@ angular.module('brainworks.diagram')
 }])
 .controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory', function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
   $scope.diagram = diagram;
+  /**
+   * Abbrechen der Bearbeitung der Diagramminformation
+   */
   $scope.cancel = function() {
     $state.go('profile.diagrams');
   };
   /**
+   * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
    * @param diagram
    */
   $scope.save = function(diagram) {
