@@ -301,7 +301,7 @@ angular.module('brainworks.diagram')
           $.each(result,
             /**
              * Element als selected markieren
-             * @param index
+             * @param {Number} index
              * @param {Object} selection
              */
             function(index, selection) {

@@ -5,13 +5,13 @@
 /**
  * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -43,7 +43,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setCoordsA =
     /**
-     * @param coordsA
+     * @param {Number} coordsA
      */
     function(coordsA) {
     this.coordsA = coordsA;
@@ -51,7 +51,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setCoordsB =
     /**
-     * @param coordsB
+     * @param {Number} coordsB
      */
     function(coordsB) {
     this.coordsB = coordsB;
@@ -59,7 +59,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setName =
     /**
-     * @param name
+     * @param {String}  name
      */
     function(name) {
     this.name = name;
@@ -91,7 +91,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setFontSize =
     /**
-     * @param fontSize
+     * @param {Number}  fontSize
      */
     function(fontSize) {
     this.fontSize = fontSize;
@@ -172,13 +172,13 @@ Relation.prototype.startEditmode =
 /**
  * Definition der Vererbungsbeziehung
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -287,13 +287,13 @@ Inheritance.prototype.startEditmode =
 /**
  * Definition der Assoziation ( einfache Linie )
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param multiplicityA
  * @param multiplicityB
  */
@@ -440,13 +440,13 @@ Association.prototype.startEditmode =
 /**
  * Gerichtete Assoziation Definition (einfache Linie Mit Pfeil)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param multiplicityB
  */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
@@ -573,13 +573,13 @@ UniDirectionalAssociation.prototype.startEditmode =
 /**
  * Definition der Aggregation (einfache Linie mit Quadraht)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param multiplicityA
  * @param multiplicityB
  */
@@ -731,13 +731,13 @@ Aggregation.prototype.startEditmode =
 /**
  * Definition der Komposition (Sonderfall der Aggregation)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param multiplicityA
  * @param multiplicityB
  */
@@ -886,13 +886,13 @@ Composition.prototype.startEditmode =
 /**
  * Definition der Realisierung (Schraffierte Linie mit Dreieck)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1007,13 +1007,13 @@ Realization.prototype.startEditmode =
 /**
  * Definition einer Abhängigkeit (Schraffierte Linier mit Pfeil)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1124,13 +1124,13 @@ Dependency.prototype.startEditmode =
 /**
  * Definition eines Verbinders (Schraffierte Linie)
  * @param {Number[]} $elementId
- * @param coordsA
- * @param coordsB
- * @param name
- * @param lineWidth
+ * @param {Number} coordsA
+ * @param {Number} coordsB
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param lineColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);

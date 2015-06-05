@@ -9,11 +9,11 @@
  * @param y
  * @param width
  * @param height
- * @param name
- * @param lineWidth
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param borderColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -69,7 +69,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setLineWidth =
     /**
-     * @param lineWidth
+     * @param {Number}  lineWidth
      */
     function(lineWidth) {
     this.lineWidth = lineWidth;
@@ -77,7 +77,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setName =
     /**
-     * @param name
+     * @param {String}  name
      */
     function(name) {
     this.name = name;
@@ -93,7 +93,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setFontSize =
     /**
-     * @param fontSize
+     * @param {Number}  fontSize
      */
     function(fontSize) {
     this.fontSize = fontSize;
@@ -178,11 +178,11 @@ Shape.prototype.startEditmode =
  * @param y
  * @param width
  * @param height
- * @param name
- * @param lineWidth
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param borderColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -285,10 +285,10 @@ EmptyClass.prototype.startEditmode =
  * @param width
  * @param height
  * @param borderColor
- * @param lineWidth
- * @param name
+ * @param {Number}  lineWidth
+ * @param {String}  name
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param {Object} attributes
  * @param methods
  */
@@ -596,10 +596,10 @@ AbstractClass.prototype.startEditmode =
  * @param width
  * @param height
  * @param borderColor
- * @param lineWidth
- * @param name
+ * @param {Number}  lineWidth
+ * @param {String}  name
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -711,11 +711,11 @@ Comment.prototype.startEditmode =
  * @param y
  * @param width
  * @param height
- * @param name
- * @param lineWidth
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param borderColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  */
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -820,11 +820,11 @@ ActiveClass.prototype.startEditmode =
  * @param y
  * @param width
  * @param height
- * @param name
- * @param lineWidth
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param borderColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param methods
  */
 function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
@@ -1127,11 +1127,11 @@ Class.prototype.startEditmode =
  * @param y
  * @param width
  * @param height
- * @param name
- * @param lineWidth
+ * @param {String}  name
+ * @param {Number}  lineWidth
  * @param borderColor
  * @param fontFamily
- * @param fontSize
+ * @param {Number}  fontSize
  * @param methods
  */
 function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {

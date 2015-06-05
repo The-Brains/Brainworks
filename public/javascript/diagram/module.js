@@ -162,7 +162,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       /**
        * Sichert bestimmte Diagrammdaten eines bestimmten Nutzers
        * @param {Number} userId
-       * @param formdata
+       * @param {Object} formdata
        */
       function(userId, formdata) {
       return $http({
@@ -191,7 +191,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   $scope.removeDiagram =
     /**
      * Diagramm löschen
-     * @param index
+     * @param {Number} index
      */
     function(index) {
     diagramsFactory.remove(localStorageService.get('userId'), $scope.diagrams[index]._id).success(

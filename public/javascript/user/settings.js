@@ -157,7 +157,7 @@ angular.module('brainworks.user')
   $scope.closeDeleteError =
     /**
      * Aktualisieren nach dem Schließen der Bestätigungsaufforderung zum Löschen des Profils
-     * @param index
+     * @param {Number} index
      */
     function(index) {
     $scope.deleteFormErrors.splice(index, 1);

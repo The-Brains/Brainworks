@@ -44,7 +44,7 @@ angular.module('brainworks.user')
   $scope.closeError =
     /**
      * Aktualisierung der Seite(entfernen der Fehlermeldung) nach dem Schließen der Fehlermeldung
-     * @param index
+     * @param {Number} index
      */
     function(index) {
     $scope.formErrors.splice(index, 1);
