@@ -104,7 +104,7 @@ router.post('/check',
   function(req, res, next) {
   User.findOne({username: req.body.username},
     /**
-     * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, dass der Nutzer für die LogInzeit belegt ist
+     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, dass der Nutzer für die LogInzeit belegt ist
      * @param err
      * @param user
      */
@@ -126,7 +126,7 @@ router.post('/signUp',
   user.set('loggedIn', true);
   user.save(
     /**
-     * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
      * @param err
      * @param user
      */
@@ -161,7 +161,7 @@ router.post('/signIn',
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
       User.findByIdAndUpdate(user._id, {loggedIn: true},
         /**
-         * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+         * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
          */
         function() {
         res.json({success: true, token: token, userId: user._id});
@@ -208,7 +208,7 @@ router.get('/loggedIn',
       } else {
         User.findOne({userId: decoded.userId, loggedIn: true},
           /**
-           * Beendet Anfrage, ob die NutzerId mit der entschlüsselten NutzerId harmoniert mit dem Senden einer Erfolgsmitteilung
+           * Beendet die Anfrage, ob die NutzerId mit der entschlüsselten NutzerId harmoniert mit dem Senden einer Erfolgsmitteilung
            * @param err
            * @param user
            */
@@ -226,7 +226,7 @@ router.get('/loggedIn',
 
 router.get('/:user', userCtrl.verifyLogin,
   /**
-   * Beendet Anfrage mit dem Senden des Benutzers
+   * Beendet die Anfrage mit dem Senden des Benutzers
    * @param req
    * @param res
    * @param next
@@ -237,8 +237,7 @@ router.get('/:user', userCtrl.verifyLogin,
 
 router.post('/delete/:user', userCtrl.verifyLogin,
   /**
-   * Definition der Textelemente in der Navigationsbar
-   * Zeichnen der Elemente
+   * Löscht das Nutzerprofil und prüft das dabei die Auswahl des Bestätigungsfeldes
    * @param req
    * @param res
    * @param next
@@ -249,7 +248,7 @@ router.post('/delete/:user', userCtrl.verifyLogin,
   } else {
     req.user.remove(
       /**
-       *
+       * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung
        * @param err
        */
       function(err) {
@@ -261,8 +260,7 @@ router.post('/delete/:user', userCtrl.verifyLogin,
 
 router.put('/:user', userCtrl.verifyLogin,
   /**
-   * Definition der Textelemente in der Navigationsbar
-   * Zeichnen der Elemente
+   * Registrierungsprüfung eines neuen Benutzers
    * @param req
    * @param res
    * @param next
@@ -274,7 +272,7 @@ router.put('/:user', userCtrl.verifyLogin,
     email: req.body.email
   },
   /**
-   *
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
    * @param err
    * @param user
    */
@@ -289,8 +287,7 @@ router.put('/:user', userCtrl.verifyLogin,
 
 router.post('/changePassword/:user', userCtrl.verifyLogin,
   /**
-   * Definition der Textelemente in der Navigationsbar
-   * Zeichnen der Elemente
+   * Generierung eines neuen Tokens beim Ändern des Passwortes
    * @param req
    * @param res
    * @param next
@@ -298,7 +295,7 @@ router.post('/changePassword/:user', userCtrl.verifyLogin,
   function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {password: req.body.password},
     /**
-     *
+     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
      * @param err
      * @param user
      */
