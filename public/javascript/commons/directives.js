@@ -14,7 +14,7 @@ angular.module('brainworks.commons')
     },
     /**
      * Validierungsprüfung eines Aufrufes
-     * @param scope
+     * @param {Object} scope
      * @param element
      * @param attrs
      * @param ngModel
