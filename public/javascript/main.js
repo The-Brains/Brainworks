@@ -1,20 +1,36 @@
 /**
  * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren.
- * 
- * @author Dennis Stumm
  */
 angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
-.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
+  /**
+   *
+   * @param $stateProvider
+   * @param $urlRouterProvider
+   * @param $httpProvider
+   */
+  function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
       templateUrl: '/home',
       resolve: {
-        diagrams: ['diagramsFactory', function(diagramsFactory) {
+        diagrams: ['diagramsFactory',
+          /**
+           * Liefert alle öffentlichen Diagramme
+           * @param diagramsFactory
+           */
+          function(diagramsFactory) {
           return diagramsFactory.getPublicDiagrams();
         }]
       },
-      controller: ['$scope', 'diagrams', function($scope, diagrams) {
+      controller: ['$scope', 'diagrams',
+        /**
+         * Initiiert Paging für die Diagrammübersicht
+         * @param $scope
+         * @param diagrams
+         */
+        function($scope, diagrams) {
         $scope.diagrams = diagrams.diagrams;
         $scope.currentPage = 1;
         $scope.numPerPage = 5;
@@ -26,7 +42,14 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/publicDiagram',
       controller: 'publicDiagramCtrl',
       resolve: {
-        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
+        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory',
+          /**
+           * Liefert ein bestimmtes öffentliches diagramm (abhängig von der Id der hinterlegten Parameter des Diagramms)
+           * @param $stateParams
+           * @param localStorageService
+           * @param diagramsFactory
+           */
+          function($stateParams, localStorageService, diagramsFactory) {
           return diagramsFactory.getPublicDiagram($stateParams.id);
         }]
       }
@@ -44,16 +67,34 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-  $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService', function($q, $injector, localStorageService) {
+  $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService',
+    /**
+     * Asynchrones aufrufen der Diagrammkonfiguration
+     * @param $q ermöglicht asynchrones Aufrufen
+     * @param $injector empfängt Objektinstanzen des Providers
+     * @param localStorageService
+     */
+    function($q, $injector, localStorageService) {
     return {
-      request: function(config) {
+      request:
+        /**
+         * Liefert die Konfiguration
+         * Wenn ein Access Token vorhanden ist, wird er ausgelesen
+         * @param config
+         */
+        function(config) {
         config.headers = config.headers || {};
         if (localStorageService.get('token')) {
           config.headers['x-access-token'] = localStorageService.get('token');
         }
         return config;
       },
-      responseError: function(response) {
+      responseError:
+        /**
+         * Ist die Anfrage Unauthorized oder Forbidden wird der Nutzer zurück zum SignIn geleitet
+         * @param response
+         */
+        function(response) {
         if(response.status === 401 || response.status === 403) {
           $injector.get('$state').go('signIn');
         }
@@ -63,7 +104,12 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   }]);
 }])
 .controller('brainworksCtrl', ['$rootScope', 'userFactory', function($rootScope, userFactory) {
-  userFactory.checkLoggedIn().then(function(res) {
+  userFactory.checkLoggedIn().then(
+    /**
+     *
+     * @param res
+     */
+    function(res) {
     $rootScope.isAuthentificated = res.data.success;
   });
 }])
@@ -72,18 +118,37 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   $scope.comment = '';
   $scope.elementId = 1;
   $scope.shapes = [];
-  angular.forEach($scope.diagram.shapes, function(shape) {
+  angular.forEach($scope.diagram.shapes,
+    /**
+     *
+     * @param shape
+     */
+    function(shape) {
     var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     tmp.id = $scope.elementId;
     $scope.elementId++;
     $scope.shapes.push(tmp);
   });
-  $scope.back = function() {
+  $scope.back =
+    /**
+     *
+     */
+    function() {
     $state.go('home');
   };
-  $scope.addComment = function(comment, diagramId) {
-    diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(function(response) {
+  $scope.addComment =
+    /**
+     * @param comment
+     * @param diagramId
+     */
+    function(comment, diagramId) {
+    diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(
+      /**
+       *
+       * @param response
+       */
+      function(response) {
       if(response.success) {
         $scope.diagram.comments.push(response.comment);
         $scope.comment = '';
