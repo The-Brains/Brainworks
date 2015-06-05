@@ -9,7 +9,7 @@ angular.module('brainworks.user')
    * @param $rootScope
    * @param {Object} $state
    * @param {Boolean} userFactory
-   * @param localStorageService
+   * @param {Object} localStorageService
    */
   function($scope, $rootScope, $state, userFactory, localStorageService) {
   $scope.user = {};

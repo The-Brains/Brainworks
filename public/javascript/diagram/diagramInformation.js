@@ -6,14 +6,14 @@ angular.module('brainworks.diagram')
   /**
    * Verwaltung der gespeicherten Diagrammdaten
    * @param {Object} $http
-   * @param localStorageService
+   * @param {Object} localStorageService
    */
   function($http, localStorageService) {
   return {
     get:
       /**
        * Weist Id's zugehörige Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm) zu
-       * @param id
+       * @param {Number} id
        */
       function(id) {
       return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(
@@ -41,7 +41,7 @@ angular.module('brainworks.diagram')
    * Definition der Logik hinter den Buttons in den Diagramminformationen
    * @param {Object} $scope
    * @param {Object} $state
-   * @param localStorageService
+   * @param {Object} localStorageService
    * @param {Object} diagram
    * @param {Object} diagramInformationFactory
    */

@@ -8,7 +8,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
    * Verwaltung der statischen Diagrammdaten in states
    * Weist dem state(den Seiten zur Diagrammverwaltung) die entsprechenden Diagrammdaten zu
    * @param {Object} $stateProvider
-   * @param $urlRouterProvider
+   * @param {Object} $urlRouterProvider
    */
   function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -20,7 +20,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
         diagrams: ['localStorageService', 'diagramsFactory',
           /**
            * Liest lokal gesicherten Diagramme
-           * @param localStorageService
+           * @param {Object} localStorageService
            * @param {Object} diagramsFactory
            */
           function(localStorageService, diagramsFactory) {
@@ -37,7 +37,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
           /**
            * Liest lokal gespeicherte Designer aus
            * @param {Object} $stateParams
-           * @param localStorageService
+           * @param {Object} localStorageService
            * @param {Object} diagramsFactory
            */
           function($stateParams, localStorageService, diagramsFactory) {
@@ -87,7 +87,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     getAll:
       /**
        * Liefert alle Diagrammdaten eines Users
-       * @param {Boolean} userId
+       * @param {Number} userId
        */
       function(userId) {
       return $http.get('/diagram/' + userId + '/diagrams').then(
@@ -128,7 +128,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
        * Fügt Diagrammdaten eines bestimmten Diagramms eines bestimmten Nutzers eine Beschreibung hinzu
        * @param comment
        * @param {Object} diagramId
-       * @param {Boolean} userId
+       * @param {Number} userId
        */
       function(comment, diagramId, userId) {
       return $http.put('/diagram/' + userId + '/diagram/' + diagramId + '/comment', {text: comment});
@@ -136,7 +136,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     get:
       /**
        * Gibt Diagrammdaten eines bestimmten Diagramms von einem bestimmten Nutzer zurück
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param {Object} diagramId
        */
       function(userId, diagramId) {
@@ -152,7 +152,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     remove:
       /**
        * Entfernt Diagrammdaten eines bestimmten Diagramms von einem bestimmten Nutzer
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param {Object} diagramId
        */
       function(userId, diagramId) {
@@ -161,7 +161,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     saveDiagram:
       /**
        * Sichert bestimmte Diagrammdaten eines bestimmten Nutzers
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param formdata
        */
       function(userId, formdata) {
@@ -179,7 +179,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   /**
    * Paging in der Diagrammübersicht
    * @param {Object} $scope
-   * @param localStorageService
+   * @param {Object} localStorageService
    * @param {Object} diagramsFactory
    * @param {Object} diagrams
    */

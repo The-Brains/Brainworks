@@ -12,7 +12,7 @@ angular.module('brainworks.user')
     loadUserData:
       /**
        * Liefert die lokalen Daten eines bestimmten Nutzers
-       * @param {Boolean} userId
+       * @param {Number} userId
        */
       function(userId) {
       return $http.get('/user/'+userId).then(
@@ -27,7 +27,7 @@ angular.module('brainworks.user')
     updateUser:
       /**
        * Fügt einen neuen Nutzer hinzu
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param {Boolean} user
        */
       function(userId, user) {
@@ -36,7 +36,7 @@ angular.module('brainworks.user')
     changePassword:
       /**
        * Ändert das Passwort eines bestimmten Nutzers
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param newPassword
        */
       function(userId, newPassword) {
@@ -45,7 +45,7 @@ angular.module('brainworks.user')
     deleteAccount:
       /**
        * Löscht bei bestätigter Anweisung einen bestimmten Nutzer
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param assignment
        */
       function(userId, assignment) {
@@ -60,7 +60,7 @@ angular.module('brainworks.user')
    * @param $rootScope
    * @param {Object} $state
    * @param {Boolean} userSettingsFactory
-   * @param localStorageService
+   * @param {Object} localStorageService
    * @param {Boolean} user
    */
   function($scope, $rootScope, $state, userSettingsFactory, localStorageService, user) {
@@ -104,7 +104,7 @@ angular.module('brainworks.user')
   $scope.changePassword =
     /**
      * Ändert das alte Passwort und verschlüsselt das neue Passwort
-     * @param {Boolean} userId
+     * @param {Number} userId
      * @param newPw
      */
     function(userId, newPw) {
@@ -133,7 +133,7 @@ angular.module('brainworks.user')
   $scope.deleteAccount =
     /**
      * Löscht den Accout eines bestimmten Nutzers
-     * @param {Boolean} userId
+     * @param {Number} userId
      * @param assignment
      */
     function(userId, assignment) {

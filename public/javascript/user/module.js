@@ -8,7 +8,7 @@ angular.module('brainworks.user', [])
           * Verwaltung der statischen Nutzerdaten in states
           * Weist dem state(den Seiten zum LogIn, der Registrierung & den Profileinstellungen) die zu verwaltenden Nutzerdaten zu
           * @param {Object} $stateProvider
-          * @param $urlRouterProvider
+          * @param {Object} $urlRouterProvider
           */
          function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -20,7 +20,7 @@ angular.module('brainworks.user', [])
         user: ['localStorageService', 'userSettingsFactory',
                /**
                 * Liest die lokal gesicherten Nutzer aus
-                * @param localStorageService
+                * @param {Object} localStorageService
                 * @param {Boolean} userSettingsFactory
                 */
                function(localStorageService, userSettingsFactory) {
@@ -35,7 +35,7 @@ angular.module('brainworks.user', [])
          * Entfernt beim Logout des Nutzers die zugewiesene UserId und den lokal verwendeten Token
          * @param $rootScope
          * @param {Object} $state
-         * @param localStorageService
+         * @param {Object} localStorageService
          * @param {Boolean} userFactory
          */
         function($rootScope, $state, localStorageService, userFactory) {
@@ -96,7 +96,7 @@ angular.module('brainworks.user', [])
     signOut:
       /**
        * Ruft die URL zum Ausloggen auf
-       * @param {Boolean} userId
+       * @param {Number} userId
        * @param token
        */
       function(userId, token) {

@@ -6,7 +6,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   /**
    * Initiiert die Startseite und regelt die Zugriffe der Navigationsbar
    * @param {Object} $stateProvider
-   * @param $urlRouterProvider
+   * @param {Object} $urlRouterProvider
    * @param {Object} $httpProvider
    */
   function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -46,7 +46,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
           /**
            * Liefert ein bestimmtes öffentliches diagramm (abhängig von der Id der hinterlegten Parameter des Diagramms)
            * @param {Object} $stateParams
-           * @param localStorageService
+           * @param {Object} localStorageService
            * @param {Object} diagramsFactory
            */
           function($stateParams, localStorageService, diagramsFactory) {
@@ -72,7 +72,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
      * Asynchrones aufrufen der Diagrammkonfiguration
      * @param $q ermöglicht asynchrones Aufrufen
      * @param $injector empfängt Objektinstanzen des Providers
-     * @param localStorageService
+     * @param {Object} localStorageService
      */
     function($q, $injector, localStorageService) {
     return {
@@ -124,7 +124,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
    *
    * @param {Object} $scope
    * @param {Object} $state
-   * @param localStorageService
+   * @param {Object} localStorageService
    * @param {Object} diagramsFactory
    * @param {Object} diagram
    */

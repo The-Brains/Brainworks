@@ -98,7 +98,7 @@ router.param('user',
    * @param {Object} req
    * @param {Object} res
    * @param {variable} next
-   * @param id
+   * @param {Number} id
    */
   function(req, res, next, id) {
   var query = User.findById(id);
