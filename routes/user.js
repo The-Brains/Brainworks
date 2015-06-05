@@ -9,7 +9,15 @@ var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
 var configuration = require('../config.json');
 
-router.get('/signIn', function(req, res, next) {
+router.get('/signIn',
+  /**
+   * Definition der Textelemente im Einloggen-Bereich
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('user/signIn', {
     signUp: 'Registrieren',
     or: 'oder',
@@ -31,7 +39,15 @@ router.get('/signIn', function(req, res, next) {
   });
 });
 
-router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
+router.get('/settings', userCtrl.verifyLogin,
+  /**
+   * Definition der Textelemente in den Profileinstellungen
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('user/settings', {
     accountSettings: 'Profileinstellungen',
     forename: 'Vorname',
@@ -53,9 +69,24 @@ router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
   });
 });
 
-router.param('user', function(req, res, next, id) {
+router.param('user',
+  /**
+   * Definition der Textelemente in der Navigationsbar
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   * @param id
+   */
+  function(req, res, next, id) {
   var query = User.findById(id);
-  query.exec(function (err, user){
+  query.exec(
+    /**
+     * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
+     * @param err
+     * @param user
+     */
+    function (err, user){
     if (err) { return next(err); }
     if (!user) { return next(new Error('can\'t find user')); }
     req.user = user;
@@ -63,17 +94,43 @@ router.param('user', function(req, res, next, id) {
   });
 });
 
-router.post('/check', function(req, res, next) {
-  User.findOne({username: req.body.username}, function(err, user) {
+router.post('/check',
+  /**
+   * Prüfen der Verfügbarkeit eines bestimmten Nutzernamens
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
+  User.findOne({username: req.body.username},
+    /**
+     * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, dass der Nutzer für die LogInzeit belegt ist
+     * @param err
+     * @param user
+     */
+    function(err, user) {
     if(err) { res.send(err); }
     else { res.json({success: true, available: !user}); }
   });
 });
 
-router.post('/signUp', function(req, res, next) {
+router.post('/signUp',
+  /**
+   * Prüfen der Verfügbarkeit der Registrierung
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   var user = new User(req.body.user);
   user.set('loggedIn', true);
-  user.save(function(err, user){
+  user.save(
+    /**
+     * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+     * @param err
+     * @param user
+     */
+    function(err, user){
     if(err){ res.send(err); }
     else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
@@ -82,34 +139,80 @@ router.post('/signUp', function(req, res, next) {
   });
 });
 
-router.post('/signIn', function(req, res, next) {
-  User.findOne({username: req.body.username, password: req.body.password}, function(err, user) {
+router.post('/signIn',
+  /**
+   * Prüfen der Verfügbarkeit der Log-Ins
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
+  User.findOne({username: req.body.username, password: req.body.password},
+    /**
+     * Prüfung auf Richtigkeit des Benutzernamens. Signierung das Tokens, falls dieser korrekt ist
+     * @param err
+     * @param user
+     */
+    function(err, user) {
     if(err){ res.send(err); }
     else if(!user) {
       res.json({success: false, message: 'Das Passwort oder der Benutzername ist falsch!'});
     } else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
-      User.findByIdAndUpdate(user._id, {loggedIn: true}, function() {
+      User.findByIdAndUpdate(user._id, {loggedIn: true},
+        /**
+         * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+         */
+        function() {
         res.json({success: true, token: token, userId: user._id});
       });
     }
   });
 });
 
-router.post('/signOut', function(req, res, next) {
-  User.findByIdAndUpdate(req.body.userId, {loggedIn: false}, function() {
+router.post('/signOut',
+  /**
+   * Ausloggen des bestimmten Benutzers
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
+  User.findByIdAndUpdate(req.body.userId, {loggedIn: false},
+    /**
+     * Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.
+     */
+    function() {
     res.sendStatus(200);
   });
 });
 
-router.get('/loggedIn', function(req, res) {
+router.get('/loggedIn',
+  /**
+   * Prüft beim LogIn, ob der Nutzertoken Valide ist (Verifizierungsprüfung )
+   * @param req
+   * @param res
+   */
+  function(req, res) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
-    jwt.verify(token, configuration.secret, function(err, decoded) {
+    jwt.verify(token, configuration.secret,
+      /**
+       * Prüft, ob der Nutzertoken und das Konfigurationsecret mit der entschlüsselten BenutzerId valide sind
+       * @param err
+       * @param decoded
+       */
+      function(err, decoded) {
       if (err) {
         res.send(err);
       } else {
-        User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
+        User.findOne({userId: decoded.userId, loggedIn: true},
+          /**
+           * Beendet Anfrage, ob die NutzerId mit der entschlüsselten NutzerId harmoniert mit dem Senden einer Erfolgsmitteilung
+           * @param err
+           * @param user
+           */
+          function(err, user) {
           if(err){ res.send(err); }
           else if(!user) { res.json({success: false, message: 'Not logged in!'}); }
           else { res.json({success: true}); }
@@ -121,27 +224,61 @@ router.get('/loggedIn', function(req, res) {
   }
 });
 
-router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
+router.get('/:user', userCtrl.verifyLogin,
+  /**
+   * Beendet Anfrage mit dem Senden des Benutzers
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.json(req.user);
 });
 
-router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
+router.post('/delete/:user', userCtrl.verifyLogin,
+  /**
+   * Definition der Textelemente in der Navigationsbar
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   if(!req.body.assignment) {
     res.json({success: false, message: 'Bitte bestätigen Sie die Löschung Ihres Profils!'});
   } else {
-    req.user.remove(function(err) {
+    req.user.remove(
+      /**
+       *
+       * @param err
+       */
+      function(err) {
       if (err) { res.send(err); }
       else { res.json({success: true}); }
     });
   }
 });
 
-router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
+router.put('/:user', userCtrl.verifyLogin,
+  /**
+   * Definition der Textelemente in der Navigationsbar
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {
     forename: req.body.forename,
     surname: req.body.surname,
     email: req.body.email
-  }, function(err, user) {
+  },
+  /**
+   *
+   * @param err
+   * @param user
+   */
+  function(err, user) {
     if(err){ res.send(err); }
     else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
@@ -150,8 +287,22 @@ router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
   });
 });
 
-router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {
-  User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
+router.post('/changePassword/:user', userCtrl.verifyLogin,
+  /**
+   * Definition der Textelemente in der Navigationsbar
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
+  User.findByIdAndUpdate(req.user._id, {password: req.body.password},
+    /**
+     *
+     * @param err
+     * @param user
+     */
+    function(err, user) {
     if(err){ res.send(err); }
     else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);

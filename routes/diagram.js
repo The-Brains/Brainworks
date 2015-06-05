@@ -104,7 +104,7 @@ router.param('user',
   var query = User.findById(id);
   query.exec(
     /**
-     * Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
+     * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
      * @param err
      * @param user
      */
