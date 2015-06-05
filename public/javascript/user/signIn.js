@@ -1,10 +1,10 @@
 /**
- *
+ * Einloggen mit Username und Password
  */
 angular.module('brainworks.user')
-.controller('signInCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService', 
+.controller('signInCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService',
   /**
-   * 
+   * LogIn Validierungsprüfung
    * @param $scope
    * @param $rootScope
    * @param $state
@@ -14,9 +14,9 @@ angular.module('brainworks.user')
   function($scope, $rootScope, $state, userFactory, localStorageService) {
   $scope.user = {};
   $scope.formErrors = [];
-  $scope.signIn = 
+  $scope.signIn =
     /**
-     * 
+     * LogIn des Users
      * @param user
      */
     function(user) {
@@ -26,7 +26,8 @@ angular.module('brainworks.user')
     }
     userFactory.signIn(user.username, password).success(
       /**
-       * 
+       * Noch dem erfolgreichen LogIn werden UserId und Usertoken gesetzt.
+       * Die Nutzerauthentifikation wird auf true gesetzt und die Diagramme im Profil werden angezeigt
        * @param response
        */
       function(response) {
@@ -40,9 +41,9 @@ angular.module('brainworks.user')
       }
     });
   };
-  $scope.closeError = 
+  $scope.closeError =
     /**
-     * 
+     * Aktualisierung der Seite(entfernen der Fehlermeldung) nach dem Schließen der Fehlermeldung
      * @param index
      */
     function(index) {
