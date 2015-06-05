@@ -81,7 +81,7 @@ angular.module('brainworks.diagram')
    * Sichert die Einstellungen des geöffneten Projektes im Designer
    * @param {Object} $scope
    * @param {Object} $modalInstance
-   * @param settings
+   * @param {Object} settings
    */
   function($scope, $modalInstance, settings) {
   $scope.settings = settings;
@@ -103,7 +103,7 @@ angular.module('brainworks.diagram')
 .directive('designer', ['$modal',
   /**
    * Eigenschaften des Designers werden definiert
-   * @param $modal
+   * @param {Object} $modal
    */
   function($modal) {
   return {
