@@ -103,24 +103,39 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
     };
   }]);
 }])
-.controller('brainworksCtrl', ['$rootScope', 'userFactory', function($rootScope, userFactory) {
+.controller('brainworksCtrl', ['$rootScope', 'userFactory',
+  /**
+   * bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
+   * @param $rootScope
+   * @param userFactory
+   */
+  function($rootScope, userFactory) {
   userFactory.checkLoggedIn().then(
     /**
-     *
+     * Bei erfolgreicher Authentifizierung wird Zugang zu den Nutzerdaten gewährt
      * @param res
      */
     function(res) {
     $rootScope.isAuthentificated = res.data.success;
   });
 }])
-.controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
+.controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram',
+  /**
+   *
+   * @param $scope
+   * @param $state
+   * @param localStorageService
+   * @param diagramsFactory
+   * @param diagram
+   */
+  function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.diagram = diagram;
   $scope.comment = '';
   $scope.elementId = 1;
   $scope.shapes = [];
   angular.forEach($scope.diagram.shapes,
     /**
-     *
+     * Gesicherte Diagramme werden generiert
      * @param shape
      */
     function(shape) {
@@ -132,19 +147,26 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   });
   $scope.back =
     /**
-     *
+     * Rückleitung zur Startseite
      */
     function() {
     $state.go('home');
   };
   $scope.addComment =
     /**
+     * Fügt einem bestimmten Diagramm einen Kommentar hinzu
      * @param comment
      * @param diagramId
      */
     function(comment, diagramId) {
     diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(
       /**
+       * Setzen des Kommentars.
+       * TODO Warum wird der Kommentar beim Schließen wieder entfernt?
+       * könnten nicht die folgenden zielen auskommentiert werden & die übersicht aktualisiert werden?
+        scope.comment = '';
+        $scope.commentDiagramForm.$setPristine();
+        $scope.commentDiagramForm.$setUntouched();
        *
        * @param response
        */
