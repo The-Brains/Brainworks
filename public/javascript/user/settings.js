@@ -37,7 +37,7 @@ angular.module('brainworks.user')
       /**
        * Ändert das Passwort eines bestimmten Nutzers
        * @param {Number} userId
-       * @param newPassword
+       * @param {String} newPassword
        */
       function(userId, newPassword) {
       return $http.post('/user/changePassword/'+userId, {password: newPassword});
@@ -46,7 +46,7 @@ angular.module('brainworks.user')
       /**
        * Löscht bei bestätigter Anweisung einen bestimmten Nutzer
        * @param {Number} userId
-       * @param assignment
+       * @param {Object} assignment
        */
       function(userId, assignment) {
       return $http.post('/user/delete/'+userId, {assignment: assignment});
@@ -57,7 +57,7 @@ angular.module('brainworks.user')
   /**
    *  Logik zum Löschen eines Nutzers, zu Passworteinstellungen und der Aktualisierung der Nutzer Id/ dem Nutzertoken
    * @param {Object} $scope
-   * @param $rootScope
+   * @param {Object} $rootScope
    * @param {Object} $state
    * @param {Boolean} userSettingsFactory
    * @param {Object} localStorageService
@@ -105,7 +105,7 @@ angular.module('brainworks.user')
     /**
      * Ändert das alte Passwort und verschlüsselt das neue Passwort
      * @param {Number} userId
-     * @param newPw
+     * @param {String} newPw
      */
     function(userId, newPw) {
     var password = '';
@@ -134,7 +134,7 @@ angular.module('brainworks.user')
     /**
      * Löscht den Accout eines bestimmten Nutzers
      * @param {Number} userId
-     * @param assignment
+     * @param {Object} assignment
      */
     function(userId, assignment) {
     userSettingsFactory.deleteAccount(userId, assignment).success(

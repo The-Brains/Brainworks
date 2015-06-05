@@ -6,7 +6,7 @@ angular.module('brainworks.user')
   /**
    * LogIn Validierungsprüfung
    * @param {Object} $scope
-   * @param $rootScope
+   * @param {Object} $rootScope
    * @param {Object} $state
    * @param {Boolean} userFactory
    * @param {Object} localStorageService

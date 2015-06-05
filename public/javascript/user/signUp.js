@@ -6,7 +6,7 @@ angular.module('brainworks.user')
   /**
    * Prüfung des Benutzernamens und des Passwortes beim Registrieren eines Nutzers.
    * @param {Object} $scope
-   * @param $rootScope
+   * @param {Object} $rootScope
    * @param {Object} $state
    * @param {Boolean} userFactory
    * @param {Object} localStorageService
@@ -43,7 +43,7 @@ angular.module('brainworks.user')
 .directive('username', ['$q', 'userFactory',
   /**
    * Asynchrone Rückgabe des korrekten Benutzernamens.
-   * @param $q
+   * @param {Object} $q
    * @param {Boolean} userFactory
    */
   function($q, userFactory) {
@@ -53,7 +53,7 @@ angular.module('brainworks.user')
       /**
        * Asynchrones Prüfen auf korrektheit des Usernames.
        * @param {Object} scope
-       * @param elm
+       * @param {Object} elm
        * @param {Object} attrs
        * @param {Object} ngModel
        */

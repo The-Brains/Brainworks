@@ -70,7 +70,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService',
     /**
      * Asynchrones aufrufen der Diagrammkonfiguration
-     * @param $q ermöglicht asynchrones Aufrufen
+     * @param {Object} $q ermöglicht asynchrones Aufrufen
      * @param $injector empfängt Objektinstanzen des Providers
      * @param {Object} localStorageService
      */
@@ -106,7 +106,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
 .controller('brainworksCtrl', ['$rootScope', 'userFactory',
   /**
    * Bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
-   * @param $rootScope
+   * @param {Object} $rootScope
    * @param {Boolean} userFactory
    */
   function($rootScope, userFactory) {

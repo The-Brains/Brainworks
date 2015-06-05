@@ -5,13 +5,13 @@
 /**
  * Definition des Prototypes der Klassenelemente (von diesem Erben andere Klassenelemente)
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
  * @param {String} name
  * @param {Number} lineWidth
- * @param borderColor
+ * @param {String} borderColor
  * @param {String} fontFamily
  * @param {Number} fontSize
  */
@@ -29,7 +29,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setX =
     /**
-     * @param x
+     * @param {Number} x
      */
     function(x) {
     this.x = x;
@@ -37,7 +37,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setY =
     /**
-     * @param y
+     * @param {Number} y
      */
     function(y) {
     this.y = y;
@@ -45,7 +45,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setWidth =
     /**
-     * @param width
+     * @param {Number} width
      */
     function(width) {
     this.width = width;
@@ -53,7 +53,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setHeight =
     /**
-     * @param height
+     * @param {Number} height
      */
     function(height) {
     this.height = height;
@@ -61,7 +61,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setBorderColor =
     /**
-     * @param borderColor
+     * @param {String} borderColor
      */
     function(borderColor) {
     this.borderColor = borderColor;
@@ -174,13 +174,13 @@ Shape.prototype.startEditmode =
 /**
  * Definition eines einfachen Klassenelementes
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
  * @param {String} name
  * @param {Number} lineWidth
- * @param borderColor
+ * @param {String} borderColor
  * @param {String} fontFamily
  * @param {Number} fontSize
  */
@@ -280,17 +280,17 @@ EmptyClass.prototype.startEditmode =
 /**
  * Definition einer abstrakten Klasse
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
- * @param borderColor
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
+ * @param {String} borderColor
  * @param {Number} lineWidth
  * @param {String} name
  * @param {String} fontFamily
  * @param {Number} fontSize
- * @param {Object} attributes
- * @param methods
+ * @param {Object[]} attributes
+ * @param {Object[]} methods
  */
 function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -300,7 +300,7 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
 
   this.setAttributes =
     /**
-     * @param {Object} attributes
+     * @param {Object[]} attributes
      */
     function(attributes) {
     this.attributes = attributes;
@@ -309,7 +309,7 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
 
   this.setMethods =
     /**
-     * @param methods
+     * @param {Object[]} methods
      */
     function(methods) {
     this.methods = methods;
@@ -591,11 +591,11 @@ AbstractClass.prototype.startEditmode =
 /**
  * Definition des Kommentars
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
- * @param borderColor
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
+ * @param {String} borderColor
  * @param {Number} lineWidth
  * @param {String} name
  * @param {String} fontFamily
@@ -707,13 +707,13 @@ Comment.prototype.startEditmode =
 /**
  * Definition einer aktiven Klasse
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
  * @param {String} name
  * @param {Number} lineWidth
- * @param borderColor
+ * @param {String} borderColor
  * @param {String} fontFamily
  * @param {Number} fontSize
  */
@@ -816,16 +816,16 @@ ActiveClass.prototype.startEditmode =
 /**
  * Definition einer Standartklasse (mit Attribut & Methode)
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
  * @param {String} name
  * @param {Number} lineWidth
- * @param borderColor
+ * @param {String} borderColor
  * @param {String} fontFamily
  * @param {Number} fontSize
- * @param methods
+ * @param {Object[]} methods
  */
 function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -835,7 +835,7 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setAttributes =
     /**
-     * @param {Object} attributes
+     * @param {Object[]} attributes
      */
     function(attributes) {
     this.attributes = attributes;
@@ -844,7 +844,7 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setMethods =
     /**
-     * @param methods
+     * @param {Object[]} methods
      */
     function(methods) {
     this.methods = methods;
@@ -1123,16 +1123,16 @@ Class.prototype.startEditmode =
 /**
  * Definieren eines Interface-Elementes
  * @param {Number[]} $elementId
- * @param x
- * @param y
- * @param width
- * @param height
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
  * @param {String} name
  * @param {Number} lineWidth
- * @param borderColor
+ * @param {String} borderColor
  * @param {String} fontFamily
  * @param {Number} fontSize
- * @param methods
+ * @param {Object[]} methods
  */
 function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -1141,7 +1141,7 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
 
   this.setMethods =
     /**
-     * @param methods
+     * @param {Object[]} methods
      */
     function(methods) {
     this.methods = methods;

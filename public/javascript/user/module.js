@@ -33,7 +33,7 @@ angular.module('brainworks.user', [])
       controller: ['$rootScope', '$state', 'localStorageService', 'userFactory',
         /**
          * Entfernt beim Logout des Nutzers die zugewiesene UserId und den lokal verwendeten Token
-         * @param $rootScope
+         * @param {Object} $rootScope
          * @param {Object} $state
          * @param {Object} localStorageService
          * @param {Boolean} userFactory
@@ -57,7 +57,7 @@ angular.module('brainworks.user', [])
   /**
    * Validierung und Verwaltung der Nutzerregistrierung und dem Nutzer-LogIn
    * @param {Object} $http
-   * @param $rootScope
+   * @param {Object} $rootScope
    */
   function($http, $rootScope) {
   return {
@@ -81,7 +81,7 @@ angular.module('brainworks.user', [])
     /**
      * Ruft die URL zum Einloggen auf
      * @param {Boolean} username
-     * @param password
+     * @param {String} password
      */
       function(username, password) {
       return $http.post('/user/signIn', {username: username, password: password});
@@ -97,7 +97,7 @@ angular.module('brainworks.user', [])
       /**
        * Ruft die URL zum Ausloggen auf
        * @param {Number} userId
-       * @param token
+       * @param {Object} token
        */
       function(userId, token) {
       return $http.post('/user/signOut', {userId: userId, token: token});
