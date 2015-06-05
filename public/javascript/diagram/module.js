@@ -4,7 +4,8 @@
 angular.module('brainworks.diagram', ['ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider',
   /**
-   *Weist dem state die zu verwaltenden Daten zu
+   * Verwaltung der statischen Adressdaten in States
+   * Weist dem state(der Seite) die zu verwaltenden Daten zu
    * @param $stateProvider
    * @param $urlRouterProvider
    */
@@ -31,7 +32,14 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       templateUrl: '/diagram/designer',
       controller: 'designerCtrl',
       resolve: {
-        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
+        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory',
+          /**
+           * Liest lokal gespeicherte Designer aus
+           * @param $stateParams
+           * @param localStorageService
+           * @param diagramsFactory
+           */
+          function($stateParams, localStorageService, diagramsFactory) {
           return diagramsFactory.get(localStorageService.get('userId'), $stateParams.id);
         }]
       }
@@ -41,7 +49,13 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       templateUrl: '/diagram/diagramInformation',
       controller: 'diagramInformationCtrl',
       resolve: {
-        diagram: ['$stateParams', 'diagramInformationFactory', function($stateParams, diagramInformationFactory) {
+        diagram: ['$stateParams', 'diagramInformationFactory',
+          /**
+           * Liest lokal gespeicherte DiagrammInformationen aus
+           * @param $stateParams
+           * @param diagramInformationFactory
+           */
+          function($stateParams, diagramInformationFactory) {
           return diagramInformationFactory.get($stateParams.id);
         }]
       }
@@ -51,6 +65,9 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       templateUrl: '/diagram/diagramInformation',
       controller: 'diagramInformationCtrl',
       resolve: {
+        /**
+         * Liefert einen Template mit leeren Diagramminformationen
+         */
         diagram: function() {
           return {
             diagram: {}
@@ -59,35 +76,94 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       }
     });
 }])
-.factory('diagramsFactory', ['$http', function($http) {
+.factory('diagramsFactory', ['$http',
+  /**
+   *
+   * @param $http
+   */
+  function($http) {
   return {
-    getAll: function(userId) {
-      return $http.get('/diagram/' + userId + '/diagrams').then(function(res) {
+    getAll:
+      /**
+       * Gibt alle Diagrammdaten eines Users zurück
+       * @param userId
+       */
+      function(userId) {
+      return $http.get('/diagram/' + userId + '/diagrams').then(
+        /**
+         * Gibt die Daten, die bei der URL Hinterlegt sind zurück
+         * @param res
+         */
+        function(res) {
         return res.data;
       });
     },
-    getPublicDiagrams: function() {
+    getPublicDiagrams:
+      /**
+       * Gibt alle öffentlichen Diagrammdaten zurück
+       */
+      function() {
       return $http.get('/diagram/publicDiagrams').then(function(res) {
         return res.data;
       });
     },
-    getPublicDiagram: function(diagramId) {
-      return $http.get('/diagram/' + diagramId).then(function(res) {
+    getPublicDiagram:
+      /**
+       * Gibt Diagrammdaten eines bestimmtes öffentliches zurück
+       * @param diagramId
+       */
+      function(diagramId) {
+      return $http.get('/diagram/' + diagramId).then(
+        /**
+         * Gibt die Daten, die bei der URL Hinterlegt sind zurück
+         * @param res
+         */
+        function(res) {
         return res.data;
       });
     },
-    addComment: function(comment, diagramId, userId) {
+    addComment:
+      /**
+       * Fügt Diagrammdaten eines bestimmten Diagramms eines bestimmten Nutzers eine Beschreibung hinzu
+       * @param comment
+       * @param diagramId
+       * @param userId
+       */
+      function(comment, diagramId, userId) {
       return $http.put('/diagram/' + userId + '/diagram/' + diagramId + '/comment', {text: comment});
     },
-    get: function(userId, diagramId) {
-      return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(function(res) {
+    get:
+      /**
+       * Gibt Diagrammdaten eines bestimmten Diagramms von einem bestimmten Nutzer zurück
+       * @param userId
+       * @param diagramId
+       */
+      function(userId, diagramId) {
+      return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(
+        /**
+         * Gibt die Daten, die bei der URL Hinterlegt sind zurück
+         * @param res
+         */
+        function(res) {
         return res.data;
       });
     },
-    remove: function(userId, diagramId) {
+    remove:
+      /**
+       * Entfernt Diagrammdaten eines bestimmten Diagramms von einem bestimmten Nutzer
+       * @param userId
+       * @param diagramId
+       */
+      function(userId, diagramId) {
       return $http['delete']('/diagram/' + userId + '/diagram/' + diagramId);
     },
-    saveDiagram: function(userId, formdata) {
+    saveDiagram:
+      /**
+       * Sichert bestimmte Diagrammdaten eines bestimmten Nutzers
+       * @param userId
+       * @param formdata
+       */
+      function(userId, formdata) {
       return $http({
         method: 'POST',
         url: '/diagram/' + userId + '/diagram/',
@@ -98,22 +174,52 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     }
   };
 }])
-.controller('diagramCtrl', ['$scope', 'localStorageService', 'diagramsFactory', 'diagrams', function($scope, localStorageService, diagramsFactory, diagrams) {
+.controller('diagramCtrl', ['$scope', 'localStorageService', 'diagramsFactory', 'diagrams',
+  /**
+   * Paging in der Diagrammübersicht
+   * @param $scope
+   * @param localStorageService
+   * @param diagramsFactory
+   * @param diagrams
+   */
+  function($scope, localStorageService, diagramsFactory, diagrams) {
   $scope.diagrams = diagrams;
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
   $scope.maxSize = 5;
-  $scope.removeDiagram = function(index) {
-    diagramsFactory.remove(localStorageService.get('userId'), $scope.diagrams[index]._id).success(function(response) {
+  $scope.removeDiagram =
+    /**
+     * Diagramm löschen
+     * @param index
+     */
+    function(index) {
+    diagramsFactory.remove(localStorageService.get('userId'), $scope.diagrams[index]._id).success(
+      /**
+       * Bei Erfolg wird das Array der Diagramme aktualisiert
+       * @param response
+       */
+      function(response) {
       if(response.success) {
         $scope.diagrams.splice(index, 1);
       }
     });
   };
 }])
-.filter('startFrom', function() {
-  return function(input, start) {
+.filter('startFrom',
+  /**
+   * Setzt einen Startwert, ab dem die Eingehenden Daten ausgewertet werden
+   */
+  function() {
+  return (
+  /**
+   * Schneidet den Input bei Start ab
+   * TODO Code geändert - einfach die Klammern nach dem return angefügt, um diesen Kommentar dazwischenzuquetschen
+   * @param {String} input
+   * @param {Integer} start
+   */
+  function(input, start) {
     start = +start;
     return input.slice(start);
-  };
+  });
+
 });

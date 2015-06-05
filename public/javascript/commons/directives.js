@@ -1,8 +1,12 @@
 /**
- * Navigationsdefinition
+ * Navigationsdefinition und Prüfung
  */
 angular.module('brainworks.commons')
-.directive('match', function() {
+.directive('match',
+  /**
+   * Validierungesprüfung beim Aufruf einer Website
+   */
+  function() {
   return {
     require: 'ngModel',
     scope: {

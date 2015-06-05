@@ -2,39 +2,66 @@
  * Logik hinter den Diagramm Informationen
  */
 angular.module('brainworks.diagram')
-.factory('diagramInformationFactory', ['$http', 'localStorageService', function($http, localStorageService) {
+.factory('diagramInformationFactory', ['$http', 'localStorageService',
+  /**
+   * Verwaltung der gespeicherten Diagrammdaten
+   * @param $http
+   * @param localStorageService
+   */
+  function($http, localStorageService) {
   return {
-    /**
-     * Holt die Daten (Titel, Beschreibung, öffentliches Diagramm) aus den aktuellen Diagramm Informationen
-     * @param id
-     */
-    get: function(id) {
-      return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(function(res) {
+    get:
+      /**
+       * Weist Id's zugehörige Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm) zu
+       * @param id
+       */
+      function(id) {
+      return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(
+        /**
+         * Liest Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm)
+         * @param res
+         */
+        function(res) {
         return res.data;
-      });
+       }
+      );
     },
-    /**
-     * Sicherung der Adresse für das gesicherte Diagramm
-     * @param diagram
-     */
-    save: function(diagram) {
+    save:
+      /**
+       * Sicherung des Diagramms für die entsprechende Adresse
+       * @param diagram
+       */
+      function(diagram) {
       return $http.put('/diagram/' + localStorageService.get('userId') + '/diagram/', diagram);
     }
   };
 }])
-.controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory', function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
-  $scope.diagram = diagram;
+.controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory',
   /**
-   * Abbrechen der Bearbeitung der Diagramminformation
+   * Definition der Logik hinter den Buttons in den Diagramminformationen
+   * @param $scope
+   * @param $state
+   * @param localStorageService
+   * @param diagram
+   * @param diagramInformationFactory
    */
-  $scope.cancel = function() {
+  function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
+  $scope.diagram = diagram;
+
+  $scope.cancel =
+    /**
+     * Abbrechen der Bearbeitung der Diagramminformation
+     */
+    function() {
     $state.go('profile.diagrams');
   };
-  /**
-   * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
-   * @param diagram
-   */
-  $scope.save = function(diagram) {
+
+  $scope.save =
+    /**
+     * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
+     * @param diagram
+     */
+    function(diagram) {
     diagramInformationFactory.save(diagram).success(function(data) {
       if(data.success) {
         $state.go('diagram', {id: data.diagramId});

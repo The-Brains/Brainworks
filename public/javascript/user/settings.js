@@ -1,21 +1,44 @@
 /**
- * New node file
+ * TODO Kommentieren
  */
 angular.module('brainworks.user')
 .factory('userSettingsFactory', ['$http', function($http){
   return {
-    loadUserData: function(userId) {
+    loadUserData:
+      /**
+       *
+       * @param userId
+       */
+      function(userId) {
       return $http.get('/user/'+userId).then(function(res) {
         return res.data;
       });
     },
-    updateUser: function(userId, user) {
+    updateUser:
+      /**
+       *
+       * @param userId
+       * @param user
+       */
+      function(userId, user) {
       return $http.put('/user/'+userId, user);
     },
-    changePassword: function(userId, newPassword) {
+    changePassword:
+      /**
+       *
+       * @param userId
+       * @param newPassword
+       */
+      function(userId, newPassword) {
       return $http.post('/user/changePassword/'+userId, {password: newPassword});
     },
-    deleteAccount: function(userId, assignment) {
+    deleteAccount:
+      /**
+       *
+       * @param userId
+       * @param assignment
+       */
+      function(userId, assignment) {
       return $http.post('/user/delete/'+userId, {assignment: assignment});
     }
   };
@@ -27,7 +50,12 @@ angular.module('brainworks.user')
   $scope.newPwConfirmation = '';
   $scope.assignment = false;
   $scope.deleteFormErrors = [];
-  $scope.createHash = function(value) {
+  $scope.createHash =
+    /**
+     *
+     * @param value
+     */
+    function(value) {
     var val = angular.copy(value);
     var hash = '';
     if(angular.isDefined(val)) {
@@ -35,7 +63,12 @@ angular.module('brainworks.user')
     }
     return hash;
   };
-  $scope.updateUser = function(user) {
+  $scope.updateUser =
+    /**
+     *
+     * @param user
+     */
+    function(user) {
     userSettingsFactory.updateUser(user._id, user).success(function(response) {
       if(response.success) {
         localStorageService.set('token', response.token);
@@ -43,7 +76,13 @@ angular.module('brainworks.user')
       }
     });
   };
-  $scope.changePassword = function(userId, newPw) {
+  $scope.changePassword =
+    /**
+     *
+     * @param userId
+     * @param newPw
+     */
+    function(userId, newPw) {
     var password = '';
     if(angular.isDefined(newPw)) {
       password = CryptoJS.SHA3(newPw, { outputLength: 512 }).toString();
@@ -61,7 +100,13 @@ angular.module('brainworks.user')
       }
     });
   };
-  $scope.deleteAccount = function(userId, assignment) {
+  $scope.deleteAccount =
+    /**
+     *
+     * @param userId
+     * @param assignment
+     */
+    function(userId, assignment) {
     userSettingsFactory.deleteAccount(userId, assignment).success(function(response) {
       if(response.success) {
         $rootScope.isAuthentificated = false;
@@ -73,7 +118,12 @@ angular.module('brainworks.user')
       }
     });
   };
-  $scope.closeDeleteError = function(index) {
+  $scope.closeDeleteError =
+    /**
+     *
+     * @param index
+     */
+    function(index) {
     $scope.deleteFormErrors.splice(index, 1);
   };
 }]);

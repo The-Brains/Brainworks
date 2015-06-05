@@ -1,15 +1,27 @@
 /**
- * New node file
+ * TODO Kommentieren
  */
 angular.module('brainworks.user', [])
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider',
+         /**
+          * TODO Kommentieren
+          * @param $stateProvider
+          * @param $urlRouterProvider
+          */
+         function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
       templateUrl: '/user/settings',
       controller: 'settingsCtrl',
       resolve: {
-        user: ['localStorageService', 'userSettingsFactory', function(localStorageService, userSettingsFactory) {
+        user: ['localStorageService', 'userSettingsFactory',
+               /**
+                * TODO Kommentieren
+                * @param localStorageService
+                * @param userSettingsFactory
+                */
+               function(localStorageService, userSettingsFactory) {
           return userSettingsFactory.loadUserData(localStorageService.get('userId'));
         }]
       }
@@ -28,19 +40,45 @@ angular.module('brainworks.user', [])
 }])
 .factory('userFactory', ['$http', '$rootScope', function($http, $rootScope) {
   return {
-    checkUsername: function(username) {
+    checkUsername:
+      /**
+       * Ruft die URL zum Checken des Usernames auf
+       * @param username
+       */
+      function(username) {
       return $http.post('/user/check', {username: username});
     },
-    createUser: function(user) {
+    createUser:
+      /**
+       * Ruft die URL zum erstellen eines Users auf
+       * @param user
+       */
+      function(user) {
       return $http.post('/user/signUp', {user: user});
     },
-    signIn: function(username, password) {
+    signIn:
+    /**
+     * Ruft die URL zum Einloggen auf
+     * @param username
+     * @param password
+     */
+      function(username, password) {
       return $http.post('/user/signIn', {username: username, password: password});
     },
-    checkLoggedIn: function() {
+    checkLoggedIn:
+      /**
+       * Prüft, ob der User eingeloggt ist
+       */
+      function() {
       return $http.get('/user/loggedIn');
     },
-    signOut: function(userId, token) {
+    signOut:
+      /**
+       * Ruft die URl zum Ausloggen auf
+       * @param userId
+       * @param token
+       */
+      function(userId, token) {
       return $http.post('/user/signOut', {userId: userId, token: token});
     }
   };
