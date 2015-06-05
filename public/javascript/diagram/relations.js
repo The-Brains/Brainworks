@@ -7,11 +7,11 @@
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -59,7 +59,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setName =
     /**
-     * @param {String}  name
+     * @param {String} name
      */
     function(name) {
     this.name = name;
@@ -67,7 +67,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setLineColor =
     /**
-     * @param lineColor
+     * @param {String} lineColor
      */
     function(lineColor) {
     this.lineColor = lineColor;
@@ -75,7 +75,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setLineWidth =
     /**
-     * @param lineWitdth
+     * @param {Number} lineWidth
      */
     function(lineWidth) {
     this.lineWidth = lineWidth;
@@ -83,7 +83,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setFontFamily =
     /**
-     * @param fontFamily
+     * @param {String} fontFamily
      */
     function(fontFamily) {
     this.fontFamily = fontFamily;
@@ -91,7 +91,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setFontSize =
     /**
-     * @param {Number}  fontSize
+     * @param {Number} fontSize
      */
     function(fontSize) {
     this.fontSize = fontSize;
@@ -153,7 +153,7 @@ Relation.prototype.toJSON =
 Relation.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes des Verbindungsprototyps
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   throw new Error('This method should not be directly called!');
@@ -162,8 +162,8 @@ Relation.prototype.applyJSON =
 Relation.prototype.startEditmode =
   /**
    * Editieren des Verbindungsprototyps aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   throw new Error('This method should not be directly called!');
@@ -174,11 +174,11 @@ Relation.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
  */
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -188,7 +188,7 @@ Inheritance.prototype = new Relation();
 Inheritance.prototype.draw =
   /**
    * Zeichnen der Vererbungsbeziehung
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -242,7 +242,7 @@ Inheritance.prototype.toJSON =
 Inheritance.prototype.applyJSON =
   /**
    *  Speichern des JSON Objektes der Vererbungsbeziehung
-   *  @param json
+   *  @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -256,8 +256,8 @@ Inheritance.prototype.applyJSON =
 Inheritance.prototype.startEditmode =
   /**
    * Editieren der Vererbungsbeziehung aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -289,13 +289,13 @@ Inheritance.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
- * @param multiplicityA
- * @param multiplicityB
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
+ * @param {Number} multiplicityA
+ * @param {Number} multiplicityB
  */
 function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -332,7 +332,7 @@ Association.prototype = new Relation();
 Association.prototype.draw =
   /**
    * Zeichnen der Assoziation mit der Einblendung von dessen Bezeichnungen
-   * @param canvas : Fläche, auf welcher die Beziehungen liegen
+   * @param {Object} canvas : Fläche, auf welcher die Beziehungen liegen
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -386,7 +386,7 @@ Association.prototype.toJSON =
 Association.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der Assoziation
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -402,8 +402,8 @@ Association.prototype.applyJSON =
 Association.prototype.startEditmode =
   /**
    * Editieren der Assoziation aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -442,19 +442,19 @@ Association.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
- * @param multiplicityB
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
+ * @param {Number} multiplicityB
  */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
   this.setMultiplicityB =
     /**
-     * @param multiplicityB
+     * @param {Number} multiplicityB
      */
     function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -468,7 +468,7 @@ UniDirectionalAssociation.prototype = new Relation();
 UniDirectionalAssociation.prototype.draw =
   /**
    * Zeichnen der gerichteten Assoziation
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -523,7 +523,7 @@ UniDirectionalAssociation.prototype.toJSON =
 UniDirectionalAssociation.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der gerichteten Assoziation
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -538,8 +538,8 @@ UniDirectionalAssociation.prototype.applyJSON =
 UniDirectionalAssociation.prototype.startEditmode =
   /**
    * Editieren der gerichteten Assoziation aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -575,13 +575,13 @@ UniDirectionalAssociation.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
- * @param multiplicityA
- * @param multiplicityB
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
+ * @param {Number} multiplicityA
+ * @param {Number} multiplicityB
  */
 function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -591,7 +591,7 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 
   this.setMultiplicityA =
     /**
-     * @param multiplicityA
+     * @param {Number} multiplicityA
      */
     function(multiplicityA) {
     this.multiplicityA = multiplicityA;
@@ -599,7 +599,7 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 
   this.setMultiplicityB =
     /**
-     * @param multiplicityB
+     * @param {Number} multiplicityB
      */
     function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -618,7 +618,7 @@ Aggregation.prototype = new Relation();
 Aggregation.prototype.draw =
   /**
    * Zeichnen der Aggregation
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -677,7 +677,7 @@ Aggregation.prototype.toJSON =
 Aggregation.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der Aggregation
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -693,8 +693,8 @@ Aggregation.prototype.applyJSON =
 Aggregation.prototype.startEditmode =
   /**
    * Editieren der Aggregation aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -733,13 +733,13 @@ Aggregation.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
- * @param multiplicityA
- * @param multiplicityB
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
+ * @param {Number} multiplicityA
+ * @param {Number} multiplicityB
  */
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -749,7 +749,7 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 
   this.setMultiplicityA =
     /**
-     * @param multiplicityA
+     * @param {Number} multiplicityA
      */
     function(multiplicityA) {
     this.multiplicityA = multiplicityA;
@@ -757,7 +757,7 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 
   this.setMultiplicityB =
     /**
-     * @param multiplicityB
+     * @param {Number} multiplicityB
      */
     function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -776,7 +776,7 @@ Composition.prototype = new Relation();
 Composition.prototype.draw =
   /**
    * Zeichnen der Komposition
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -834,7 +834,7 @@ Composition.prototype.toJSON =
 Composition.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der Komposition
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -850,8 +850,8 @@ Composition.prototype.applyJSON =
 Composition.prototype.startEditmode =
   /**
    * Editieren der Komposition aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -888,11 +888,11 @@ Composition.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
  */
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -902,7 +902,7 @@ Realization.prototype = new Relation();
 Realization.prototype.draw =
   /**
    * Zeichnen der Realisierung
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -960,7 +960,7 @@ Realization.prototype.toJSON =
 Realization.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der Realisierung
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -975,8 +975,8 @@ Realization.prototype.applyJSON =
 Realization.prototype.startEditmode =
   /**
    * Editieren der Realisierung aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -1009,11 +1009,11 @@ Realization.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
  */
 function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1023,7 +1023,7 @@ Dependency.prototype = new Relation();
 Dependency.prototype.draw =
   /**
    * Zeichnen der Abhängigkeit
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -1082,7 +1082,7 @@ Dependency.prototype.toJSON =
 Dependency.prototype.applyJSON =
   /**
    * Speichern des JSON Objektes der Abhängigkeit
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -1097,8 +1097,8 @@ Dependency.prototype.applyJSON =
 Dependency.prototype.startEditmode =
   /**
    * Editieren der Abhängigkeit aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
@@ -1126,11 +1126,11 @@ Dependency.prototype.startEditmode =
  * @param {Number[]} $elementId
  * @param {Number} coordsA
  * @param {Number} coordsB
- * @param {String}  name
- * @param {Number}  lineWidth
- * @param lineColor
- * @param fontFamily
- * @param {Number}  fontSize
+ * @param {String} name
+ * @param {Number} lineWidth
+ * @param {String} lineColor
+ * @param {String} fontFamily
+ * @param {Number} fontSize
  */
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1141,7 +1141,7 @@ Link.prototype = new Relation();
 Link.prototype.draw =
   /**
    * Zeichnen des Verbinders
-   * @param canvas
+   * @param {Object} canvas
    */
   function(canvas) {
   var context = canvas.getContext('2d');
@@ -1191,7 +1191,7 @@ Link.prototype.toJSON =
 Link.prototype.applyJSON =
   /**
    * Speichert das JSON Objekt des Verbinders
-   * @param json
+   * @param {Object} json
    */
   function(json) {
   this._id = json._id;
@@ -1206,8 +1206,8 @@ Link.prototype.applyJSON =
 Link.prototype.startEditmode =
   /**
    * Editieren des Verbinders aktivieren
-   * @param modal
-   * @param callback
+   * @param {Object} modal
+   * @param {Object} callback
    */
   function(modal, callback) {
   var self = this;
