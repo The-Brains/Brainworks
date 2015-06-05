@@ -314,7 +314,7 @@ router.post('/:user/diagram', userCtrl.verifyLogin,
   var diagram = req.user.diagrams.id(requestDiagram._id);
   fs.writeFile('uploads/' + requestDiagram._id + '.png', new Buffer(req.body.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'),
     /**
-     * Lädt die verwendeten Elemente in das thumbnail
+     * Lädt die verwendeten Elemente in das Vorschaubild
      * @param err
      */
     function(err) {
@@ -345,7 +345,7 @@ router.post('/:user/diagram', userCtrl.verifyLogin,
 
 router.get('/thumbnail/:imageId',
   /**
-   * Lädt das thumbnail zur entsprechenden Id des Bildes
+   * Lädt das Vorschaubild zur entsprechenden Id des Bildes
    * @param req
    * @param res
    * @param next
@@ -353,7 +353,7 @@ router.get('/thumbnail/:imageId',
   function(req, res, next) {
   fs.exists('uploads/'+req.params.imageId+'.png',
     /**
-     * Setzt
+     * Prüft die Existenz des Vorschaubildes
      * @param exists
      */
     function(exists) {
@@ -361,13 +361,13 @@ router.get('/thumbnail/:imageId',
     else {
       fs.readFile('uploads/'+req.params.imageId+'.png',
         /**
-         *
+         * Auslesen der Bilddaten
          * @param err
          * @param data
          */
         function(err, data) {
         if (err) res.send(err);
-        /* muss gesetzt werden, damit nahezu alle Browser unsere http Cache Direktiven akzeptieren
+        /* muss evtl. gesetzt werden, damit nahezu alle Browser unsere http Cache Direktiven akzeptieren
          * (Es wirde nicht mit konventionellen Seiten gearbeitet, sondern mit dem Stateprovider und dem URLRouterProvider) */
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.setHeader('Expires', '-1');
