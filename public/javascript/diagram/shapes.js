@@ -1,5 +1,5 @@
 /**
- * Definieren, zeichnen, wandeln, speichern und editieren der Klassenelemente
+ *  Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der Klassenelemente
  */
 
 /**

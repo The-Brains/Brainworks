@@ -1,10 +1,12 @@
 /**
- * TODO Kommentieren
+ * Verwaltung der Nutzerdaten
+ * Implementieren der settings.js, singIn.js und der singUp.js in das Projekt
  */
 angular.module('brainworks.user', [])
 .config(['$stateProvider', '$urlRouterProvider',
          /**
-          * TODO Kommentieren
+          * Verwaltung der statischen Nutzerdaten in states
+          * Weist dem state(den Seiten zum LogIn, der Registrierung & den Profileinstellungen) die zu verwaltenden Nutzerdaten zu
           * @param $stateProvider
           * @param $urlRouterProvider
           */
@@ -17,7 +19,7 @@ angular.module('brainworks.user', [])
       resolve: {
         user: ['localStorageService', 'userSettingsFactory',
                /**
-                * TODO Kommentieren
+                * Liest die lokal gesicherten Nutzer aus
                 * @param localStorageService
                 * @param userSettingsFactory
                 */
@@ -28,8 +30,21 @@ angular.module('brainworks.user', [])
     })
     .state('profile.logout', {
       url: '/user/signOut',
-      controller: ['$rootScope', '$state', 'localStorageService', 'userFactory', function($rootScope, $state, localStorageService, userFactory) {
-        userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(function() {
+      controller: ['$rootScope', '$state', 'localStorageService', 'userFactory',
+        /**
+         * Entfernt beim Logout des Nutzers die zugewiesene UserId und den lokal verwendeten Token
+         * @param $rootScope
+         * @param $state
+         * @param localStorageService
+         * @param userFactory
+         */
+        function($rootScope, $state, localStorageService, userFactory) {
+        userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(
+          /**
+           * Leitet den Nutzer auf die LogIn Seite, wenn er nicht mehr authentifiziert ist
+           * Entfernt token und userId
+           */
+          function() {
           $rootScope.isAuthentificated = false;
           localStorageService.remove('token');
           localStorageService.remove('userId');
@@ -38,11 +53,17 @@ angular.module('brainworks.user', [])
       }]
     });
 }])
-.factory('userFactory', ['$http', '$rootScope', function($http, $rootScope) {
+.factory('userFactory', ['$http', '$rootScope',
+  /**
+   * Validierung und Verwaltung der Nutzerregistrierung und dem Nutzer-LogIn
+   * @param $http
+   * @param $rootScope
+   */
+  function($http, $rootScope) {
   return {
     checkUsername:
       /**
-       * Ruft die URL zum Checken des Usernames auf
+       * Ruft die URL zum Prüfen des Usernames auf
        * @param username
        */
       function(username) {
@@ -50,7 +71,7 @@ angular.module('brainworks.user', [])
     },
     createUser:
       /**
-       * Ruft die URL zum erstellen eines Users auf
+       * Ruft die URL zum Erstellen eines Users auf
        * @param user
        */
       function(user) {
@@ -67,14 +88,14 @@ angular.module('brainworks.user', [])
     },
     checkLoggedIn:
       /**
-       * Prüft, ob der User eingeloggt ist
+       * Ruft die URL auf welche prüft, ob der User eingeloggt ist
        */
       function() {
       return $http.get('/user/loggedIn');
     },
     signOut:
       /**
-       * Ruft die URl zum Ausloggen auf
+       * Ruft die URL zum Ausloggen auf
        * @param userId
        * @param token
        */

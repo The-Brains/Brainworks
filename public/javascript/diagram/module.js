@@ -1,11 +1,12 @@
 /**
+ * Verwaltung der Diagrammdaten
  * Implementieren der designer.js, diagrammInformation.js, relations.js und der shapes.js in das Projekt
  */
 angular.module('brainworks.diagram', ['ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider',
   /**
-   * Verwaltung der statischen Adressdaten in States
-   * Weist dem state(der Seite) die zu verwaltenden Daten zu
+   * Verwaltung der statischen Diagrammdaten in states
+   * Weist dem state(den Seiten zur Diagrammverwaltung) die entsprechenden Diagrammdaten zu
    * @param $stateProvider
    * @param $urlRouterProvider
    */
@@ -18,7 +19,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       resolve: {
         diagrams: ['localStorageService', 'diagramsFactory',
           /**
-           * Liest lokal gespeicherte Diagramme aus
+           * Liest lokal gesicherten Diagramme
            * @param localStorageService
            * @param diagramsFactory
            */

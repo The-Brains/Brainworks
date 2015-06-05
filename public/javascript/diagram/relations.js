@@ -1,5 +1,5 @@
 /**
- * Definieren, zeichnen, wandeln, speichern und editieren der verscheidenen Beziehungen
+ * Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der verscheidenen Beziehungen
  */
 
 /**
