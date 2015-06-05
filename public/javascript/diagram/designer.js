@@ -5,11 +5,11 @@ angular.module('brainworks.diagram')
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram',
   /**
    *
-   * @param $scope
-   * @param $state
-   * @param localStorageService
-   * @param diagramsFactory
-   * @param diagram
+   * @param {Object} $scope
+   * @param {Object} $state
+   * @param {Objekt} localStorageService
+   * @param {Object} diagramsFactory
+   * @param {Object} diagram
    */
   function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
@@ -17,7 +17,11 @@ angular.module('brainworks.diagram')
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Interface', name: 'Schnittstelle'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'UniDirectionalAssociation', name: 'Gerichtete Assoziation'}, {type: 'Aggregation', name: 'Aggregation'}, {type: 'Composition', name: 'Komposition'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Dependency', name: 'Abhängigkeit'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
-  angular.forEach($scope.diagram.shapes, function(shape) {
+  angular.forEach($scope.diagram.shapes,
+    /**
+     * @param {Object} shape
+     */
+    function(shape) {
     var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     $scope.shapes.push(tmp);
@@ -30,7 +34,7 @@ angular.module('brainworks.diagram')
   };
   /**
    * Animation beim Sichern des Diagramms
-   * @param diagram
+   * @param {Object} diagram
    */
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
@@ -38,7 +42,7 @@ angular.module('brainworks.diagram')
     angular.forEach($scope.shapes,
       /**
        * Wandeln eines Klassenelementes zu einem JSON Objekt
-       * @param shape
+       * @param {Object} shape
        */
       function(shape) {
       shapes.push(shape.toJSON());
@@ -63,7 +67,7 @@ angular.module('brainworks.diagram')
       diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(
         /**
          * Ungesicherte Elemente werden gesichert
-         * @param response
+         * @param {Object} response
          */
         function(response) {
         waitElement.addClass('hidden');
@@ -75,8 +79,8 @@ angular.module('brainworks.diagram')
 .controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' ,
   /**
    * Sichert die Einstellungen des geöffneten Projektes im Designer
-   * @param $scope
-   * @param $modalInstance
+   * @param {Object} $scope
+   * @param {Object} $modalInstance
    * @param settings
    */
   function($scope, $modalInstance, settings) {
@@ -109,9 +113,9 @@ angular.module('brainworks.diagram')
     link:
       /**
        * Der Bearbeitungsmodus für die Elemente wird definiert
-       * @param scope
-       * @param element
-       * @param attr
+       * @param {Object} scope
+       * @param {Number[]} $element
+       * @param {Object} attr
        */
       function(scope, element, attr) {
       var draw =
@@ -124,7 +128,7 @@ angular.module('brainworks.diagram')
         angular.forEach(scope.shapes,
           /**
            * Zeichnen der Elemente
-           * @param value
+           * @param {Number} value
            */
           function(value) {
           value.draw(element[0]);
@@ -210,8 +214,8 @@ angular.module('brainworks.diagram')
           drop:
             /**
              * Bestimmt Area, auf der Elemente gezeichnet werden dürfen
-             * @param event
-             * @param ui
+             * @param {Object} event
+             * @param {Object} ui
              */
             function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
@@ -223,8 +227,8 @@ angular.module('brainworks.diagram')
           over:
             /**
              * Cursor layout in der Area über der Designer Fläche, auf der Elemente plaziert werden dürfen
-             * @param event
-             * @param ui
+             * @param {Object} event
+             * @param {Object} ui
              */
             function(event, ui) {
             ui.helper.css('cursor', 'copy');
@@ -232,8 +236,8 @@ angular.module('brainworks.diagram')
           out:
             /**
              * Cursor layour in der Area ausserhalb der Canvas Fläche
-             * @param event
-             * @param ui
+             * @param {Object} event
+             * @param {Object} ui
              */
             function(event, ui) {
             ui.helper.css('cursor', 'no-drop');
@@ -242,7 +246,7 @@ angular.module('brainworks.diagram')
         element.on('mousedown',
           /**
            * Es wird eine kleine Pause initialisiert und die Klicks wieder zurückgesetzt
-           * @param event
+           * @param {Object} event
            */
           function(event) {
           setTimeout(
@@ -260,7 +264,7 @@ angular.module('brainworks.diagram')
           var result = $.grep(scope.shapes,
             /**
              * Definition der Bearbeitungsfläche des ausgewählten Elementes
-             * @param shape
+             * @param {Object} shape
              */
             function(shape) {
             var isSelected = false;
@@ -298,7 +302,7 @@ angular.module('brainworks.diagram')
             /**
              * Element als selected markieren
              * @param index
-             * @param selection
+             * @param {Object} selection
              */
             function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
@@ -389,7 +393,7 @@ angular.module('brainworks.diagram')
         element.on('mousemove',
           /**
            * Layout des Cursors wird angepasst
-           * @param event
+           * @param {Object} event
            */
           function(event) {
           if(angular.isDefined(selected) && selected !== null) {
@@ -531,7 +535,7 @@ angular.module('brainworks.diagram')
               angular.forEach(scope.shapes,
                 /**
                  * Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement
-                 * @param shape
+                 * @param {Object} shape
                  */
                 function(shape) {
                 if(shape instanceof Shape) {
@@ -558,7 +562,7 @@ angular.module('brainworks.diagram')
                 angular.forEach(scope.shapes,
                   /**
                    * Resize der Beziehungslinie
-                   *@param shape
+                   *@param {Object} shape
                    */
                   function(shape) {
                   if(shape instanceof Relation) {
@@ -592,7 +596,7 @@ angular.module('brainworks.diagram')
         element.on('mouseup',
           /**
            * Beim Mouseup wird das Beziehungselement, welches mit einem Klassenelement verbunden werden soll an dieses angefügt, so dass es optimal verbunden ist
-           * @param event
+           * @param {Object} event
            */
           function(event) {
           if(shapeA !== null) {
@@ -628,7 +632,7 @@ angular.module('brainworks.diagram')
         element.on('keydown',
           /**
            * Drücken von entf soll das zu bearbeitende Element löschen
-           * @param event
+           * @param {Object} event
            */
           function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
@@ -638,7 +642,7 @@ angular.module('brainworks.diagram')
             scope.shapes = $.grep(scope.shapes,
               /**
                * Löschen des übergebenen Elementes
-               * @param shape
+               * @param {Object} shape
                */
               function(shape) { return shape._id !== selected._id; });
             selected = null;
@@ -656,7 +660,7 @@ angular.module('brainworks.diagram')
 .directive('designerElement',
   /**
    * Vergabe von Cursoreigenschaften beim Arbeiten mit Elementen
-   * @param $document
+   * @param {Object} $document
    */
   function($document) {
   return {
@@ -666,9 +670,9 @@ angular.module('brainworks.diagram')
     link:
       /**
        * Zeichnen der Klassenelemente und Beziehungselemente auf der Klassendiagramm-Canvasfläche
-       * @param scope
-       * @param element
-       * @param attr
+       * @param {Object} scope
+       * @param {Number[]}element
+       * @param {Object} attr
        */
       function(scope, element, attr) {
       var offsetX, offsetY;
@@ -682,8 +686,8 @@ angular.module('brainworks.diagram')
         start:
           /**
            * Verändert den Curser bei dem Versuch ein Element auf eine nicht dropbare Fläche zu ziehen
-           * @param event
-           * @param ui
+           * @param {Object} event
+           * @param {Object} ui
            */
           function(event, ui) {
           shape.draw(ui.helper[0]);
@@ -692,8 +696,8 @@ angular.module('brainworks.diagram')
         stop:
           /**
            * Versetzt den Cursor beim plazieren des Elementes wieder in sein Standartlayout
-           * @param event
-           * @param ui
+           * @param {Object} event
+           * @param {Object} ui
            */
           function(event, ui) {
           ui.helper.css('cursor', 'initial');
@@ -702,7 +706,7 @@ angular.module('brainworks.diagram')
       element.on('mouseover',
         /**
          * Setzt einen grauen Hintergrund an mit dem Curser ausgewählte Elemente
-         * @param event
+         * @param {Object} event
          */
         function(event) {
         element.addClass('designer-element-active');
@@ -710,7 +714,7 @@ angular.module('brainworks.diagram')
       element.on('mouseout',
         /**
          * Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
-         * @param event
+         * @param {Object} event
          */
         function(event) {
         element.removeClass('designer-element-active');

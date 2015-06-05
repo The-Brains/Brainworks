@@ -21,7 +21,7 @@ server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
- * @param {Integer} val
+ * @param {Number} val
  */
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -41,7 +41,7 @@ function normalizePort(val) {
 
 /**
  * Event listener for HTTP server "error" event.
- * @param {error} error
+ * @param {Error} error
  */
 function onError(error) {
   if (error.syscall !== 'listen') {

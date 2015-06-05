@@ -5,10 +5,10 @@ angular.module('brainworks.user')
 .controller('signUpCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService',
   /**
    * Prüfung des Benutzernamens und des Passwortes beim Registrieren eines Nutzers.
-   * @param $scope
+   * @param {Object} $scope
    * @param $rootScope
-   * @param $state
-   * @param userFactory
+   * @param {Object} $state
+   * @param {Boolean} userFactory
    * @param localStorageService
    */
   function($scope, $rootScope, $state, userFactory, localStorageService) {
@@ -18,7 +18,7 @@ angular.module('brainworks.user')
   $scope.signUp =
     /**
      * Wenn der Nutzer hinterlegt ist, wird dessen Passwort entschlüsselt und abgeglichen. Er wird schließlich eingeloggt.
-     * @param user
+     * @param {Boolean} user
      */
     function(user) {
     var parameters = angular.copy(user);
@@ -28,7 +28,7 @@ angular.module('brainworks.user')
     userFactory.createUser(parameters).success(
       /**
        * Nutzertoken und NutzerId werden gesetzt. Der Nutzer wird als authentifiziert markiert und zur Diagrammübersicht weitergeleitet.
-       * @param response
+       * @param {Object} response
        */
       function(response) {
       if(response.success) {
@@ -44,7 +44,7 @@ angular.module('brainworks.user')
   /**
    * Asynchrone Rückgabe des korrekten Benutzernamens.
    * @param $q
-   * @param userFactory
+   * @param {Boolean} userFactory
    */
   function($q, userFactory) {
   return {
@@ -52,10 +52,10 @@ angular.module('brainworks.user')
     link:
       /**
        * Asynchrones Prüfen auf korrektheit des Usernames.
-       * @param scope
+       * @param {Object} scope
        * @param elm
-       * @param attrs
-       * @param ngModel
+       * @param {Object} attrs
+       * @param {Object} ngModel
        */
       function(scope, elm, attrs, ngModel) {
       ngModel.$asyncValidators.username =
@@ -75,7 +75,7 @@ angular.module('brainworks.user')
           /**
            * Wenn der Username korrekt ist wird def(das Promise) aufgelöst,
            * sonst wird def abgelehnt.
-           * @param res
+           * @param {Object} res
            */
           function(res) {
           if(res.available) {

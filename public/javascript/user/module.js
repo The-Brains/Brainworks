@@ -7,7 +7,7 @@ angular.module('brainworks.user', [])
          /**
           * Verwaltung der statischen Nutzerdaten in states
           * Weist dem state(den Seiten zum LogIn, der Registrierung & den Profileinstellungen) die zu verwaltenden Nutzerdaten zu
-          * @param $stateProvider
+          * @param {Object} $stateProvider
           * @param $urlRouterProvider
           */
          function($stateProvider, $urlRouterProvider) {
@@ -21,7 +21,7 @@ angular.module('brainworks.user', [])
                /**
                 * Liest die lokal gesicherten Nutzer aus
                 * @param localStorageService
-                * @param userSettingsFactory
+                * @param {Boolean} userSettingsFactory
                 */
                function(localStorageService, userSettingsFactory) {
           return userSettingsFactory.loadUserData(localStorageService.get('userId'));
@@ -34,9 +34,9 @@ angular.module('brainworks.user', [])
         /**
          * Entfernt beim Logout des Nutzers die zugewiesene UserId und den lokal verwendeten Token
          * @param $rootScope
-         * @param $state
+         * @param {Object} $state
          * @param localStorageService
-         * @param userFactory
+         * @param {Boolean} userFactory
          */
         function($rootScope, $state, localStorageService, userFactory) {
         userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(
@@ -56,7 +56,7 @@ angular.module('brainworks.user', [])
 .factory('userFactory', ['$http', '$rootScope',
   /**
    * Validierung und Verwaltung der Nutzerregistrierung und dem Nutzer-LogIn
-   * @param $http
+   * @param {Object} $http
    * @param $rootScope
    */
   function($http, $rootScope) {
@@ -64,7 +64,7 @@ angular.module('brainworks.user', [])
     checkUsername:
       /**
        * Ruft die URL zum Prüfen des Usernames auf
-       * @param username
+       * @param {Boolean} username
        */
       function(username) {
       return $http.post('/user/check', {username: username});
@@ -72,7 +72,7 @@ angular.module('brainworks.user', [])
     createUser:
       /**
        * Ruft die URL zum Erstellen eines Users auf
-       * @param user
+       * @param {Boolean} user
        */
       function(user) {
       return $http.post('/user/signUp', {user: user});
@@ -80,7 +80,7 @@ angular.module('brainworks.user', [])
     signIn:
     /**
      * Ruft die URL zum Einloggen auf
-     * @param username
+     * @param {Boolean} username
      * @param password
      */
       function(username, password) {
@@ -96,7 +96,7 @@ angular.module('brainworks.user', [])
     signOut:
       /**
        * Ruft die URL zum Ausloggen auf
-       * @param userId
+       * @param {Boolean} userId
        * @param token
        */
       function(userId, token) {

@@ -15,9 +15,9 @@ angular.module('brainworks.commons')
     /**
      * Validierungsprüfung eines Aufrufes
      * @param {Object} scope
-     * @param element
-     * @param attrs
-     * @param ngModel
+     * @param {Number[]} $element
+     * @param {Object} attrs
+     * @param {Object} ngModel
      */
     link: function(scope, element, attrs, ngModel) {
       ngModel.$validators.match = function(modelValue) {
@@ -33,7 +33,7 @@ angular.module('brainworks.commons')
 .directive('navItem', ['$location',
   /**
    * Initialisierung des Prototyps für die Navigationsleiste
-   * @param $location
+   * @param {Object} $location
    */
   function($location) {
   return {

@@ -5,7 +5,7 @@ angular.module('brainworks.diagram')
 .factory('diagramInformationFactory', ['$http', 'localStorageService',
   /**
    * Verwaltung der gespeicherten Diagrammdaten
-   * @param $http
+   * @param {Object} $http
    * @param localStorageService
    */
   function($http, localStorageService) {
@@ -19,7 +19,7 @@ angular.module('brainworks.diagram')
       return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(
         /**
          * Liest Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm)
-         * @param res
+         * @param {Object} res
          */
         function(res) {
         return res.data;
@@ -29,7 +29,7 @@ angular.module('brainworks.diagram')
     save:
       /**
        * Sicherung des Diagramms für die entsprechende Adresse
-       * @param diagram
+       * @param {Object} diagram
        */
       function(diagram) {
       return $http.put('/diagram/' + localStorageService.get('userId') + '/diagram/', diagram);
@@ -39,11 +39,11 @@ angular.module('brainworks.diagram')
 .controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory',
   /**
    * Definition der Logik hinter den Buttons in den Diagramminformationen
-   * @param $scope
-   * @param $state
+   * @param {Object} $scope
+   * @param {Object} $state
    * @param localStorageService
-   * @param diagram
-   * @param diagramInformationFactory
+   * @param {Object} diagram
+   * @param {Object} diagramInformationFactory
    */
   function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
   $scope.diagram = diagram;
@@ -59,7 +59,7 @@ angular.module('brainworks.diagram')
   $scope.save =
     /**
      * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
-     * @param diagram
+     * @param {Object} diagram
      */
     function(diagram) {
     diagramInformationFactory.save(diagram).success(function(data) {

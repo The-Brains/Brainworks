@@ -4,7 +4,7 @@
 
 /**
  * Definition des Prototypes der Klassenelemente (von diesem Erben andere Klassenelemente)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -173,7 +173,7 @@ Shape.prototype.startEditmode =
 };
 /**
  * Definition eines einfachen Klassenelementes
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -269,7 +269,7 @@ EmptyClass.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert den Namen des Attributes
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -279,7 +279,7 @@ EmptyClass.prototype.startEditmode =
 
 /**
  * Definition einer abstrakten Klasse
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -289,7 +289,7 @@ EmptyClass.prototype.startEditmode =
  * @param name
  * @param fontFamily
  * @param fontSize
- * @param attributes
+ * @param {Object} attributes
  * @param methods
  */
 function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
@@ -300,7 +300,7 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
 
   this.setAttributes =
     /**
-     * @param attributes
+     * @param {Object} attributes
      */
     function(attributes) {
     this.attributes = attributes;
@@ -578,7 +578,7 @@ AbstractClass.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändern der Eigenschaften eines Elementes
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -590,7 +590,7 @@ AbstractClass.prototype.startEditmode =
 
 /**
  * Definition des Kommentars
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -696,7 +696,7 @@ Comment.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert den Namen des Kommentars in den Eigenschaften
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -706,7 +706,7 @@ Comment.prototype.startEditmode =
 
 /**
  * Definition einer aktiven Klasse
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -806,7 +806,7 @@ ActiveClass.prototype.startEditmode =
 
   modalInstance.result.then(
     /**
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -815,7 +815,7 @@ ActiveClass.prototype.startEditmode =
 };
 /**
  * Definition einer Standartklasse (mit Attribut & Methode)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -835,7 +835,7 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 
   this.setAttributes =
     /**
-     * @param attributes
+     * @param {Object} attributes
      */
     function(attributes) {
     this.attributes = attributes;
@@ -1111,7 +1111,7 @@ Class.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Aktualisieren der eingetragenen Daten
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -1122,7 +1122,7 @@ Class.prototype.startEditmode =
 };
 /**
  * Definieren eines Interface-Elementes
- * @param elementId
+ * @param {Number[]} $elementId
  * @param x
  * @param y
  * @param width
@@ -1348,7 +1348,7 @@ Interface.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Eigenschaften des Interface-Elementes werden gesetzt
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);

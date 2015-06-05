@@ -13,9 +13,9 @@ router.get('/signIn',
   /**
    * Definition der Textelemente im Einloggen-Bereich
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('user/signIn', {
@@ -43,9 +43,9 @@ router.get('/settings', userCtrl.verifyLogin,
   /**
    * Definition der Textelemente in den Profileinstellungen
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('user/settings', {
@@ -73,9 +73,9 @@ router.param('user',
   /**
    * Definition der Textelemente in der Navigationsbar
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    * @param id
    */
   function(req, res, next, id) {
@@ -83,8 +83,8 @@ router.param('user',
   query.exec(
     /**
      * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function (err, user){
     if (err) { return next(err); }
@@ -97,16 +97,16 @@ router.param('user',
 router.post('/check',
   /**
    * Prüfen der Verfügbarkeit eines bestimmten Nutzernamens
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findOne({username: req.body.username},
     /**
      * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, dass der Nutzer für die LogInzeit belegt ist
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, user) {
     if(err) { res.send(err); }
@@ -117,9 +117,9 @@ router.post('/check',
 router.post('/signUp',
   /**
    * Prüfen der Verfügbarkeit der Registrierung
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   var user = new User(req.body.user);
@@ -127,8 +127,8 @@ router.post('/signUp',
   user.save(
     /**
      * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, user){
     if(err){ res.send(err); }
@@ -142,16 +142,16 @@ router.post('/signUp',
 router.post('/signIn',
   /**
    * Prüfen der Verfügbarkeit der Log-Ins
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findOne({username: req.body.username, password: req.body.password},
     /**
      * Prüfung auf Richtigkeit des Benutzernamens. Signierung das Tokens, falls dieser korrekt ist
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, user) {
     if(err){ res.send(err); }
@@ -173,9 +173,9 @@ router.post('/signIn',
 router.post('/signOut',
   /**
    * Ausloggen des bestimmten Benutzers
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findByIdAndUpdate(req.body.userId, {loggedIn: false},
@@ -190,8 +190,8 @@ router.post('/signOut',
 router.get('/loggedIn',
   /**
    * Prüft beim LogIn, ob der Nutzertoken Valide ist (Verifizierungsprüfung )
-   * @param req
-   * @param res
+   * @param {Object} req
+   * @param {Object} res
    */
   function(req, res) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -199,8 +199,8 @@ router.get('/loggedIn',
     jwt.verify(token, configuration.secret,
       /**
        * Prüft, ob der Nutzertoken und das Konfigurationsecret mit der entschlüsselten BenutzerId valide sind
-       * @param err
-       * @param decoded
+       * @param {Error} err
+       * @param {Object} decoded
        */
       function(err, decoded) {
       if (err) {
@@ -209,8 +209,8 @@ router.get('/loggedIn',
         User.findOne({userId: decoded.userId, loggedIn: true},
           /**
            * Beendet die Anfrage, ob die NutzerId mit der entschlüsselten NutzerId harmoniert mit dem Senden einer Erfolgsmitteilung
-           * @param err
-           * @param user
+           * @param {Error} err
+           * @param {Boolean} user
            */
           function(err, user) {
           if(err){ res.send(err); }
@@ -227,9 +227,9 @@ router.get('/loggedIn',
 router.get('/:user', userCtrl.verifyLogin,
   /**
    * Beendet die Anfrage mit dem Senden des Benutzers
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.json(req.user);
@@ -238,9 +238,9 @@ router.get('/:user', userCtrl.verifyLogin,
 router.post('/delete/:user', userCtrl.verifyLogin,
   /**
    * Löscht das Nutzerprofil und prüft das dabei die Auswahl des Bestätigungsfeldes
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   if(!req.body.assignment) {
@@ -249,7 +249,7 @@ router.post('/delete/:user', userCtrl.verifyLogin,
     req.user.remove(
       /**
        * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung
-       * @param err
+       * @param {Error} err
        */
       function(err) {
       if (err) { res.send(err); }
@@ -261,9 +261,9 @@ router.post('/delete/:user', userCtrl.verifyLogin,
 router.put('/:user', userCtrl.verifyLogin,
   /**
    * Registrierungsprüfung eines neuen Benutzers
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {
@@ -273,8 +273,8 @@ router.put('/:user', userCtrl.verifyLogin,
   },
   /**
    * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-   * @param err
-   * @param user
+   * @param {Error} err
+   * @param {Boolean} user
    */
   function(err, user) {
     if(err){ res.send(err); }
@@ -288,16 +288,16 @@ router.put('/:user', userCtrl.verifyLogin,
 router.post('/changePassword/:user', userCtrl.verifyLogin,
   /**
    * Generierung eines neuen Tokens beim Ändern des Passwortes
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {password: req.body.password},
     /**
      * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, user) {
     if(err){ res.send(err); }

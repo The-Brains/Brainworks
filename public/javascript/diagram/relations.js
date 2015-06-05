@@ -4,7 +4,7 @@
 
 /**
  * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -27,7 +27,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setShapeA =
     /**
-     * @param shapeA
+     * @param {Object} shapeA
      */
     function(shapeA) {
     this.shapeA = shapeA;
@@ -35,7 +35,7 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 
   this.setShapeB =
     /**
-     * @param shapeB
+     * @param {Object} shapeB
      */
     function(shapeB) {
     this.shapeB = shapeB;
@@ -171,7 +171,7 @@ Relation.prototype.startEditmode =
 
 /**
  * Definition der Vererbungsbeziehung
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -286,7 +286,7 @@ Inheritance.prototype.startEditmode =
 
 /**
  * Definition der Assoziation ( einfache Linie )
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -427,7 +427,7 @@ Association.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -439,7 +439,7 @@ Association.prototype.startEditmode =
 
 /**
  * Gerichtete Assoziation Definition (einfache Linie Mit Pfeil)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -560,7 +560,7 @@ UniDirectionalAssociation.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -572,7 +572,7 @@ UniDirectionalAssociation.prototype.startEditmode =
 
 /**
  * Definition der Aggregation (einfache Linie mit Quadraht)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -717,7 +717,7 @@ Aggregation.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -730,7 +730,7 @@ Aggregation.prototype.startEditmode =
 /*TODO Composition Quadraht ausfüllen? Kann nicht einfach die Aggregation geklont werden (mit kleiner Änderung beim Zeichnen)?*/
 /**
  * Definition der Komposition (Sonderfall der Aggregation)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -873,7 +873,7 @@ Composition.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -885,7 +885,7 @@ Composition.prototype.startEditmode =
 
 /**
  * Definition der Realisierung (Schraffierte Linie mit Dreieck)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -996,7 +996,7 @@ Realization.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);
@@ -1006,7 +1006,7 @@ Realization.prototype.startEditmode =
 
 /**
  * Definition einer Abhängigkeit (Schraffierte Linier mit Pfeil)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -1123,7 +1123,7 @@ Dependency.prototype.startEditmode =
 
 /**
  * Definition eines Verbinders (Schraffierte Linie)
- * @param elementId
+ * @param {Number[]} $elementId
  * @param coordsA
  * @param coordsB
  * @param name
@@ -1227,7 +1227,7 @@ Link.prototype.startEditmode =
   modalInstance.result.then(
     /**
      * Ändert die gesetzten Attributwerte
-     * @param result
+     * @param {Object} result
      */
     function(result) {
     self.setName(result.name);

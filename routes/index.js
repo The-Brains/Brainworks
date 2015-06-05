@@ -9,9 +9,9 @@ router.get('/',
   /**
    * Definition der Textelemente in der Navigationsbar
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('index', {
@@ -30,9 +30,9 @@ router.get('/home',
   /**
    * Definition der Textelemente in der Startseite
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('home', {
@@ -49,9 +49,9 @@ router.get('/publicDiagram',
   /**
    * Definition der Textelemente in der Ansicht eines öffentlichen Diagramms
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('diagram/publicDiagram', {
@@ -68,9 +68,9 @@ router.get('/about',
   /**
    * Definition des Textelementes in der Ansicht des About(Über) Bereiches
    * Zeichnen des Elementes
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('about', {});

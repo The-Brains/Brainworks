@@ -16,9 +16,9 @@ router.get('/diagrams', userCtrl.verifyLogin,
   /**
    * Definition der Textelemente in der Diagrammübersicht
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('diagram/diagrams', {
@@ -39,9 +39,9 @@ router.get('/diagramInformation', userCtrl.verifyLogin,
   /**
    * Definition der Textelemente in den Diagramminformationen
    * Zeichnen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('diagram/diagramInformation', {
@@ -58,9 +58,9 @@ router.get('/designer', userCtrl.verifyLogin,
   /**
    * Definition der Textelemente des Designers
    * Zeichenen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('diagram/designer', {
@@ -75,9 +75,9 @@ router.get('/attributesEditor', userCtrl.verifyLogin,
   /**
    * Definition der Textelemente des Eigenschafteneditors
    * Zeichenen der Elemente
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.render('diagram/attributesEditor', {
@@ -95,9 +95,9 @@ router.get('/attributesEditor', userCtrl.verifyLogin,
 router.param('user',
   /**
    * Sucht und bestimmt den benötigten User anhand seiner Id
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    * @param id
    */
   function(req, res, next, id) {
@@ -105,8 +105,8 @@ router.param('user',
   query.exec(
     /**
      * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function (err, user){
     if (err) { return next(err); }
@@ -119,9 +119,9 @@ router.param('user',
 router.get('/:user/diagrams', userCtrl.verifyLogin,
   /**
    * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagrammübersicht (mit den enthaltenen Diagrammen)
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.json(req.user.diagrams);
@@ -130,17 +130,17 @@ router.get('/:user/diagrams', userCtrl.verifyLogin,
 router.get('/publicDiagrams',
   /**
    * Sucht öffentliche Diagramme
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.find({'diagrams.isPublic': true},
     /**
      * Liefert entsprechende Fehler, sofern welche bei der Suche auftreten,
      * oder lädt alle öffentlichen Nutzerdiagramme
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, users) {
     if(err) { res.send(err); }
@@ -161,9 +161,9 @@ router.get('/publicDiagrams',
 router.get('/:user/diagram/:diagramId', userCtrl.verifyLogin,
   /**
    * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagrammansicht im Designer (von dem die diagramId benötigt wird)
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.json(req.user.diagrams.id(req.params.diagramId));
@@ -172,9 +172,9 @@ router.get('/:user/diagram/:diagramId', userCtrl.verifyLogin,
 router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin,
   /**
    * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagramminformationen (von dem die diagramId benötigt wird)
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   res.json(req.user.diagrams.id(req.params.diagramId));
@@ -183,16 +183,16 @@ router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin,
 router.get('/:diagramId',
   /**
    * Liefert die DiagrammId für den Router
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findOne({'diagrams._id': req.params.diagramId},
     /**
      * Beendet Anfrage mit dem Senden derbenötigten diagrammId des Nutzers, wenn kein Fehler dabei auftritt
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err, user) {
     if(err) { res.send(err); }
@@ -205,17 +205,17 @@ router.get('/:diagramId',
 router['delete']('/:user/diagram/:diagramId', userCtrl.verifyLogin,
   /**
    * Löschen eines Diagrams
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   req.user.diagrams.id(req.params.diagramId).remove();
   req.user.save(
     /**
      * Beendet Anfrage mit einer Erfolgsmitteilung nach dem Löschen eines Diagramms
-     * @param err
-     * @param user
+     * @param {Error} err
+     * @param {Boolean} user
      */
     function(err) {
     if(err) { res.send(err); }
@@ -229,9 +229,9 @@ router.put('/:user/diagram', userCtrl.verifyLogin,
   /**
    * Übermittelt bei Erfolg entsprechende Mitteilung und die benötigte DiagrammId
    * Legt anhand der DiagrammId fest, ob ein Diagramm öffentlich oder privat ist
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   if(typeof req.body._id !== 'undefined') {
@@ -242,8 +242,8 @@ router.put('/:user/diagram', userCtrl.verifyLogin,
     req.user.save(
       /**
        * Beendet Anfrage mit dem Senden der benötigten diagrammId des Nutzers und mit einer Erfolgsmitteilung
-       * @param err
-       * @param user
+       * @param {Error} err
+       * @param {Boolean} user
        */
       function(err) {
       if(err) { res.send(err); }
@@ -256,8 +256,8 @@ router.put('/:user/diagram', userCtrl.verifyLogin,
     req.user.save(
       /**
        * Beendet Anfrage mit dem Senden der diagrammId des neu erstellten Diagramms des Nutzers und mit einer Erfolgsmitteilung
-       * @param err
-       * @param user
+       * @param {Error} err
+       * @param {Boolean} user
        */
       function(err, user) {
       if(err) { res.send(err); }
@@ -271,15 +271,15 @@ router.put('/:user/diagram', userCtrl.verifyLogin,
 router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin,
   /**
    * Lädt zu einem bestimment Diagramm entsprechenden Kommentar
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   User.findOne({'diagrams._id': req.params.diagramId},
     /**
      * Stellt zu einem bestimment Diagramm entsprechenden Kommentar her
-     * @param err
+     * @param {Error} err
      * @param foundUser
      */
     function(err, foundUser) {
@@ -290,8 +290,8 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin,
       foundUser.save(
         /**
          * Beendet Anfrage mit dem Senden der Id des geladenen Kommentars des Nutzers und mit einer Erfolgsmitteilung
-         * @param err
-         * @param user
+         * @param {Error} err
+         * @param {Boolean} user
          */
         function(err, user) {
         if(err) { res.send(err); }
@@ -306,9 +306,9 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin,
 router.post('/:user/diagram', userCtrl.verifyLogin,
   /**
    * Ersetzt das Standartbild in der Diagrammübersicht
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   var requestDiagram = JSON.parse(req.body.diagram);
@@ -316,7 +316,7 @@ router.post('/:user/diagram', userCtrl.verifyLogin,
   fs.writeFile('uploads/' + requestDiagram._id + '.png', new Buffer(req.body.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'),
     /**
      * Lädt die verwendeten Elemente in das Vorschaubild
-     * @param err
+     * @param {Error} err
      */
     function(err) {
     if(err) { res.send(err); }
@@ -331,8 +331,8 @@ router.post('/:user/diagram', userCtrl.verifyLogin,
       req.user.save(
         /**
          * Beendet Anfrage mit dem Senden einer Erfolgsmitteilung
-         * @param err
-         * @param user
+         * @param {Error} err
+         * @param {Boolean} user
          */
         function(err, user) {
         if(err) { res.send(err); }
@@ -347,9 +347,9 @@ router.post('/:user/diagram', userCtrl.verifyLogin,
 router.get('/thumbnail/:imageId',
   /**
    * Lädt das Vorschaubild zur entsprechenden Id des Bildes
-   * @param req
-   * @param res
-   * @param next
+   * @param {Object} req
+   * @param {Object} res
+   * @param {variable} next
    */
   function(req, res, next) {
   fs.exists('uploads/'+req.params.imageId+'.png',
@@ -363,7 +363,7 @@ router.get('/thumbnail/:imageId',
       fs.readFile('uploads/'+req.params.imageId+'.png',
         /**
          * Auslesen der Bilddaten
-         * @param err
+         * @param {Error} err
          * @param data
          */
         function(err, data) {

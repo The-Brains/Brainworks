@@ -5,9 +5,9 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
 .config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
   /**
    * Initiiert die Startseite und regelt die Zugriffe der Navigationsbar
-   * @param $stateProvider
+   * @param {Object} $stateProvider
    * @param $urlRouterProvider
-   * @param $httpProvider
+   * @param {Object} $httpProvider
    */
   function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
@@ -18,7 +18,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
         diagrams: ['diagramsFactory',
           /**
            * Liefert alle öffentlichen Diagramme
-           * @param diagramsFactory
+           * @param {Object} diagramsFactory
            */
           function(diagramsFactory) {
           return diagramsFactory.getPublicDiagrams();
@@ -27,8 +27,8 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       controller: ['$scope', 'diagrams',
         /**
          * Initiiert Paging für die Diagrammübersicht
-         * @param $scope
-         * @param diagrams
+         * @param {Object} $scope
+         * @param {Object} diagrams
          */
         function($scope, diagrams) {
         $scope.diagrams = diagrams.diagrams;
@@ -45,9 +45,9 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
         diagram: ['$stateParams', 'localStorageService', 'diagramsFactory',
           /**
            * Liefert ein bestimmtes öffentliches diagramm (abhängig von der Id der hinterlegten Parameter des Diagramms)
-           * @param $stateParams
+           * @param {Object} $stateParams
            * @param localStorageService
-           * @param diagramsFactory
+           * @param {Object} diagramsFactory
            */
           function($stateParams, localStorageService, diagramsFactory) {
           return diagramsFactory.getPublicDiagram($stateParams.id);
@@ -92,7 +92,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       responseError:
         /**
          * Ist die Anfrage Unauthorized oder Forbidden wird der Nutzer zurück zum SignIn geleitet
-         * @param response
+         * @param {Object} response
          */
         function(response) {
         if(response.status === 401 || response.status === 403) {
@@ -107,13 +107,13 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   /**
    * Bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
    * @param $rootScope
-   * @param userFactory
+   * @param {Boolean} userFactory
    */
   function($rootScope, userFactory) {
   userFactory.checkLoggedIn().then(
     /**
      * Bei erfolgreicher Authentifizierung wird Zugang zu den Nutzerdaten gewährt
-     * @param res
+     * @param {Object} res
      */
     function(res) {
     $rootScope.isAuthentificated = res.data.success;
@@ -122,11 +122,11 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
 .controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram',
   /**
    *
-   * @param $scope
-   * @param $state
+   * @param {Object} $scope
+   * @param {Object} $state
    * @param localStorageService
-   * @param diagramsFactory
-   * @param diagram
+   * @param {Object} diagramsFactory
+   * @param {Object} diagram
    */
   function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.diagram = diagram;
@@ -136,7 +136,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
   angular.forEach($scope.diagram.shapes,
     /**
      * Gesicherte Diagramme werden generiert
-     * @param shape
+     * @param {Object} shape
      */
     function(shape) {
     var tmp = new window[shape._type]();
@@ -156,7 +156,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
     /**
      * Fügt einem bestimmten Diagramm einen Kommentar hinzu
      * @param comment
-     * @param diagramId
+     * @param {Object} diagramId
      */
     function(comment, diagramId) {
     diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(
@@ -168,7 +168,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
         $scope.commentDiagramForm.$setPristine();
         $scope.commentDiagramForm.$setUntouched();
        *
-       * @param response
+       * @param {Object} response
        */
       function(response) {
       if(response.success) {

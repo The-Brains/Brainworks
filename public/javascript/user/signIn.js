@@ -5,10 +5,10 @@ angular.module('brainworks.user')
 .controller('signInCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService',
   /**
    * LogIn Validierungsprüfung
-   * @param $scope
+   * @param {Object} $scope
    * @param $rootScope
-   * @param $state
-   * @param userFactory
+   * @param {Object} $state
+   * @param {Boolean} userFactory
    * @param localStorageService
    */
   function($scope, $rootScope, $state, userFactory, localStorageService) {
@@ -17,7 +17,7 @@ angular.module('brainworks.user')
   $scope.signIn =
     /**
      * LogIn des Users
-     * @param user
+     * @param {Boolean} user
      */
     function(user) {
     var password = '';
@@ -28,7 +28,7 @@ angular.module('brainworks.user')
       /**
        * Noch dem erfolgreichen LogIn werden UserId und Usertoken gesetzt.
        * Die Nutzerauthentifikation wird auf true gesetzt und die Diagramme im Profil werden angezeigt
-       * @param response
+       * @param {Object} response
        */
       function(response) {
       if(response.success) {
