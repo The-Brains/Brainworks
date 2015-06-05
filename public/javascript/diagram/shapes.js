@@ -27,39 +27,75 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
 
-  this.setX = function(x) {
+  this.setX =
+    /**
+     * @param x
+     */
+    function(x) {
     this.x = x;
   };
 
-  this.setY = function(y) {
+  this.setY =
+    /**
+     * @param y
+     */
+    function(y) {
     this.y = y;
   };
 
-  this.setWidth = function(width) {
+  this.setWidth =
+    /**
+     * @param width
+     */
+    function(width) {
     this.width = width;
   };
 
-  this.setHeight = function(height) {
+  this.setHeight =
+    /**
+     * @param height
+     */
+    function(height) {
     this.height = height;
   };
 
-  this.setBorderColor = function(borderColor) {
+  this.setBorderColor =
+    /**
+     * @param borderColor
+     */
+    function(borderColor) {
     this.borderColor = borderColor;
   };
 
-  this.setLineWidth = function(lineWidth) {
+  this.setLineWidth =
+    /**
+     * @param lineWidth
+     */
+    function(lineWidth) {
     this.lineWidth = lineWidth;
   };
 
-  this.setName = function(name) {
+  this.setName =
+    /**
+     * @param name
+     */
+    function(name) {
     this.name = name;
   };
 
-  this.setFontFamily = function(fontFamily) {
+  this.setFontFamily =
+    /**
+     * @param fontfamily
+     */
+    function(fontFamily) {
     this.fontFamily = fontFamily;
   };
 
-  this.setFontSize = function(fontSize) {
+  this.setFontSize =
+    /**
+     * @param fontSize
+     */
+    function(fontSize) {
     this.fontSize = fontSize;
   };
 
@@ -99,32 +135,40 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
     return this.fontSize;
   };
 }
-/**
- * Zeichen des Prototypes der Klassenelemente
- * @param canvas
- */
-Shape.prototype.draw = function(canvas) {
+
+Shape.prototype.draw =
+  /**
+   * Zeichen des Prototypes der Klassenelemente
+   * @param canvas
+   */
+  function(canvas) {
   throw new Error('This method should not be directly called!');
 };
-/**
- * Wandeln des Prototypes der Kassenelemente in ein JSON Objekt
- */
-Shape.prototype.toJSON = function() {
+
+Shape.prototype.toJSON =
+  /**
+   * Wandeln des Prototypes der Kassenelemente in ein JSON Objekt
+   */
+  function() {
   throw new Error('This method should not be directly called!');
 };
-/**
- * Speichern des Prototypes der Klassenelemente als JSON Objekt
- * @param json
- */
-Shape.prototype.applyJSON = function(json) {
+
+Shape.prototype.applyJSON =
+  /**
+   * Speichern des Prototypes der Klassenelemente als JSON Objekt
+   * @param json
+   */
+  function(json) {
   throw new Error('This method should not be directly called!');
 };
-/**
- * Editieren des Prototypes der Klassenelemente als JSON Objekt
- * @param modal
- * @param callback
- */
-Shape.prototype.startEditmode = function(modal, callback) {
+
+Shape.prototype.startEditmode =
+  /**
+   * Editieren des Prototypes der Klassenelemente als JSON Objekt
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   throw new Error('This method should not be directly called!');
 };
 /**
@@ -144,11 +188,13 @@ function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 EmptyClass.prototype = new Shape();
-/**
- * Zeichnen des einfachen Klassenelementes
- * @param canvas
- */
-EmptyClass.prototype.draw = function(canvas) {
+
+EmptyClass.prototype.draw =
+  /**
+   * Zeichnen des einfachen Klassenelementes
+   * @param canvas
+   */
+  function(canvas) {
   var context = canvas.getContext('2d');
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
@@ -164,10 +210,12 @@ EmptyClass.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/**
- * Wandeln des einfachen Klassenelementes zu einem JSON Objekt
- */
-EmptyClass.prototype.toJSON = function() {
+
+EmptyClass.prototype.toJSON =
+  /**
+   * Wandeln des einfachen Klassenelementes zu einem JSON Objekt
+   */
+  function() {
   return {
     _type: 'EmptyClass',
     x: this.getX(),
@@ -178,11 +226,13 @@ EmptyClass.prototype.toJSON = function() {
     _id: this._id
   };
 };
-/**
- * Speichern des JSON Objekt des einfachen Klassenelementes
- * @param json
- */
-EmptyClass.prototype.applyJSON = function(json) {
+
+EmptyClass.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objekt des einfachen Klassenelementes
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -190,12 +240,14 @@ EmptyClass.prototype.applyJSON = function(json) {
   this.name = json.name;
   this._id = json._id;
 };
-/**
- * Editieren des einfachen Klassenelementes aktivieren
- * @param modal
- * @param callback
- */
-EmptyClass.prototype.startEditmode = function(modal, callback) {
+
+EmptyClass.prototype.startEditmode =
+  /**
+   * Editieren des einfachen Klassenelementes aktivieren
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
@@ -254,10 +306,12 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
     this.attributes = attributes;
   };
 
-  /**
-   * @param methods
-   */
-  this.setMethods = function(methods) {
+
+  this.setMethods =
+    /**
+     * @param methods
+     */
+    function(methods) {
     this.methods = methods;
   };
 
@@ -459,10 +513,12 @@ AbstractClass.prototype.draw =
   context.stroke();
   context.restore();
 };
-/**
- * Wandeln der abstrakten Klasse in ein JSON Objekt
- */
-AbstractClass.prototype.toJSON = function() {
+
+AbstractClass.prototype.toJSON =
+  /**
+   * Wandeln der abstrakten Klasse in ein JSON Objekt
+   */
+  function() {
   return {
     _type: 'AbstractClass',
     x: this.getX(),
@@ -475,11 +531,13 @@ AbstractClass.prototype.toJSON = function() {
     _id: this._id
   };
 };
-/**
- * Speichern des JSON Objektes der abstrakten Klasse
- * @param json
- */
-AbstractClass.prototype.applyJSON = function(json) {
+
+AbstractClass.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objektes der abstrakten Klasse
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -489,14 +547,10 @@ AbstractClass.prototype.applyJSON = function(json) {
   this.attributes = json.attributes;
   this._id = json._id;
 };
-/**
- * Editieren der abstrakten Klasse aktivieren
- * @param modal
- * @param callback
- */
+
 AbstractClass.prototype.startEditmode =
   /**
-   * TODO kommentieren
+   * Editieren der abstrakten Klasse aktivieren
    * @param modal
    * @param callback
    */
@@ -509,7 +563,7 @@ AbstractClass.prototype.startEditmode =
     resolve: {
       settings:
         /**
-         * TODO kommentieren
+         * Auslesen der Attributnamen im "Eigenschaften Ändern" Menü
          */
         function() {
         return {
@@ -523,7 +577,7 @@ AbstractClass.prototype.startEditmode =
 
   modalInstance.result.then(
     /**
-     * TODO kommentieren
+     * Ändern der Eigenschaften eines Elementes
      * @param result
      */
     function(result) {
@@ -551,13 +605,10 @@ function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, f
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
 Comment.prototype = new Shape();
-/**
- * Zeichnen des Kommentars
- * @param canvas
- */
+
 Comment.prototype.draw =
   /**
-   * TODO kommentieren
+   * Zeichnen des Kommentars
    * @param canvas
    */
   function(canvas) {
@@ -616,12 +667,14 @@ Comment.prototype.applyJSON =
   this.name = json.name;
   this._id = json._id;
 };
-/**
- * Editieren des Kommentars wird aktiviert
- * @param modal
- * @param callback
- */
-Comment.prototype.startEditmode = function(modal, callback) {
+
+Comment.prototype.startEditmode =
+  /**
+   * Editieren des Kommentars wird aktiviert
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
@@ -630,7 +683,7 @@ Comment.prototype.startEditmode = function(modal, callback) {
     resolve: {
       settings:
         /**
-         * Liefert den Namen des Attributes
+         * Liefert den Namen des Kommentars aus den Eigenschaften
          */
         function() {
         return {
@@ -642,7 +695,7 @@ Comment.prototype.startEditmode = function(modal, callback) {
 
   modalInstance.result.then(
     /**
-     * TODO kommentieren
+     * Ändert den Namen des Kommentars in den Eigenschaften
      * @param result
      */
     function(result) {
@@ -788,10 +841,12 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
     this.attributes = attributes;
   };
 
-  /**
-   * @param methods
-   */
-  this.setMethods = function(methods) {
+
+  this.setMethods =
+    /**
+     * @param methods
+     */
+    function(methods) {
     this.methods = methods;
   };
 
@@ -1041,7 +1096,7 @@ Class.prototype.startEditmode =
     resolve: {
       settings:
         /**
-         * Anzeige der eingetragenen Eigenschaften eines Elementes
+         * Anzeige der eingetragenen Eigenschaften der Standartklasse
          */
         function() {
         return {
@@ -1066,7 +1121,7 @@ Class.prototype.startEditmode =
   });
 };
 /**
- * Definieren eines Interfaces
+ * Definieren eines Interface-Elementes
  * @param elementId
  * @param x
  * @param y
@@ -1100,7 +1155,7 @@ Interface.prototype = new Shape();
 
 Interface.prototype.draw =
   /**
-   * Zeichnen des Interfaces
+   * Zeichnen des Interface-Elementes
    * @param canvas
    */
   function(canvas) {
@@ -1233,7 +1288,7 @@ Interface.prototype.draw =
 
 Interface.prototype.toJSON =
   /**
-   * Wandeln des Interfaces in ein JSON Objekt
+   * Wandeln des Interface-Elementes in ein JSON Objekt
    */
   function() {
   return {
@@ -1250,7 +1305,7 @@ Interface.prototype.toJSON =
 
 Interface.prototype.applyJSON =
   /**
-   * Speichern des JSON Objektes des Interfaces
+   * Speichern des JSON Objektes des Interface-Elementes
    * @param json
    */
   function(json) {
@@ -1265,7 +1320,7 @@ Interface.prototype.applyJSON =
 
 Interface.prototype.startEditmode =
   /**
-   * Editieren des Interfaces aktivieren
+   * Editieren des Interface-Elementes aktivieren
    * @param modal
    * @param callback
    */
@@ -1278,7 +1333,7 @@ Interface.prototype.startEditmode =
     resolve: {
       settings:
         /**
-         * Eigenschaften ändern des Interfaces wird angepasst
+         * Eigenschaften ändern des Interface-Elementes werden ausgelesen
          */
         function() {
         return {
@@ -1290,7 +1345,12 @@ Interface.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * Eigenschaften des Interface-Elementes werden gesetzt
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     self.setMethods(result.methods.split("\n"));
     callback();
