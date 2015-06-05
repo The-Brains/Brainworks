@@ -86,13 +86,13 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   return {
     getAll:
       /**
-       * Gibt alle Diagrammdaten eines Users zurück
+       * Liefert alle Diagrammdaten eines Users
        * @param userId
        */
       function(userId) {
       return $http.get('/diagram/' + userId + '/diagrams').then(
         /**
-         * Gibt die Daten, die bei der URL Hinterlegt sind zurück
+         * Liefert die Daten, die bei der URL Hinterlegt sind
          * @param res
          */
         function(res) {
@@ -101,7 +101,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     },
     getPublicDiagrams:
       /**
-       * Gibt alle öffentlichen Diagrammdaten zurück
+       * Liefert alle öffentlichen Diagrammdaten
        */
       function() {
       return $http.get('/diagram/publicDiagrams').then(function(res) {
@@ -110,13 +110,13 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     },
     getPublicDiagram:
       /**
-       * Gibt Diagrammdaten eines bestimmtes öffentliches zurück
+       * Liefert Diagrammdaten eines bestimmtes öffentliches
        * @param diagramId
        */
       function(diagramId) {
       return $http.get('/diagram/' + diagramId).then(
         /**
-         * Gibt die Daten, die bei der URL Hinterlegt sind zurück
+         * Liefert die Daten, die bei der URL Hinterlegt sind
          * @param res
          */
         function(res) {

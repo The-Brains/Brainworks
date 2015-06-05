@@ -2,15 +2,24 @@
  * TODO Kommentieren
  */
 angular.module('brainworks.user')
-.factory('userSettingsFactory', ['$http', function($http){
+.factory('userSettingsFactory', ['$http', 
+  /**
+   * 
+   * @param $http
+   */
+  function($http){
   return {
     loadUserData:
       /**
-       *
+       * Liefert die lokalen Daten eines bestimmten Nutzers
        * @param userId
        */
       function(userId) {
-      return $http.get('/user/'+userId).then(function(res) {
+      return $http.get('/user/'+userId).then(
+        /**
+         * 
+         */
+        function(res) {
         return res.data;
       });
     },

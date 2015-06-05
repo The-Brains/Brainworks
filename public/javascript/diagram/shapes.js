@@ -202,7 +202,11 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * Liefert den Namen des Attributes
+         */
+        function() {
         return {
           name: self.getName()
         };
@@ -210,7 +214,12 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * Ändert den Namen des Attributes
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     callback();
   });
@@ -237,10 +246,17 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setAttributes = function(attributes) {
+  this.setAttributes =
+    /**
+     * @param attributes
+     */
+    function(attributes) {
     this.attributes = attributes;
   };
 
+  /**
+   * @param methods
+   */
   this.setMethods = function(methods) {
     this.methods = methods;
   };
@@ -254,11 +270,13 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
   };
 }
 AbstractClass.prototype = new Shape();
-/**
- * Zeichnen der abstrakten Klasse
- * @param canvas
- */
-AbstractClass.prototype.draw = function(canvas) {
+
+AbstractClass.prototype.draw =
+  /**
+   * Zeichnen der abstrakten Klasse
+   * @param canvas
+   */
+  function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numAttributes = this.attributes.length;
@@ -269,7 +287,11 @@ AbstractClass.prototype.draw = function(canvas) {
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  //Initializes the font-size
+  /**
+   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
+   * Btw. Würde der ganze Kram einfach dreimal copy/pastet?
+   */
+  /* Initiiert die Schriftgröße */
   if (numAttributes > 0 && numMethods > 0) {
     var totalSpace = 6 + (numAttributes - 1) + (numMethods - 1);
   } else if (numAttributes > 0 && numMethods === 0) {
@@ -280,19 +302,18 @@ AbstractClass.prototype.draw = function(canvas) {
     var totalSpace = 2;
   }
 
-  // Settings for the fonts (fontSize are defined in px)
+  /* Einstellungen für Schriften */
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
   var fontTitle = 'bold italic ' + fontSize + 'px ' + this.fontFamily;
   var fontText = fontSize + 'px ' + this.fontFamily;
 
-  // Settings for finding the biggest width and its text
   var biggestWidth = 0;
   var biggestText = '';
 
-  // Finding the biggest width and its text
+  /* Finden der größten Breite und dessen Text */
   for (var a = 0; a < 2; a++) {
 
-    // Checks the width of the title
+    /* Prüft die Breite des Titels */
     if (a === 0) {
       context.font = fontTitle;
 
@@ -303,7 +324,7 @@ AbstractClass.prototype.draw = function(canvas) {
       }
     }
 
-    // Checks the width of each attributes elements
+    /* Prüft die Breite jedes elementes der Attribute */
     if (a === 1 && numAttributes > 0) {
       context.font = fontText;
 
@@ -316,7 +337,7 @@ AbstractClass.prototype.draw = function(canvas) {
       }
     }
 
-    // Checks the width of each functions elements
+    /* Prüft die Breite jedes elementes der Attribute */
     if (a === 2 && numMethods > 0) {
       context.font = fontText;
 
@@ -330,7 +351,7 @@ AbstractClass.prototype.draw = function(canvas) {
     }
   }
 
-  // Reduce the font until it fits to the given width
+  /* Verringert die Schriftgröße, bis sie in die gegebene Breite passt */
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
 
@@ -346,7 +367,7 @@ AbstractClass.prototype.draw = function(canvas) {
     if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
   }
 
-  // Settings for text-orientation
+  /* Einstellungen für die text-orientation */
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + ((this.height / 2) + (fontSize / 2));
   var leftSpacing = this.x + (this.width * 0.05);
@@ -355,18 +376,18 @@ AbstractClass.prototype.draw = function(canvas) {
   if (numAttributes > 0 && numMethods > 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the attributes
+    /* Füllt die Attribute */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
@@ -374,12 +395,12 @@ AbstractClass.prototype.draw = function(canvas) {
       yPos += yNextGap;
     }
 
-    // Draws the second line
+    /* Zeichnet eine zweite Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the functions
+    /* Füllt die Funktionen */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
@@ -389,18 +410,18 @@ AbstractClass.prototype.draw = function(canvas) {
   } else if (numAttributes > 0 && numMethods === 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichent die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the attributes
+    /* Füllt die Attribute */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
@@ -410,19 +431,19 @@ AbstractClass.prototype.draw = function(canvas) {
   } else if (numAttributes === 0 && numMethods > 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     alert(context.measureText(this.name).width);
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the functions
+    /* Füllt die Funktionen */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
@@ -473,14 +494,24 @@ AbstractClass.prototype.applyJSON = function(json) {
  * @param modal
  * @param callback
  */
-AbstractClass.prototype.startEditmode = function(modal, callback) {
+AbstractClass.prototype.startEditmode =
+  /**
+   * TODO kommentieren
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * TODO kommentieren
+         */
+        function() {
         return {
           name: self.getName(),
           attributes: self.getAttributes().join("\n"),
@@ -490,7 +521,12 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * TODO kommentieren
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
@@ -519,7 +555,12 @@ Comment.prototype = new Shape();
  * Zeichnen des Kommentars
  * @param canvas
  */
-Comment.prototype.draw = function(canvas) {
+Comment.prototype.draw =
+  /**
+   * TODO kommentieren
+   * @param canvas
+   */
+  function(canvas) {
   var context = canvas.getContext('2d');
   var horizontalPiece = this.width * 0.8;
   var verticalPiece = this.height * 0.3;
@@ -545,10 +586,12 @@ Comment.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/**
- * Wandeln des Kommentars zu einem JSON Objekt
- */
-Comment.prototype.toJSON = function() {
+
+Comment.prototype.toJSON =
+  /**
+   * Wandeln des Kommentars zu einem JSON Objekt
+   */
+  function() {
   return {
     _type: 'Comment',
     x: this.getX(),
@@ -559,11 +602,13 @@ Comment.prototype.toJSON = function() {
     _id: this._id
   };
 };
-/**
- * Speichern des JSON Objekts des Kommentars
- * @param json
- */
-Comment.prototype.applyJSON = function(json) {
+
+Comment.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objekts des Kommentars
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -583,7 +628,11 @@ Comment.prototype.startEditmode = function(modal, callback) {
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * Liefert den Namen des Attributes
+         */
+        function() {
         return {
           name: self.getName()
         };
@@ -591,7 +640,12 @@ Comment.prototype.startEditmode = function(modal, callback) {
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * TODO kommentieren
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     callback();
   });
@@ -610,17 +664,16 @@ Comment.prototype.startEditmode = function(modal, callback) {
  * @param fontFamily
  * @param fontSize
  */
-
-
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 }
 ActiveClass.prototype = new Shape();
-/**
- * Zeichnen der aktiven Klasse
- * @param canvas
- */
-ActiveClass.prototype.draw = function(canvas) {
+ActiveClass.prototype.draw =
+  /**
+   * Zeichnen der aktiven Klasse
+   * @param canvas
+   */
+  function(canvas) {
   var startPosInner = this.x + this.width * 0.1;
   var endPosInner = this.x + this.width * 0.9;
   var context = canvas.getContext('2d');
@@ -642,10 +695,12 @@ ActiveClass.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/**
- * Wandelt die aktive Klasse zu einem JSON Objekt
- */
-ActiveClass.prototype.toJSON = function() {
+
+ActiveClass.prototype.toJSON =
+  /**
+   * Wandelt die aktive Klasse zu einem JSON Objekt
+   */
+  function() {
   return {
     _type: 'ActiveClass',
     x: this.getX(),
@@ -657,11 +712,12 @@ ActiveClass.prototype.toJSON = function() {
   };
 };
 
-/**
- * Speichern des JSON Objektes der aktiven Klasse
- * @param json
- */
-ActiveClass.prototype.applyJSON = function(json) {
+ActiveClass.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objektes der aktiven Klasse
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -669,19 +725,25 @@ ActiveClass.prototype.applyJSON = function(json) {
   this.name = json.name;
   this._id = json._id;
 };
-/**
- * Editieren der aktiven Klasse aktivieren
- * @param modal
- * @param callback
- */
-ActiveClass.prototype.startEditmode = function(modal, callback) {
+
+ActiveClass.prototype.startEditmode =
+  /**
+   * Editieren der aktiven Klasse aktivieren
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * Liefert den Namen des Attributes
+         */
+        function() {
         return {
           name: self.getName()
         };
@@ -689,7 +751,11 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     callback();
   });
@@ -708,18 +774,23 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
  * @param fontSize
  * @param methods
  */
-
-
 function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setAttributes = function(attributes) {
+  this.setAttributes =
+    /**
+     * @param attributes
+     */
+    function(attributes) {
     this.attributes = attributes;
   };
 
+  /**
+   * @param methods
+   */
   this.setMethods = function(methods) {
     this.methods = methods;
   };
@@ -733,11 +804,13 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   };
 }
 Class.prototype = new Shape();
-/**
- * Zeichnen der Standartklasse
- * @param canvas
- */
-Class.prototype.draw = function(canvas) {
+
+Class.prototype.draw =
+  /**
+   * Zeichnen der Standartklasse
+   * @param canvas
+   */
+  function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numAttributes = this.attributes.length;
@@ -748,7 +821,10 @@ Class.prototype.draw = function(canvas) {
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  //Initializes the font-size
+  /**
+   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
+   */
+  /* Initiiert die Schriftgröße */
   if (numAttributes > 0 && numMethods > 0) {
     var totalSpace = 6 + (numAttributes - 1) + (numMethods - 1);
   } else if (numAttributes > 0 && numMethods === 0) {
@@ -759,19 +835,18 @@ Class.prototype.draw = function(canvas) {
     var totalSpace = 2;
   }
 
-  // Settings for the fonts (fontSize are defined in px)
+  /* Einstellung für die Schrift */
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
   var fontTitle = 'bold ' + fontSize + 'px ' + this.fontFamily;
   var fontText = fontSize + 'px ' + this.fontFamily;
 
-  // Settings for finding the biggest width and its text
   var biggestWidth = 0;
   var biggestText = '';
 
-  // Finding the biggest width and its text
+  /* Finden der größten Breite und dessen Text */
   for (var a = 0; a < 2; a++) {
 
-    // Checks the width of the title
+    /* Prüft die Breite des Titels */
     if (a === 0) {
       context.font = fontTitle;
 
@@ -782,7 +857,7 @@ Class.prototype.draw = function(canvas) {
       }
     }
 
-    // Checks the width of each attributes elements
+    /* Prüft die Breite von jedem Element der Attribute */
     if (a === 1 && numAttributes > 0) {
       context.font = fontText;
 
@@ -795,7 +870,7 @@ Class.prototype.draw = function(canvas) {
       }
     }
 
-    // Checks the width of each functions elements
+    /* Prüft die Breite jedes Funktionselementes */
     if (a === 2 && numMethods > 0) {
       context.font = fontText;
 
@@ -809,7 +884,7 @@ Class.prototype.draw = function(canvas) {
     }
   }
 
-  // Reduce the font until it fits to the given width
+   /* Verkleinert die Schriftgröße bis sie in die gegebene Elementgröße passt */
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
 
@@ -825,7 +900,7 @@ Class.prototype.draw = function(canvas) {
     if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
   }
 
-  // Settings for text-orientation
+  /* Einstellungen für die text-orientation */
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + ((this.height / 2) + (fontSize / 2));
   var leftSpacing = this.x + (this.width * 0.05);
@@ -834,18 +909,18 @@ Class.prototype.draw = function(canvas) {
   if (numAttributes > 0 && numMethods > 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die Erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the attributes
+    /* Füllt die Attribute */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
@@ -853,12 +928,12 @@ Class.prototype.draw = function(canvas) {
       yPos += yNextGap;
     }
 
-    // Draws the second line
+    /* Zeichnet die zweite Linie */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the functions
+    /* Füllt die Funktionen */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
@@ -868,18 +943,18 @@ Class.prototype.draw = function(canvas) {
   } else if (numAttributes > 0 && numMethods === 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the attributes
+    /* Füllt die Attribute */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numAttributes; a++) {
@@ -889,18 +964,18 @@ Class.prototype.draw = function(canvas) {
   } else if (numAttributes === 0 && numFunctions > 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the functions
+    /* Füllt die Funktionen */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
@@ -916,10 +991,12 @@ Class.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/**
- * Wandeln der Standartklasse in ein JSON Objekt
- */
-Class.prototype.toJSON = function() {
+
+Class.prototype.toJSON =
+  /**
+   * Wandeln der Standartklasse in ein JSON Objekt
+   */
+  function() {
   return {
     _type: 'Class',
     x: this.getX(),
@@ -932,11 +1009,13 @@ Class.prototype.toJSON = function() {
     _id: this._id
   };
 };
-/**
- * Speichern des JSON Objektes der Standartklasse
- * @param json
- */
-Class.prototype.applyJSON = function(json) {
+
+Class.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objektes der Standartklasse
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -946,19 +1025,25 @@ Class.prototype.applyJSON = function(json) {
   this.methods = json.methods;
   this.attributes = json.attributes;
 };
-/**
- * Editieren der Standartklasse aktivieren
- * @param modal
- * @param callback
- */
-Class.prototype.startEditmode = function(modal, callback) {
+
+Class.prototype.startEditmode =
+  /**
+   * Editieren der Standartklasse aktivieren
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * Anzeige der eingetragenen Eigenschaften eines Elementes
+         */
+        function() {
         return {
           name: self.getName(),
           attributes: self.getAttributes().join("\n"),
@@ -968,7 +1053,12 @@ Class.prototype.startEditmode = function(modal, callback) {
     }
   });
 
-  modalInstance.result.then(function(result) {
+  modalInstance.result.then(
+    /**
+     * Aktualisieren der eingetragenen Daten
+     * @param result
+     */
+    function(result) {
     self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
@@ -989,14 +1079,16 @@ Class.prototype.startEditmode = function(modal, callback) {
  * @param fontSize
  * @param methods
  */
-
-
 function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setMethods = function(methods) {
+  this.setMethods =
+    /**
+     * @param methods
+     */
+    function(methods) {
     this.methods = methods;
   };
 
@@ -1005,11 +1097,13 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
   };
 }
 Interface.prototype = new Shape();
-/**
- * Zeichnen des Interfaces
- * @param canvas
- */
-Interface.prototype.draw = function(canvas) {
+
+Interface.prototype.draw =
+  /**
+   * Zeichnen des Interfaces
+   * @param canvas
+   */
+  function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numMethods = this.methods.length;
@@ -1020,26 +1114,29 @@ Interface.prototype.draw = function(canvas) {
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  //Initializes the font-size
+  /**
+   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
+   */
+  /* Initiiert die Schriftgröße  */
   if (numMethods > 0) {
     var totalSpace = 5 + (numMethods - 1);
   } else {
     var totalSpace = 2;
   }
 
-  // Settings for the fonts (fontSize are defined in px)
+  /* Einstellungen für die Schrift */
   var fontSize = Math.floor((this.height - (totalSpace * minSpacing)) / numElements);
   var fontTitle = 'bold italic ' + fontSize + 'px ' + this.fontFamily;
   var fontText = fontSize + 'px ' + this.fontFamily;
 
-  // Settings for finding the biggest width and its text
+  /* Einstellungen, um die größte breite und dessen Text zu finden */
   var biggestWidth = 0;
   var biggestText = '';
 
-  // Finding the biggest width and its text
+  /* Finden der größten breite und dessen Text */
   for (var a = 0; a < 2; a++) {
 
-  // Checks the width of the interface-title
+  /* Prüft die Breite des Interface Titels */
   if (a === 0) {
     context.font = fontText;
 
@@ -1050,7 +1147,7 @@ Interface.prototype.draw = function(canvas) {
     }
   }
 
-    // Checks the width of the title
+    /* Prüft die Breite des Titels */
     if (a === 1) {
       context.font = fontTitle;
 
@@ -1061,7 +1158,7 @@ Interface.prototype.draw = function(canvas) {
       }
     }
 
-    // Checks the width of each functions elements
+    /* Prüft die Breite von jedem Funktionselement */
     if (a === 2 && numMethods > 0) {
       context.font = fontText;
 
@@ -1075,7 +1172,7 @@ Interface.prototype.draw = function(canvas) {
     }
   }
 
-  // Reduce the font until it fits to the given width
+  /* Verkleinert die Schrift, bis sie in die gegebene Breite Passt */
   while (biggestWidth > (this.width / 2)) {
     fontSize--;
 
@@ -1091,7 +1188,7 @@ Interface.prototype.draw = function(canvas) {
     if (width1 < (this.width / 2) && width2 < (this.width / 2)) break;
   }
 
-  // Settings for text-orientation
+  /* Einstellungen für die text-orientation */
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + ((this.height / 2) + (fontSize / 2));
   var leftSpacing = this.x + (this.width * 0.05);
@@ -1100,24 +1197,24 @@ Interface.prototype.draw = function(canvas) {
   if (numMethods > 0) {
     var yPos = this.y + yNextGap;
 
-    // Fill the first-title
+    /* Füllt den ersten Titel */
     context.font = fontText;
     context.textAlign = 'center';
     context.fillText(firstTitle, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Fill the title
+    /* Füllt den Titel */
     context.font = fontTitle;
     context.textAlign = 'center';
     context.fillText(this.name, centerX, yPos, this.width);
     yPos += yNextGap;
 
-    // Draws the first line
+    /* Zeichnet die erste Zeile */
     context.moveTo(this.x, yPos);
     context.lineTo(this.x + this.width, yPos);
     yPos += yNextGap;
 
-    // Fill the functions
+    /* Füllt die Funktionen */
     context.font = fontText;
     context.textAlign = 'left';
     for (var a = 0; a < numMethods; a++) {
@@ -1133,10 +1230,12 @@ Interface.prototype.draw = function(canvas) {
   context.stroke();
   context.restore();
 };
-/**
- * Wandeln des Interfaces in ein JSON Objekt
- */
-Interface.prototype.toJSON = function() {
+
+Interface.prototype.toJSON =
+  /**
+   * Wandeln des Interfaces in ein JSON Objekt
+   */
+  function() {
   return {
     _type: 'Interface',
     x: this.getX(),
@@ -1148,11 +1247,13 @@ Interface.prototype.toJSON = function() {
     _id: this._id
   };
 };
-/**
- * Speichern des JSON Objektes des Interfaces
- * @param json
- */
-Interface.prototype.applyJSON = function(json) {
+
+Interface.prototype.applyJSON =
+  /**
+   * Speichern des JSON Objektes des Interfaces
+   * @param json
+   */
+  function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -1161,19 +1262,25 @@ Interface.prototype.applyJSON = function(json) {
   this._id = json._id;
   this.methods = json.methods;
 };
-/**
- * Editieren des Interfaces aktivieren
- * @param modal
- * @param callback
- */
-Interface.prototype.startEditmode = function(modal, callback) {
+
+Interface.prototype.startEditmode =
+  /**
+   * Editieren des Interfaces aktivieren
+   * @param modal
+   * @param callback
+   */
+  function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings: function() {
+      settings:
+        /**
+         * Eigenschaften ändern des Interfaces wird angepasst
+         */
+        function() {
         return {
           name: self.getName(),
           attributes: null,
