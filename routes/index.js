@@ -1,7 +1,19 @@
+/**
+ * Datenhalter von statischen Variablen für die Startseite und die Navigation.
+ * Rendern der Oberfläche
+ */
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/',
+  /**
+   * Definition der Textelemente in der Navigationsbar
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('index', {
     title: 'Brainworks',
     home: 'Startseite',
@@ -14,7 +26,15 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/home', function(req, res, next) {
+router.get('/home',
+  /**
+   * Definition der Textelemente in der Startseite
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('home', {
     paginationNext: 'Weiter',
     paginationPrevious: 'Zurück',
@@ -25,7 +45,15 @@ router.get('/home', function(req, res, next) {
   });
 });
 
-router.get('/publicDiagram', function(req, res, next) {
+router.get('/publicDiagram',
+  /**
+   * Definition der Textelemente in der Ansicht eines öffentlichen Diagramms
+   * Zeichnen der Elemente
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('diagram/publicDiagram', {
     back: 'Zurück',
     comment: 'Kommentar',
@@ -36,7 +64,15 @@ router.get('/publicDiagram', function(req, res, next) {
   });
 });
 
-router.get('/about', function(req, res, next) {
+router.get('/about',
+  /**
+   * Definition des Textelementes in der Ansicht des About(Über) Bereiches
+   * Zeichnen des Elementes
+   * @param req
+   * @param res
+   * @param next
+   */
+  function(req, res, next) {
   res.render('about', {});
 });
 

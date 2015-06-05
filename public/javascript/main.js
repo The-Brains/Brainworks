@@ -1,10 +1,10 @@
 /**
- * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren.
+ * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren von Elementen der Navigationsbar
  */
 angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
 .config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
   /**
-   *
+   * Initiiert die Startseite und regelt die Zugriffe der Navigationsbar
    * @param $stateProvider
    * @param $urlRouterProvider
    * @param $httpProvider
@@ -78,7 +78,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
     return {
       request:
         /**
-         * Liefert die Konfiguration
+         * Liefert die Konfiguration des Kopfbereiches
          * Wenn ein Access Token vorhanden ist, wird er ausgelesen
          * @param config
          */
@@ -105,7 +105,7 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
 }])
 .controller('brainworksCtrl', ['$rootScope', 'userFactory',
   /**
-   * bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
+   * Bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
    * @param $rootScope
    * @param userFactory
    */

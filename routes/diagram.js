@@ -1,5 +1,6 @@
 /**
- * Datenhalter von statischen Variablen für das Diagramm
+ * Datenhalter von statischen Variablen für Diagrammseiten.
+ * Rendern der Oberfläche
  */
 var express = require('express');
 var router = express.Router();

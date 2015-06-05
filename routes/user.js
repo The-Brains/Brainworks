@@ -1,5 +1,6 @@
 /**
- * New node file
+ * Datenhalter von statischen Variablen für die Nutzerseiten.
+ * Rendern der Oberfläche
  */
 var express = require('express');
 var router = express.Router();
@@ -106,7 +107,7 @@ router.get('/loggedIn', function(req, res) {
   if (token) {
     jwt.verify(token, configuration.secret, function(err, decoded) {
       if (err) {
-        res.send(err); 
+        res.send(err);
       } else {
         User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
           if(err){ res.send(err); }
