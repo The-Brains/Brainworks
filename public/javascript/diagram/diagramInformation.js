@@ -31,32 +31,29 @@ angular.module('brainworks.diagram')
     }
   };
 }])
-.controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory',
-  /**
-   * Definition der Logik hinter den Buttons in den Diagramminformationen
-   * @param {Object} $scope
-   * @param {Object} $state
-   * @param {Object} localStorageService
-   * @param {Object} diagram
-   * @param {Object} diagramInformationFactory
-   */
-  function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
+/**
+ * Definition der Logik hinter den Buttons in den Diagramminformationen
+ * @param {Object} $scope
+ * @param {Object} $state
+ * @param {Object} localStorageService
+ * @param {Object} diagram
+ * @param {Object} diagramInformationFactory
+ */
+.controller('diagramInformationCtrl', ['$scope', '$state', 'localStorageService', 'diagram', 'diagramInformationFactory', function($scope, $state, localStorageService, diagram, diagramInformationFactory) {
   $scope.diagram = diagram;
 
-  $scope.cancel =
-    /**
-     * Abbrechen der Bearbeitung der Diagramminformation
-     */
-    function() {
+  /**
+   * Abbrechen der Bearbeitung der Diagramminformation
+   */
+  $scope.cancel = function() {
     $state.go('profile.diagrams');
   };
 
-  $scope.save =
-    /**
-     * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
-     * @param {Object} diagram
-     */
-    function(diagram) {
+  /**
+   * Speichern der Diagramminformationen & anschließendes Öffnen des Diagramms
+   * @param {Object} diagram
+   */
+  $scope.save = function(diagram) {
     diagramInformationFactory.save(diagram).success(function(data) {
       if(data.success) {
         $state.go('diagram', {id: data.diagramId});

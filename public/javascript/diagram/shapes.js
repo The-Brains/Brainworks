@@ -34,142 +34,159 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
     this.x = x;
   };
 
-  this.setY =
-    /**
-     * @param {Number} y
-     */
-    function(y) {
+  /**
+   * @param {Number} y
+   */
+  this.setY = function(y) {
     this.y = y;
   };
 
-  this.setWidth =
-    /**
-     * @param {Number} width
-     */
-    function(width) {
+  /**
+   * @param {Number} width
+   */
+  this.setWidth = function(width) {
     this.width = width;
   };
 
-  this.setHeight =
-    /**
-     * @param {Number} height
-     */
-    function(height) {
+  /**
+   * @param {Number} height
+   */
+  this.setHeight = function(height) {
     this.height = height;
   };
 
-  this.setBorderColor =
-    /**
-     * @param {String} borderColor
-     */
-    function(borderColor) {
+  /**
+   * @param {string} borderColor
+   */
+  this.setBorderColor = function(borderColor) {
     this.borderColor = borderColor;
   };
 
-  this.setLineWidth =
-    /**
-     * @param {Number} lineWidth
-     */
-    function(lineWidth) {
+  /**
+   * @param {Number} lineWidth
+   */
+  this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
   };
 
-  this.setName =
-    /**
-     * @param {String} name
-     */
-    function(name) {
+  /**
+   * @param {string} name
+   */
+  this.setName = function(name) {
     this.name = name;
   };
 
-  this.setFontFamily =
-    /**
-     * @param {String} fontFamily
-     */
-    function(fontFamily) {
+  /**
+   * @param {string} fontFamily
+   */
+  this.setFontFamily = function(fontFamily) {
     this.fontFamily = fontFamily;
   };
 
-  this.setFontSize =
-    /**
-     * @param {Number} fontSize
-     */
-    function(fontSize) {
+  /**
+   * @param {Number} fontSize
+   */
+  this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
   };
 
+  /**
+   * 
+   */
   this.getX = function() {
     return this.x;
   };
 
+  /**
+   * 
+   */
   this.getY = function() {
     return this.y;
   };
 
+  /**
+   * 
+   */
   this.getWidth = function() {
     return this.width;
   };
 
+  /**
+   * 
+   */
   this.getHeight = function() {
     return this.height;
   };
 
+  /**
+   * 
+   */
   this.getBorderColor = function() {
     return this.borderColor;
   };
 
+  /**
+   * 
+   */
   this.getLineWidth = function() {
     return this.lineWidth;
   };
 
+  /**
+   * 
+   */
   this.getName = function() {
     return this.name;
   };
 
+  /**
+   * 
+   */
   this.getFontFamily = function() {
     return this.fontFamily;
   };
 
+  /**
+   * 
+   */
   this.getFontSize = function() {
     return this.fontSize;
   };
 }
 
-Shape.prototype.draw =
-  /**
-   * Zeichen des Prototypes der Klassenelemente
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichen des Prototypes der Klassenelemente
+ * @param {Object} canvas
+ */
+Shape.prototype.draw = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
 
-Shape.prototype.toJSON =
-  /**
-   * Wandeln des Prototypes der Kassenelemente in ein JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln des Prototypes der Kassenelemente in ein JSON Objekt
+ */
+Shape.prototype.toJSON = function() {
   throw new Error('This method should not be directly called!');
 };
 
-Shape.prototype.applyJSON =
-  /**
-   * Speichern des Prototypes der Klassenelemente als JSON Objekt
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des Prototypes der Klassenelemente als JSON Objekt
+ * @param {Object} json
+ */
+Shape.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
-Shape.prototype.startEditmode =
-  /**
-   * Editieren des Prototypes der Klassenelemente als JSON Objekt
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren des Prototypes der Klassenelemente als JSON Objekt
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+Shape.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
 };
+
+
 /**
  * Definition eines einfachen Klassenelementes
  * @param {Number[]} $elementId
@@ -177,23 +194,23 @@ Shape.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} name
+ * @param {string} name
  * @param {Number} lineWidth
- * @param {String} borderColor
- * @param {String} fontFamily
+ * @param {string} borderColor
+ * @param {string} fontFamily
  * @param {Number} fontSize
  */
 function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
+
 EmptyClass.prototype = new Shape();
 
-EmptyClass.prototype.draw =
-  /**
-   * Zeichnen des einfachen Klassenelementes
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichnen des einfachen Klassenelementes
+ * @param {Object} canvas
+ */
+EmptyClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var centerX = this.x + (this.width / 2);
   var centerY = this.y + (this.height / 2) + (this.fontSize / 2);
@@ -210,11 +227,10 @@ EmptyClass.prototype.draw =
   context.restore();
 };
 
-EmptyClass.prototype.toJSON =
-  /**
-   * Wandeln des einfachen Klassenelementes zu einem JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln des einfachen Klassenelementes zu einem JSON Objekt
+ */
+EmptyClass.prototype.toJSON = function() {
   return {
     _type: 'EmptyClass',
     x: this.getX(),
@@ -226,12 +242,11 @@ EmptyClass.prototype.toJSON =
   };
 };
 
-EmptyClass.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objekt des einfachen Klassenelementes
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objekt des einfachen Klassenelementes
+ * @param {Object} json
+ */
+EmptyClass.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -240,24 +255,22 @@ EmptyClass.prototype.applyJSON =
   this._id = json._id;
 };
 
-EmptyClass.prototype.startEditmode =
-  /**
-   * Editieren des einfachen Klassenelementes aktivieren
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren des einfachen Klassenelementes aktivieren
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+EmptyClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Liefert den Namen des Attributes
-         */
-        function() {
+      /**
+       * Liefert den Namen des Attributes
+       */
+      settings: function() {
         return {
           name: self.getName()
         };
@@ -265,16 +278,16 @@ EmptyClass.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * Ändert den Namen des Attributes
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * Ändert den Namen des Attributes
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
   });
 };
+
 
 /**
  * Definition einer abstrakten Klasse
@@ -283,10 +296,10 @@ EmptyClass.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} borderColor
+ * @param {string} borderColor
  * @param {Number} lineWidth
- * @param {String} name
- * @param {String} fontFamily
+ * @param {string} name
+ * @param {string} fontFamily
  * @param {Number} fontSize
  * @param {Object[]} attributes
  * @param {Object[]} methods
@@ -297,39 +310,42 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setAttributes =
-    /**
-     * @param {Object[]} attributes
-     */
-    function(attributes) {
+  /**
+   * @param {Object[]} attributes
+   */
+  this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
-
-  this.setMethods =
-    /**
-     * @param {Object[]} methods
-     */
-    function(methods) {
+  /**
+   * @param {Object[]} methods
+   */
+  this.setMethods = function(methods) {
     this.methods = methods;
   };
 
+  /**
+   * 
+   */
   this.getAttributes = function() {
     return this.attributes;
   };
 
+  /**
+   * 
+   */
   this.getMethods = function() {
     return this.methods;
   };
 }
+
 AbstractClass.prototype = new Shape();
 
-AbstractClass.prototype.draw =
-  /**
-   * Zeichnen der abstrakten Klasse
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichnen der abstrakten Klasse
+ * @param {Object} canvas
+ */
+AbstractClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numAttributes = this.attributes.length;
@@ -340,10 +356,7 @@ AbstractClass.prototype.draw =
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  /**
-   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
-   * Btw. Würde der ganze Kram einfach dreimal copy/pastet?
-   */
+  
   /* Initiiert die Schriftgröße */
   if (numAttributes > 0 && numMethods > 0) {
     var totalSpace = 6 + (numAttributes - 1) + (numMethods - 1);
@@ -513,11 +526,10 @@ AbstractClass.prototype.draw =
   context.restore();
 };
 
-AbstractClass.prototype.toJSON =
-  /**
-   * Wandeln der abstrakten Klasse in ein JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln der abstrakten Klasse in ein JSON Objekt
+ */
+AbstractClass.prototype.toJSON = function() {
   return {
     _type: 'AbstractClass',
     x: this.getX(),
@@ -531,12 +543,11 @@ AbstractClass.prototype.toJSON =
   };
 };
 
-AbstractClass.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objektes der abstrakten Klasse
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objektes der abstrakten Klasse
+ * @param {Object} json
+ */
+AbstractClass.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -547,24 +558,22 @@ AbstractClass.prototype.applyJSON =
   this._id = json._id;
 };
 
-AbstractClass.prototype.startEditmode =
-  /**
-   * Editieren der abstrakten Klasse aktivieren
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren der abstrakten Klasse aktivieren
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+AbstractClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Auslesen der Attributnamen im "Eigenschaften Ändern" Menü
-         */
-        function() {
+      /**
+       * Auslesen der Attributnamen im "Eigenschaften Ändern" Menü
+       */
+      settings: function() {
         return {
           name: self.getName(),
           attributes: self.getAttributes().join("\n"),
@@ -574,18 +583,18 @@ AbstractClass.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * Ändern der Eigenschaften eines Elementes
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * Ändern der Eigenschaften eines Elementes
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
     callback();
   });
 };
+
 
 /**
  * Definition des Kommentars
@@ -594,23 +603,23 @@ AbstractClass.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} borderColor
+ * @param {string} borderColor
  * @param {Number} lineWidth
- * @param {String} name
- * @param {String} fontFamily
+ * @param {string} name
+ * @param {string} fontFamily
  * @param {Number} fontSize
  */
 function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
 }
+
 Comment.prototype = new Shape();
 
-Comment.prototype.draw =
-  /**
-   * Zeichnen des Kommentars
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichnen des Kommentars
+ * @param {Object} canvas
+ */
+Comment.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var horizontalPiece = this.width * 0.8;
   var verticalPiece = this.height * 0.3;
@@ -637,11 +646,10 @@ Comment.prototype.draw =
   context.restore();
 };
 
-Comment.prototype.toJSON =
-  /**
-   * Wandeln des Kommentars zu einem JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln des Kommentars zu einem JSON Objekt
+ */
+Comment.prototype.toJSON = function() {
   return {
     _type: 'Comment',
     x: this.getX(),
@@ -653,12 +661,11 @@ Comment.prototype.toJSON =
   };
 };
 
-Comment.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objekts des Kommentars
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objekts des Kommentars
+ * @param {Object} json
+ */
+Comment.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -667,24 +674,22 @@ Comment.prototype.applyJSON =
   this._id = json._id;
 };
 
-Comment.prototype.startEditmode =
-  /**
-   * Editieren des Kommentars wird aktiviert
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren des Kommentars wird aktiviert
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+Comment.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Liefert den Namen des Kommentars aus den Eigenschaften
-         */
-        function() {
+      /**
+       * Liefert den Namen des Kommentars aus den Eigenschaften
+       */
+      settings: function() {
         return {
           name: self.getName()
         };
@@ -692,16 +697,16 @@ Comment.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * Ändert den Namen des Kommentars in den Eigenschaften
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * Ändert den Namen des Kommentars in den Eigenschaften
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
   });
 };
+
 
 /**
  * Definition einer aktiven Klasse
@@ -710,22 +715,23 @@ Comment.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} name
+ * @param {string} name
  * @param {Number} lineWidth
- * @param {String} borderColor
- * @param {String} fontFamily
+ * @param {string} borderColor
+ * @param {string} fontFamily
  * @param {Number} fontSize
  */
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
 }
+
 ActiveClass.prototype = new Shape();
-ActiveClass.prototype.draw =
-  /**
-   * Zeichnen der aktiven Klasse
-   * @param {Object} canvas
-   */
-  function(canvas) {
+
+/**
+ * Zeichnen der aktiven Klasse
+ * @param {Object} canvas
+ */
+ActiveClass.prototype.draw = function(canvas) {
   var startPosInner = this.x + this.width * 0.1;
   var endPosInner = this.x + this.width * 0.9;
   var context = canvas.getContext('2d');
@@ -748,11 +754,10 @@ ActiveClass.prototype.draw =
   context.restore();
 };
 
-ActiveClass.prototype.toJSON =
-  /**
-   * Wandelt die aktive Klasse zu einem JSON Objekt
-   */
-  function() {
+/**
+ * Wandelt die aktive Klasse zu einem JSON Objekt
+ */
+ActiveClass.prototype.toJSON = function() {
   return {
     _type: 'ActiveClass',
     x: this.getX(),
@@ -764,12 +769,11 @@ ActiveClass.prototype.toJSON =
   };
 };
 
-ActiveClass.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objektes der aktiven Klasse
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objektes der aktiven Klasse
+ * @param {Object} json
+ */
+ActiveClass.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -778,24 +782,22 @@ ActiveClass.prototype.applyJSON =
   this._id = json._id;
 };
 
-ActiveClass.prototype.startEditmode =
-  /**
-   * Editieren der aktiven Klasse aktivieren
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren der aktiven Klasse aktivieren
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+ActiveClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Liefert den Namen des Attributes
-         */
-        function() {
+      /**
+       * Liefert den Namen des Attributes
+       */
+      settings: function() {
         return {
           name: self.getName()
         };
@@ -803,15 +805,16 @@ ActiveClass.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     callback();
   });
 };
+
+
 /**
  * Definition einer Standartklasse (mit Attribut & Methode)
  * @param {Number[]} $elementId
@@ -819,10 +822,10 @@ ActiveClass.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} name
+ * @param {string} name
  * @param {Number} lineWidth
- * @param {String} borderColor
- * @param {String} fontFamily
+ * @param {string} borderColor
+ * @param {string} fontFamily
  * @param {Number} fontSize
  * @param {Object[]} methods
  */
@@ -832,39 +835,42 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.attributes = attributes instanceof Array ? attributes : ['Attribute'];
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setAttributes =
-    /**
-     * @param {Object[]} attributes
-     */
-    function(attributes) {
+  /**
+   * @param {Object[]} attributes
+   */
+  this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
-
-  this.setMethods =
-    /**
-     * @param {Object[]} methods
-     */
-    function(methods) {
+  /**
+   * @param {Object[]} methods
+   */
+  this.setMethods = function(methods) {
     this.methods = methods;
   };
 
+  /**
+   * 
+   */
   this.getAttributes = function() {
     return this.attributes;
   };
 
+  /**
+   * 
+   */
   this.getMethods = function() {
     return this.methods;
   };
 }
+
 Class.prototype = new Shape();
 
-Class.prototype.draw =
-  /**
-   * Zeichnen der Standartklasse
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichnen der Standartklasse
+ * @param {Object} canvas
+ */
+Class.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numAttributes = this.attributes.length;
@@ -875,9 +881,7 @@ Class.prototype.draw =
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  /**
-   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
-   */
+  
   /* Initiiert die Schriftgröße */
   if (numAttributes > 0 && numMethods > 0) {
     var totalSpace = 6 + (numAttributes - 1) + (numMethods - 1);
@@ -1046,11 +1050,10 @@ Class.prototype.draw =
   context.restore();
 };
 
-Class.prototype.toJSON =
-  /**
-   * Wandeln der Standartklasse in ein JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln der Standartklasse in ein JSON Objekt
+ */
+Class.prototype.toJSON = function() {
   return {
     _type: 'Class',
     x: this.getX(),
@@ -1064,12 +1067,11 @@ Class.prototype.toJSON =
   };
 };
 
-Class.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objektes der Standartklasse
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objektes der Standartklasse
+ * @param {Object} json
+ */
+Class.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -1080,24 +1082,22 @@ Class.prototype.applyJSON =
   this.attributes = json.attributes;
 };
 
-Class.prototype.startEditmode =
-  /**
-   * Editieren der Standartklasse aktivieren
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren der Standartklasse aktivieren
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+Class.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Anzeige der eingetragenen Eigenschaften der Standartklasse
-         */
-        function() {
+      /**
+       * Anzeige der eingetragenen Eigenschaften der Standartklasse
+       */
+      settings: function() {
         return {
           name: self.getName(),
           attributes: self.getAttributes().join("\n"),
@@ -1107,18 +1107,19 @@ Class.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * Aktualisieren der eingetragenen Daten
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * Aktualisieren der eingetragenen Daten
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setAttributes(result.attributes.split("\n"));
     self.setMethods(result.methods.split("\n"));
     callback();
   });
 };
+
+
 /**
  * Definieren eines Interface-Elementes
  * @param {Number[]} $elementId
@@ -1126,10 +1127,10 @@ Class.prototype.startEditmode =
  * @param {Number} y
  * @param {Number} width
  * @param {Number} height
- * @param {String} name
+ * @param {string} name
  * @param {Number} lineWidth
- * @param {String} borderColor
- * @param {String} fontFamily
+ * @param {string} borderColor
+ * @param {string} fontFamily
  * @param {Number} fontSize
  * @param {Object[]} methods
  */
@@ -1138,26 +1139,28 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
 
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
-  this.setMethods =
-    /**
-     * @param {Object[]} methods
-     */
-    function(methods) {
+  /**
+   * @param {Object[]} methods
+   */
+  this.setMethods = function(methods) {
     this.methods = methods;
   };
 
+  /**
+   * 
+   */
   this.getMethods = function() {
     return this.methods;
   };
 }
+
 Interface.prototype = new Shape();
 
-Interface.prototype.draw =
-  /**
-   * Zeichnen des Interface-Elementes
-   * @param {Object} canvas
-   */
-  function(canvas) {
+/**
+ * Zeichnen des Interface-Elementes
+ * @param {Object} canvas
+ */
+Interface.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
   var minSpacing = Math.round(this.height * 0.05);
   var numMethods = this.methods.length;
@@ -1168,9 +1171,7 @@ Interface.prototype.draw =
   context.strokeStyle = this.borderColor;
   context.lineWidth = this.lineWidth;
   context.rect(this.x, this.y, this.width, this.height);
-  /**
-   * TODO - Folgende Zeilenkommentare nochmal auf dessen Sinn prüfen - bisher nur übersetzt
-   */
+  
   /* Initiiert die Schriftgröße  */
   if (numMethods > 0) {
     var totalSpace = 5 + (numMethods - 1);
@@ -1285,11 +1286,10 @@ Interface.prototype.draw =
   context.restore();
 };
 
-Interface.prototype.toJSON =
-  /**
-   * Wandeln des Interface-Elementes in ein JSON Objekt
-   */
-  function() {
+/**
+ * Wandeln des Interface-Elementes in ein JSON Objekt
+ */
+Interface.prototype.toJSON = function() {
   return {
     _type: 'Interface',
     x: this.getX(),
@@ -1302,12 +1302,11 @@ Interface.prototype.toJSON =
   };
 };
 
-Interface.prototype.applyJSON =
-  /**
-   * Speichern des JSON Objektes des Interface-Elementes
-   * @param {Object} json
-   */
-  function(json) {
+/**
+ * Speichern des JSON Objektes des Interface-Elementes
+ * @param {Object} json
+ */
+Interface.prototype.applyJSON = function(json) {
   this.x = json.x;
   this.y = json.y;
   this.height = json.height;
@@ -1317,24 +1316,22 @@ Interface.prototype.applyJSON =
   this.methods = json.methods;
 };
 
-Interface.prototype.startEditmode =
-  /**
-   * Editieren des Interface-Elementes aktivieren
-   * @param {Object} modal
-   * @param {Object} callback
-   */
-  function(modal, callback) {
+/**
+ * Editieren des Interface-Elementes aktivieren
+ * @param {Object} modal
+ * @param {Object} callback
+ */
+Interface.prototype.startEditmode = function(modal, callback) {
   var self = this;
 
   var modalInstance = modal.open({
     templateUrl: '/diagram/attributesEditor',
     controller: 'attributesEditorCtrl',
     resolve: {
-      settings:
-        /**
-         * Eigenschaften ändern des Interface-Elementes werden ausgelesen
-         */
-        function() {
+      /**
+       * Eigenschaften ändern des Interface-Elementes werden ausgelesen
+       */
+      settings: function() {
         return {
           name: self.getName(),
           attributes: null,
@@ -1344,12 +1341,11 @@ Interface.prototype.startEditmode =
     }
   });
 
-  modalInstance.result.then(
-    /**
-     * Eigenschaften des Interface-Elementes werden gesetzt
-     * @param {Object} result
-     */
-    function(result) {
+  /**
+   * Eigenschaften des Interface-Elementes werden gesetzt
+   * @param {Object} result
+   */
+  modalInstance.result.then(function(result) {
     self.setName(result.name);
     self.setMethods(result.methods.split("\n"));
     callback();

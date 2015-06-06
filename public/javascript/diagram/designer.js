@@ -114,12 +114,11 @@ angular.module('brainworks.diagram')
       var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);
-        angular.forEach(scope.shapes,
-          /**
-           * Zeichnen der Elemente
-           * @param {Number} value
-           */
-          function(value) {
+        /**
+         * Zeichnen der Elemente
+         * @param {Number} value
+         */
+        angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
         /* Initialisiert Bearbeitungspunkte und Umrandung der Klassenelemente beim Bearbeiten*/
@@ -200,49 +199,44 @@ angular.module('brainworks.diagram')
         var shapeB = null;
         $(element).droppable({
           accept: '.designer-element',
-          drop:
-            /**
-             * Bestimmt Area, auf der Elemente gezeichnet werden dürfen
-             * @param {Object} event
-             * @param {Object} ui
-             */
-            function(event, ui) {
+          /**
+           * Bestimmt Area, auf der Elemente gezeichnet werden dürfen
+           * @param {Object} event
+           * @param {Object} ui
+           */
+          drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
             var x = ui.helper.position().left - $(element).parent().offset().left;
             scope.shapes.push(window[ui.helper.attr('type')].prototype instanceof Shape ? new window[ui.helper.attr('type')](scope.diagram.elementId, x, y, 140, 90, ui.helper.attr('name')) : new window[ui.helper.attr('type')](scope.diagram.elementId, [x, y + 45], [x + 140, y + 45], ''));
             scope.diagram.elementId++;
             draw();
           },
-          over:
-            /**
-             * Cursor layout in der Area über der Designer Fläche, auf der Elemente plaziert werden dürfen
-             * @param {Object} event
-             * @param {Object} ui
-             */
-            function(event, ui) {
+          /**
+           * Cursor layout in der Area über der Designer Fläche, auf der Elemente plaziert werden dürfen
+           * @param {Object} event
+           * @param {Object} ui
+           */
+          over: function(event, ui) {
             ui.helper.css('cursor', 'copy');
           },
-          out:
-            /**
-             * Cursor layour in der Area ausserhalb der Canvas Fläche
-             * @param {Object} event
-             * @param {Object} ui
-             */
-            function(event, ui) {
+          /**
+           * Cursor layour in der Area ausserhalb der Canvas Fläche
+           * @param {Object} event
+           * @param {Object} ui
+           */
+          out: function(event, ui) {
             ui.helper.css('cursor', 'no-drop');
           }
         });
-        element.on('mousedown',
+        /**
+         * Es wird eine kleine Pause initialisiert und die Klicks wieder zurückgesetzt
+         * @param {Object} event
+         */
+        element.on('mousedown', function(event) {
           /**
-           * Es wird eine kleine Pause initialisiert und die Klicks wieder zurückgesetzt
-           * @param {Object} event
+           * Klicks werden zurückgesetzt
            */
-          function(event) {
-          setTimeout(
-            /**
-             * Klicks werden zurückgesetzt
-             */
-            function() {
+          setTimeout(function() {
             clicks = 0;
           }, 400);
           /* Wenn im Editmode woanders hingeklickt wird, wird dieser & die Auswahl aufgehoben */
@@ -250,12 +244,11 @@ angular.module('brainworks.diagram')
             inEditmode = false;
             selected = null;
           }
-          var result = $.grep(scope.shapes,
-            /**
-             * Definition der Bearbeitungsfläche des ausgewählten Elementes
-             * @param {Object} shape
-             */
-            function(shape) {
+          /**
+           * Definition der Bearbeitungsfläche des ausgewählten Elementes
+           * @param {Object} shape
+           */
+          var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
               /* Definition der Bearbeitungsfläche von Klassenelementen*/
@@ -287,13 +280,12 @@ angular.module('brainworks.diagram')
             return isSelected;
           });
           var selectedInResult = false;
-          $.each(result,
-            /**
-             * Element als selected markieren
-             * @param {Number} index
-             * @param {Object} selection
-             */
-            function(index, selection) {
+          /**
+           * Element als selected markieren
+           * @param {Number} index
+           * @param {Object} selection
+           */
+          $.each(result, function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
               selectedInResult = true;
               return false;
@@ -379,12 +371,11 @@ angular.module('brainworks.diagram')
             draw();
           }
         });
-        element.on('mousemove',
-          /**
-           * Layout des Cursors wird angepasst
-           * @param {Object} event
-           */
-          function(event) {
+        /**
+         * Layout des Cursors wird angepasst
+         * @param {Object} event
+         */
+        element.on('mousemove', function(event) {
           if(angular.isDefined(selected) && selected !== null) {
             var cursor = 'initial';
             if(selected instanceof Relation) {
@@ -521,12 +512,11 @@ angular.module('brainworks.diagram')
               }
               shapeA = null;
               shapeB = null;
-              angular.forEach(scope.shapes,
-                /**
-                 * Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement
-                 * @param {Object} shape
-                 */
-                function(shape) {
+              /**
+               * Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement
+               * @param {Object} shape
+               */
+              angular.forEach(scope.shapes, function(shape) {
                 if(shape instanceof Shape) {
                   if((selected.getCoordsA()[0] > shape.getX() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + 5)
                     || (selected.getCoordsA()[0] > shape.getX() + shape.getWidth() - 5 && selected.getCoordsA()[0] < shape.getX() + shape.getWidth() + 5 && selected.getCoordsA()[1] > shape.getY() - 5 && selected.getCoordsA()[1] < shape.getY() + shape.getHeight() + 5)
@@ -548,12 +538,11 @@ angular.module('brainworks.diagram')
             }
             if(drag || resize) {
               if(selected instanceof Shape) {
-                angular.forEach(scope.shapes,
-                  /**
-                   * Resize der Beziehungslinie
-                   *@param {Object} shape
-                   */
-                  function(shape) {
+                /**
+                 * Resize der Beziehungslinie
+                 * @param {Object} shape
+                 */
+                angular.forEach(scope.shapes, function(shape) {
                   if(shape instanceof Relation) {
                     /* Bewegung der Beziehungselemente bei Bewegung des Klassenelementes, welches mit den Bearbeitungspunkten verbunden ist */
                     if(shape.getShapeA() === selected._id) {
@@ -582,12 +571,11 @@ angular.module('brainworks.diagram')
             }
           }
         });
-        element.on('mouseup',
-          /**
-           * Beim Mouseup wird das Beziehungselement, welches mit einem Klassenelement verbunden werden soll an dieses angefügt, so dass es optimal verbunden ist
-           * @param {Object} event
-           */
-          function(event) {
+        /**
+         * Beim Mouseup wird das Beziehungselement, welches mit einem Klassenelement verbunden werden soll an dieses angefügt, so dass es optimal verbunden ist
+         * @param {Object} event
+         */
+        element.on('mouseup', function(event) {
           if(shapeA !== null) {
             if(selected.getCoordsA()[0] > shapeA.getX() - 5 && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 && selected.getCoordsA()[1] > shapeA.getY() - 5 && selected.getCoordsA()[1] < shapeA.getY() + 5) {
               selected.setCoordsA([selected.getCoordsA()[0] > shapeA.getX() + shapeA.getWidth() && selected.getCoordsA()[0] < shapeA.getX() + shapeA.getWidth() + 5 ? shapeA.getX() + shapeA.getWidth() : Math.max(selected.getCoordsA()[0], shapeA.getX() - 1), shapeA.getY() - 1]);
@@ -618,22 +606,20 @@ angular.module('brainworks.diagram')
           dragPoint = '';
           draw();
         });
-        element.on('keydown',
-          /**
-           * Drücken von entf soll das zu bearbeitende Element löschen
-           * @param {Object} event
-           */
-          function(event) {
+        /**
+         * Drücken von entf soll das zu bearbeitende Element löschen
+         * @param {Object} event
+         */
+        element.on('keydown', function(event) {
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
             element.css({
               cursor: 'initial'
             });
-            scope.shapes = $.grep(scope.shapes,
-              /**
-               * Löschen des übergebenen Elementes
-               * @param {Object} shape
-               */
-              function(shape) { return shape._id !== selected._id; });
+            /**
+             * Löschen des übergebenen Elementes
+             * @param {Object} shape
+             */
+            scope.shapes = $.grep(scope.shapes, function(shape) { return shape._id !== selected._id; });
             selected = null;
             drag = false;
             resize = false;
@@ -646,24 +632,22 @@ angular.module('brainworks.diagram')
     }
   };
 }])
-.directive('designerElement',
-  /**
-   * Vergabe von Cursoreigenschaften beim Arbeiten mit Elementen
-   * @param {Object} $document
-   */
-  function($document) {
+/**
+ * Vergabe von Cursoreigenschaften beim Arbeiten mit Elementen
+ * @param {Object} $document
+ */
+.directive('designerElement', function($document) {
   return {
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
-    link:
-      /**
-       * Zeichnen der Klassenelemente und Beziehungselemente auf der Klassendiagramm-Canvasfläche
-       * @param {Object} scope
-       * @param {Number[]}element
-       * @param {Object} attr
-       */
-      function(scope, element, attr) {
+    /**
+     * Zeichnen der Klassenelemente und Beziehungselemente auf der Klassendiagramm-Canvasfläche
+     * @param {Object} scope
+     * @param {Object} element
+     * @param {Object} attr
+     */
+    link: function(scope, element, attr) {
       var offsetX, offsetY;
       var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 0, 140, 90, attr.name) : new window[attr.type](0, [0, 45], [140, 45], attr.name);
       shape.draw(element[0]);
@@ -672,40 +656,36 @@ angular.module('brainworks.diagram')
         helper: 'clone',
         appendTo: $('#designerContainer'),
         containment: $('#designerContainer'),
-        start:
-          /**
-           * Verändert den Curser bei dem Versuch ein Element auf eine nicht dropbare Fläche zu ziehen
-           * @param {Object} event
-           * @param {Object} ui
-           */
-          function(event, ui) {
+        /**
+         * Verändert den Curser bei dem Versuch ein Element auf eine nicht dropbare Fläche zu ziehen
+         * @param {Object} event
+         * @param {Object} ui
+         */
+        start: function(event, ui) {
           shape.draw(ui.helper[0]);
           ui.helper.css('cursor', 'no-drop');
         },
-        stop:
-          /**
-           * Versetzt den Cursor beim plazieren des Elementes wieder in sein Standartlayout
-           * @param {Object} event
-           * @param {Object} ui
-           */
-          function(event, ui) {
+        /**
+         * Versetzt den Cursor beim plazieren des Elementes wieder in sein Standartlayout
+         * @param {Object} event
+         * @param {Object} ui
+         */
+        stop: function(event, ui) {
           ui.helper.css('cursor', 'initial');
         }
       });
-      element.on('mouseover',
-        /**
-         * Setzt einen grauen Hintergrund an mit dem Curser ausgewählte Elemente
-         * @param {Object} event
-         */
-        function(event) {
+      /**
+       * Setzt einen grauen Hintergrund an mit dem Curser ausgewählte Elemente
+       * @param {Object} event
+       */
+      element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
-      element.on('mouseout',
-        /**
-         * Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
-         * @param {Object} event
-         */
-        function(event) {
+      /**
+       * Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
+       * @param {Object} event
+       */
+      element.on('mouseout', function(event) {
         element.removeClass('designer-element-active');
       });
     }

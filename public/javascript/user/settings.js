@@ -94,7 +94,7 @@ angular.module('brainworks.user')
   /**
    * Ändert das alte Passwort und verschlüsselt das neue Passwort
    * @param {number} userId
-   * @param {String} newPw
+   * @param {string} newPw
    */
   $scope.changePassword = function(userId, newPw) {
     var password = '';
