@@ -1,19 +1,19 @@
 /**
- *  Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der Klassenelemente
+ *  Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der UML-Elemente.
  */
 
 /**
- * Definition des Prototypes der Klassenelemente (von diesem Erben andere Klassenelemente)
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} borderColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * Definition des Prototypes der UML-Elemente (von diesem Erben andere UML-Elemente)
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
  */
 function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -28,126 +28,144 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
 
   /**
-   * @param {number} x
+   * Setzt die x-Koordinate des Elements.
+   * @param {number} x  Die x-Koordinate des Elements
    */
   this.setX = function(x) {
     this.x = x;
   };
 
   /**
-   * @param {number} y
+   * Setzt die y-Koordinate des Elements.
+   * @param {number} y  Die y-Koordinate des Elements
    */
   this.setY = function(y) {
     this.y = y;
   };
 
   /**
-   * @param {number} width
+   * Setzt die Breite des Elements.
+   * @param {number} width  Die Breite des Elements
    */
   this.setWidth = function(width) {
     this.width = width;
   };
 
   /**
-   * @param {number} height
+   * Setzt die Höhe des Elements.
+   * @param {number} height  Die Höhe des Elements
    */
   this.setHeight = function(height) {
     this.height = height;
   };
 
   /**
-   * @param {string} borderColor
+   * Setzt die Linienfarbe des Elements
+   * @param {string} borderColor  Die Linienfarbe
    */
   this.setBorderColor = function(borderColor) {
     this.borderColor = borderColor;
   };
 
   /**
-   * @param {number} lineWidth
+   * Setzt die Linienbreite des Elements
+   * @param {number} lineWidth  Die Linienbreite
    */
   this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
   };
 
   /**
-   * @param {string} name
+   * Setzt den Namen des Elements
+   * @param {string} name  Der Name des Elements
    */
   this.setName = function(name) {
     this.name = name;
   };
 
   /**
-   * @param {string} fontFamily
+   * Setzt die Schriftart für den Namenstext
+   * @param {string} fontFamily  Die Schriftart
    */
   this.setFontFamily = function(fontFamily) {
     this.fontFamily = fontFamily;
   };
 
   /**
-   * @param {number} fontSize
+   * Setzt die Schriftgröße des Namenstextes
+   * @param {number} fontSize  Die Schriftgröße
    */
   this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
   };
 
   /**
-   * 
+   * Gibt die x-Koordinate des Elements zurück.
+   * @returns {number} Die x-Koordinate des Elements
    */
   this.getX = function() {
     return this.x;
   };
 
   /**
-   * 
+   * Gibt die y-Koordinate des Elements zurück.
+   * @returns {number} Die y-Koordinate des Elements
    */
   this.getY = function() {
     return this.y;
   };
 
   /**
-   * 
+   * Gibt die Breite des Elements zurück.
+   * @returns {number} Die Breite des Elements
    */
   this.getWidth = function() {
     return this.width;
   };
 
   /**
-   * 
+   * Gibt die Höhe des Elements zurück.
+   * @returns {number} Die Höhe des Elements
    */
   this.getHeight = function() {
     return this.height;
   };
 
   /**
-   * 
+   * Gibt die Linienfarbe des Elements zurück.
+   * @returns {string} Die Linienfarbe des Elements
    */
   this.getBorderColor = function() {
     return this.borderColor;
   };
 
   /**
-   * 
+   * Gibt die Linienbreite des Elements zurück.
+   * @returns {number} Die Linienbreite des Elements
    */
   this.getLineWidth = function() {
     return this.lineWidth;
   };
 
   /**
-   * 
+   * Gibt den Namen des Elements zurück.
+   * @returns {string} Der Name des Elements
    */
   this.getName = function() {
     return this.name;
   };
 
   /**
-   * 
+   * Gibt die Schriftart für den Namenstext zurück
+   * @returns {string} Die Schriftart für den Namenstext
    */
   this.getFontFamily = function() {
     return this.fontFamily;
   };
 
   /**
-   * 
+   * Gibt die Schriftgröße für den Namenstext zurück
+   * @returns {number} Die Schrifgröße für den Namenstext
    */
   this.getFontSize = function() {
     return this.fontSize;
@@ -155,32 +173,33 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 }
 
 /**
- * Zeichen des Prototypes der Klassenelemente
- * @param {Object} canvas
+ * Methode zum Zeichnen des Elements auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Shape.prototype.draw = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Wandeln des Prototypes der Kassenelemente in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des Elements.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Shape.prototype.toJSON = function() {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Speichern des Prototypes der Klassenelemente als JSON Objekt
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Shape.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Editieren des Prototypes der Klassenelemente als JSON Objekt
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Shape.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
@@ -189,16 +208,16 @@ Shape.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition eines einfachen Klassenelementes
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} borderColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
  */
 function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -207,8 +226,8 @@ function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name
 EmptyClass.prototype = new Shape();
 
 /**
- * Zeichnen des einfachen Klassenelementes
- * @param {Object} canvas
+ * Methode zum Zeichnen des einfachen Klassenelements auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 EmptyClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -228,7 +247,8 @@ EmptyClass.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln des einfachen Klassenelementes zu einem JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des Klassenelements.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 EmptyClass.prototype.toJSON = function() {
   return {
@@ -243,8 +263,8 @@ EmptyClass.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objekt des einfachen Klassenelementes
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 EmptyClass.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -256,9 +276,9 @@ EmptyClass.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren des einfachen Klassenelementes aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 EmptyClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -268,7 +288,8 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Liefert den Namen des Attributes
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -279,8 +300,8 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert den Namen des Attributes
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem einfachen Klassenelements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -291,18 +312,18 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer abstrakten Klasse
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} borderColor
- * @param {number} lineWidth
- * @param {string} name
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string[]} attributes
- * @param {string[]} methods
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
+ * @param {string[]} attributes           Die Attribute der abstrakten Klasse
+ * @param {string[]} methods              Die Methoden der abstrakten Klasse
  */
 function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -311,28 +332,32 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {string[]} attributes
+   * Setzt die Attribute der abstrakten Klasse
+   * @param {string[]} attributes  Die Attribute der abstrakten Klasse
    */
   this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
   /**
-   * @param {string[]} methods
+   * Setzt die Methoden der abstrakten Klasse
+   * @param {string[]} methods  Die Methoden der abstrakten Klasse
    */
   this.setMethods = function(methods) {
     this.methods = methods;
   };
 
   /**
-   * 
+   * Gibt die Attribute der abstrakten Klasse zurück
+   * @returns {string[]}  Die Attribute der abstrakten Klasse
    */
   this.getAttributes = function() {
     return this.attributes;
   };
 
   /**
-   * 
+   * Gibt die Methoden der abstrakten Klasse zurück
+   * @returns {string[]}  Die Methoden der abstrakten Klasse
    */
   this.getMethods = function() {
     return this.methods;
@@ -342,8 +367,8 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
 AbstractClass.prototype = new Shape();
 
 /**
- * Zeichnen der abstrakten Klasse
- * @param {Object} canvas
+ * Methode zum Zeichnen des abstrakten Klassenelements auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 AbstractClass.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -527,7 +552,8 @@ AbstractClass.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der abstrakten Klasse in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des abstrakten Klassenelements.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 AbstractClass.prototype.toJSON = function() {
   return {
@@ -544,8 +570,8 @@ AbstractClass.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der abstrakten Klasse
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 AbstractClass.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -559,9 +585,9 @@ AbstractClass.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der abstrakten Klasse aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 AbstractClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -571,7 +597,8 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Auslesen der Attributnamen im "Eigenschaften Ändern" Menü
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -584,8 +611,8 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändern der Eigenschaften eines Elementes
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem abstrakten Klassenelements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -598,16 +625,16 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition des Kommentars
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} borderColor
- * @param {number} lineWidth
- * @param {string} name
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
  */
 function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -616,8 +643,8 @@ function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, f
 Comment.prototype = new Shape();
 
 /**
- * Zeichnen des Kommentars
- * @param {Object} canvas
+ * Methode zum Zeichnen des Kommentars auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Comment.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -647,7 +674,8 @@ Comment.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln des Kommentars zu einem JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des Kommentars.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Comment.prototype.toJSON = function() {
   return {
@@ -662,8 +690,8 @@ Comment.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objekts des Kommentars
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Comment.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -675,9 +703,9 @@ Comment.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren des Kommentars wird aktiviert
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Comment.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -687,7 +715,8 @@ Comment.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Liefert den Namen des Kommentars aus den Eigenschaften
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -698,8 +727,8 @@ Comment.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert den Namen des Kommentars in den Eigenschaften
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Kommentar.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -710,16 +739,16 @@ Comment.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer aktiven Klasse
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} borderColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
  */
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -728,8 +757,8 @@ function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColo
 ActiveClass.prototype = new Shape();
 
 /**
- * Zeichnen der aktiven Klasse
- * @param {Object} canvas
+ * Methode zum Zeichnen der aktiven Klasse auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 ActiveClass.prototype.draw = function(canvas) {
   var startPosInner = this.x + this.width * 0.1;
@@ -755,7 +784,8 @@ ActiveClass.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandelt die aktive Klasse zu einem JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der aktiven Klasse.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 ActiveClass.prototype.toJSON = function() {
   return {
@@ -770,8 +800,8 @@ ActiveClass.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der aktiven Klasse
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 ActiveClass.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -783,9 +813,9 @@ ActiveClass.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der aktiven Klasse aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 ActiveClass.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -795,7 +825,8 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Liefert den Namen des Attributes
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -806,7 +837,8 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften der aktiven Klasse.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -817,17 +849,18 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer Standartklasse (mit Attribut & Methode)
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} borderColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string[]} methods
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
+ * @param {string[]} attributes           Die Attribute der Klasse
+ * @param {string[]} methods              Die Methoden der Klasse
  */
 function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -836,28 +869,32 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {string[]} attributes
+   * Setzt die Attribute der Klasse
+   * @param {string[]} attributes  Die Attribute der Klasse
    */
   this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
   /**
-   * @param {string[]} methods
+   * Setzt die Methoden der Klasse
+   * @param {string[]} methods  Die Methoden der Klasse
    */
   this.setMethods = function(methods) {
     this.methods = methods;
   };
 
   /**
-   * 
+   * Gibt die Attribute der Klasse zurück
+   * @returns {string[]}  Die Attribute der Klasse
    */
   this.getAttributes = function() {
     return this.attributes;
   };
 
   /**
-   * 
+   * Gibt die Methoden der Klasse zurück
+   * @returns {string[]}  Die Methoden der Klasse
    */
   this.getMethods = function() {
     return this.methods;
@@ -867,8 +904,8 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
 Class.prototype = new Shape();
 
 /**
- * Zeichnen der Standartklasse
- * @param {Object} canvas
+ * Methode zum Zeichnen des Klassenelements auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Class.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -1051,7 +1088,8 @@ Class.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Standartklasse in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des Klassenelements.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Class.prototype.toJSON = function() {
   return {
@@ -1068,8 +1106,8 @@ Class.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Standartklasse
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Class.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -1083,9 +1121,9 @@ Class.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Standartklasse aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Class.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -1095,7 +1133,8 @@ Class.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Anzeige der eingetragenen Eigenschaften der Standartklasse
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -1108,8 +1147,8 @@ Class.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Aktualisieren der eingetragenen Daten
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Klassenelements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -1122,17 +1161,17 @@ Class.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definieren eines Interface-Elementes
- * @param {number} elementId
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} borderColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string[]} methods
+ * @param {number} elementId              Die ID des Elements
+ * @param {number} x                      Die x-Koordinate des Elements
+ * @param {number} y                      Die y-Koordinate des Elements
+ * @param {number} width                  Die Breite des Elements
+ * @param {number} height                 Die Höhe des Elements
+ * @param {string} name                   Der Name des Elements
+ * @param {number} [lineWidth=1]          Die Breite der Linien
+ * @param {string} [borderColor='black']  Die Farbe der Linien
+ * @param {string} [fontFamily='Arial']   Die Schriftart
+ * @param {number} [fontSize=16]          Die Schriftgröße
+ * @param {string[]} methods              Die Methoden der Klasse
  */
 function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -1140,14 +1179,16 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {string[]} methods
+   * Setzt die Methoden der Schnittstelle
+   * @param {string[]} attributes  Die Methoden der Schnittstelle
    */
   this.setMethods = function(methods) {
     this.methods = methods;
   };
 
   /**
-   * 
+   * Gibt die Methoden der Schnittstelle zurück
+   * @returns {string[]}  Die Methoden der Schnittstelle
    */
   this.getMethods = function() {
     return this.methods;
@@ -1157,8 +1198,8 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
 Interface.prototype = new Shape();
 
 /**
- * Zeichnen des Interface-Elementes
- * @param {Object} canvas
+ * Methode zum Zeichnen des Schnittstellenelements auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Interface.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -1287,7 +1328,8 @@ Interface.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln des Interface-Elementes in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt des Schnittstellenelements.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Interface.prototype.toJSON = function() {
   return {
@@ -1303,8 +1345,8 @@ Interface.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes des Interface-Elementes
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Interface.prototype.applyJSON = function(json) {
   this.x = json.x;
@@ -1317,9 +1359,9 @@ Interface.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren des Interface-Elementes aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Interface.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -1329,7 +1371,8 @@ Interface.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Eigenschaften ändern des Interface-Elementes werden ausgelesen
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -1342,8 +1385,8 @@ Interface.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Eigenschaften des Interface-Elementes werden gesetzt
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Schnittstellenelements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
