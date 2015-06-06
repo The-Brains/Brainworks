@@ -6,9 +6,9 @@ var router = express.Router();
 
 /**
  * Rendert das Grundkonstrukt mit den entpsrechenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/', function(req, res, next) {
   res.render('index', {
@@ -25,9 +25,9 @@ router.get('/', function(req, res, next) {
 
 /**
  * Rendert die Startseite mit den entsprechenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/home', function(req, res, next) {
   res.render('home', {
@@ -42,9 +42,9 @@ router.get('/home', function(req, res, next) {
 
 /**
  * Rendert die Seite für die Ansicht eines öffentlichen Diagramms mit den entsprechenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/publicDiagram', function(req, res, next) {
   res.render('diagram/publicDiagram', {
@@ -59,9 +59,9 @@ router.get('/publicDiagram', function(req, res, next) {
 
 /**
  * Rendert die About-Seite
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/about', function(req, res, next) {
   res.render('about', {});

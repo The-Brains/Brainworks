@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
-/* Initialisierung des Prototyps der Klassenschemen */
+/* Initialisierung des Prototyps der Shapeschemen */
 var shapeSchema = new mongoose.Schema({
   _id: Number,
   x: {type: Number, required: true},

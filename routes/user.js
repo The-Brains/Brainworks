@@ -10,9 +10,9 @@ var configuration = require('../config.json');
 
 /**
  * Rendern der Login-Seite mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/signIn', function(req, res, next) {
   res.render('user/signIn', {
@@ -38,9 +38,9 @@ router.get('/signIn', function(req, res, next) {
 
 /**
  * Rendern der Seite für die Profileinstellungen mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
   res.render('user/settings', {
@@ -66,17 +66,17 @@ router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Parameter "user" in URLs in einen passenden Benutzer auflösen
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
- * @param {string} id
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
+ * @param {string} id Die ID des Benutzers, welche als Parameter gesandt wurde
  */
 router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
   /**
    * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefundenen Benutzers
    */
   query.exec(function (err, user){
     if (err) { return next(err); }
@@ -88,15 +88,15 @@ router.param('user', function(req, res, next, id) {
 
 /**
  * Prüfen der Verfügbarkeit eines bestimmten Nutzernamens
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/check', function(req, res, next) {
   /**
    * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, ob der Benutzername verfügbar ist oder nicht
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefundenen Benutzers
    */
   User.findOne({username: req.body.username}, function(err, user) {
     if(err) { res.send(err); }
@@ -106,17 +106,17 @@ router.post('/check', function(req, res, next) {
 
 /**
  * Registration eines Benutzers
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/signUp', function(req, res, next) {
   var user = new User(req.body.user);
   user.set('loggedIn', true);
   /**
    * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gespeicherten Benutzers
    */
   user.save(function(err, user){
     if(err){ res.send(err); }
@@ -129,15 +129,15 @@ router.post('/signUp', function(req, res, next) {
 
 /**
  * Prüfen des Logins
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/signIn', function(req, res, next) {
   /**
    * Prüfung auf Richtigkeit des Benutzernamens und Passworts. Signierung das Tokens, falls dieser korrekt ist.
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefundenen Benutzers
    */
   User.findOne({username: req.body.username, password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
@@ -158,9 +158,9 @@ router.post('/signIn', function(req, res, next) {
 
 /**
  * Ausloggen des bestimmten Benutzers
- * @param {Object} req
- * @param {Object} res
- * @param {Object} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Object} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/signOut', function(req, res, next) {
   /**
@@ -173,25 +173,25 @@ router.post('/signOut', function(req, res, next) {
 
 /**
  * Prüft ob ein Benutzer eingeloggt ist
- * @param {Object} req
- * @param {Object} res
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
  */
 router.get('/loggedIn', function(req, res) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
     /**
      * Verifiziert das mitgesandte Token
-     * @param {Object} err
-     * @param {Object} decoded
+     * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+     * @param {Object} decoded Das Objekt mit den entschlüsselten Informationen
      */
     jwt.verify(token, configuration.secret, function(err, decoded) {
       if (err) {
         res.send(err);
       } else {
         /**
-         * Prüft, ob entschlüsselte Benutzer mit einem gesetzten Loginflag vorhanden ist und sendte eine entsprechende Antwort
-         * @param {Object} err
-         * @param {Object} user
+         * Prüft, ob entschlüsselte Benutzer mit einem gesetzten Loginflag vorhanden ist und sendet eine entsprechende Antwort
+         * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+         * @param {Object} user Das Objekt des gefundenen Benutzers
          */
         User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
           if(err){ res.send(err); }
@@ -207,9 +207,9 @@ router.get('/loggedIn', function(req, res) {
 
 /**
  * Route für holen der Benutzerinformationen
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user);
@@ -217,9 +217,9 @@ router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Löscht das Nutzerprofil und prüft das dabei die Auswahl des Bestätigungsfeldes
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
   if(!req.body.assignment) {
@@ -227,7 +227,7 @@ router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
   } else {
     /**
      * Löscht den Benutzer und beendet die Anfrage mit dem Senden einer Erfolgsmitteilung
-     * @param {Object} err
+     * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
      */
     req.user.remove(function(err) {
       if (err) { res.send(err); }
@@ -238,9 +238,9 @@ router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Ändern der Bneutzereinstellungen
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {
@@ -249,9 +249,9 @@ router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
     email: req.body.email
   },
   /**
-   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-   * @param {Object} err
-   * @param {Object} user
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten Tokens und der BenutzerID
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefundenen und aktualisierten Benutzers
    */
   function(err, user) {
     if(err){ res.send(err); }
@@ -264,15 +264,15 @@ router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Ändern des Passwortes eines Benutzers
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {
   /**
-   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-   * @param {Object} err
-   * @param {Object} user
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten Tokens und der BenutzerID
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefundenen und aktualisierten Benutzers
    */
   User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }

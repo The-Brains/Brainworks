@@ -13,9 +13,9 @@ var fs = require('fs');
 
 /**
  * Rendern der Diagrammübersicht mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/diagrams', {
@@ -34,9 +34,9 @@ router.get('/diagrams', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Rendern der Seite für die Bearbeitung der Diagramminformationen mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/diagramInformation', {
@@ -51,9 +51,9 @@ router.get('/diagramInformation', userCtrl.verifyLogin, function(req, res, next)
 
 /**
  * Rendern des Designers mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/designer', {
@@ -66,9 +66,9 @@ router.get('/designer', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Rendern des Templates für das Bearbeitungsdialog im Designer mit den passenden Texten
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
   res.render('diagram/attributesEditor', {
@@ -85,17 +85,17 @@ router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Parameter "user" in URLs in einen passenden Benutzer auflösen
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
- * @param {string} id
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
+ * @param {string} id Die ID des Benutzers, welche als Parameter gesandt wurde
  */
 router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
   /**
    * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des gefunden Benutzers
    */
   query.exec(function (err, user){
     if (err) { return next(err); }
@@ -107,9 +107,9 @@ router.param('user', function(req, res, next, id) {
 
 /**
  * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagrammübersicht (mit den enthaltenen Diagrammen)
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/:user/diagrams', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user.diagrams);
@@ -117,16 +117,16 @@ router.get('/:user/diagrams', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Sucht öffentliche Diagramme
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/publicDiagrams', function(req, res, next) {
   /**
    * Liefert entsprechende Fehler, sofern welche bei der Suche auftreten,
    * oder lädt alle öffentlichen Nutzerdiagramme
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt der Benutzer mit vorhandenen öffentlichen Diagrammen
    */
   User.find({'diagrams.isPublic': true}, function(err, users) {
     if(err) { res.send(err); }
@@ -145,20 +145,20 @@ router.get('/publicDiagrams', function(req, res, next) {
 });
 
 /**
- * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagrammansicht im Designer (von dem die diagramId benötigt wird)
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagrammansicht im Designer
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user.diagrams.id(req.params.diagramId));
 });
 
 /**
- * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagramminformationen (von dem die diagramId benötigt wird)
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * Beendet Anfrage mit dem Senden des zu nutzenden Datenpaketes für die Diagramminformationen
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user.diagrams.id(req.params.diagramId));
@@ -166,15 +166,15 @@ router.get('/:user/diagramInformation/:diagramId', userCtrl.verifyLogin, functio
 
 /**
  * Liefert das Diagramm für die angefragte ID
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/:diagramId', function(req, res, next) {
   /**
    * Beendet Anfrage mit dem Senden des Diagramms für die passende ID, wenn kein Fehler dabei auftritt
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} user Das Objekt des Authors des Diagrammes
    */
   User.findOne({'diagrams._id': req.params.diagramId}, function(err, user) {
     if(err) { res.send(err); }
@@ -186,16 +186,15 @@ router.get('/:diagramId', function(req, res, next) {
 
 /**
  * Löschen eines Diagrams
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router['delete']('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req, res, next) {
   req.user.diagrams.id(req.params.diagramId).remove();
   /**
    * Beendet Anfrage mit einer Erfolgsmitteilung nach dem Löschen eines Diagramms
-   * @param {Object} err
-   * @param {Object} user
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
    */
   req.user.save(function(err) {
     if(err) { res.send(err); }
@@ -207,9 +206,9 @@ router['delete']('/:user/diagram/:diagramId', userCtrl.verifyLogin, function(req
 
 /**
  * Fügt ein Diagramm hinzu oder aktualisiert die bestehenden Diagramminformationen
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
   if(typeof req.body._id !== 'undefined') {
@@ -219,8 +218,7 @@ router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
     diagram.isPublic = typeof req.body.isPublic !== 'undefined' ? req.body.isPublic : false;
     /**
      * Beendet Anfrage mit dem Senden der Diagramm-ID des Nutzers und mit einer Erfolgsmitteilung
-     * @param {Object} err
-     * @param {Object} user
+     * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
      */
     req.user.save(function(err) {
       if(err) { res.send(err); }
@@ -232,8 +230,8 @@ router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
     req.user.diagrams.push(new Diagram(req.body));
     /**
      * Beendet Anfrage mit dem Senden der Diagramm-ID des neu erstellten Diagramms des Nutzers und mit einer Erfolgsmitteilung
-     * @param {Object} err
-     * @param {Object} user
+     * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+     * @param {Object} user Das Objekt des Benutzers an welchem das neue Diagramm gespeichert wurde
      */
     req.user.save(function(err, user) {
       if(err) { res.send(err); }
@@ -246,15 +244,15 @@ router.put('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Fügt zu einem bestimment Diagramm ein Kommentar hinzu
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(req, res, next) {
   /**
    * Sucht den Author des kommentierten Diagramms
-   * @param {Object} err
-   * @param {Object} foundUser
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+   * @param {Object} foundUser Das Objekt des Authors
    */
   User.findOne({'diagrams._id': req.params.diagramId}, function(err, foundUser) {
     if(err) { res.send(err); }
@@ -263,8 +261,8 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
       diagram.comments.push(new Comment({text: req.body.text, author: req.user.username}));
       /**
        * Beendet Anfrage mit dem Senden des erstellten Kommentars des Nutzers und mit einer Erfolgsmitteilung
-       * @param {Object} err
-       * @param {Object} user
+       * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+       * @param {Object} user Das Objekt des Authors des Diagrammes, welches kommentiert wurde
        */
       foundUser.save(function(err, user) {
         if(err) { res.send(err); }
@@ -277,17 +275,17 @@ router.put('/:user/diagram/:diagramId/comment', userCtrl.verifyLogin, function(r
 });
 
 /**
- * Speichert ein Digramm nach dem Bearbeiten im Designer
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * Speichert ein Diagramm nach dem Bearbeiten im Designer
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
   var requestDiagram = JSON.parse(req.body.diagram);
   var diagram = req.user.diagrams.id(requestDiagram._id);
   /**
    * Speichert das erstellte Thumbnail in den "uploads"-Ordner
-   * @param {Object} err
+   * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
    */
   fs.writeFile('uploads/' + requestDiagram._id + '.png', new Buffer(req.body.thumbnail.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64'), function(err) {
     if(err) { res.send(err); }
@@ -301,8 +299,8 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
       diagram.elementId = requestDiagram.elementId;
       /**
        * Speichert die Änderungen am Diagramm und sendet eine Antwort an den Client
-       * @param {Object} err
-       * @param {Object} user
+       * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+       * @param {Object} user Das Objekt des Benutzers, an welchem die Änderungen gespeichert wurden
        */
       req.user.save(function(err, user) {
         if(err) { res.send(err); }
@@ -316,25 +314,25 @@ router.post('/:user/diagram', userCtrl.verifyLogin, function(req, res, next) {
 
 /**
  * Lädt das Vorschaubild zur entsprechenden ID des Bildes
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Object} req Das Objekt mit den Daten der Anfrage
+ * @param {Object} res Das Objekt für die HTTP-Antwort
+ * @param {Function} next Funktion zum Weiterleiten zur Bearbeitung der Anfrage
  */
 router.get('/thumbnail/:imageId', function(req, res, next) {
   /**
    * Prüft die Existenz des Vorschaubildes
-   * @param {Boolean} exists
+   * @param {boolean} exists Wahrheitswert, ob das Bild vorhanden ist oder nicht
    */
   fs.exists('uploads/'+req.params.imageId+'.png', function(exists) {
     if (!exists) { res.sendStatus(404); }
     else {
       /**
        * Auslesen der Bilddaten
-       * @param {Object} err
-       * @param {Object} data
+       * @param {Object} err Das Objekt mit den Fehlerinformationen wenn ein Fehler auftritt
+       * @param {Object} data Die Daten des Bildes
        */
       fs.readFile('uploads/'+req.params.imageId+'.png', function(err, data) {
-        if (err) res.send(err);
+        if (err) { res.send(err); }
         /* Sendet Header mit, damit die Bilder nicht im Cache gespeichert werden und immer wieder
          * vom Server angefragt werden, sodass das aktuelle Bild in der Übersicht angezeigt wird */
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
