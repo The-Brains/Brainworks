@@ -1,46 +1,46 @@
 /**
- * Zuordnung der Nutzer- und Profileinstellungen
+ * Logik hinter der Benutzereinstellungsverwaltung eines Benutzers.
  */
 angular.module('brainworks.user')
 /**
- * Löschen, Hinzufügen und Laden von Nutzerdaten
+ * Factory zum Senden der Anfragen zum Löschen, Hinzufügen und Laden von Nutzerdaten
  * @param {Object} $http  Der HTTP-Service zum Senden von HTTP-Anfragen
  */
 .factory('userSettingsFactory', ['$http', function($http) {
   return {
     /**
-     * Liefert die lokalen Daten eines bestimmten Nutzers
-     * @param {number} userId
+     * Liefert die Daten eines bestimmten Nutzers
+     * @param {string} userId  Die ID des Benutzers zu welchem die Daten geladen werden sollen
      */
     loadUserData: function(userId) {
       /**
        * Liefert die Nutzerdaten
-       * @param {Object} res Das Objekt mit den Antwortdaten auf die Anfrage
+       * @param {Object} res  Das Objekt mit den Antwortdaten auf die Anfrage
        */
       return $http.get('/user/'+userId).then(function(res) {
         return res.data;
       });
     },
     /**
-     * Fügt einen neuen Nutzer hinzu
-     * @param {string} userId
-     * @param {Object} user
+     * Ändert die Daten eines Benutzers
+     * @param {string} userId  Die ID des Benutzers
+     * @param {Object} user  Die geänderten Daten des Benutzers
      */
     updateUser: function(userId, user) {
       return $http.put('/user/'+userId, user);
     },
     /**
      * Ändert das Passwort eines bestimmten Nutzers
-     * @param {string} userId
-     * @param {string} newPassword
+     * @param {string} userId  Die ID des Benutzers
+     * @param {string} newPassword  Das neue Passwort des Benutzers
      */
     changePassword: function(userId, newPassword) {
       return $http.post('/user/changePassword/'+userId, {password: newPassword});
     },
     /**
      * Löscht bei bestätigter Anweisung einen bestimmten Nutzer
-     * @param {string} userId
-     * @param {Object} assignment
+     * @param {string} userId  Die ID des Benutzers
+     * @param {boolean} assignment  Flag, ob der Benutzer zustimmt oder nicht
      */
     deleteAccount: function(userId, assignment) {
       return $http.post('/user/delete/'+userId, {assignment: assignment});
@@ -48,13 +48,14 @@ angular.module('brainworks.user')
   };
 }])
 /**
- * Logik zum Löschen eines Nutzers, zu Passworteinstellungen und der Aktualisierung der Nutzer Id/ dem Nutzertoken
+ * Controller für die Verwaltung der Benutzereinstellungen. Definiert die Logik zum Löschen eines Nutzers,
+ * zu Passworteinstellungen und der Aktualisierung der Benutzerinformationen.
  * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
- * @param {Object} $rootScope
+ * @param {Object} $rootScope  Der Root-Scope der Anwendung, welcher für alle anderen Scopes zugänglich ist
  * @param {Object} $state  Der State-Service zum Umleiten auf eine andere Seite
- * @param {Object} userSettingsFactory
+ * @param {Object} userSettingsFactory  Die Factory für die Einstellungen eines Benutzers
  * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
- * @param {Object} user
+ * @param {Object} user  Der Benutzer zu welchem die Einstellungen verwaltet werden sollen
  */
 .controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userSettingsFactory', 'localStorageService', 'user', function($scope, $rootScope, $state, userSettingsFactory, localStorageService, user) {
   $scope.user = user;
@@ -65,7 +66,7 @@ angular.module('brainworks.user')
   $scope.deleteFormErrors = [];
   /**
    * Liefert den verschlüsselten Hash des übergebenen Wertes(Passwort)
-   * @param {string} value
+   * @param {string} value  Das Passwort aus dem der Hash erstellt werden soll
    */
   $scope.createHash = function(value) {
     var val = angular.copy(value);
@@ -76,13 +77,13 @@ angular.module('brainworks.user')
     return hash;
   };
   /**
-   * Nutzerdaten aktualisieren (NutzerId und Token)
-   * @param {Object} user
+   * Nutzerdaten aktualisieren
+   * @param {Object} user  Der Objekt mit den geänderten Benutzerdaten
    */
   $scope.updateUser = function(user) {
     /**
-     * Nach dem Update wird der Token und die UserID aus der Antwort der Updateanfrage entnommen und gesetzt
-     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
+     * Sendet die Daten an den Server und bei erfolg wird der Token und die UserID neu gesetzt.
+     * @param {Object} response  Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.updateUser(user._id, user).success(function(response) {
       if(response.success) {
@@ -92,9 +93,9 @@ angular.module('brainworks.user')
     });
   };
   /**
-   * Ändert das alte Passwort und verschlüsselt das neue Passwort
-   * @param {number} userId
-   * @param {string} newPw
+   * Ändert das Passwort des Benutzers
+   * @param {string} userId  Die ID des Benutzers für welchen das Passwort geändert werden soll
+   * @param {string} newPw  Das neue Passwort für den Benutzer
    */
   $scope.changePassword = function(userId, newPw) {
     var password = '';
@@ -102,8 +103,8 @@ angular.module('brainworks.user')
       password = CryptoJS.SHA3(newPw, { outputLength: 512 }).toString();
     }
     /**
-     * Leert die Profileinstellungen nach erfolgreicher Änderung des Passwortes
-     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
+     * Leert die Formularfelder nach erfolgreicher Änderung des Passwortes
+     * @param {Object} response  Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.changePassword(userId, password).success(function(response) {
       if(response.success) {
@@ -120,14 +121,14 @@ angular.module('brainworks.user')
   };
   /**
    * Löscht den Accout eines bestimmten Nutzers
-   * @param {string} userId
-   * @param {Object} assignment
+   * @param {string} userId  Die ID des Benutzers
+   * @param {Object} assignment  Flag, ob der Benutzer zustimmt oder nicht
    */
   $scope.deleteAccount = function(userId, assignment) {
     /**
      * Entfernt token und UserId nach erfolgreichem Löschen
      * Wechseln zur LogIn Seite
-     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
+     * @param {Object} response  Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.deleteAccount(userId, assignment).success(function(response) {
       if(response.success) {
@@ -141,8 +142,8 @@ angular.module('brainworks.user')
     });
   };
   /**
-   * Aktualisieren nach dem Schließen der Bestätigungsaufforderung zum Löschen des Profils
-   * @param {number} index
+   * Aktualisierung der Seite(entfernen der Fehlermeldung) nach dem Schließen der Fehlermeldung
+   * @param {number} index  Der Index der Fehlermeldung im Array
    */
   $scope.closeDeleteError = function(index) {
     $scope.deleteFormErrors.splice(index, 1);

@@ -3,21 +3,22 @@
  */
 angular.module('brainworks.diagram')
 /**
- *
- * @param {Object} $scope
- * @param {Object} $state
+ * Controller für den Designer. Definiert die Funktionalitäten und bindet die Daten an den Scope.
+ * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
+ * @param {Object} $state  Der State-Service zum Umleiten auf eine andere Seite
  * @param {Objekt} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
- * @param {Object} diagramsFactory
- * @param {Object} diagram
+ * @param {Object} diagramsFactory  Die Factory für die Diagramme
+ * @param {Object} diagram  Das Diagramm
  */
 .controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
-  /* Initialisierung der Klassendiagramme */
+  /* Initialisierung der Elemente für das UML-Klassendiagramm */
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Interface', name: 'Schnittstelle'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'UniDirectionalAssociation', name: 'Gerichtete Assoziation'}, {type: 'Aggregation', name: 'Aggregation'}, {type: 'Composition', name: 'Komposition'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Dependency', name: 'Abhängigkeit'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
   /**
-   * @param {Object} shape
+   * Alle Elemente werden aus dem Diagramm in den Scope gelesen und Objekte für diese angelegt.
+   * @param {Object} shape  Das Element aus welchem ein Objekt erstellt werden soll
    */
   angular.forEach($scope.diagram.shapes, function(shape) {
     var tmp = new window[shape._type]();
@@ -31,15 +32,15 @@ angular.module('brainworks.diagram')
     $state.go('profile.diagrams');
   };
   /**
-   * Animation beim Sichern des Diagramms
-   * @param {Object} diagram
+   * Funktion zur Speicherung des designten Diagrammes.
+   * @param {Object} diagram  Das Diagramm an welchem die Shapes gespeichert werden sollen
    */
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
     var shapes = [];
     /**
-     * Wandeln eines Klassenelementes zu einem JSON Objekt
-     * @param {Object} shape
+     * Wandeln eines Objektes eines UML-Elementes zu einem JSON-Objekt
+     * @param {Object} shape  Das Element aus welchem ein JSON-Objekt erstellt werden soll
      */
     angular.forEach($scope.shapes, function(shape) {
       shapes.push(shape.toJSON());
@@ -53,7 +54,8 @@ angular.module('brainworks.diagram')
     tmpCanvas.attr('width', '700px');
     var img = new Image();
     /**
-     * Zeichnen der Vorschau für die Diagrammübersicht
+     * Handler für das Speichern des Thumbnails nach dem das Bild aus der Canvasfläche
+     * in das virtuelle Image-Tag geladen wurde.
      */
     img.onload = function() {
       tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
@@ -61,8 +63,8 @@ angular.module('brainworks.diagram')
       formData.append('thumbnail', tmpCanvas[0].toDataURL('image/png'));
       formData.append('diagram', JSON.stringify(diagram));
       /**
-       * Ungesicherte Elemente werden gesichert
-       * @param {Object} response
+       * Speichern des designten Diagrammes
+       * @param {Object} response  Das Objekt mit den Antwortdaten auf die Anfrage
        */
       diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(function(response) {
         waitElement.addClass('hidden');
@@ -72,29 +74,29 @@ angular.module('brainworks.diagram')
   };
 }])
 /**
- * Sichert die Einstellungen des geöffneten Projektes im Designer
- * @param {Object} $scope
- * @param {Object} $modalInstance
- * @param {Object} settings
+ * Controller für die Verwaltung von Eigenschaften von den UML-Elementen.
+ * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
+ * @param {Object} $modalInstance  Der Service für die Instanz des Modeln-Fensters.
+ * @param {Object} settings  Die Eigenschaften des UML-Elements
  */
 .controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' , function($scope, $modalInstance, settings) {
   $scope.settings = settings;
   /**
-   * Schließt die Einstellungen
+   * Funktion zum Speichern der editierten Eigenschaften des UML-Elements
    */
   $scope.save = function() {
     $modalInstance.close($scope.settings);
   };
   /**
-   * Verwirft die Änderungen im Designer
+   * Verwirft die Änderungen an den Eigenschaften des UML-Elements
    */
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
 }])
 /**
- * Eigenschaften des Designers werden definiert
- * @param {Object} $modal
+ * Direktive für die Designer-Canvasfläche. Definiert die Funktionalitäten der Designerfläche.
+ * @param {Object} $modal  Der Service zum Anzeigen von Modalen Fenstern für die Bearbeitung von Eigenschaften
  */
 .directive('designer', ['$modal', function($modal) {
   return {
@@ -102,26 +104,26 @@ angular.module('brainworks.diagram')
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
     /**
-     * Der Bearbeitungsmodus für die Elemente wird definiert
-     * @param {Object} scope
-     * @param {Object} element
-     * @param {Object} attr
+     * Erstellung der Direktive und implementierung der entsprechenden Funktionalitäten.
+     * @param {Object} scope  Der Scope der Direktive
+     * @param {Object} element  Das HTML-Element
+     * @param {Object} attr  Die Attribute des HTML-Elements
      */
     link: function(scope, element, attr) {
       /**
-       * Zeichnen des Designers
+       * Zeichnen der Designerfläche mit den Elementen
        */
       var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);
         /**
          * Zeichnen der Elemente
-         * @param {Object} value
+         * @param {Object} value  Das UML-Element auf im Diagramm
          */
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
         });
-        /* Initialisiert Bearbeitungspunkte und Umrandung der Klassenelemente beim Bearbeiten*/
+        /* Initialisiert Bearbeitungspunkte und Umrandung der Klassenelemente beim Bearbeiten */
         if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) {
           context.save();
           context.beginPath();
@@ -200,9 +202,9 @@ angular.module('brainworks.diagram')
         $(element).droppable({
           accept: '.designer-element',
           /**
-           * Bestimmt Area, auf der Elemente gezeichnet werden dürfen
-           * @param {Object} event
-           * @param {Object} ui
+           * Handler für das Ablegen von den UML-Elementen aus dem Auswahlpool.
+           * @param {Object} event  Das Event-Objekt mit den Informationen zum Drop
+           * @param {Object} ui  Objekt mit Zusatzinformationen für das Event
            */
           drop: function(event, ui) {
             var y = ui.helper.position().top - $(element).parent().offset().top;
@@ -213,28 +215,28 @@ angular.module('brainworks.diagram')
           },
           /**
            * Cursor layout in der Area über der Designer Fläche, auf der Elemente plaziert werden dürfen
-           * @param {Object} event
-           * @param {Object} ui
+           * @param {Object} event  Das Event-Objekt mit den Informationen zum Mouse-Over
+           * @param {Object} ui  Objekt mit Zusatzinformationen für das Event
            */
           over: function(event, ui) {
             ui.helper.css('cursor', 'copy');
           },
           /**
            * Cursor layour in der Area ausserhalb der Canvas Fläche
-           * @param {Object} event
-           * @param {Object} ui
+           * @param {Object} event  Das Event-Objekt mit den Informationen zum Mouse-Out
+           * @param {Object} ui  Objekt mit Zusatzinformationen für das Event
            */
           out: function(event, ui) {
             ui.helper.css('cursor', 'no-drop');
           }
         });
         /**
-         * Es wird eine kleine Pause initialisiert und die Klicks wieder zurückgesetzt
-         * @param {Object} event
+         * Handler für das Klicken auf der Canvasfläche.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zum Klick
          */
         element.on('mousedown', function(event) {
           /**
-           * Klicks werden zurückgesetzt
+           * Klicks werden  nach dem Timeout zurückgesetzt. Notwendig für das behandeln von Doppelklicks.
            */
           setTimeout(function() {
             clicks = 0;
@@ -245,16 +247,16 @@ angular.module('brainworks.diagram')
             selected = null;
           }
           /**
-           * Definition der Bearbeitungsfläche des ausgewählten Elementes
-           * @param {Object} shape
+           * Sucht nach einem ausgewählten Elmenten auf der Designerfläche
+           * @param {Object} shape  Das Element welches geprüft werden soll
            */
           var result = $.grep(scope.shapes, function(shape) {
             var isSelected = false;
             if(shape instanceof Shape) {
-              /* Definition der Bearbeitungsfläche von Klassenelementen*/
+              /* Prüfung der Selektion von Klassenelementen*/
               isSelected = event.layerX >= shape.getX() - 8 && event.layerX <= (shape.getX() + shape.getWidth() + 8) && event.layerY >= shape.getY() - 8 && event.layerY <= (shape.getY() + shape.getHeight() + 8);
             } else {
-              /* Definition der Bearbeitungsfläche der Beziehungselemente */
+              /* Prüfung der Selektion der Beziehungselemente */
               var context = element[0].getContext('2d');
               var deltaX = shape.getCoordsB()[0] - shape.getCoordsA()[0];
               var deltaY = shape.getCoordsB()[1] - shape.getCoordsA()[1];
@@ -281,9 +283,9 @@ angular.module('brainworks.diagram')
           });
           var selectedInResult = false;
           /**
-           * Element als selected markieren
-           * @param {number} index
-           * @param {Object} selection
+           * Prüfen, ob das vorher ausgewählte Element in der neuen Auswahl vorhanden ist
+           * @param {number} index  Der Index des Elements im Array der gefundenen Elemente
+           * @param {Object} selection  Das Object des gefundenen Elementes
            */
           $.each(result, function(index, selection) {
             if(angular.isDefined(selected) && selected !== null && selection._id === selected._id) {
@@ -295,7 +297,7 @@ angular.module('brainworks.diagram')
           if(selected === null || !selectedInResult) {
             selected = result[0];
           }
-          /* Erhöhe die Clicks um 1, wenn */
+          /* Erhöhe die Clicks um 1, wenn die alte Auswahl mit der neuen übereinstimmt oder vorher keine Auswahl vorhanden war */
           if(!angular.isDefined(oldSelected) || oldSelected === null || !angular.isDefined(selected) || selected === null || oldSelected._id === selected._id) {
             clicks++;
           }
@@ -316,7 +318,7 @@ angular.module('brainworks.diagram')
               positionY >= selected.getY() && positionY <= (selected.getY() + selected.getHeight())
             ) {
               drag = true;
-            } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) { /* Anpassen der Größe eines Klassenelements auf der Canvasfläche */
+            } else if(selected instanceof Shape && angular.isDefined(selected) && selected !== null) { /* Anpassen der Größe eines UML-Elements auf der Canvasfläche */
               resize = true;
               if(positionX >= selected.getX() - 8 && positionX <= selected.getX() - 2 && positionY >= selected.getY() - 8 && positionY <= selected.getY() - 2) {
                 resizeDirection = 'up left';
@@ -372,8 +374,8 @@ angular.module('brainworks.diagram')
           }
         });
         /**
-         * Layout des Cursors wird angepasst
-         * @param {Object} event
+         * Handler für das Bewegen der Maus auf der Canvasfläche.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zur Bewegung
          */
         element.on('mousemove', function(event) {
           if(angular.isDefined(selected) && selected !== null) {
@@ -438,14 +440,14 @@ angular.module('brainworks.diagram')
                 cursor: cursor
               });
             }
-            /* Speichern der Position des Klassenelementes */
+            /* Speichern der Position des UML-Elementes */
             if(selected instanceof Shape) {
               var oldX = selected.getX();
               var oldY = selected.getY();
               var oldHeight = selected.getHeight();
               var oldWidth = selected.getWidth();
             }
-            /* Resize des Klassenelementes */
+            /* Resize des UML-Elementes */
             if(resize) {
               var moveX = 0;
               var moveY = 0;
@@ -491,13 +493,13 @@ angular.module('brainworks.diagram')
               selected.setY(y);
               selected.setWidth(Math.max(1, selected.getWidth() + moveX));
               selected.setHeight(Math.max(1, selected.getHeight() + moveY));
-            } else if(drag && dragPoint === '') { /* Bewegung des gesamten Klassenelementes */
+            } else if(drag && dragPoint === '') { /* Bewegung des gesamten UML-Elementes */
               selected.setX(selected.getX() + event.layerX - positionX);
               selected.setY(selected.getY() + event.layerY - positionY);
               positionX = event.layerX;
               positionY = event.layerY;
             } else if(drag && dragPoint !== '') { /* Bewegung der Beziehungslinie */
-              /* Bewegung bei verschiedenen dragpoints (Klassenelement oder einer der beiden dragpoints des Beziehungselementes) */
+              /* Bewegung bei verschiedenen dragpoints des Beziehungselementes */
               switch(dragPoint) {
                 case 'shape':
                   selected.setCoordsA([selected.getCoordsA()[0] + event.layerX - positionX, selected.getCoordsA()[1] + event.layerY - positionY]);
@@ -513,8 +515,8 @@ angular.module('brainworks.diagram')
               shapeA = null;
               shapeB = null;
               /**
-               * Umrandung der Klassenelemente bei Verknüpfung zwischen dem Beziehungselement und dem Klassenelement
-               * @param {Object} shape
+               * Suche der UML-Elemente die durch die Bewegung verbunden werden sollen.
+               * @param {Object} shape  Das Element welches geprüft werden soll
                */
               angular.forEach(scope.shapes, function(shape) {
                 if(shape instanceof Shape) {
@@ -540,7 +542,7 @@ angular.module('brainworks.diagram')
               if(selected instanceof Shape) {
                 /**
                  * Resize der Beziehungslinie
-                 * @param {Object} shape
+                 * @param {Object} shape  Das Element welches geprüft und evtl. resized werden soll
                  */
                 angular.forEach(scope.shapes, function(shape) {
                   if(shape instanceof Relation) {
@@ -572,8 +574,8 @@ angular.module('brainworks.diagram')
           }
         });
         /**
-         * Beim Mouseup wird das Beziehungselement, welches mit einem Klassenelement verbunden werden soll an dieses angefügt, so dass es optimal verbunden ist
-         * @param {Object} event
+         * Handler für das Loslassen der Maus auf der Canvasfläche.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zum MouseUp-Event
          */
         element.on('mouseup', function(event) {
           if(shapeA !== null) {
@@ -607,17 +609,18 @@ angular.module('brainworks.diagram')
           draw();
         });
         /**
-         * Drücken von entf soll das zu bearbeitende Element löschen
-         * @param {Object} event
+         * Handler das Drücken einer Taste auf der Canvasfläche.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zur Tastenbetätigung
          */
         element.on('keydown', function(event) {
+          /* Löscht ein Element wenn ENTF gedrückt wurde und ein Element im Designer ausgewählt ist */
           if(angular.isDefined(selected) && selected !== null && event.keyCode === 46) {
             element.css({
               cursor: 'initial'
             });
             /**
-             * Löschen des übergebenen Elementes
-             * @param {Object} shape
+             * Löschen des selektierten Elementes
+             * @param {Object} shape  Das Element welches geprüft und evtl. gelöscht werden soll
              */
             scope.shapes = $.grep(scope.shapes, function(shape) { return shape._id !== selected._id; });
             selected = null;
@@ -633,22 +636,22 @@ angular.module('brainworks.diagram')
   };
 }])
 /**
- * Vergabe von Cursoreigenschaften beim Arbeiten mit Elementen
- * @param {Object} $document
+ * Direktive für die Elemente in dem Auswahlpool. Definiert die Funktionalitäten der einzelnen auswählbaren Elemente.
  */
-.directive('designerElement', function($document) {
+.directive('designerElement', function() {
   return {
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer-element" height="90" width="140"></canvas>',
     /**
-     * Zeichnen der Klassenelemente und Beziehungselemente auf der Klassendiagramm-Canvasfläche
-     * @param {Object} scope
-     * @param {Object} element
-     * @param {Object} attr
+     * Erstellung der Direktive und implementierung der entsprechenden Funktionalitäten.
+     * @param {Object} scope  Der Scope der Direktive
+     * @param {Object} element  Das HTML-Element
+     * @param {Object} attr  Die Attribute des HTML-Elements
      */
     link: function(scope, element, attr) {
       var offsetX, offsetY;
+      /* Erstellen des entsprechenden Objekts und Zeichnen auf dem Canvas in dem Auswahlpool */
       var shape = window[attr.type].prototype instanceof Shape ? new window[attr.type](0, 0, 0, 140, 90, attr.name) : new window[attr.type](0, [0, 45], [140, 45], attr.name);
       shape.draw(element[0]);
       /* Drag & Drop für die Elemente */
@@ -657,33 +660,33 @@ angular.module('brainworks.diagram')
         appendTo: $('#designerContainer'),
         containment: $('#designerContainer'),
         /**
-         * Verändert den Curser bei dem Versuch ein Element auf eine nicht dropbare Fläche zu ziehen
-         * @param {Object} event
-         * @param {Object} ui
+         * Handler für das Aufheben von den UML-Elementen aus dem Auswahlpool.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zum Drag-Start
+         * @param {Object} ui  Objekt mit Zusatzinformationen für das Event
          */
         start: function(event, ui) {
           shape.draw(ui.helper[0]);
           ui.helper.css('cursor', 'no-drop');
         },
         /**
-         * Versetzt den Cursor beim plazieren des Elementes wieder in sein Standartlayout
-         * @param {Object} event
-         * @param {Object} ui
+         * Handler für das Beenden des Aufhebens von den UML-Elementen aus dem Auswahlpool.
+         * @param {Object} event  Das Event-Objekt mit den Informationen zum Drag-Stop
+         * @param {Object} ui  Objekt mit Zusatzinformationen für das Event
          */
         stop: function(event, ui) {
           ui.helper.css('cursor', 'initial');
         }
       });
       /**
-       * Setzt einen grauen Hintergrund an mit dem Curser ausgewählte Elemente
-       * @param {Object} event
+       * Handler für das Bewegen der Maus über des Elements im Auswahlpool.
+       * @param {Object} event  Das Event-Objekt mit den Informationen zum Mouseover-Event
        */
       element.on('mouseover', function(event) {
         element.addClass('designer-element-active');
       });
       /**
-       * Nimmt den grauen Hintergrund der Elemente wieder weg, wenn der Cursor die Elemente verlässt
-       * @param {Object} event
+       * Handler für das Bewegen der Maus aus dem Element im Auswahlpool.
+       * @param {Object} event  Das Event-Objekt mit den Informationen zum Mousout-Event
        */
       element.on('mouseout', function(event) {
         element.removeClass('designer-element-active');
