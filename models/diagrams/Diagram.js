@@ -1,5 +1,5 @@
 /**
- * Diagrammschema wird erstellt und dem Diagramm hinzugefügt
+ * Diagrammschema wird erstellt
  */
 var mongoose = require('mongoose');
 var CommentSchema = require('./Comment').schema;

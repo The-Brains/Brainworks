@@ -1,5 +1,5 @@
 /**
- * Klassenschemen werden erstellt & entsprechenden Klassenelementen zugewiesen
+ * Klassenschemen werden erstellt
  */
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');

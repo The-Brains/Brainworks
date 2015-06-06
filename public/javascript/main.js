@@ -1,36 +1,34 @@
 /**
- * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren von Elementen der Navigationsbar
+ * Main-Module der Applikation. Sie dient zum Konfigurieren und Initialisieren der Routen und Hauptfunktionalitäten
  */
 angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.commons', 'brainworks.diagram', 'brainworks.user'])
-.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
-  /**
-   * Initiiert die Startseite und regelt die Zugriffe der Navigationsbar
-   * @param {Object} $stateProvider
-   * @param {Object} $urlRouterProvider
-   * @param {Object} $httpProvider
-   */
-  function($stateProvider, $urlRouterProvider, $httpProvider) {
+/**
+ * Initiiert die Startseite und regelt die Routen
+ * @param {Object} $stateProvider
+ * @param {Object} $urlRouterProvider
+ * @param {Object} $httpProvider
+ */
+.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
       templateUrl: '/home',
       resolve: {
-        diagrams: ['diagramsFactory',
-          /**
-           * Liefert alle öffentlichen Diagramme
-           * @param {Object} diagramsFactory
-           */
-          function(diagramsFactory) {
+        /**
+         * Liefert alle öffentlichen Diagramme
+         * @param {Object} diagramsFactory
+         */
+        diagrams: ['diagramsFactory', function(diagramsFactory) {
           return diagramsFactory.getPublicDiagrams();
         }]
       },
-      controller: ['$scope', 'diagrams',
-        /**
-         * Initiiert Paging für die Diagrammübersicht
-         * @param {Object} $scope
-         * @param {Object} diagrams
-         */
-        function($scope, diagrams) {
+      /**
+       * Controller für die öffentliche Diagrammübersicht. Setzt Diagramme im Scope
+       * und liefert Funktionalitäten für das Paging.
+       * @param {Object} $scope
+       * @param {Object} diagrams
+       */
+      controller: ['$scope', 'diagrams', function($scope, diagrams) {
         $scope.diagrams = diagrams.diagrams;
         $scope.currentPage = 1;
         $scope.numPerPage = 5;
@@ -42,14 +40,13 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/publicDiagram',
       controller: 'publicDiagramCtrl',
       resolve: {
-        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory',
-          /**
-           * Liefert ein bestimmtes öffentliches diagramm (abhängig von der Id der hinterlegten Parameter des Diagramms)
-           * @param {Object} $stateParams
-           * @param {Object} localStorageService
-           * @param {Object} diagramsFactory
-           */
-          function($stateParams, localStorageService, diagramsFactory) {
+        /**
+         * Liefert ein bestimmtes öffentliches Diagramm (abhängig von der ID der hinterlegten Parameter der URL)
+         * @param {Object} $stateParams
+         * @param {Object} localStorageService
+         * @param {Object} diagramsFactory
+         */
+        diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
           return diagramsFactory.getPublicDiagram($stateParams.id);
         }]
       }
@@ -67,34 +64,30 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
       templateUrl: '/about'
     });
   $urlRouterProvider.otherwise('home');
-  $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService',
-    /**
-     * Asynchrones aufrufen der Diagrammkonfiguration
-     * @param {Object} $q ermöglicht asynchrones Aufrufen
-     * @param $injector empfängt Objektinstanzen des Providers
-     * @param {Object} localStorageService
-     */
-    function($q, $injector, localStorageService) {
+  /**
+   * Handler für alle HTTP-Anfragen und Antwotrten. Sendet das Token mit und Leitet bei falschem Login den Benutzer um.
+   * @param {Object} $q ermöglicht asynchrones Aufrufen
+   * @param {Object} $injector empfängt Objektinstanzen des Providers
+   * @param {Object} localStorageService
+   */
+  $httpProvider.interceptors.push(['$q', '$injector', 'localStorageService', function($q, $injector, localStorageService) {
     return {
-      request:
-        /**
-         * Liefert die Konfiguration des Kopfbereiches
-         * Wenn ein Access Token vorhanden ist, wird er ausgelesen
-         * @param config
-         */
-        function(config) {
+      /**
+       * Setzt das Token im HTTP-Header beim Senden einer Anfrage.
+       * @param {Object} config
+       */
+      request: function(config) {
         config.headers = config.headers || {};
         if (localStorageService.get('token')) {
           config.headers['x-access-token'] = localStorageService.get('token');
         }
         return config;
       },
-      responseError:
-        /**
-         * Ist die Anfrage Unauthorized oder Forbidden wird der Nutzer zurück zum SignIn geleitet
-         * @param {Object} response
-         */
-        function(response) {
+      /**
+       * Ist die Antwort Unauthorized oder Forbidden wird der Nutzer zurück zum SignIn geleitet
+       * @param {Object} response
+       */
+      responseError: function(response) {
         if(response.status === 401 || response.status === 403) {
           $injector.get('$state').go('signIn');
         }
@@ -103,74 +96,64 @@ angular.module('brainworks', ['ui.router', 'LocalStorageModule', 'brainworks.com
     };
   }]);
 }])
-.controller('brainworksCtrl', ['$rootScope', 'userFactory',
+/**
+ * Controller für den Hauptscope. Liefert die Gunrdfunktionen für die Anwendung.
+ * @param {Object} $rootScope
+ * @param {Object} userFactory
+ */
+.controller('brainworksCtrl', ['$rootScope', 'userFactory', function($rootScope, userFactory) {
   /**
-   * Bei erfolgreichem LogIn und Authentifizierung wird Zugang zu den Nutzerdaten gewährt
-   * @param {Object} $rootScope
-   * @param {Boolean} userFactory
+   * Fragt beim Server an, ob der Benutzer eingeloggt ist und
+   * setzt ein entsprechendes Falg im Root-Scope. Um dem Benutzer
+   * Zugang auf andere Seiten zu gewährleisten.
+   * @param {Object} res
    */
-  function($rootScope, userFactory) {
-  userFactory.checkLoggedIn().then(
-    /**
-     * Bei erfolgreicher Authentifizierung wird Zugang zu den Nutzerdaten gewährt
-     * @param {Object} res
-     */
-    function(res) {
+  userFactory.checkLoggedIn().then(function(res) {
     $rootScope.isAuthentificated = res.data.success;
   });
 }])
-.controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram',
-  /**
-   *
-   * @param {Object} $scope
-   * @param {Object} $state
-   * @param {Object} localStorageService
-   * @param {Object} diagramsFactory
-   * @param {Object} diagram
-   */
-  function ($scope, $state, localStorageService, diagramsFactory, diagram) {
+/**
+ * Controller für die Ansicht eines öffentlichen Diagrammes.
+ * @param {Object} $scope
+ * @param {Object} $state
+ * @param {Object} localStorageService
+ * @param {Object} diagramsFactory
+ * @param {Object} diagram
+ */
+.controller('publicDiagramCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.diagram = diagram;
   $scope.comment = '';
   $scope.elementId = 1;
   $scope.shapes = [];
-  angular.forEach($scope.diagram.shapes,
-    /**
-     * Gesicherte Diagramme werden generiert
-     * @param {Object} shape
-     */
-    function(shape) {
+  /**
+   * Alle Elemente werden aus dem Diagramm in den Scope gelesen und Objekte für diese angelegt.
+   * @param {Object} shape
+   */
+  angular.forEach($scope.diagram.shapes, function(shape) {
     var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     tmp.id = $scope.elementId;
     $scope.elementId++;
     $scope.shapes.push(tmp);
   });
-  $scope.back =
-    /**
-     * Rückleitung zur Startseite
-     */
-    function() {
+  /**
+   * Funktion zur Rückleitung zur Startseite
+   */
+  $scope.back = function() {
     $state.go('home');
   };
-  $scope.addComment =
+  /**
+   * Fügt einem bestimmten Diagramm einen Kommentar hinzu
+   * @param comment
+   * @param {Object} diagramId
+   */
+  $scope.addComment = function(comment, diagramId) {
     /**
-     * Fügt einem bestimmten Diagramm einen Kommentar hinzu
-     * @param comment
-     * @param {Object} diagramId
+     * Fügt dem Diagramm ein Kommentar hinzu. Bei Erfolg wird das Formular
+     * wieder zurückgesetzt, sodass ein neuer Kommentar eingegeben werden kann.
+     * @param {Object} response
      */
-    function(comment, diagramId) {
-    diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(
-      /**
-       * Setzen des Kommentars.
-       * TODO Warum wird der Kommentar beim Schließen wieder entfernt?
-       * könnten nicht die folgenden zielen auskommentiert werden & die übersicht aktualisiert werden?
-        scope.comment = '';
-        $scope.commentDiagramForm.$setPristine();
-        $scope.commentDiagramForm.$setUntouched();
-       *
-       * @param {Object} response
-       */
-      function(response) {
+    diagramsFactory.addComment(comment, diagramId, localStorageService.get('userId')).success(function(response) {
       if(response.success) {
         $scope.diagram.comments.push(response.comment);
         $scope.comment = '';

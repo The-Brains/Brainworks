@@ -1,50 +1,44 @@
 /**
- * Verwaltung der Nutzerdaten
- * Implementieren der settings.js, singIn.js und der singUp.js in das Projekt
+ * Modul für die Benutzerfunktionalitäten der Anwendung.
  */
 angular.module('brainworks.user', [])
-.config(['$stateProvider', '$urlRouterProvider',
-         /**
-          * Verwaltung der statischen Nutzerdaten in states
-          * Weist dem state(den Seiten zum LogIn, der Registrierung & den Profileinstellungen) die zu verwaltenden Nutzerdaten zu
-          * @param {Object} $stateProvider
-          * @param {Object} $urlRouterProvider
-          */
-         function($stateProvider, $urlRouterProvider) {
+/**
+ * Regelt die Routen für das Benutzermodul
+ * @param {Object} $stateProvider
+ * @param {Object} $urlRouterProvider
+ */
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
       templateUrl: '/user/settings',
       controller: 'settingsCtrl',
       resolve: {
-        user: ['localStorageService', 'userSettingsFactory',
-               /**
-                * Liest die lokal gesicherten Nutzer aus
-                * @param {Object} localStorageService
-                * @param {Boolean} userSettingsFactory
-                */
-               function(localStorageService, userSettingsFactory) {
+        /**
+         * Lädt den Benutzerdaten für die Einstellungsverwaltung
+         * @param {Object} localStorageService
+         * @param {Object} userSettingsFactory
+         */
+        user: ['localStorageService', 'userSettingsFactory', function(localStorageService, userSettingsFactory) {
           return userSettingsFactory.loadUserData(localStorageService.get('userId'));
         }]
       }
     })
     .state('profile.logout', {
       url: '/user/signOut',
-      controller: ['$rootScope', '$state', 'localStorageService', 'userFactory',
+      /**
+       * Controller für das Ausloggen des Bneutzers. Löscht aus dem Lokalstorage die gesicherten Daten.
+       * das Token und die ID des Benutzers.
+       * @param {Object} $rootScope
+       * @param {Object} $state
+       * @param {Object} localStorageService
+       * @param {Object} userFactory
+       */
+      controller: ['$rootScope', '$state', 'localStorageService', 'userFactory', function($rootScope, $state, localStorageService, userFactory) {
         /**
-         * Entfernt beim Logout des Nutzers die zugewiesene UserId und den lokal verwendeten Token
-         * @param {Object} $rootScope
-         * @param {Object} $state
-         * @param {Object} localStorageService
-         * @param {Boolean} userFactory
+         * Sendet an den Server eine Logout Anfrage und leitet den Benutzer auf die Loginseite um.
          */
-        function($rootScope, $state, localStorageService, userFactory) {
-        userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(
-          /**
-           * Leitet den Nutzer auf die LogIn Seite, wenn er nicht mehr authentifiziert ist
-           * Entfernt token und userId
-           */
-          function() {
+        userFactory.signOut(localStorageService.get('userId'), localStorageService.get('token')).success(function() {
           $rootScope.isAuthentificated = false;
           localStorageService.remove('token');
           localStorageService.remove('userId');
@@ -53,53 +47,49 @@ angular.module('brainworks.user', [])
       }]
     });
 }])
-.factory('userFactory', ['$http', '$rootScope',
-  /**
-   * Validierung und Verwaltung der Nutzerregistrierung und dem Nutzer-LogIn
-   * @param {Object} $http
-   * @param {Object} $rootScope
-   */
-  function($http, $rootScope) {
+/**
+ * Factory für die allgemienen Benutzerfunktionalitäten. Dient als
+ * Schnittstelle zwischen dem Client und dem Server. Liefert Daten
+ * und sendet Anfragen an den Server.
+ * @param {Object} $http
+ * @param {Object} $rootScope
+ */
+.factory('userFactory', ['$http', '$rootScope', function($http, $rootScope) {
   return {
-    checkUsername:
-      /**
-       * Ruft die URL zum Prüfen des Usernames auf
-       * @param {Boolean} username
-       */
-      function(username) {
+    /**
+     * Ruft die URL zum Prüfen des Usernames auf
+     * @param {string} username Der Benutzername
+     */
+    checkUsername: function(username) {
       return $http.post('/user/check', {username: username});
     },
-    createUser:
-      /**
-       * Ruft die URL zum Erstellen eines Users auf
-       * @param {Boolean} user
-       */
-      function(user) {
+    /**
+     * Ruft die URL zum Erstellen eines Users auf
+     * @param {Object} user Das JSON-Objekt mit den Benutzerinformationen.
+     */
+    createUser: function(user) {
       return $http.post('/user/signUp', {user: user});
     },
-    signIn:
     /**
      * Ruft die URL zum Einloggen auf
-     * @param {Boolean} username
-     * @param {String} password
+     * @param {string} username Der Benutzername
+     * @param {string} password Das Passwort
      */
-      function(username, password) {
+    signIn: function(username, password) {
       return $http.post('/user/signIn', {username: username, password: password});
     },
-    checkLoggedIn:
-      /**
-       * Ruft die URL auf welche prüft, ob der User eingeloggt ist
-       */
-      function() {
+    /**
+     * Ruft die URL auf welche prüft, ob der User eingeloggt ist
+     */
+    checkLoggedIn: function() {
       return $http.get('/user/loggedIn');
     },
-    signOut:
-      /**
-       * Ruft die URL zum Ausloggen auf
-       * @param {Number} userId
-       * @param {Object} token
-       */
-      function(userId, token) {
+    /**
+     * Ruft die URL zum Ausloggen auf
+     * @param {string} userId Die ID des Benutzers
+     * @param {string} token Der Token des eingeloggten Benutzers
+     */
+    signOut: function(userId, token) {
       return $http.post('/user/signOut', {userId: userId, token: token});
     }
   };

@@ -1,21 +1,20 @@
 /**
- * Navigationsdefinition und Prüfung
+ * Direktiven für die gemeinsame Verwendung.
  */
 angular.module('brainworks.commons')
-.directive('match',
-  /**
-   * Validierungesprüfung beim Aufruf einer Website
-   */
-  function() {
+/**
+ * Direktive für die Prüfung einer Eingabe mit einem anderen Wert.
+ */
+.directive('match', function() {
   return {
     require: 'ngModel',
     scope: {
       matchValue: '=match'
     },
     /**
-     * Validierungsprüfung eines Aufrufes
+     * Erstellung der Direktive und implementierung der entsprechenden Funktionalitäten.
      * @param {Object} scope
-     * @param {Number[]} $element
+     * @param {Object} $element
      * @param {Object} attrs
      * @param {Object} ngModel
      */
@@ -30,12 +29,11 @@ angular.module('brainworks.commons')
     }
   };
 })
-.directive('navItem', ['$location',
-  /**
-   * Initialisierung des Prototyps für die Navigationsleiste
-   * @param {Object} $location
-   */
-  function($location) {
+/**
+ * Dirketive für die einzelnen Navigationselemente in der Navigationsleiste.
+ * @param {Object} $location
+ */
+.directive('navItem', ['$location', function($location) {
   return {
     restrict: 'E',
     replace: true,

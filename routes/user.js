@@ -1,6 +1,5 @@
 /**
- * Datenhalter von statischen Variablen für die Nutzerseiten.
- * Rendern der Oberfläche
+ * Definition der Routen für das Benutzermodul
  */
 var express = require('express');
 var router = express.Router();
@@ -9,15 +8,13 @@ var jwt = require('jsonwebtoken');
 var userCtrl = require('../controller/User');
 var configuration = require('../config.json');
 
-router.get('/signIn',
-  /**
-   * Definition der Textelemente im Einloggen-Bereich
-   * Zeichnen der Elemente
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Rendern der Login-Seite mit den passenden Texten
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.get('/signIn', function(req, res, next) {
   res.render('user/signIn', {
     signUp: 'Registrieren',
     or: 'oder',
@@ -39,15 +36,13 @@ router.get('/signIn',
   });
 });
 
-router.get('/settings', userCtrl.verifyLogin,
-  /**
-   * Definition der Textelemente in den Profileinstellungen
-   * Zeichnen der Elemente
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Rendern der Seite für die Profileinstellungen mit den passenden Texten
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.get('/settings', userCtrl.verifyLogin, function(req, res, next) {
   res.render('user/settings', {
     accountSettings: 'Profileinstellungen',
     forename: 'Vorname',
@@ -69,24 +64,21 @@ router.get('/settings', userCtrl.verifyLogin,
   });
 });
 
-router.param('user',
-  /**
-   * Definition der Textelemente in der Navigationsbar
-   * Zeichnen der Elemente
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   * @param {Number} id
-   */
-  function(req, res, next, id) {
+/**
+ * Parameter "user" in URLs in einen passenden Benutzer auflösen
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ * @param {Number} id
+ */
+router.param('user', function(req, res, next, id) {
   var query = User.findById(id);
-  query.exec(
-    /**
-     * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
-     * @param {Error} err
-     * @param {Boolean} user
-     */
-    function (err, user){
+  /**
+   * Lädt den benötidten Nutzer. Liefert entsprechende Fehler, sofern welche bei der Suche auftreten.
+   * @param {Object} err
+   * @param {Object} user
+   */
+  query.exec(function (err, user){
     if (err) { return next(err); }
     if (!user) { return next(new Error('can\'t find user')); }
     req.user = user;
@@ -94,43 +86,39 @@ router.param('user',
   });
 });
 
-router.post('/check',
+/**
+ * Prüfen der Verfügbarkeit eines bestimmten Nutzernamens
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.post('/check', function(req, res, next) {
   /**
-   * Prüfen der Verfügbarkeit eines bestimmten Nutzernamens
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, ob der Benutzername verfügbar ist oder nicht
+   * @param {Object} err
+   * @param {Object} user
    */
-  function(req, res, next) {
-  User.findOne({username: req.body.username},
-    /**
-     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung und einer Meldung, dass der Nutzer für die LogInzeit belegt ist
-     * @param {Error} err
-     * @param {Boolean} user
-     */
-    function(err, user) {
+  User.findOne({username: req.body.username}, function(err, user) {
     if(err) { res.send(err); }
     else { res.json({success: true, available: !user}); }
   });
 });
 
-router.post('/signUp',
-  /**
-   * Prüfen der Verfügbarkeit der Registrierung
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Registration eines Benutzers
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.post('/signUp', function(req, res, next) {
   var user = new User(req.body.user);
   user.set('loggedIn', true);
-  user.save(
-    /**
-     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
-     * @param {Error} err
-     * @param {Boolean} user
-     */
-    function(err, user){
+  /**
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+   * @param {Object} err
+   * @param {Object} user
+   */
+  user.save(function(err, user){
     if(err){ res.send(err); }
     else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
@@ -139,80 +127,73 @@ router.post('/signUp',
   });
 });
 
-router.post('/signIn',
+/**
+ * Prüfen des Logins
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.post('/signIn', function(req, res, next) {
   /**
-   * Prüfen der Verfügbarkeit der Log-Ins
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
+   * Prüfung auf Richtigkeit des Benutzernamens und Passworts. Signierung das Tokens, falls dieser korrekt ist.
+   * @param {Object} err
+   * @param {Object} user
    */
-  function(req, res, next) {
-  User.findOne({username: req.body.username, password: req.body.password},
-    /**
-     * Prüfung auf Richtigkeit des Benutzernamens. Signierung das Tokens, falls dieser korrekt ist
-     * @param {Error} err
-     * @param {Boolean} user
-     */
-    function(err, user) {
+  User.findOne({username: req.body.username, password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
     else if(!user) {
       res.json({success: false, message: 'Das Passwort oder der Benutzername ist falsch!'});
     } else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);
-      User.findByIdAndUpdate(user._id, {loggedIn: true},
-        /**
-         * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, einem signierten Token und der NutzerID
-         */
-        function() {
+      /**
+       * Setz den Loginflag am Benutzer und beendet die Anfrage mit dem Senden
+       * einer Erfolgsmitteilung, einem signierten Token und der NutzerID
+       */
+      User.findByIdAndUpdate(user._id, {loggedIn: true}, function() {
         res.json({success: true, token: token, userId: user._id});
       });
     }
   });
 });
 
-router.post('/signOut',
+/**
+ * Ausloggen des bestimmten Benutzers
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
+ */
+router.post('/signOut', function(req, res, next) {
   /**
-   * Ausloggen des bestimmten Benutzers
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
+   * Loginflag wird entfernt und das Ergebnis der Anfrage wird in der Antwort übertragen.
    */
-  function(req, res, next) {
-  User.findByIdAndUpdate(req.body.userId, {loggedIn: false},
-    /**
-     * Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.
-     */
-    function() {
+  User.findByIdAndUpdate(req.body.userId, {loggedIn: false}, function() {
     res.sendStatus(200);
   });
 });
 
-router.get('/loggedIn',
-  /**
-   * Prüft beim LogIn, ob der Nutzertoken Valide ist (Verifizierungsprüfung )
-   * @param {Object} req
-   * @param {Object} res
-   */
-  function(req, res) {
+/**
+ * Prüft ob ein Benutzer eingeloggt ist
+ * @param {Object} req
+ * @param {Object} res
+ */
+router.get('/loggedIn', function(req, res) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
-    jwt.verify(token, configuration.secret,
-      /**
-       * Prüft, ob der Nutzertoken und das Konfigurationsecret mit der entschlüsselten BenutzerId valide sind
-       * @param {Error} err
-       * @param {Object} decoded
-       */
-      function(err, decoded) {
+    /**
+     * Verifiziert das mitgesandte Token
+     * @param {Object} err
+     * @param {Object} decoded
+     */
+    jwt.verify(token, configuration.secret, function(err, decoded) {
       if (err) {
         res.send(err);
       } else {
-        User.findOne({userId: decoded.userId, loggedIn: true},
-          /**
-           * Beendet die Anfrage, ob die NutzerId mit der entschlüsselten NutzerId harmoniert mit dem Senden einer Erfolgsmitteilung
-           * @param {Error} err
-           * @param {Boolean} user
-           */
-          function(err, user) {
+        /**
+         * Prüft, ob entschlüsselte Benutzer mit einem gesetzten Loginflag vorhanden ist und sendte eine entsprechende Antwort
+         * @param {Object} err
+         * @param {Object} user
+         */
+        User.findOne({userId: decoded.userId, loggedIn: true}, function(err, user) {
           if(err){ res.send(err); }
           else if(!user) { res.json({success: false, message: 'Not logged in!'}); }
           else { res.json({success: true}); }
@@ -224,48 +205,44 @@ router.get('/loggedIn',
   }
 });
 
-router.get('/:user', userCtrl.verifyLogin,
-  /**
-   * Beendet die Anfrage mit dem Senden des Benutzers
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Route für holen der Benutzerinformationen
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.get('/:user', userCtrl.verifyLogin, function(req, res, next) {
   res.json(req.user);
 });
 
-router.post('/delete/:user', userCtrl.verifyLogin,
-  /**
-   * Löscht das Nutzerprofil und prüft das dabei die Auswahl des Bestätigungsfeldes
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Löscht das Nutzerprofil und prüft das dabei die Auswahl des Bestätigungsfeldes
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.post('/delete/:user', userCtrl.verifyLogin, function(req, res, next) {
   if(!req.body.assignment) {
     res.json({success: false, message: 'Bitte bestätigen Sie die Löschung Ihres Profils!'});
   } else {
-    req.user.remove(
-      /**
-       * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung
-       * @param {Error} err
-       */
-      function(err) {
+    /**
+     * Löscht den Benutzer und beendet die Anfrage mit dem Senden einer Erfolgsmitteilung
+     * @param {Object} err
+     */
+    req.user.remove(function(err) {
       if (err) { res.send(err); }
       else { res.json({success: true}); }
     });
   }
 });
 
-router.put('/:user', userCtrl.verifyLogin,
-  /**
-   * Registrierungsprüfung eines neuen Benutzers
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
-   */
-  function(req, res, next) {
+/**
+ * Ändern der Bneutzereinstellungen
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.put('/:user', userCtrl.verifyLogin, function(req, res, next) {
   User.findByIdAndUpdate(req.user._id, {
     forename: req.body.forename,
     surname: req.body.surname,
@@ -273,8 +250,8 @@ router.put('/:user', userCtrl.verifyLogin,
   },
   /**
    * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-   * @param {Error} err
-   * @param {Boolean} user
+   * @param {Object} err
+   * @param {Object} user
    */
   function(err, user) {
     if(err){ res.send(err); }
@@ -285,21 +262,19 @@ router.put('/:user', userCtrl.verifyLogin,
   });
 });
 
-router.post('/changePassword/:user', userCtrl.verifyLogin,
+/**
+ * Ändern des Passwortes eines Benutzers
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+router.post('/changePassword/:user', userCtrl.verifyLogin, function(req, res, next) {
   /**
-   * Generierung eines neuen Tokens beim Ändern des Passwortes
-   * @param {Object} req
-   * @param {Object} res
-   * @param {variable} next
+   * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
+   * @param {Object} err
+   * @param {Object} user
    */
-  function(req, res, next) {
-  User.findByIdAndUpdate(req.user._id, {password: req.body.password},
-    /**
-     * Beendet die Anfrage mit dem Senden einer Erfolgsmitteilung, eines signierten tokens und einer neuen BenutzerId
-     * @param {Error} err
-     * @param {Boolean} user
-     */
-    function(err, user) {
+  User.findByIdAndUpdate(req.user._id, {password: req.body.password}, function(err, user) {
     if(err){ res.send(err); }
     else {
       var token = jwt.sign({username: user.username, password: user.password}, configuration.secret, configuration.tokenConfig);

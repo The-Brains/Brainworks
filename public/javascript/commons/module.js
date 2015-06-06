@@ -1,4 +1,4 @@
 /**
- * Implementierung der Direktive zur Navigation in das Projekt
+ * Modul für die allgemeinen Funktionalitäten der Anwendung.
  */
 angular.module('brainworks.commons', []);

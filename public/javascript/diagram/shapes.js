@@ -4,16 +4,16 @@
 
 /**
  * Definition des Prototypes der Klassenelemente (von diesem Erben andere Klassenelemente)
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} borderColor
- * @param {String} fontFamily
- * @param {Number} fontSize
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} borderColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
  */
 function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -27,11 +27,10 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.fontFamily = (typeof fontFamily === 'string') ? fontFamily : 'Arial';
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 16;
 
-  this.setX =
-    /**
-     * @param {Number} x
-     */
-    function(x) {
+  /**
+   * @param {number} x
+   */
+  this.setX = function(x) {
     this.x = x;
   };
 

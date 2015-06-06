@@ -1,9 +1,9 @@
 /**
- * Userschema wird erstellt & einem User zugewiesen
+ * Userschema wird erstellt
  */
 var mongoose = require('mongoose');
 var DiagramSchema = require('../diagrams/Diagram').schema;
-
+/* Initialisierung des Userschemas */
 var userSchema = new mongoose.Schema({
   forename: {type: String, required: true},
   surname: {type: String, required: true},

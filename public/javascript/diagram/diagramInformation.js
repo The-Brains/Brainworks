@@ -2,36 +2,31 @@
  * Logik hinter den Diagramm Informationen
  */
 angular.module('brainworks.diagram')
-.factory('diagramInformationFactory', ['$http', 'localStorageService',
-  /**
-   * Verwaltung der gespeicherten Diagrammdaten
-   * @param {Object} $http
-   * @param {Object} localStorageService
-   */
-  function($http, localStorageService) {
+/**
+ * Verwaltung der gespeicherten Diagrammdaten
+ * @param {Object} $http
+ * @param {Object} localStorageService
+ */
+.factory('diagramInformationFactory', ['$http', 'localStorageService', function($http, localStorageService) {
   return {
-    get:
+    /**
+     * Weist Id's zugehörige Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm) zu
+     * @param {string} id
+     */
+    get: function(id) {
       /**
-       * Weist Id's zugehörige Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm) zu
-       * @param {Number} id
+       * Liest Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm)
+       * @param {Object} res
        */
-      function(id) {
-      return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(
-        /**
-         * Liest Diagrammdaten (Titel, Beschreibung, öffentliches Diagramm)
-         * @param {Object} res
-         */
-        function(res) {
+      return $http.get('/diagram/' + localStorageService.get('userId') + '/diagramInformation/' + id).then(function(res) {
         return res.data;
-       }
-      );
+      });
     },
-    save:
-      /**
-       * Sicherung des Diagramms für die entsprechende Adresse
-       * @param {Object} diagram
-       */
-      function(diagram) {
+    /**
+     * Sicherung des Diagramms für die entsprechende Adresse
+     * @param {Object} diagram
+     */
+    save: function(diagram) {
       return $http.put('/diagram/' + localStorageService.get('userId') + '/diagram/', diagram);
     }
   };

@@ -2,26 +2,24 @@
  * Logik des Diagrammdesigners
  */
 angular.module('brainworks.diagram')
-.controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram',
-  /**
-   *
-   * @param {Object} $scope
-   * @param {Object} $state
-   * @param {Objekt} localStorageService
-   * @param {Object} diagramsFactory
-   * @param {Object} diagram
-   */
-  function ($scope, $state, localStorageService, diagramsFactory, diagram) {
+/**
+ *
+ * @param {Object} $scope
+ * @param {Object} $state
+ * @param {Objekt} localStorageService
+ * @param {Object} diagramsFactory
+ * @param {Object} diagram
+ */
+.controller('designerCtrl', ['$scope', '$state', 'localStorageService', 'diagramsFactory', 'diagram', function ($scope, $state, localStorageService, diagramsFactory, diagram) {
   $scope.oneAtATime = true;
   /* Initialisierung der Klassendiagramme */
   $scope.diagramTypes = [{name: 'Klassendiagramme', shapes: [{type: 'ActiveClass', name: 'Aktive Klasse'}, {type: 'EmptyClass', name: 'Klasse'}, {type: 'AbstractClass', name: 'Abstrakte Klasse'}, {type: 'Comment', name: 'Kommentar'}, {type: 'Class', name: 'Klasse'}, {type: 'Interface', name: 'Schnittstelle'}, {type: 'Inheritance', name: 'Vererbung'}, {type: 'Association', name: 'Assoziation'}, {type: 'UniDirectionalAssociation', name: 'Gerichtete Assoziation'}, {type: 'Aggregation', name: 'Aggregation'}, {type: 'Composition', name: 'Komposition'}, {type: 'Realization', name: 'Realisierung'}, {type: 'Dependency', name: 'Abhängigkeit'}, {type: 'Link', name: 'Verbinder'}]}];
   $scope.diagram = diagram;
   $scope.shapes = [];
-  angular.forEach($scope.diagram.shapes,
-    /**
-     * @param {Object} shape
-     */
-    function(shape) {
+  /**
+   * @param {Object} shape
+   */
+  angular.forEach($scope.diagram.shapes, function(shape) {
     var tmp = new window[shape._type]();
     tmp.applyJSON(shape);
     $scope.shapes.push(tmp);
@@ -39,12 +37,11 @@ angular.module('brainworks.diagram')
   $scope.save = function(diagram) {
     var waitElement = $('#saveAnimation');
     var shapes = [];
-    angular.forEach($scope.shapes,
-      /**
-       * Wandeln eines Klassenelementes zu einem JSON Objekt
-       * @param {Object} shape
-       */
-      function(shape) {
+    /**
+     * Wandeln eines Klassenelementes zu einem JSON Objekt
+     * @param {Object} shape
+     */
+    angular.forEach($scope.shapes, function(shape) {
       shapes.push(shape.toJSON());
     });
     diagram.shapes = shapes;
@@ -55,74 +52,66 @@ angular.module('brainworks.diagram')
     tmpCanvas.attr('height', '300px');
     tmpCanvas.attr('width', '700px');
     var img = new Image();
-    img.onload =
-      /**
-       * Zeichnen der Vorschau für die Diagrammübersicht
-       */
-      function() {
+    /**
+     * Zeichnen der Vorschau für die Diagrammübersicht
+     */
+    img.onload = function() {
       tmpCanvas[0].getContext('2d').drawImage(img, 0, 0);
       var formData = new FormData();
       formData.append('thumbnail', tmpCanvas[0].toDataURL('image/png'));
       formData.append('diagram', JSON.stringify(diagram));
-      diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(
-        /**
-         * Ungesicherte Elemente werden gesichert
-         * @param {Object} response
-         */
-        function(response) {
+      /**
+       * Ungesicherte Elemente werden gesichert
+       * @param {Object} response
+       */
+      diagramsFactory.saveDiagram(localStorageService.get('userId'), formData).success(function(response) {
         waitElement.addClass('hidden');
       });
     };
     img.src = designerCanvas[0].toDataURL();
   };
 }])
-.controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' ,
-  /**
-   * Sichert die Einstellungen des geöffneten Projektes im Designer
-   * @param {Object} $scope
-   * @param {Object} $modalInstance
-   * @param {Object} settings
-   */
-  function($scope, $modalInstance, settings) {
+/**
+ * Sichert die Einstellungen des geöffneten Projektes im Designer
+ * @param {Object} $scope
+ * @param {Object} $modalInstance
+ * @param {Object} settings
+ */
+.controller('attributesEditorCtrl', ['$scope', '$modalInstance', 'settings' , function($scope, $modalInstance, settings) {
   $scope.settings = settings;
-  $scope.save =
-    /**
-     * Schließt die Einstellungen
-     */
-    function() {
+  /**
+   * Schließt die Einstellungen
+   */
+  $scope.save = function() {
     $modalInstance.close($scope.settings);
   };
-  $scope.cancel =
-    /**
-     * Verwirft die Änderungen im Designer
-     */
-    function() {
+  /**
+   * Verwirft die Änderungen im Designer
+   */
+  $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
 }])
-.directive('designer', ['$modal',
-  /**
-   * Eigenschaften des Designers werden definiert
-   * @param {Object} $modal
-   */
-  function($modal) {
+/**
+ * Eigenschaften des Designers werden definiert
+ * @param {Object} $modal
+ */
+.directive('designer', ['$modal', function($modal) {
   return {
     restrict: 'E',
     replace: true,
     template: '<canvas class="designer" height="5000px" width="5000px" tabIndex="1"></canvas>',
-    link:
+    /**
+     * Der Bearbeitungsmodus für die Elemente wird definiert
+     * @param {Object} scope
+     * @param {Number[]} $element
+     * @param {Object} attr
+     */
+    link: function(scope, element, attr) {
       /**
-       * Der Bearbeitungsmodus für die Elemente wird definiert
-       * @param {Object} scope
-       * @param {Number[]} $element
-       * @param {Object} attr
+       * Zeichnen des Designers
        */
-      function(scope, element, attr) {
-      var draw =
-        /**
-         * Zeichnen des Designers
-         */
-        function() {
+      var draw = function() {
         var context = element[0].getContext('2d');
         context.clearRect(0, 0, 5000, 5000);
         angular.forEach(scope.shapes,

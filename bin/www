@@ -1,7 +1,8 @@
+#!/usr/bin/env node
+
 /**
  * Module dependencies.
  */
-#!/usr/bin/env node
 
 var app = require('../app');
 var debug = require('debug')('Test:server');
@@ -41,7 +42,7 @@ function normalizePort(val) {
 
 /**
  * Event listener for HTTP server "error" event.
- * @param {Error} error
+ * @param {Object} error
  */
 function onError(error) {
   if (error.syscall !== 'listen') {
