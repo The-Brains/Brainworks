@@ -6,7 +6,7 @@ angular.module('brainworks.diagram')
  *
  * @param {Object} $scope
  * @param {Object} $state
- * @param {Objekt} localStorageService
+ * @param {Objekt} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
  * @param {Object} diagramsFactory
  * @param {Object} diagram
  */

@@ -1,21 +1,21 @@
 /**
- * Einloggen mit Username und Password
+ * Logik hinter dem Einloggen eines Benutzers
  */
 angular.module('brainworks.user')
 /**
- * LogIn Validierungsprüfung
- * @param {Object} $scope
- * @param {Object} $rootScope
- * @param {Object} $state
- * @param {Object} userFactory
- * @param {Object} localStorageService
+ * Controller für das Einloggen eines Benutzers.
+ * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
+ * @param {Object} $rootScope  Der Root-Scope der Anwendung, welcher für alle anderen Scopes zugänglich ist
+ * @param {Object} $state  Der State-Service zum Umleiten auf eine andere Seite
+ * @param {Object} userFactory  Die Factory für die Benutzerdaten
+ * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
  */
 .controller('signInCtrl', ['$scope', '$rootScope', '$state', 'userFactory', 'localStorageService', function($scope, $rootScope, $state, userFactory, localStorageService) {
   $scope.user = {};
   $scope.formErrors = [];
   /**
    * LogIn des Users
-   * @param {Object} user
+   * @param {Object} user  Das Objekt mit den Benutzerinformationen bentötig für den Login
    */
   $scope.signIn = function(user) {
     var password = '';
@@ -25,7 +25,7 @@ angular.module('brainworks.user')
     /**
      * Noch dem erfolgreichen LogIn werden UserId und Usertoken gesetzt.
      * Die Nutzerauthentifikation wird auf true gesetzt und die Diagramme im Profil werden angezeigt
-     * @param {Object} response
+     * @param {Object} response  Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userFactory.signIn(user.username, password).success(function(response) {
       if(response.success) {
@@ -40,7 +40,7 @@ angular.module('brainworks.user')
   };
   /**
    * Aktualisierung der Seite(entfernen der Fehlermeldung) nach dem Schließen der Fehlermeldung
-   * @param {number} index
+   * @param {number} index  Der Index der Fehlermeldung im Array
    */
   $scope.closeError = function(index) {
     $scope.formErrors.splice(index, 1);

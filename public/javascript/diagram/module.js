@@ -18,7 +18,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
       resolve: {
         /**
          * Liest lokal gesicherten Diagramme
-         * @param {Object} localStorageService
+         * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
          * @param {Object} diagramsFactory
          */
         diagrams: ['localStorageService', 'diagramsFactory', function(localStorageService, diagramsFactory) {
@@ -34,7 +34,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
         /**
          * Liest lokal gespeicherte Designer aus
          * @param {Object} $stateParams
-         * @param {Object} localStorageService
+         * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
          * @param {Object} diagramsFactory
          */
         diagram: ['$stateParams', 'localStorageService', 'diagramsFactory', function($stateParams, localStorageService, diagramsFactory) {
@@ -86,7 +86,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     getAll: function(userId) {
       /**
        * Liefert die Daten, die bei der URL Hinterlegt sind
-       * @param {Object} res
+       * @param {Object} res Das Objekt mit den Antwortdaten auf die Anfrage
        */
       return $http.get('/diagram/' + userId + '/diagrams').then(function(res) {
         return res.data;
@@ -107,7 +107,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     getPublicDiagram: function(diagramId) {
       /**
        * Liefert die Daten, die bei der URL Hinterlegt sind
-       * @param {Object} res
+       * @param {Object} res Das Objekt mit den Antwortdaten auf die Anfrage
        */
       return $http.get('/diagram/' + diagramId).then(function(res) {
         return res.data;
@@ -130,7 +130,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
     get: function(userId, diagramId) {
       /**
        * Gibt die Daten, die bei der URL Hinterlegt sind zurück
-       * @param {Object} res
+       * @param {Object} res Das Objekt mit den Antwortdaten auf die Anfrage
        */
       return $http.get('/diagram/' + userId + '/diagram/' + diagramId).then(function(res) {
         return res.data;
@@ -162,8 +162,8 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
 }])
 /**
  * Paging in der Diagrammübersicht
- * @param {Object} $scope
- * @param {Object} localStorageService
+ * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
+ * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
  * @param {Object} diagramsFactory
  * @param {Object} diagrams
  */

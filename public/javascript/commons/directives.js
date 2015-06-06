@@ -19,10 +19,17 @@ angular.module('brainworks.commons')
      * @param {Object} ngModel Das Model in denen die Daten gespeichert sind
      */
     link: function(scope, element, attrs, ngModel) {
+      /**
+       * Validator für die Prüfung der Übereinstimmung der beiden Werte.
+       * @param {string} modelValue  Der Wert im Model.
+       */
       ngModel.$validators.match = function(modelValue) {
         return angular.isArray(scope.matchValue) ?
           scope.matchValue[0] === scope.matchValue[1] : modelValue === scope.matchValue;
       };
+      /**
+       * Guckt, ob sich der Wert geändert hat und ruft die Validierungsfunktion auf.
+       */
       scope.$watch('matchValue', function() {
         ngModel.$validate();
       });

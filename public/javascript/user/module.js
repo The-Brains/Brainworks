@@ -5,9 +5,8 @@ angular.module('brainworks.user', [])
 /**
  * Regelt die Routen für das Benutzermodul
  * @param {Object} $stateProvider
- * @param {Object} $urlRouterProvider
  */
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
   $stateProvider
     .state('profile.settings', {
       url: '/settings',
@@ -16,7 +15,7 @@ angular.module('brainworks.user', [])
       resolve: {
         /**
          * Lädt den Benutzerdaten für die Einstellungsverwaltung
-         * @param {Object} localStorageService
+         * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
          * @param {Object} userSettingsFactory
          */
         user: ['localStorageService', 'userSettingsFactory', function(localStorageService, userSettingsFactory) {
@@ -30,8 +29,8 @@ angular.module('brainworks.user', [])
        * Controller für das Ausloggen des Bneutzers. Löscht aus dem Lokalstorage die gesicherten Daten.
        * das Token und die ID des Benutzers.
        * @param {Object} $rootScope
-       * @param {Object} $state
-       * @param {Object} localStorageService
+       * @param {Object} $state  Der State-Service zum Umleiten auf eine andere Seite
+       * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
        * @param {Object} userFactory
        */
       controller: ['$rootScope', '$state', 'localStorageService', 'userFactory', function($rootScope, $state, localStorageService, userFactory) {
@@ -51,10 +50,9 @@ angular.module('brainworks.user', [])
  * Factory für die allgemienen Benutzerfunktionalitäten. Dient als
  * Schnittstelle zwischen dem Client und dem Server. Liefert Daten
  * und sendet Anfragen an den Server.
- * @param {Object} $http
- * @param {Object} $rootScope
+ * @param {Object} $http  Der HTTP-Service zum Senden von HTTP-Anfragen
  */
-.factory('userFactory', ['$http', '$rootScope', function($http, $rootScope) {
+.factory('userFactory', ['$http', function($http) {
   return {
     /**
      * Ruft die URL zum Prüfen des Usernames auf

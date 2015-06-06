@@ -4,9 +4,9 @@
 angular.module('brainworks.user')
 /**
  * Löschen, Hinzufügen und Laden von Nutzerdaten
- * @param {Object} $http
+ * @param {Object} $http  Der HTTP-Service zum Senden von HTTP-Anfragen
  */
-.factory('userSettingsFactory', ['$http', function($http){
+.factory('userSettingsFactory', ['$http', function($http) {
   return {
     /**
      * Liefert die lokalen Daten eines bestimmten Nutzers
@@ -15,7 +15,7 @@ angular.module('brainworks.user')
     loadUserData: function(userId) {
       /**
        * Liefert die Nutzerdaten
-       * @param {Object} res
+       * @param {Object} res Das Objekt mit den Antwortdaten auf die Anfrage
        */
       return $http.get('/user/'+userId).then(function(res) {
         return res.data;
@@ -49,11 +49,11 @@ angular.module('brainworks.user')
 }])
 /**
  * Logik zum Löschen eines Nutzers, zu Passworteinstellungen und der Aktualisierung der Nutzer Id/ dem Nutzertoken
- * @param {Object} $scope
+ * @param {Object} $scope  Der Scope an welchem die Funktionalitäten definiert werden
  * @param {Object} $rootScope
- * @param {Object} $state
+ * @param {Object} $state  Der State-Service zum Umleiten auf eine andere Seite
  * @param {Object} userSettingsFactory
- * @param {Object} localStorageService
+ * @param {Object} localStorageService  Der Service zum Speichern und Laden von Informationen im Local-Storage
  * @param {Object} user
  */
 .controller('settingsCtrl', ['$scope', '$rootScope', '$state', 'userSettingsFactory', 'localStorageService', 'user', function($scope, $rootScope, $state, userSettingsFactory, localStorageService, user) {
@@ -82,7 +82,7 @@ angular.module('brainworks.user')
   $scope.updateUser = function(user) {
     /**
      * Nach dem Update wird der Token und die UserID aus der Antwort der Updateanfrage entnommen und gesetzt
-     * @param {Object} response
+     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.updateUser(user._id, user).success(function(response) {
       if(response.success) {
@@ -103,7 +103,7 @@ angular.module('brainworks.user')
     }
     /**
      * Leert die Profileinstellungen nach erfolgreicher Änderung des Passwortes
-     * @param {Object} response
+     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.changePassword(userId, password).success(function(response) {
       if(response.success) {
@@ -127,7 +127,7 @@ angular.module('brainworks.user')
     /**
      * Entfernt token und UserId nach erfolgreichem Löschen
      * Wechseln zur LogIn Seite
-     * @param {Object} response
+     * @param {Object} response Das Objekt mit den Antwortdaten auf die Anfrage
      */
     userSettingsFactory.deleteAccount(userId, assignment).success(function(response) {
       if(response.success) {
