@@ -4,14 +4,14 @@
 
 /**
  * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
  * @param {string} name
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} lineColor
  * @param {string} fontFamily
- * @param {Number} fontSize
+ * @param {number} fontSize
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -26,63 +26,63 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 12;
 
   /**
-   * @param {Object} shapeA
+   * @param {number} shapeA
    */
   this.setShapeA = function(shapeA) {
     this.shapeA = shapeA;
   };
 
   /**
-   * @param {Object} shapeB
+   * @param {number} shapeB
    */
   this.setShapeB = function(shapeB) {
     this.shapeB = shapeB;
   };
 
   /**
-   * @param {Number} coordsA
+   * @param {number[]} coordsA
    */
   this.setCoordsA = function(coordsA) {
     this.coordsA = coordsA;
   };
 
   /**
-   * @param {Number} coordsB
+   * @param {number[]} coordsB
    */
   this.setCoordsB = function(coordsB) {
     this.coordsB = coordsB;
   };
 
   /**
-   * @param {String} name
+   * @param {string} name
    */
   this.setName = function(name) {
     this.name = name;
   };
 
   /**
-   * @param {String} lineColor
+   * @param {string} lineColor
    */
   this.setLineColor = function(lineColor) {
     this.lineColor = lineColor;
   };
 
   /**
-   * @param {Number} lineWidth
+   * @param {number} lineWidth
    */
   this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
   };
   
   /**
-   * @param {String} fontFamily
+   * @param {string} fontFamily
    */
   this.setFontFamily = function(fontFamily) {
     this.fontFamily = fontFamily;
   };
 
   /**
-   * @param {Number} fontSize
+   * @param {number} fontSize
    */
   this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
@@ -186,18 +186,19 @@ Relation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Vererbungsbeziehung
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
+ * @param {number} $elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
  */
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
 }
+
 /* Über Prototype werden die Eigenschaften vererbt */
 Inheritance.prototype = new Relation();
 
@@ -299,16 +300,16 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Assoziation ( einfache Linie )
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
- * @param {Number} multiplicityA
- * @param {Number} multiplicityB
+ * @param {number} $elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
+ * @param {string} multiplicityA
+ * @param {string} multiplicityB
  */
 function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -452,15 +453,15 @@ Association.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Gerichtete Assoziation Definition (einfache Linie Mit Pfeil)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
- * @param {Number} multiplicityB
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
+ * @param {string} multiplicityB
  */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -468,7 +469,7 @@ function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth,
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
   
   /**
-   * @param {Number} multiplicityB
+   * @param {number} multiplicityB
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -588,16 +589,16 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Aggregation (einfache Linie mit Quadraht)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
- * @param {Number} multiplicityA
- * @param {Number} multiplicityB
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
+ * @param {string} multiplicityA
+ * @param {string} multiplicityB
  */
 function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -606,14 +607,14 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
 
   /**
-   * @param {Number} multiplicityA
+   * @param {string} multiplicityA
    */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
 
   /**
-   * @param {Number} multiplicityB
+   * @param {string} multiplicityB
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -747,16 +748,16 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Komposition (Sonderfall der Aggregation)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
- * @param {Number} multiplicityA
- * @param {Number} multiplicityB
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
+ * @param {string} multiplicityA
+ * @param {string} multiplicityB
  */
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -765,14 +766,14 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
 
   /**
-   * @param {Number} multiplicityA
+   * @param {string} multiplicityA
    */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
 
   /**
-   * @param {Number} multiplicityB
+   * @param {string} multiplicityB
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
@@ -905,14 +906,14 @@ Composition.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Realisierung (Schraffierte Linie mit Dreieck)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
  */
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1024,14 +1025,14 @@ Realization.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer Abhängigkeit (Schraffierte Linier mit Pfeil)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
+ * @param {number} elementId
+ * @param {number} coordsA
+ * @param {number} coordsB
+ * @param {string} name
+ * @param {mumber} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
  */
 function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1082,7 +1083,6 @@ Dependency.prototype.draw = function(canvas) {
 
 /**
  * Wandeln der Abhängigkeit in ein JSON Objekt
- * @returns {___anonymous27837_28034}
  */
 Dependency.prototype.toJSON = function() {
   return {
@@ -1142,14 +1142,14 @@ Dependency.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition eines Verbinders (Schraffierte Linie)
- * @param {Number[]} $elementId
- * @param {Number} coordsA
- * @param {Number} coordsB
- * @param {String} name
- * @param {Number} lineWidth
- * @param {String} lineColor
- * @param {String} fontFamily
- * @param {Number} fontSize
+ * @param {number} elementId
+ * @param {number[]} coordsA
+ * @param {number[]} coordsB
+ * @param {string} name
+ * @param {number} lineWidth
+ * @param {string} lineColor
+ * @param {string} fontFamily
+ * @param {number} fontSize
  */
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);

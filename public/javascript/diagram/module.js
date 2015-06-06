@@ -174,7 +174,7 @@ angular.module('brainworks.diagram', ['ui.bootstrap'])
   $scope.maxSize = 5;
   /**
    * Diagramm löschen
-   * @param {Number} index
+   * @param {number} index
    */
   $scope.removeDiagram = function(index) {
     /**

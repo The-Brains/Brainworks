@@ -88,7 +88,7 @@ router.get('/attributesEditor', userCtrl.verifyLogin, function(req, res, next) {
  * @param {Object} req
  * @param {Object} res
  * @param {Function} next
- * @param {Number} id
+ * @param {string} id
  */
 router.param('user', function(req, res, next, id) {
   var query = User.findById(id);

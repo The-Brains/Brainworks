@@ -22,7 +22,7 @@ server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
- * @param {Number} val
+ * @param {string} val
  */
 function normalizePort(val) {
   var port = parseInt(val, 10);

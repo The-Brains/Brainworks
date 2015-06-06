@@ -35,21 +35,21 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   };
 
   /**
-   * @param {Number} y
+   * @param {number} y
    */
   this.setY = function(y) {
     this.y = y;
   };
 
   /**
-   * @param {Number} width
+   * @param {number} width
    */
   this.setWidth = function(width) {
     this.width = width;
   };
 
   /**
-   * @param {Number} height
+   * @param {number} height
    */
   this.setHeight = function(height) {
     this.height = height;
@@ -63,7 +63,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   };
 
   /**
-   * @param {Number} lineWidth
+   * @param {number} lineWidth
    */
   this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
@@ -84,7 +84,7 @@ function Shape(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   };
 
   /**
-   * @param {Number} fontSize
+   * @param {number} fontSize
    */
   this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
@@ -189,16 +189,16 @@ Shape.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition eines einfachen Klassenelementes
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} name
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} borderColor
  * @param {string} fontFamily
- * @param {Number} fontSize
+ * @param {number} fontSize
  */
 function EmptyClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -291,18 +291,18 @@ EmptyClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer abstrakten Klasse
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} borderColor
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} name
  * @param {string} fontFamily
- * @param {Number} fontSize
- * @param {Object[]} attributes
- * @param {Object[]} methods
+ * @param {number} fontSize
+ * @param {string[]} attributes
+ * @param {string[]} methods
  */
 function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -311,14 +311,14 @@ function AbstractClass(elementId, x, y, width, height, borderColor, lineWidth, n
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {Object[]} attributes
+   * @param {string[]} attributes
    */
   this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
   /**
-   * @param {Object[]} methods
+   * @param {string[]} methods
    */
   this.setMethods = function(methods) {
     this.methods = methods;
@@ -598,16 +598,16 @@ AbstractClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition des Kommentars
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} borderColor
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} name
  * @param {string} fontFamily
- * @param {Number} fontSize
+ * @param {number} fontSize
  */
 function Comment(elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, borderColor, lineWidth, name, fontFamily, fontSize);
@@ -710,16 +710,16 @@ Comment.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer aktiven Klasse
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} name
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} borderColor
  * @param {string} fontFamily
- * @param {Number} fontSize
+ * @param {number} fontSize
  */
 function ActiveClass(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -817,17 +817,17 @@ ActiveClass.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer Standartklasse (mit Attribut & Methode)
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} name
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} borderColor
  * @param {string} fontFamily
- * @param {Number} fontSize
- * @param {Object[]} methods
+ * @param {number} fontSize
+ * @param {string[]} methods
  */
 function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, attributes, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -836,14 +836,14 @@ function Class(elementId, x, y, width, height, name, lineWidth, borderColor, fon
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {Object[]} attributes
+   * @param {string[]} attributes
    */
   this.setAttributes = function(attributes) {
     this.attributes = attributes;
   };
 
   /**
-   * @param {Object[]} methods
+   * @param {string[]} methods
    */
   this.setMethods = function(methods) {
     this.methods = methods;
@@ -1122,17 +1122,17 @@ Class.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definieren eines Interface-Elementes
- * @param {Number[]} $elementId
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} elementId
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {string} name
- * @param {Number} lineWidth
+ * @param {number} lineWidth
  * @param {string} borderColor
  * @param {string} fontFamily
- * @param {Number} fontSize
- * @param {Object[]} methods
+ * @param {number} fontSize
+ * @param {string[]} methods
  */
 function Interface(elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize, methods) {
   Shape.call(this, elementId, x, y, width, height, name, lineWidth, borderColor, fontFamily, fontSize);
@@ -1140,7 +1140,7 @@ function Interface(elementId, x, y, width, height, name, lineWidth, borderColor,
   this.methods = methods instanceof Array ? methods : ['Methoden'];
 
   /**
-   * @param {Object[]} methods
+   * @param {string[]} methods
    */
   this.setMethods = function(methods) {
     this.methods = methods;

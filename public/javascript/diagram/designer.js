@@ -104,7 +104,7 @@ angular.module('brainworks.diagram')
     /**
      * Der Bearbeitungsmodus für die Elemente wird definiert
      * @param {Object} scope
-     * @param {Number[]} $element
+     * @param {Object} element
      * @param {Object} attr
      */
     link: function(scope, element, attr) {
@@ -116,7 +116,7 @@ angular.module('brainworks.diagram')
         context.clearRect(0, 0, 5000, 5000);
         /**
          * Zeichnen der Elemente
-         * @param {Number} value
+         * @param {Object} value
          */
         angular.forEach(scope.shapes, function(value) {
           value.draw(element[0]);
@@ -282,7 +282,7 @@ angular.module('brainworks.diagram')
           var selectedInResult = false;
           /**
            * Element als selected markieren
-           * @param {Number} index
+           * @param {number} index
            * @param {Object} selection
            */
           $.each(result, function(index, selection) {
