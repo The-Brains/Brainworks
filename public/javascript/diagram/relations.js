@@ -1,17 +1,17 @@
 /**
- * Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der verscheidenen Beziehungen
+ * Logik zum Definieren, Zeichnen, Wandeln, Speichern und Editieren der verscheidenen Beziehungen.
  */
 
 /**
- * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * Definition des Verbindungsprototyps, von welchem die Verbindungselemente erben.
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
  */
 function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   this._id = elementId;
@@ -26,126 +26,144 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
   this.fontSize = (typeof fontSize === 'number') ? fontSize : 12;
 
   /**
-   * @param {number} shapeA
+   * Setzt die ID des Elementes von welchem die Verbindung ausgeht.
+   * @param {number} shapeA  Die ID des Startelementes
    */
   this.setShapeA = function(shapeA) {
     this.shapeA = shapeA;
   };
 
   /**
-   * @param {number} shapeB
+   * Setzt die ID des Elementes an welchem die Verbindung endet.
+   * @param {number} shapeB  Die ID des Endelementes
    */
   this.setShapeB = function(shapeB) {
     this.shapeB = shapeB;
   };
 
   /**
-   * @param {number[]} coordsA
+   * Setzt die Koordinaten des Startpunktes.
+   * @param {number[]} coordsA  Die Koordinaten des Startpunktes
    */
   this.setCoordsA = function(coordsA) {
     this.coordsA = coordsA;
   };
 
   /**
-   * @param {number[]} coordsB
+   * Setzt die Koordinaten des Endpunktes.
+   * @param {number[]} coordsB  Die Koordinaten des Endpunktes
    */
   this.setCoordsB = function(coordsB) {
     this.coordsB = coordsB;
   };
 
   /**
-   * @param {string} name
+   * Setzt den Namen der Verbindung.
+   * @param {string} name  Der Name der Verbindung
    */
   this.setName = function(name) {
     this.name = name;
   };
 
   /**
-   * @param {string} lineColor
+   * Setzt die Farbe der Verbindung.
+   * @param {string} lineColor  Die Frabe der Verbindung
    */
   this.setLineColor = function(lineColor) {
     this.lineColor = lineColor;
   };
 
   /**
-   * @param {number} lineWidth
+   * Setzt die Breite der Verbindungslinie.
+   * @param {number} lineWidth  Die Breite der Verbindungslinie
    */
   this.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
   };
   
   /**
-   * @param {string} fontFamily
+   * Setzt die Schriftart des Verbindungstextes.
+   * @param {string} fontFamily  Die Schriftart des Verbindungstextes
    */
   this.setFontFamily = function(fontFamily) {
     this.fontFamily = fontFamily;
   };
 
   /**
-   * @param {number} fontSize
+   * Setzt die Schriftgröße des Verbindungstextes.
+   * @param {number} fontSize  Die Schriftgröße des Verbindungstextes
    */
   this.setFontSize = function(fontSize) {
     this.fontSize = fontSize;
   };
 
   /**
-   * 
+   * Gibt die des Startelementes zurück.
+   * @returns {number} Die ID des Startelementes
    */
   this.getShapeA = function() {
     return this.shapeA;
   };
 
   /**
-   * 
+   * Gibt die des Endelementes zurück.
+   * @returns {number} Die ID des Endelementes
    */
   this.getShapeB = function() {
     return this.shapeB;
   };
 
   /**
-   * 
+   * Gibt die Koordinaten des Startpunktes zurück.
+   * @returns {number[]} Die Koordinaten des Startpunktes
    */
   this.getCoordsA = function() {
     return this.coordsA;
   };
 
   /**
-   * 
+   * Gibt die Koordinaten des Endpunktes zurück.
+   * @returns {number[]} Die Koordinaten des Endpunktes
    */
   this.getCoordsB = function() {
     return this.coordsB;
   };
 
   /**
-   * 
+   * Gibt den Namen der Verbindung zurück.
+   * @returns {string} Der Name der Verbindung
    */
   this.getName = function() {
     return this.name;
   };
 
   /**
-   * 
+   * Gibt die Linienfarbe der Verbindung zurück.
+   * @returns {string} Die Farbe der Verbindungslinie
    */
   this.getLineColor = function() {
     return this.lineColor;
   };
 
   /**
-   * 
+   * Gibt die Breite der Verbindungslinie zurück.
+   * @returns {number} Die Breite der Verbindungslinie
    */
   this.getLineWidth = function() {
     return this.lineWidth;
   };
 
   /**
-   * 
+   * Gibt die Schriftart des Verbindungstextes zurück.
+   * @returns {strinng} Die Schriftart des Verbindungstextes
    */
   this.getFontFamily = function() {
     return this.fontFamily;
   };
 
   /**
-   * 
+   * Gibt die Schriftart des Verbindungstextes zurück.
+   * @returns {number} Die Schriftgröße des Verbindungstextes
    */
   this.getFontSize = function() {
     return this.fontSize;
@@ -153,31 +171,33 @@ function Relation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontF
 }
 
 /**
- * Zeichnen des Verbindungsprototyps
+ * Methode zum Zeichnen der Verbindung auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
-Relation.prototype.draw = function() {
+Relation.prototype.draw = function(canvas) {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Wandeln des Verbindungsprototyps zu einem JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Verbindung.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Relation.prototype.toJSON = function() {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Speichern des JSON Objektes des Verbindungsprototyps
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Relation.prototype.applyJSON = function(json) {
   throw new Error('This method should not be directly called!');
 };
 
 /**
- * Editieren des Verbindungsprototyps aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Relation.prototype.startEditmode = function(modal, callback) {
   throw new Error('This method should not be directly called!');
@@ -186,14 +206,14 @@ Relation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Vererbungsbeziehung
- * @param {number} $elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
  */
 function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -203,8 +223,8 @@ function Inheritance(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 Inheritance.prototype = new Relation();
 
 /**
- * Zeichnen der Vererbungsbeziehung
- * @param {Object} canvas
+ * Methode zum Zeichnen der Vererbung auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Inheritance.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -239,7 +259,8 @@ Inheritance.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Vererbungbeziehung in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Vererbung.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Inheritance.prototype.toJSON = function() {
   return {
@@ -254,8 +275,8 @@ Inheritance.prototype.toJSON = function() {
 };
 
 /**
- *  Speichern des JSON Objektes der Vererbungsbeziehung
- *  @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Inheritance.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -267,9 +288,9 @@ Inheritance.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Vererbungsbeziehung aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Inheritance.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -279,7 +300,8 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Gibt den eigenen Attributnamen zurück
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -289,7 +311,8 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
     }
   });
   /**
-   * 
+   * Setzt die geänderten Eigenschaften dem Vererbungselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -300,16 +323,16 @@ Inheritance.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Assoziation ( einfache Linie )
- * @param {number} $elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string} multiplicityA
- * @param {string} multiplicityB
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
+ * @param {string} [multiplicityA='']   Die Kardanalität des Startpunktes
+ * @param {string} [multiplicityB='']   Die Kardanalität des Endpunktes
  */
 function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -318,28 +341,32 @@ function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
 
   /**
-   * @param mulltiplicityA
+   * Setzt die Kardanalität des Startpunktes
+   * @param {string} mulltiplicityA Die Kadanalität des Startpunktes
    */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
 
   /**
-   * @param mulltiplicityB
+   * Setzt die Kardanalität des Endpunktes
+   * @param {string} mulltiplicityB Die Kadanalität des Endpunktes
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Startpunktes zurück.
+   * @returns {string} Die Kardanalität des Startpunktes
    */
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Endpunktes zurück.
+   * @returns {string} Die Kardanalität des Endpunktes
    */
   this.getMultiplicityB = function() {
     return this.multiplicityB;
@@ -349,8 +376,8 @@ function Association(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 Association.prototype = new Relation();
 
 /**
- * Zeichnen der Assoziation mit der Einblendung von dessen Bezeichnungen
- * @param {Object} canvas : Fläche, auf welcher die Beziehungen liegen
+ * Methode zum Zeichnen der Assoziation auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Association.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -384,7 +411,8 @@ Association.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Assoziation in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Assoziation.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Association.prototype.toJSON = function() {
   return {
@@ -401,8 +429,8 @@ Association.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Assoziation
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Association.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -416,9 +444,9 @@ Association.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Assoziation aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Association.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -427,7 +455,8 @@ Association.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
-       * Initiieren der gesetzten Attributwerte
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -439,8 +468,8 @@ Association.prototype.startEditmode = function(modal, callback) {
     }
   });
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Assoziationselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -453,15 +482,15 @@ Association.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Gerichtete Assoziation Definition (einfache Linie Mit Pfeil)
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string} multiplicityB
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
+ * @param {string} [multiplicityB='']   Die Kardanalität des Endpunktes
  */
 function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -469,14 +498,16 @@ function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth,
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
   
   /**
-   * @param {number} multiplicityB
+   * Setzt die Kardanalität des Endpunktes
+   * @param {string} mulltiplicityB Die Kadanalität des Endpunktes
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
   
   /**
-   * 
+   * Gibt die Kardanalität des Endpunktes zurück.
+   * @returns {string} Die Kardanalität des Endpunktes
    */
   this.getMultiplicityB = function() {
     return this.multiplicityB;
@@ -486,8 +517,8 @@ function UniDirectionalAssociation(elementId, coordsA, coordsB, name, lineWidth,
 UniDirectionalAssociation.prototype = new Relation();
 
 /**
- * Zeichnen der gerichteten Assoziation
- * @param {Object} canvas
+ * Methode zum Zeichnen der gerichteten Assoziation auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 UniDirectionalAssociation.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -523,7 +554,8 @@ UniDirectionalAssociation.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der gerichteten Assoziation in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der gerichteten Assoziation.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 UniDirectionalAssociation.prototype.toJSON = function() {
   return {
@@ -539,8 +571,8 @@ UniDirectionalAssociation.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der gerichteten Assoziation
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 UniDirectionalAssociation.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -553,9 +585,9 @@ UniDirectionalAssociation.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der gerichteten Assoziation aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -565,6 +597,8 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -576,8 +610,8 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Assoziationselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -589,16 +623,16 @@ UniDirectionalAssociation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Aggregation (einfache Linie mit Quadraht)
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string} multiplicityA
- * @param {string} multiplicityB
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
+ * @param {string} [multiplicityA='']   Die Kardanalität des Startpunktes
+ * @param {string} [multiplicityB='']   Die Kardanalität des Endpunktes
  */
 function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -607,28 +641,32 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
 
   /**
-   * @param {string} multiplicityA
+   * Setzt die Kardanalität des Startpunktes
+   * @param {string} mulltiplicityA Die Kadanalität des Startpunktes
    */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
 
   /**
-   * @param {string} multiplicityB
+   * Setzt die Kardanalität des Endpunktes
+   * @param {string} mulltiplicityB Die Kadanalität des Endpunktes
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Startpunktes zurück.
+   * @returns {string} Die Kardanalität des Startpunktes
    */
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Endpunktes zurück.
+   * @returns {string} Die Kardanalität des Endpunktes
    */
   this.getMultiplicityB = function() {
     return this.multiplicityB;
@@ -638,8 +676,8 @@ function Aggregation(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 Aggregation.prototype = new Relation();
 
 /**
- * Zeichnen der Aggregation
- * @param {Object} canvas
+ * Methode zum Zeichnen der Aggregation auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Aggregation.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -678,7 +716,8 @@ Aggregation.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Aggregation in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Aggregation.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Aggregation.prototype.toJSON = function() {
   return {
@@ -695,8 +734,8 @@ Aggregation.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Aggregation
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Aggregation.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -710,9 +749,9 @@ Aggregation.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Aggregation aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Aggregation.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -722,6 +761,8 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -734,8 +775,8 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
   });
   
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Aggregationselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -748,16 +789,16 @@ Aggregation.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Komposition (Sonderfall der Aggregation)
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
- * @param {string} multiplicityA
- * @param {string} multiplicityB
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
+ * @param {string} [multiplicityA='']   Die Kardanalität des Startpunktes
+ * @param {string} [multiplicityB='']   Die Kardanalität des Endpunktes
  */
 function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize, multiplicityA, multiplicityB) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -766,28 +807,32 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
   this.multiplicityB = (typeof multiplicityB === 'string') ? multiplicityB : '';
 
   /**
-   * @param {string} multiplicityA
+   * Setzt die Kardanalität des Startpunktes
+   * @param {string} mulltiplicityA Die Kadanalität des Startpunktes
    */
   this.setMultiplicityA = function(multiplicityA) {
     this.multiplicityA = multiplicityA;
   };
 
   /**
-   * @param {string} multiplicityB
+   * Setzt die Kardanalität des Endpunktes
+   * @param {string} mulltiplicityB Die Kadanalität des Endpunktes
    */
   this.setMultiplicityB = function(multiplicityB) {
     this.multiplicityB = multiplicityB;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Startpunktes zurück.
+   * @returns {string} Die Kardanalität des Startpunktes
    */
   this.getMultiplicityA = function() {
     return this.multiplicityA;
   };
 
   /**
-   * 
+   * Gibt die Kardanalität des Endpunktes zurück.
+   * @returns {string} Die Kardanalität des Endpunktes
    */
   this.getMultiplicityB = function() {
     return this.multiplicityB;
@@ -797,8 +842,8 @@ function Composition(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 Composition.prototype = new Relation();
 
 /**
- * Zeichnen der Komposition
- * @param {Object} canvas
+ * Methode zum Zeichnen der Komposition auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Composition.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -836,7 +881,8 @@ Composition.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Komposition in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Komposition.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Composition.prototype.toJSON = function() {
   return {
@@ -853,8 +899,8 @@ Composition.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Komposition
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Composition.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -868,9 +914,9 @@ Composition.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Komposition aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Composition.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -880,6 +926,8 @@ Composition.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -892,8 +940,8 @@ Composition.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Kompositionselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -906,14 +954,14 @@ Composition.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition der Realisierung (Schraffierte Linie mit Dreieck)
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
  */
 function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -922,8 +970,8 @@ function Realization(elementId, coordsA, coordsB, name, lineWidth, lineColor, fo
 Realization.prototype = new Relation();
 
 /**
- * Zeichnen der Realisierung
- * @param {Object} canvas
+ * Methode zum Zeichnen der Realisierung auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Realization.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -963,7 +1011,8 @@ Realization.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Realisierung in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Realisierung.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Realization.prototype.toJSON = function() {
   return {
@@ -978,8 +1027,8 @@ Realization.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Realisierung
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Realization.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -991,9 +1040,9 @@ Realization.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Realisierung aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Realization.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -1003,6 +1052,8 @@ Realization.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -1013,8 +1064,8 @@ Realization.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Realisierungselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -1025,14 +1076,14 @@ Realization.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition einer Abhängigkeit (Schraffierte Linier mit Pfeil)
- * @param {number} elementId
- * @param {number} coordsA
- * @param {number} coordsB
- * @param {string} name
- * @param {mumber} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
  */
 function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1041,8 +1092,8 @@ function Dependency(elementId, coordsA, coordsB, name, lineWidth, lineColor, fon
 Dependency.prototype = new Relation();
 
 /**
- * Zeichnen der Abhängigkeit
- * @param {Object} canvas
+ * Methode zum Zeichnen der Abhängigkeit auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Dependency.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -1082,7 +1133,8 @@ Dependency.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandeln der Abhängigkeit in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Abhängigkeit.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Dependency.prototype.toJSON = function() {
   return {
@@ -1097,8 +1149,8 @@ Dependency.prototype.toJSON = function() {
 };
 
 /**
- * Speichern des JSON Objektes der Abhängigkeit
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Dependency.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -1110,9 +1162,9 @@ Dependency.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren der Abhängigkeit aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Dependency.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -1122,6 +1174,8 @@ Dependency.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -1132,6 +1186,8 @@ Dependency.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
+   * Setzt die geänderten Eigenschaften dem Abhängigkeitselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);
@@ -1142,14 +1198,14 @@ Dependency.prototype.startEditmode = function(modal, callback) {
 
 /**
  * Definition eines Verbinders (Schraffierte Linie)
- * @param {number} elementId
- * @param {number[]} coordsA
- * @param {number[]} coordsB
- * @param {string} name
- * @param {number} lineWidth
- * @param {string} lineColor
- * @param {string} fontFamily
- * @param {number} fontSize
+ * @param {number} elementId            Die ID des Elements
+ * @param {number[]} coordsA            Die Koordinaten des Anfangpunktes
+ * @param {number[]} coordsB            Die Koordinaten des Endpunktes
+ * @param {string} name                 Der Name der Verbindung
+ * @param {number} [lineWidth=1]        Die Breite der Linie
+ * @param {string} [lineColor='black']  Die Farbe der Linie
+ * @param {string} [fontFamily='Arial'] Die Schriftart
+ * @param {number} [fontSize=12]        Die Schriftgröße
  */
 function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize) {
   Relation.call(this, elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamily, fontSize);
@@ -1158,8 +1214,8 @@ function Link(elementId, coordsA, coordsB, name, lineWidth, lineColor, fontFamil
 Link.prototype = new Relation();
 
 /**
- * Zeichnen des Verbinders
- * @param {Object} canvas
+ * Methode zum Zeichnen des Verbinders auf der Canvasfläche.
+ * @param {Object} canvas Die Canvasfläche auf der das Element gezeichnet werden soll
  */
 Link.prototype.draw = function(canvas) {
   var context = canvas.getContext('2d');
@@ -1191,7 +1247,8 @@ Link.prototype.draw = function(canvas) {
 };
 
 /**
- * Wandelt den Verbinder in ein JSON Objekt
+ * Methode zum Erstellen eines JSON-Objekts aus dem Objekt der Verbindung.
+ * @returns {Object} Das Objekt mit den Eigenschaften
  */
 Link.prototype.toJSON = function() {
   return {
@@ -1206,8 +1263,8 @@ Link.prototype.toJSON = function() {
 };
 
 /**
- * Speichert das JSON Objekt des Verbinders
- * @param {Object} json
+ * Methode zum Setzen der Objekteigenschaften aus einem JSON-Objekts.
+ * @param {Object} json Der JSON-Objekt mit den Objekteigenschaften
  */
 Link.prototype.applyJSON = function(json) {
   this._id = json._id;
@@ -1219,9 +1276,9 @@ Link.prototype.applyJSON = function(json) {
 };
 
 /**
- * Editieren des Verbinders aktivieren
- * @param {Object} modal
- * @param {Object} callback
+ * Methode zum Erstellen eines Bearbeitungsfensters zum Bearbeiten der Objekteigenschaften.
+ * @param {Object} modal Der Serviceobjekt für das Erstellen des modalen Fensters
+ * @param {Function} callback Die Funktion die nach dem Editieren ausgeführt werden soll
  */
 Link.prototype.startEditmode = function(modal, callback) {
   var self = this;
@@ -1231,6 +1288,8 @@ Link.prototype.startEditmode = function(modal, callback) {
     controller: 'attributesEditorCtrl',
     resolve: {
       /**
+       * Gibt die Eigenschaften als Objekt zurück.
+       * @returns {Objekt} Das Objekt mit den Eigenschaften.
        */
       settings: function() {
         return {
@@ -1241,8 +1300,8 @@ Link.prototype.startEditmode = function(modal, callback) {
   });
 
   /**
-   * Ändert die gesetzten Attributwerte
-   * @param {Object} result
+   * Setzt die geänderten Eigenschaften dem Verbindungselements.
+   * @param {Objekt} result Das Objekt mit den Editierten Eigenschaften
    */
   modalInstance.result.then(function(result) {
     self.setName(result.name);

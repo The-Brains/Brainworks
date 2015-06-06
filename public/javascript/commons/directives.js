@@ -13,10 +13,10 @@ angular.module('brainworks.commons')
     },
     /**
      * Erstellung der Direktive und implementierung der entsprechenden Funktionalitäten.
-     * @param {Object} scope
-     * @param {Object} $element
-     * @param {Object} attrs
-     * @param {Object} ngModel
+     * @param {Object} scope   Der Scope der Direktive
+     * @param {Object} element Das HTML-Element
+     * @param {Object} attrs   Die Attribute des HTML-Elements
+     * @param {Object} ngModel Das Model in denen die Daten gespeichert sind
      */
     link: function(scope, element, attrs, ngModel) {
       ngModel.$validators.match = function(modelValue) {
@@ -31,9 +31,8 @@ angular.module('brainworks.commons')
 })
 /**
  * Dirketive für die einzelnen Navigationselemente in der Navigationsleiste.
- * @param {Object} $location
  */
-.directive('navItem', ['$location', function($location) {
+.directive('navItem', function() {
   return {
     restrict: 'E',
     replace: true,
@@ -44,4 +43,4 @@ angular.module('brainworks.commons')
     },
     template: '<li ui-sref-active="active"><a ui-sref="{{page}}">{{title}}</a></li>'
   };
-}]);
+});
